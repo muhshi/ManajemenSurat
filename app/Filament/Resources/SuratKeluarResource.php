@@ -66,12 +66,26 @@ class SuratKeluarResource extends Resource
                                 $nextUrut = Surat::getNextNomorUrut($tahun, $state);
                                 $set('nomor_urut', $nextUrut);
 
+                                if ($state === 'Memo') {
+                                    $set('klasifikasi_id', 113); // Default for Memo
+                                } else {
+                                    $set('klasifikasi_id', null);
+                                }
+
                                 $klasifikasi = 'KP.650';
                                 if ($klasifikasiId = $get('klasifikasi_id')) {
-                                    $klasifikasi = Klasifikasi::find($klasifikasiId)?->kode ?: 'KP.650';
+                                    $klasifikasiRecord = Klasifikasi::find($klasifikasiId);
+                                    $klasifikasi = $klasifikasiRecord?->kode ?: 'KP.650';
                                 }
                                 $set('nomor_surat', Surat::generateNomorSurat((int) $nextUrut, (int) $tahun, $state, $klasifikasi));
                             }),
+
+                        Forms\Components\TextInput::make('memo_klasifikasi')
+                            ->label('Klasifikasi')
+                            ->default('KP.700')
+                            ->readOnly()
+                            ->visible(fn($get) => $get('jenis_surat') === 'Memo')
+                            ->dehydrated(false),
 
                         Forms\Components\Select::make('klasifikasi_id')
                             ->label('Klasifikasi')
@@ -79,8 +93,8 @@ class SuratKeluarResource extends Resource
                             ->getOptionLabelFromRecordUsing(fn($record) => "{$record->kode} - {$record->nama}")
                             ->searchable()
                             ->preload()
-                            ->required(fn($get) => in_array($get('jenis_surat'), ['Surat Keluar', 'Memo']))
-                            ->visible(fn($get) => in_array($get('jenis_surat'), ['Surat Keluar', 'Memo']))
+                            ->required(fn($get) => $get('jenis_surat') === 'Surat Keluar')
+                            ->visible(fn($get) => $get('jenis_surat') === 'Surat Keluar')
                             ->live()
                             ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get) {
                                 $nomorUrut = $get('nomor_urut') ?: 1;

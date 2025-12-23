@@ -155,6 +155,11 @@ class SKResource extends Resource
 
                 Tables\Columns\TextColumn::make('perihal')
                     ->label('Jenis Kegiatan')
+                    ->formatStateUsing(fn(string $state): string => match ($state) {
+                        'Peserta' => 'Pelatihan',
+                        'Petugas' => 'Pelaksanaan',
+                        default => $state,
+                    })
                     ->searchable()
                     ->sortable()
                     ->badge()
