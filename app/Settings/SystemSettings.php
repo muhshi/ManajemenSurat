@@ -19,6 +19,8 @@ class SystemSettings extends Settings
     public ?string $template_memo;
     public ?string $template_surat_pengantar;
 
+    public ?string $gemini_api_key;
+
     public static function group(): string
     {
         return 'system';

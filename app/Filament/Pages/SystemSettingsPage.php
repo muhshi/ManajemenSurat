@@ -40,6 +40,7 @@ class SystemSettingsPage extends Page implements HasForms
             'template_surat_keluar' => $s->template_surat_keluar,
             'template_memo' => $s->template_memo,
             'template_surat_pengantar' => $s->template_surat_pengantar,
+            'gemini_api_key' => $s->gemini_api_key,
         ]);
     }
 
@@ -98,6 +99,16 @@ class SystemSettingsPage extends Page implements HasForms
                         ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
                         ->maxSize(5120),
                 ])->columns(2),
+
+            Section::make('AI Integration')
+                ->description('Pengaturan untuk pengenalan cerdas berbasis Gemini AI')
+                ->schema([
+                    TextInput::make('gemini_api_key')
+                        ->label('Gemini API Key')
+                        ->password()
+                        ->helperText('Dapatkan di Google AI Studio (aistudio.google.com)')
+                        ->maxLength(255),
+                ]),
         ])
             ->statePath('data');
     }

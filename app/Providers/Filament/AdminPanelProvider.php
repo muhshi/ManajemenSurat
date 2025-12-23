@@ -28,9 +28,9 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('BPS Kabupaten Demak')
-            ->brandLogo('https://demakkab.bps.go.id/static/img/logo.png')
+            ->brandLogo(fn() => asset('storage/logo_bps.png'))
             ->brandLogoHeight('3rem')
-            ->favicon('https://demakkab.bps.go.id/static/img/logo.png')
+            ->favicon(fn() => asset('storage/logo_bps.png'))
             ->colors([
                 'primary' => Color::hex('#0054A6'),
                 'success' => Color::hex('#00A651'),
