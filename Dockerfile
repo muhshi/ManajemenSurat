@@ -13,7 +13,10 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     libsqlite3-dev \
+    libsqlite3-dev \
     zip \
+    unzip \
+    git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) intl gd zip pdo_mysql pdo_sqlite \
     && docker-php-ext-enable intl gd zip pdo_mysql pdo_sqlite \
