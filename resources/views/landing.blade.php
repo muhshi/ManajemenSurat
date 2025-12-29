@@ -295,14 +295,14 @@
                 </div>
 
                 <div class="card">
-                    <span class="tag tag-soon">Segera</span>
+                    <span class="tag tag-active">Aktif</span>
                     <div class="card-icon">📥</div>
                     <h3>Surat Masuk</h3>
                     <p>Pencatatan surat masuk secara digital dengan fitur upload scan dokumen untuk arsip yang rapi.</p>
                 </div>
 
                 <div class="card">
-                    <span class="tag tag-soon">Segera</span>
+                    <span class="tag tag-active">Aktif</span>
                     <div class="card-icon">✍️</div>
                     <h3>Disposisi Digital</h3>
                     <p>Alur disposisi berjenjang dari pimpinan ke staf secara real-time tanpa perlu berkas fisik.</p>

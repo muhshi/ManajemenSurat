@@ -13,17 +13,17 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'name' => 'Admin',
-                'email' => 'admin@bpsdemak.go.id',
+                'email' => 'admin@gmail.com',
                 'password' => 'admin123', // ganti setelah login
             ],
             [
                 'name' => 'Kepala Dinas',
-                'email' => 'kepala@bpsdemak.go.id',
+                'email' => 'kepala@gmail.com',
                 'password' => 'password',
             ],
             [
                 'name' => 'Sekretaris',
-                'email' => 'sekretaris@bpsdemak.go.id',
+                'email' => 'sekretaris@gmail.com',
                 'password' => 'password',
             ],
         ];
