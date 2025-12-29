@@ -3,8 +3,6 @@ services:
     container_name: surat-franken
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
       - SERVER_NAME=:80
     build:
       context: .
@@ -12,14 +10,7 @@ services:
     ports:
       - "8004:80"
     volumes:
-      - .:/app
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - .:/var/www/html
     networks:
       - default
       - mysql-stack_mysql_network
-
-networks:
-  default: {}
-  mysql-stack_mysql_network:
-    external: true
