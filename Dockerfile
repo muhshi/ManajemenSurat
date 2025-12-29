@@ -12,20 +12,15 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
-    libsqlite3-dev \
     zip \
-    unzip \
-    git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) intl gd zip pdo_mysql pdo_sqlite \
-    && docker-php-ext-enable intl gd zip pdo_mysql pdo_sqlite \
+    && docker-php-ext-install -j$(nproc) intl gd zip pdo_mysql \
+    && docker-php-ext-enable intl gd zip pdo_mysql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY . /app
 # Composer (buat install deps dari dalam container)
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
 # Copy konfigurasi Caddy/FrankenPHP
 COPY Caddyfile /etc/caddy/Caddyfile
