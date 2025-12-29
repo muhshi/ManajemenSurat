@@ -11,6 +11,7 @@ services:
       - "8004:80"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./.env:/app/.env
     networks:
       - default
       - mysql-stack_mysql_network
