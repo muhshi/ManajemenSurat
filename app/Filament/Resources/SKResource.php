@@ -20,6 +20,10 @@ class SKResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shield-check';
 
+    protected static ?string $navigationGroup = 'Surat Keluar';
+
+    protected static ?int $navigationSort = 20;
+
     protected static ?string $navigationLabel = 'Surat Keputusan (SK)';
 
     protected static ?string $modelLabel = 'SK';
@@ -144,14 +148,16 @@ class SKResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->copyable()
+                    ->limit(20)
+                    ->tooltip(fn(Tables\Columns\TextColumn $column): ?string => $column->getState())
                     ->weight('bold'),
 
                 Tables\Columns\TextColumn::make('judul_surat')
                     ->label('Tentang')
                     ->searchable()
                     ->sortable()
-                    ->wrap()
-                    ->limit(50),
+                    ->limit(30)
+                    ->tooltip(fn(Tables\Columns\TextColumn $column): ?string => $column->getState()),
 
                 Tables\Columns\TextColumn::make('perihal')
                     ->label('Jenis Kegiatan')
@@ -168,11 +174,13 @@ class SKResource extends Resource
                 Tables\Columns\TextColumn::make('tanggal_surat')
                     ->label('Tgl. Penetapan')
                     ->date('d M Y')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 Tables\Columns\TextColumn::make('tahun')
                     ->label('Tahun')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('signer_name')
                     ->label('Penandatangan')
@@ -194,6 +202,7 @@ class SKResource extends Resource
                     ]),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\Action::make('download')
                     ->label('Word')
                     ->icon('heroicon-o-document-text')

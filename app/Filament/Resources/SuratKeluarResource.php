@@ -20,6 +20,8 @@ class SuratKeluarResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-envelope';
 
+    protected static ?string $navigationGroup = 'Surat Keluar';
+    protected static ?int $navigationSort = 21;
     protected static ?string $navigationLabel = 'Surat Keluar & Lainnya';
 
     protected static ?string $modelLabel = 'Surat Keluar';
@@ -203,21 +205,23 @@ class SuratKeluarResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->copyable()
-                    ->weight('bold'),
+                    ->weight('bold')
+                    ->limit(20)
+                    ->tooltip(fn(Tables\Columns\TextColumn $column): ?string => $column->getState()),
 
                 Tables\Columns\TextColumn::make('kepada')
                     ->label('Kepada')
                     ->searchable()
                     ->sortable()
-                    ->wrap()
-                    ->limit(30),
+                    ->limit(30)
+                    ->tooltip(fn(Tables\Columns\TextColumn $column): ?string => $column->getState()),
 
                 Tables\Columns\TextColumn::make('perihal')
                     ->label('Perihal / Deskripsi')
                     ->searchable()
                     ->sortable()
-                    ->wrap()
-                    ->limit(50),
+                    ->limit(40)
+                    ->tooltip(fn(Tables\Columns\TextColumn $column): ?string => $column->getState()),
 
                 Tables\Columns\TextColumn::make('jenis_surat')
                     ->label('Jenis Surat')
@@ -228,7 +232,8 @@ class SuratKeluarResource extends Resource
                 Tables\Columns\TextColumn::make('tanggal_surat')
                     ->label('Tanggal')
                     ->date('d M Y')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 Tables\Columns\TextColumn::make('tahun')
                     ->label('Tahun')
@@ -261,6 +266,7 @@ class SuratKeluarResource extends Resource
                     ]),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\Action::make('download')
                     ->label('Word')
                     ->icon('heroicon-o-document-text')

@@ -22,4 +22,9 @@ class SuratMasuk extends Model
         'tanggal_surat' => 'date',
         'tanggal_diterima' => 'date',
     ];
+
+    public function disposisis()
+    {
+        return $this->hasMany(Disposisi::class);
+    }
 }
