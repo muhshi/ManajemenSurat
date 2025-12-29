@@ -259,7 +259,7 @@
     <nav>
         <div class="container">
             <div class="logo">
-                <img src="{{ asset('/storage/logo_bps.png') }}" alt="BPS" height="40">
+                <img src="{{ asset('/images/logo_bps.png') }}" alt="BPS" height="40">
                 Manajemen<span>Surat</span>
             </div>
             <a href="/admin" class="btn btn-primary">Login Dashboard</a>
