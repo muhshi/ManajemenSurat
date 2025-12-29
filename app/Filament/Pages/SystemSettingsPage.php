@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Settings\SystemSettings;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -15,7 +16,7 @@ use Filament\Forms\Contracts\HasForms;
 
 class SystemSettingsPage extends Page implements HasForms
 {
-    use InteractsWithForms;
+    use InteractsWithForms, HasPageShield;
 
     protected static ?string $slug = 'system-settings';
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
