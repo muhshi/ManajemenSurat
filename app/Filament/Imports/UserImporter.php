@@ -20,7 +20,6 @@ class UserImporter extends Importer
             ImportColumn::make('email')
                 ->requiredMapping()
                 ->rules(['required', 'email']),
-            ImportColumn::make('role'),
             ImportColumn::make('nip'),
             ImportColumn::make('jabatan'),
             ImportColumn::make('golongan'),
@@ -36,7 +35,8 @@ class UserImporter extends Importer
 
         if (!$user->exists) {
             $user->password = bcrypt('bps3321');
-            $user->role = $this->data['role'] ?? 'staff';
+            $user->save();
+            $user->assignRole('Pegawai');
         }
 
         return $user;

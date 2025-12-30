@@ -84,12 +84,14 @@ class UserResource extends Resource
                     ->importer(\App\Filament\Imports\UserImporter::class)
                     ->label('Import Excel')
                     ->icon('heroicon-o-arrow-up-tray')
-                    ->color('success'),
+                    ->color('success')
+                    ->visible(fn() => auth()->user()->hasRole('super_admin')),
                 Tables\Actions\Action::make('downloadTemplate')
                     ->label('Download Template')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->url(fn() => url('template_user_import.csv'))
-                    ->openUrlInNewTab(),
+                    ->openUrlInNewTab()
+                    ->visible(fn() => auth()->user()->hasRole('super_admin')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
