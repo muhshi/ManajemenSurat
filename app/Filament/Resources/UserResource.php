@@ -35,6 +35,17 @@ class UserResource extends Resource
                             ->email()
                             ->required()
                             ->maxLength(255),
+                        Forms\Components\TextInput::make('password')
+                            ->password()
+                            ->dehydrateStateUsing(fn($state) => \Illuminate\Support\Facades\Hash::make($state))
+                            ->dehydrated(fn($state) => filled($state))
+                            ->required(fn(string $context): bool => $context === 'create'),
+                        Forms\Components\Select::make('roles')
+                            ->relationship('roles', 'name')
+                            ->preload()
+                            ->multiple()
+                            ->searchable()
+                            ->visible(fn() => auth()->user()->hasRole('super_admin')),
                     ])->columns(2),
                 Forms\Components\Section::make('Identitas Pegawai')
                     ->schema([
@@ -64,6 +75,12 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label('Role')
+                    ->badge(),
                 Tables\Columns\TextColumn::make('nip')
                     ->label('NIP')
                     ->searchable(),
@@ -92,6 +109,8 @@ class UserResource extends Resource
                     ->url(fn() => url('template_user_import.csv'))
                     ->openUrlInNewTab()
                     ->visible(fn() => auth()->user()->hasRole('super_admin')),
+                Tables\Actions\CreateAction::make()
+                    ->visible(fn() => auth()->user()->hasRole('super_admin')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -107,7 +126,8 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageUsers::route('/'),
+            'index' => Pages\ListUsers::route('/'),
+            'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }
