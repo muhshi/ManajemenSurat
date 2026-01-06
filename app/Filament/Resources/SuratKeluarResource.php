@@ -64,6 +64,9 @@ class SuratKeluarResource extends Resource
                             ->native(false)
                             ->live()
                             ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get) {
+                                if (!$state) {
+                                    return;
+                                }
                                 $tahun = $get('tahun') ?: now()->year;
                                 $nextUrut = Surat::getNextNomorUrut($tahun, $state);
                                 $set('nomor_urut', $nextUrut);
