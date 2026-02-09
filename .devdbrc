@@ -1,0 +1,6 @@
+[
+  {
+    "type": "sqlite",
+    "path": "d:\\magang_bps\\ManajemenSurat\\database\\database.sqlite"
+  }
+]

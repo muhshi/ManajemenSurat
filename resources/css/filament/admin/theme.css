@@ -1,0 +1,62 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+
+/* Custom Dashboard Title Styling */
+.fi-header-heading {
+    font-weight: 500 !important;
+    font-size: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.5rem;
+    color: #111827 !important;
+    /* Black/Dark Gray */
+}
+
+/* Sidebar Background */
+.fi-sidebar,
+.fi-sidebar-header,
+.fi-sidebar-footer {
+    background-color: #0F4C5C !important;
+    border-right: none !important;
+}
+
+/* Sidebar Text & Icons - Inactive */
+.fi-sidebar-item-label,
+.fi-sidebar-item-icon {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Sidebar Active State */
+.fi-sidebar-item.fi-active .fi-sidebar-item-button,
+.fi-sidebar-item-active .fi-sidebar-item-button {
+    background-color: #1B6B7A !important;
+    color: #ffffff !important;
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-icon,
+.fi-sidebar-item-active .fi-sidebar-item-icon {
+    color: #ffffff !important;
+}
+
+/* Sidebar Hover State */
+.fi-sidebar-item-button:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Page Background */
+.fi-layout,
+main,
+.fi-main {
+    background-color: #F4F8FA !important;
+}
+
+/* Card / Section Styling */
+.fi-section-content,
+.fi-section,
+.fi-card {
+    background-color: #ffffff !important;
+    border-radius: 0.75rem !important;
+    /* rounded-xl */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+    /* soft shadow */
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}

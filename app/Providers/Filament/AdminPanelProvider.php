@@ -27,25 +27,27 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(\App\Filament\Pages\Auth\CustomLogin::class)
             ->brandName('BPS Kabupaten Demak')
             ->brandLogo(fn() => asset('images/logo_bps.png'))
-            ->brandLogoHeight('3rem')
+            ->brandLogoHeight('2rem')
             ->favicon(fn() => asset('images/logo_bps.png'))
             ->colors([
-                'primary' => Color::hex('#0054A6'),
-                'success' => Color::hex('#00A651'),
-                'warning' => Color::hex('#F7941D'),
+                'primary' => Color::hex('#0F4C5C'),
+                'success' => Color::hex('#16A34A'),
+                'warning' => Color::hex('#F97316'),
             ])
+
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                \App\Filament\Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class,
+                // \App\Filament\Widgets\PerluTindakanSaya::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -59,8 +61,12 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                FilamentShieldPlugin::make(),
+                // FilamentShieldPlugin::make(),
             ])
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::HEAD_END,
+                fn(): string => view('filament.custom.sidebar-styles')->render(),
+            )
             ->authMiddleware([
                 Authenticate::class,
             ]);

@@ -1,0 +1,117 @@
+<?php
+
+namespace App\Filament\Widgets;
+
+use App\Models\Disposisi;
+use App\Models\Surat;
+use App\Models\SuratMasuk;
+use Filament\Widgets\Widget;
+use Illuminate\Support\Collection;
+
+class AktivitasTerbaru extends Widget
+{
+    protected static string $view = 'filament.widgets.aktivitas-terbaru';
+
+    protected static ?int $sort = 3; // Position below "Perlu Tindakan Saya" (sort = 2)
+
+    protected int|string|array $columnSpan = 'full';
+
+    public static function canView(): bool
+    {
+        return false;
+    }
+
+
+    /**
+     * Get recent activities mixed from multiple sources
+     */
+    public function getActivities(): array|Collection
+    {
+        // 1. Surat Masuk Baru
+        $suratMasuk = SuratMasuk::latest('created_at')
+            ->take(5)
+            ->get()
+            ->map(fn($item) => [
+                'type' => 'surat_masuk',
+                'description' => "Surat Masuk baru dari {$item->nama_pengirim}",
+                'time' => $item->created_at,
+                'icon' => 'heroicon-o-inbox-arrow-down',
+                'color' => 'success',
+            ]);
+
+        // 2. Disposisi Baru
+        $disposisi = Disposisi::with(['pengirim', 'penerima', 'suratMasuk'])
+            ->latest('created_at')
+            ->take(5)
+            ->get()
+            ->map(fn($item) => [
+                'type' => 'disposisi',
+                'description' => "Disposisi surat kepada {$item->penerima->name}",
+                'time' => $item->created_at,
+                'icon' => 'heroicon-o-paper-airplane',
+                'color' => 'warning',
+            ]);
+
+        // 3. Surat Keputusan (SK)
+        $sk = Surat::where('jenis_surat', 'SK')
+            ->latest('created_at')
+            ->take(5)
+            ->get()
+            ->map(fn($item) => [
+                'type' => 'sk',
+                'description' => "Surat Keputusan diterbitkan: {$item->nomor_surat}",
+                'time' => $item->created_at,
+                'icon' => 'heroicon-o-document-check',
+                'color' => 'primary',
+            ]);
+
+        // 4. Surat Keluar (Non-SK)
+        $suratKeluar = Surat::where('jenis_surat', '!=', 'SK')
+            ->latest('created_at')
+            ->take(5)
+            ->get()
+            ->map(fn($item) => [
+                'type' => 'surat_keluar',
+                'description' => "Surat Keluar dikirim: {$item->perihal}",
+                'time' => $item->created_at,
+                'icon' => 'heroicon-o-envelope',
+                'color' => 'info',
+            ]);
+
+        // Merge and Sort
+        $activities = $suratMasuk->concat($disposisi)
+            ->concat($sk)
+            ->concat($suratKeluar)
+            ->sortByDesc('time')
+            ->take(7);
+
+        // Placeholder if empty
+        if ($activities->isEmpty()) {
+            return [
+                [
+                    'type' => 'placeholder',
+                    'description' => 'Contoh: Surat Masuk baru diterima',
+                    'time' => now(),
+                    'icon' => 'heroicon-o-inbox',
+                    'color' => 'gray',
+                ],
+                [
+                    'type' => 'placeholder',
+                    'description' => 'Contoh: Disposisi surat kepada Staff',
+                    'time' => now()->subHour(),
+                    'icon' => 'heroicon-o-paper-airplane',
+                    'color' => 'gray',
+                ],
+                [
+                    'type' => 'placeholder',
+                    'description' => 'Contoh: Surat Keputusan diterbitkan',
+                    'time' => now()->subHours(2),
+                    'icon' => 'heroicon-o-document-check',
+                    'color' => 'gray',
+                ],
+            ];
+        }
+
+        return $activities;
+    }
+}

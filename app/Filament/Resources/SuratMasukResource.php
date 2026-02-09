@@ -24,6 +24,8 @@ class SuratMasukResource extends Resource
     protected static ?string $navigationGroup = 'Surat Masuk';
 
     protected static ?string $navigationLabel = 'Surat Masuk';
+    protected static ?string $modelLabel = 'Surat Masuk';
+    protected static ?string $pluralModelLabel = 'Surat Masuk';
 
     protected static ?int $navigationSort = 10;
 
@@ -136,7 +138,10 @@ class SuratMasukResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        $query = parent::getEloquentQuery();
+        $query = parent::getEloquentQuery()
+            ->with(['disposisis.penerima', 'disposisis.pengirim'])
+            ->withCount('disposisis');
+
         $user = auth()->user();
 
         if ($user->hasAnyRole(['super_admin', 'Kepala', 'Kasubag'])) {
@@ -174,11 +179,10 @@ class SuratMasukResource extends Resource
                 Tables\Columns\TextColumn::make('disposisi_status')
                     ->label('Status Disposisi')
                     ->state(function (SuratMasuk $record): string {
-                        $stats = $record->disposisis()
-                            ->select('status', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+                        // Use eager loaded relation instead of separate query
+                        $stats = $record->disposisis
                             ->groupBy('status')
-                            ->get()
-                            ->map(fn($item) => "{$item->status}: {$item->total}")
+                            ->map(fn($items, $status) => "{$status}: " . $items->count())
                             ->implode(', ');
 
                         return $stats ?: 'Belum Ada';
@@ -233,14 +237,14 @@ class SuratMasukResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\Action::make('disposisi')
-                    ->label(fn(SuratMasuk $record) => $record->disposisis()->exists() ? 'Selesai Disposisi' : 'Disposisi')
-                    ->icon(fn(SuratMasuk $record) => $record->disposisis()->exists() ? 'heroicon-s-check-circle' : 'heroicon-o-paper-airplane')
-                    ->color(fn(SuratMasuk $record) => $record->disposisis()->exists() ? 'success' : 'info')
-                    ->modalHeading(fn(SuratMasuk $record) => $record->disposisis()->exists() ? 'Riwayat & Tambah Disposisi' : 'Input Disposisi')
+                    ->label(fn(SuratMasuk $record) => $record->disposisis->isNotEmpty() ? 'Selesai Disposisi' : 'Disposisi')
+                    ->icon(fn(SuratMasuk $record) => $record->disposisis->isNotEmpty() ? 'heroicon-s-check-circle' : 'heroicon-o-paper-airplane')
+                    ->color(fn(SuratMasuk $record) => $record->disposisis->isNotEmpty() ? 'success' : 'info')
+                    ->modalHeading(fn(SuratMasuk $record) => $record->disposisis->isNotEmpty() ? 'Riwayat & Tambah Disposisi' : 'Input Disposisi')
                     ->form([
                         Forms\Components\Placeholder::make('existing_disposisis')
                             ->label('Riwayat Disposisi')
-                            ->visible(fn(SuratMasuk $record) => $record->disposisis()->exists())
+                            ->visible(fn(SuratMasuk $record) => $record->disposisis->isNotEmpty())
                             ->content(fn(SuratMasuk $record) => new \Illuminate\Support\HtmlString(
                                 '<div class="space-y-2">' .
                                 $record->disposisis->map(

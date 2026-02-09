@@ -20,11 +20,15 @@ class DisposisiResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
     protected static ?string $navigationGroup = 'Surat Masuk';
     protected static ?string $navigationLabel = 'Riwayat Disposisi';
+    protected static ?string $modelLabel = 'Disposisi';
+    protected static ?string $pluralModelLabel = 'Disposisi';
     protected static ?int $navigationSort = 11;
 
     public static function getEloquentQuery(): Builder
     {
-        $query = parent::getEloquentQuery();
+        $query = parent::getEloquentQuery()
+            ->with(['suratMasuk', 'pengirim', 'penerima']);
+
         $user = auth()->user();
 
         if ($user->hasAnyRole(['super_admin', 'Kepala', 'Kasubag'])) {
@@ -73,13 +77,11 @@ class DisposisiResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('suratMasuk.nomor_surat')
                     ->label('Nomor Surat')
-                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('suratMasuk.perihal')
                     ->label('Perihal')
                     ->limit(30)
-                    ->tooltip(fn($state) => $state)
-                    ->searchable(),
+                    ->tooltip(fn($state) => $state),
                 Tables\Columns\TextColumn::make('pengirim.name')
                     ->label('Pemberi')
                     ->sortable(),

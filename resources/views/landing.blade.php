@@ -69,12 +69,17 @@
         }
 
         .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
+            padding: 0.6rem 2.5rem;
+            /* Slimmer height, wider width */
+            border-radius: 50px;
+            /* Full rounded pill shape */
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
-            display: inline-block;
+            display: inline-flex;
+            /* Flex to center content */
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-primary {
@@ -321,7 +326,7 @@
     <footer>
         <div class="container">
             <div class="footer-logo">BPS<span>Demak</span></div>
-            <p class="copyright">&copy; 2025 BPS Kabupaten Demak. All rights reserved.</p>
+            <p class="copyright">&copy; 2026 BPS Kabupaten Demak. All rights reserved.</p>
         </div>
     </footer>
 
