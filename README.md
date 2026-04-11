@@ -58,7 +58,16 @@ Ikuti langkah-langkah berikut untuk menjalankan aplikasi di lingkungan lokal:
     php artisan key:generate
     ```
 
-4.  **Setup Database**
+4.  **Setup Ekstraktor PDF (SEP-BP)**
+    Untuk modul Buku Persediaan, dibutuhkan environment Python.
+    ```bash
+    mkdir -p app/Scripts
+    python3 -m venv app/Scripts/venv
+    source app/Scripts/venv/bin/activate
+    pip install pdfplumber
+    ```
+
+5.  **Setup Database**
     Buat database baru di MySQL, lalu jalankan migrasi dan seeder.
     ```bash
     php artisan migrate --seed
@@ -96,3 +105,23 @@ Gunakan kredensial yang telah dibuat melalui seeder atau oleh administrator.
 ## License
 
 The MIT License (MIT).
+
+## Changelog
+
+Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
+
+### [Unreleased]
+#### Added
+- Modul ekstraksi PDF Rincian Buku Persediaan (SEP-BP) tersendiri di `app/Scripts/parse_buku_persediaan.py` menggunakan pustaka Python `pdfplumber`.
+- Output parsing PDF tervalidasi menggunakan format JSON dari script ekstraktor data.
+- Setup environment virtual khusus Python (`venv`) untuk mengisolir *dependencies* parser (pdfplumber) di dalam folder `app/Scripts` agar proses migrasi tidak terhambat.
+- **UploadProgressWidget**: Fitur pemantauan Real-time progress upload buku persediaan berbentuk Terminal Log UI, polling 2 detik.
+
+#### Changed
+- Skrip Upload SEP-BP sekarang memproses ekstraksi melalui **Queue (Background Job)** (`ProcessInventoryUpload`) alih-alih dieksekusi sinkron untuk menghindari batas waktu Time-out PHP (30 detik).
+- Optimalisasi penyisipan master data Barang dari Eloquent Insert loop ke **Upsert Massal** (`Item::upsert`) menjadi 1 kueri database (mengurangi waktu penambahan item dari hitungan menit menjadi milidetik).
+- Format tampilan kolom `Filename` pada grid upload dipersingkat membuang absolute path dengan `basename()`.
+- Waktu `timeout` pada Worker ditingkatkan menjadi 600 detik baik pada properti Job `timeout` maupun dev script `php artisan queue:listen`.
+
+#### Fixed
+- Duplikasi transaksi laporan persediaan yang sama berulang kali diatasi dengan integrasi **Sidik Jari SHA-256 (`tx_hash`)** unik sebagai penanda primer. Transaksi kembar hanya akan tersinkronisasi / memicu UPSERT menimpa data bukannya menduplikat.

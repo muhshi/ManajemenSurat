@@ -1,0 +1,141 @@
+--- PAGE 1 ---
+                                                                                                                    
+                                                                                                                    
+  BADAN PUSAT STATISTIK                                                                                             
+  BADAN PUSAT STATISTIK                                                                                             
+  SEKRETARIAT UTAMA BADAN PUSAT STATISTIK                                                                           
+                                               RINCIAN BUKU PERSEDIAAN                                              
+                                              PERIODE 01-01-2026 S/D 28-02-2026                                     
+                                                                                                                    
+                                                                                                                    
+  NAMA UAKPB : BADAN PUSAT STATISTIK KAB. DEMAK                                                                     
+  KODE UAKPB : 054.01.0300.018871                                                                                   
+                                                                                                                    
+  METODE PENCATATAN :PERPETUAL                                                 KODE BARANG :1.01.01.99.999.000002   
+  METODE PENILAIAN :                                                           NAMA BARANG :LAKBAN HITAM            
+                                                                               SATUAN  :BUAH                        
+                                               Masuk                     Keluar                Saldo Persediaan     
+    No  Tanggal   Keterangan   No Dok                                                                               
+                                       Unit   Harga   Jumlah    Unit   Harga    Jumlah   Unit   Harga    Jumlah     
+    1         Saldo Awal 01-JAN-26        0       0         0       0       0         0      0       0          0   
+                                Jumlah    0                         0                        0                 0    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+       08-04-2026                                                                                         1 dari 555
+                                                                                                                    
+
+--- PAGE 2 ---
+                                                                                                                    
+                                                                                                                    
+                                               RINCIAN BUKU PERSEDIAAN                                              
+                                              PERIODE 01-01-2026 S/D 28-02-2026                                     
+                                                                                                                    
+  NAMA UAKPB : BADAN PUSAT STATISTIK KAB. DEMAK                                                                     
+                                                                                                                    
+  KODE UAKPB : 054.01.0300.018871                                                                                   
+  METODE PENCATATAN :PERPETUAL                                                 KODE BARANG :1.01.03.01.001.000001   
+                                                                                                                    
+  METODE PENILAIAN :                                                           NAMA BARANG :Pulpen                  
+                                                                               SATUAN  :Buah                        
+                                               Masuk                     Keluar                Saldo Persediaan     
+    No  Tanggal   Keterangan   No Dok                                                                               
+                                       Unit   Harga   Jumlah    Unit   Harga    Jumlah   Unit   Harga    Jumlah     
+    1         Saldo Awal 01-JAN-26        0       0         0       0       0         0      4     3,500     14,000 
+                                Jumlah    0                         0                        4               14,000 
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+       08-04-2026                                                                                         2 dari 555
+                                                                                                                    
+
+--- PAGE 3 ---
+                                                                                                                    
+                                                                                                                    
+                                               RINCIAN BUKU PERSEDIAAN                                              
+                                              PERIODE 01-01-2026 S/D 28-02-2026                                     
+                                                                                                                    
+  NAMA UAKPB : BADAN PUSAT STATISTIK KAB. DEMAK                                                                     
+                                                                                                                    
+  KODE UAKPB : 054.01.0300.018871                                                                                   
+  METODE PENCATATAN :PERPETUAL                                                 KODE BARANG :1.01.03.01.001.000002   
+                                                                                                                    
+  METODE PENILAIAN :                                                           NAMA BARANG :Pensil 2B               
+                                                                               SATUAN  :Buah                        
+                                               Masuk                     Keluar                Saldo Persediaan     
+    No  Tanggal   Keterangan   No Dok                                                                               
+                                       Unit   Harga   Jumlah    Unit   Harga    Jumlah   Unit   Harga    Jumlah     
+    1         Saldo Awal 01-JAN-26        0       0         0       0       0         0     10     5,000     50,000 
+                                                                                            24     5,000    120,000 
+                                Jumlah    0                         0                       34              170,000 
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+       08-04-2026                                                                                         3 dari 555
+                                                                                                                    
+

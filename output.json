@@ -1,0 +1,4282 @@
+{
+  "status": "success",
+  "summary": {
+    "total_items": 554,
+    "total_transactions": 100
+  },
+  "items": [
+    {
+      "item_code": "1.01.01.99.999.000002",
+      "item_name": "LAKBAN HITAM",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.01.001.000001",
+      "item_name": "Pulpen",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.01.001.000002",
+      "item_name": "Pensil 2B",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.01.001.000003",
+      "item_name": "Spidol",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.01.001.000004",
+      "item_name": "isi pentel",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.001.000005",
+      "item_name": "penghapus stedler",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.001.000006",
+      "item_name": "spidol whiteboard",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.001.000007",
+      "item_name": "stabilo",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.001.000011",
+      "item_name": "PULPEN WARNA",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.01.001.000012",
+      "item_name": "TIPE X",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.01.001.000021",
+      "item_name": "Balpoint Boxy",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.001.000026",
+      "item_name": "Spidol Artline1",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.001.000032",
+      "item_name": "Bolpoint 3 warna",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.001.000035",
+      "item_name": "Ballpoint Standar Biru",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.001.000036",
+      "item_name": "SPIDOL PERMANEN BIRU",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.01.001.000037",
+      "item_name": "SPIDOL PERMANEN MERAH",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.01.003.000003",
+      "item_name": "klip biasa",
+      "satuan": "dus"
+    },
+    {
+      "item_code": "1.01.03.01.003.000004",
+      "item_name": "isi steples",
+      "satuan": "dus"
+    },
+    {
+      "item_code": "1.01.03.01.003.000005",
+      "item_name": "Steples",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.003.000007",
+      "item_name": "gunting",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.003.000008",
+      "item_name": "KLIP 5 CM",
+      "satuan": "dus"
+    },
+    {
+      "item_code": "1.01.03.01.003.000010",
+      "item_name": "BINDER KLIP KECIL 107",
+      "satuan": "DUS"
+    },
+    {
+      "item_code": "1.01.03.01.003.000011",
+      "item_name": "BINDER KLIP 155",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.01.003.000013",
+      "item_name": "BINDER KLIP 105 (JOYKO)",
+      "satuan": "DUS"
+    },
+    {
+      "item_code": "1.01.03.01.003.000014",
+      "item_name": "BINDER KLIP 107 (JOYKO)",
+      "satuan": "DUS"
+    },
+    {
+      "item_code": "1.01.03.01.003.000015",
+      "item_name": "BINDER KLIP 155 (JOYKO)",
+      "satuan": "DUS"
+    },
+    {
+      "item_code": "1.01.03.01.003.000016",
+      "item_name": "BINDER KLIP NO 200",
+      "satuan": "DUS"
+    },
+    {
+      "item_code": "1.01.03.01.003.000017",
+      "item_name": "BINDER KLIP NO 111",
+      "satuan": "DUS"
+    },
+    {
+      "item_code": "1.01.03.01.003.000018",
+      "item_name": "BINDER KLIP NO 260",
+      "satuan": "DUS"
+    },
+    {
+      "item_code": "1.01.03.01.003.000028",
+      "item_name": "Klip_1",
+      "satuan": "Dos"
+    },
+    {
+      "item_code": "1.01.03.01.003.000030",
+      "item_name": "KLIP 8CM",
+      "satuan": "dus"
+    },
+    {
+      "item_code": "1.01.03.01.003.000031",
+      "item_name": "PERFORATOR/ Pembolong Kertas",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.004.000001",
+      "item_name": "Karet Penghapus",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.004.000005",
+      "item_name": "Penghapus WB_1",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.005.000015",
+      "item_name": "BLOCKNOTE",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.01.005.000016",
+      "item_name": "BUKU AGENDA FOLIO",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.01.005.000020",
+      "item_name": "Blocknote 1 2 Folio",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.006.000006",
+      "item_name": "stopmap kertas",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.006.000007",
+      "item_name": "stopmap plastik",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.006.000008",
+      "item_name": "Snelhehter",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.006.000013",
+      "item_name": "NAME TAGE",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.006.000017",
+      "item_name": "Odner arsip",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.006.000022",
+      "item_name": "snelhehter plastik",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.006.000026",
+      "item_name": "STOPMAP KOP",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.01.006.000031",
+      "item_name": "Portepel Map Bertali",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.006.000049",
+      "item_name": "Zipper Bag",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.007.000001",
+      "item_name": "penggaris plastik",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.008.000001",
+      "item_name": "cutter",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.008.000002",
+      "item_name": "Rautan",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.010.000001",
+      "item_name": "POST IT",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.01.010.000002",
+      "item_name": "KERTAS STIKER",
+      "satuan": "PAK"
+    },
+    {
+      "item_code": "1.01.03.01.010.000003",
+      "item_name": "LEM KERTAS",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.01.010.000005",
+      "item_name": "Plakban 2 Richi",
+      "satuan": "gulung"
+    },
+    {
+      "item_code": "1.01.03.01.010.000013",
+      "item_name": "Plakban Hitam",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.010.000014",
+      "item_name": "Plakband Coklat",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.010.000023",
+      "item_name": "Isolasi Bolak Balik",
+      "satuan": "gulung"
+    },
+    {
+      "item_code": "1.01.03.01.010.000024",
+      "item_name": "Lem Stik",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.010.000025",
+      "item_name": "POST IT SEDANG",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.010.000026",
+      "item_name": "LAKBAN HITAM NEW",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.010.000027",
+      "item_name": "LAKBAN BENING BESAR",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.01.012.000001",
+      "item_name": "Hechneces kecil_1",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.013.000001",
+      "item_name": "Isi Staples",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.999.000002",
+      "item_name": "lakban besar",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.999.000004",
+      "item_name": "Rafia",
+      "satuan": "kg"
+    },
+    {
+      "item_code": "1.01.03.01.999.000017",
+      "item_name": "GUNTING",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.01.999.000036",
+      "item_name": "LAKBAN COKLAT",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.999.000037",
+      "item_name": "LAKBAN K",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.999.000038",
+      "item_name": "STATISTIK KABUPATEN DEMAK 2023",
+      "satuan": "Exp"
+    },
+    {
+      "item_code": "1.01.03.01.999.000039",
+      "item_name": "BOOKLET HASIL PENCACAHAN LENGKAP",
+      "satuan": "Eks"
+    },
+    {
+      "item_code": "1.01.03.01.999.000040",
+      "item_name": "STATISTIK TEMPAT PELELANGAN IKAN",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000041",
+      "item_name": "LUAS PANEN DAN PRODUKSI PADI DI",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000042",
+      "item_name": "INDEKS PEMBANGUNAN MANUSIA",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000043",
+      "item_name": "STATISTIK PENDIDIKAN KABUPATEN DEMAK",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000044",
+      "item_name": "STATISTIK PEMOTONGAN TERNAK",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000045",
+      "item_name": "INDIKATOR KESEJAHTERAAN RAKYAT",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000046",
+      "item_name": "STATISTIK KESEJAHTERAAN RAKYAT",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000047",
+      "item_name": "STATISTIK PERTANIAN HORTIKULTURA",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000048",
+      "item_name": "PROFIL KESEHATAN KABUPATEN DEMAK",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000049",
+      "item_name": "PROFIL KETENAGAKERJAAN KABUPATEN",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000050",
+      "item_name": "PDRB KABUPATEN DEMAK MENURUT",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000051",
+      "item_name": "PDRB KABUPATEN DEMAK MENURUT",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000052",
+      "item_name": "KABUPATEN DEMAK DALAM ANGKA 2023",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000053",
+      "item_name": "HASIL LONG FORM SENSUS PENDUDUK",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000054",
+      "item_name": "KECAMATAN DALAM ANGKA 2023",
+      "satuan": "EKS"
+    },
+    {
+      "item_code": "1.01.03.01.999.000055",
+      "item_name": "LAKBAN HITAM BESAR",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.01.999.000056",
+      "item_name": "DOBLE SIDE TAPE K",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.01.999.000057",
+      "item_name": "DOBLE SIDE TAPE B",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.02.001.000001",
+      "item_name": "Kertas HVS F4",
+      "satuan": "Rim"
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "item_name": "Kertas HVS A4",
+      "satuan": "Rim"
+    },
+    {
+      "item_code": "1.01.03.02.001.000017",
+      "item_name": "Kertas HVS A3 70gr",
+      "satuan": "rim"
+    },
+    {
+      "item_code": "1.01.03.02.001.000018",
+      "item_name": "BUFFALO",
+      "satuan": "pak"
+    },
+    {
+      "item_code": "1.01.03.02.002.000001",
+      "item_name": "HVS A3",
+      "satuan": "RIM"
+    },
+    {
+      "item_code": "1.01.03.02.004.000007",
+      "item_name": "AMPLOP KOP KECIL",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.02.004.000008",
+      "item_name": "AMPLOP KOP BESAR",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.02.004.000009",
+      "item_name": "AMPLOP BESAR",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.02.004.000010",
+      "item_name": "AMPLOP SEDANG",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.02.004.000011",
+      "item_name": "AMPLOP KECIL",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.02.004.000019",
+      "item_name": "Amplop Coklat Polos Kecil (110 x 24) merk",
+      "satuan": "pak"
+    },
+    {
+      "item_code": "1.01.03.02.004.000020",
+      "item_name": "Amplop Coklat Polos (120x270) merk",
+      "satuan": "pak"
+    },
+    {
+      "item_code": "1.01.03.03.002.000001",
+      "item_name": "tinta cetak",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000002",
+      "item_name": "toner CANNON LBP 2900",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000022",
+      "item_name": "tinta refill",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000029",
+      "item_name": "Tinta Epson 664",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000032",
+      "item_name": "KATRID KOMPATIBLE REFIL 80 A",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.04.004.000035",
+      "item_name": "KATRID 80A",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000036",
+      "item_name": "TINTA EPSON 774",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000037",
+      "item_name": "TINTA EPSON 008 colour",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000044",
+      "item_name": "TINTA EPSON 001",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000046",
+      "item_name": "KATRID 12A",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000048",
+      "item_name": "TINTA EPSON 664 WARNA",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.04.004.000049",
+      "item_name": "TINTA EPSON 001 WARNA",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.04.004.000124",
+      "item_name": "KATRID HP LJ 30 A",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000125",
+      "item_name": "TINTA BULK IN 664",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000126",
+      "item_name": "KATRID CF230 A",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000127",
+      "item_name": "REFIL KATRID 30 A",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000128",
+      "item_name": "TINTA 008 BK",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000129",
+      "item_name": "TINTA 008 (WARNA)",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000130",
+      "item_name": "KATRID 32 A",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000131",
+      "item_name": "TINTA BULK IN 003",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000132",
+      "item_name": "TINTA L6190 HITAM",
+      "satuan": "botol"
+    },
+    {
+      "item_code": "1.01.03.04.004.000133",
+      "item_name": "TINTA L6190 WARNA",
+      "satuan": "botol"
+    },
+    {
+      "item_code": "1.01.03.04.004.000134",
+      "item_name": "TINTA ON FIRE",
+      "satuan": "botol"
+    },
+    {
+      "item_code": "1.01.03.04.004.000135",
+      "item_name": "TINTA EPSON 003 HITAM",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000136",
+      "item_name": "TINTA EPSON 003 WARNA",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000137",
+      "item_name": "KATRID HP LASERJET 93A",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000138",
+      "item_name": "TINTA EPSON 664 YELLOW",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000139",
+      "item_name": "TINTA EPSON 664 MAGENTA",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.04.004.000140",
+      "item_name": "TINTA EPSON 664 CYAN",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.04.004.000141",
+      "item_name": "TINTA EPSON 001 CYAN",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.04.004.000142",
+      "item_name": "TINTA EPSON 001 MAGENTA",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.04.004.000143",
+      "item_name": "TINTA EPSON 001 YELLOW",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.04.004.000144",
+      "item_name": "Tinta Epson 008 Yellow",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000145",
+      "item_name": "Tinta Epson 008 Cyan",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000146",
+      "item_name": "Tinta Epson 008 Magenta",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.04.004.000147",
+      "item_name": "Tinta Epson 008 Black",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.04.006.000004",
+      "item_name": "mouse",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.006.000006",
+      "item_name": "CD",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.04.006.000007",
+      "item_name": "KEYBOARD",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.04.010.000001",
+      "item_name": "MOUSE LOGITECH WIRELESS",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.04.010.000002",
+      "item_name": "mouse kabel",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.05.002.000010",
+      "item_name": "DPP SERBET PRINT",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.05.002.000012",
+      "item_name": "KANEBO",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.05.002.000013",
+      "item_name": "SPON CUCI PIRING",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.05.002.000024",
+      "item_name": "Spons Cuci Piring",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.05.008.000003",
+      "item_name": "SABUN TANGAN",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.05.008.000006",
+      "item_name": "VIXAL GREEN 780",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.05.008.000007",
+      "item_name": "VIXAL BLUE 780",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.05.008.000008",
+      "item_name": "SABUN CUCI PRING BESAR (SUNLIGHT",
+      "satuan": "PCS"
+    },
+    {
+      "item_code": "1.01.03.05.008.000009",
+      "item_name": "SABUN CUCI TANGAN (YURI 375ML)",
+      "satuan": "PCS"
+    },
+    {
+      "item_code": "1.01.03.05.008.000010",
+      "item_name": "PEMBERSIH LANTAI (SOKLIN )",
+      "satuan": "PCS"
+    },
+    {
+      "item_code": "1.01.03.05.008.000011",
+      "item_name": "PEMBERSIH LANTAI (WIPOL)",
+      "satuan": "PCS"
+    },
+    {
+      "item_code": "1.01.03.05.008.000012",
+      "item_name": "SABUN CUCI",
+      "satuan": "PCS"
+    },
+    {
+      "item_code": "1.01.03.05.008.000014",
+      "item_name": "DAIA",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.05.008.000015",
+      "item_name": "HIT AER",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.05.008.000016",
+      "item_name": "DAIA 620 GR",
+      "satuan": "BUNGKUS"
+    },
+    {
+      "item_code": "1.01.03.05.008.000017",
+      "item_name": "WIPOL 750 ML",
+      "satuan": "PCS"
+    },
+    {
+      "item_code": "1.01.03.05.008.000021",
+      "item_name": "WIPOL CLASSIC (PEMBERSIH LANTAI)",
+      "satuan": "PCS"
+    },
+    {
+      "item_code": "1.01.03.05.008.000023",
+      "item_name": "SABUN CUCI SUNLIGHT 755 ML",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.05.008.000024",
+      "item_name": "CLING REFILL",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.05.008.000025",
+      "item_name": "Cairan Pembersih Chrome",
+      "satuan": "botol"
+    },
+    {
+      "item_code": "1.01.03.05.008.000028",
+      "item_name": "SABUN CUCI PIRING REFILL",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.05.008.000029",
+      "item_name": "SABUN CUCI TANGAN REFILL",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.05.008.000030",
+      "item_name": "PEMBERSIH LANTAI (VIXAL)",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.05.012.000001",
+      "item_name": "pengharum ruangan",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.05.012.000002",
+      "item_name": "Super pel",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.05.012.000003",
+      "item_name": "Vixal",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.05.012.000005",
+      "item_name": "PENGHARUM RUANGAN (STELLA)",
+      "satuan": "PCS"
+    },
+    {
+      "item_code": "1.01.03.05.012.000006",
+      "item_name": "PENGHARUM RUANGAN BATHROOM",
+      "satuan": "PCS"
+    },
+    {
+      "item_code": "1.01.03.05.012.000012",
+      "item_name": "PENGHARUM RUANGAN STELLA MATIC",
+      "satuan": "PCS"
+    },
+    {
+      "item_code": "1.01.03.05.012.000013",
+      "item_name": "PENGHARUM RUANGAN STELLA MATIC",
+      "satuan": "PCS"
+    },
+    {
+      "item_code": "1.01.03.05.012.000018",
+      "item_name": "KAPUR BARUS BATHROOM",
+      "satuan": "BUNGKUS"
+    },
+    {
+      "item_code": "1.01.03.05.012.000021",
+      "item_name": "Rinso",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.05.999.000003",
+      "item_name": "tisu",
+      "satuan": "bungkus"
+    },
+    {
+      "item_code": "1.01.03.05.999.000009",
+      "item_name": "BATU BATERAI AA (ALKALINE)",
+      "satuan": "PAK"
+    },
+    {
+      "item_code": "1.01.03.05.999.000010",
+      "item_name": "BATU BATERAI AAA",
+      "satuan": "PAK"
+    },
+    {
+      "item_code": "1.01.03.05.999.000014",
+      "item_name": "Drafting tube 64-108 X Q 8 cm ( 3 section)",
+      "satuan": "Buah"
+    },
+    {
+      "item_code": "1.01.03.05.999.000017",
+      "item_name": "Trolley Pengangkut Dokumen",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.05.999.000018",
+      "item_name": "Plastik Terpal 3x5 meter",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.05.999.000019",
+      "item_name": "Tissue Multifold",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.05.999.000023",
+      "item_name": "Pisau Guilotine Eba",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.05.999.000035",
+      "item_name": "BATU BATERAI ABC BESAR",
+      "satuan": "PAK"
+    },
+    {
+      "item_code": "1.01.03.06.010.000001",
+      "item_name": "Batu Baterai",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.09.999.000001",
+      "item_name": "KALENDER DINDING TAHUN 2023",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.09.999.000002",
+      "item_name": "KALENDER MEJA TAHUN 2023",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.09.999.000003",
+      "item_name": "BUKU KERJA TAHUN 2023",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.000090",
+      "item_name": "BOX FILE",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.99.999.000109",
+      "item_name": "PLASTIK ROLL",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.99.999.000110",
+      "item_name": "LAKBAN BENING",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.000111",
+      "item_name": "PENGHAPUS SP2020",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.99.999.000112",
+      "item_name": "PISAU PERUNCING SP2020",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.99.999.000113",
+      "item_name": "PENSIL 2B SP2020",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.99.999.000114",
+      "item_name": "BALLPOINT SP2020",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.99.999.000115",
+      "item_name": "PAPAN JALAN SP2020",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.99.999.000116",
+      "item_name": "ID CARD SP2020",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000117",
+      "item_name": "BLOCKNOTE SP2020",
+      "satuan": "BUKU"
+    },
+    {
+      "item_code": "1.01.03.99.999.000134",
+      "item_name": "BUKU 1C (PEDOMAN INSTRUKTUR)",
+      "satuan": "BUKU"
+    },
+    {
+      "item_code": "1.01.03.99.999.000135",
+      "item_name": "BUKU 1D (PEDOMAN KOSEKA)",
+      "satuan": "BUKU"
+    },
+    {
+      "item_code": "1.01.03.99.999.000136",
+      "item_name": "BUKU 1E (PEDOMAN KORTIM)",
+      "satuan": "BUKU"
+    },
+    {
+      "item_code": "1.01.03.99.999.000137",
+      "item_name": "BUKU 1F (PEDOMAN PENCACAHAN)",
+      "satuan": "BUKU"
+    },
+    {
+      "item_code": "1.01.03.99.999.000138",
+      "item_name": "BUKU 1G (PEDOMAN PENGKODEAN)",
+      "satuan": "BUKU"
+    },
+    {
+      "item_code": "1.01.03.99.999.000139",
+      "item_name": "BUKU 1H (PEDOMAN TASK-FORCE)",
+      "satuan": "BUKU"
+    },
+    {
+      "item_code": "1.01.03.99.999.000141",
+      "item_name": "C1 SP2020",
+      "satuan": "LBR"
+    },
+    {
+      "item_code": "1.01.03.99.999.000149",
+      "item_name": "KAOS KERAH SP2020 UKURAN S",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000150",
+      "item_name": "KAOS KERAH SP2020 UKURAN M",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000151",
+      "item_name": "KAOS KERAH SP2020 UKURAN L",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000152",
+      "item_name": "KAOS KERAH SP2020 UKURAN XL",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000153",
+      "item_name": "KAOS KERAH SP2020 UKURAN XXL",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000154",
+      "item_name": "KAOS KERAH SP2020 UKURAN XXXL",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000155",
+      "item_name": "TOPI SP2020",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000157",
+      "item_name": "SERAGAM BIRU REGULER",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000162",
+      "item_name": "KAOS SP2020 UKURAN L (KIRIMAN",
+      "satuan": "KAOS"
+    },
+    {
+      "item_code": "1.01.03.99.999.000189",
+      "item_name": "TAS SP2020",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.99.999.000191",
+      "item_name": "HAND SANITIZER GEL 5L",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.99.999.000192",
+      "item_name": "DETTOL ANTISEPTIK",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.99.999.000194",
+      "item_name": "ROMPI PETUGAS SENSUS PENDUDUK 2020",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.99.999.000195",
+      "item_name": "HAND SANITIZER LIQUID 5L",
+      "satuan": "BUAH"
+    },
+    {
+      "item_code": "1.01.03.99.999.000227",
+      "item_name": "BUKU 1. PEDOMAN TEKNIS BPS PROVINSI",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000228",
+      "item_name": "BUKU 2B. PEDOMAN KOORDINATOR",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000229",
+      "item_name": "BUKU 3B. PEDOMAN KOORDINATOR TIM",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000230",
+      "item_name": "BUKU 4B. PEDOMAN PETUGAS PENDATAAN",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000231",
+      "item_name": "BUKU 6. PEDOMAN PELATIHAN PENDATAAN",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000232",
+      "item_name": "MASKER",
+      "satuan": "SET"
+    },
+    {
+      "item_code": "1.01.03.99.999.000251",
+      "item_name": "Daftar SUB - S Survei Ubinan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000252",
+      "item_name": "Daftar SP-Palawija 2023",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.000253",
+      "item_name": "Daftar SP- Lahan, SP-Alsintan TP, SP-Benih",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.000254",
+      "item_name": "Rekap Kab Kota SP Tanaman Pangan",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.000266",
+      "item_name": "Rompi Petugas Sensus Penduduk 2020 (2)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000267",
+      "item_name": "BOX arsip",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.000268",
+      "item_name": "Map arsip",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.000353",
+      "item_name": "Backdrop",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.000792",
+      "item_name": "Buku 2B Pedoman Koseka Wilayah CAPI",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000793",
+      "item_name": "Buku 3B Pedoman Koordinator Tim Wilayah",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000794",
+      "item_name": "Buku 4B Pedoman Petugas Pendataan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000853",
+      "item_name": "Kuesioner Susenas VSEN22-K (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000854",
+      "item_name": "Kuesioner Susenas VSEN22-KP",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000855",
+      "item_name": "Kuesioner Survei Konstruksi Tahunan SKTH",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000856",
+      "item_name": "Kuesioner Survei Konstruksi Triwulanan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000857",
+      "item_name": "Surat Pengantar Survei Konstruksi (2)",
+      "satuan": "lbr"
+    },
+    {
+      "item_code": "1.01.03.99.999.000858",
+      "item_name": "Kalender Dinding BPS 2022",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000859",
+      "item_name": "Kalender Meja BPS 2022",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000860",
+      "item_name": "Buku Kerja 2022",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000864",
+      "item_name": "Daftar SAK. FEB22-AK Sakernas 2022",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000865",
+      "item_name": "Buku Pedoman Pencacahan Sakernas 2022",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000866",
+      "item_name": "Buku Pedoman Pemeriksaan Sakernas",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000867",
+      "item_name": "Buku Kode Sakernas 2022",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000869",
+      "item_name": "Map Berlidah",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.000890",
+      "item_name": "Kabel Jaringan (Cat6 UTP)",
+      "satuan": "boks"
+    },
+    {
+      "item_code": "1.01.03.99.999.000891",
+      "item_name": "Konektor RJ45",
+      "satuan": "boks"
+    },
+    {
+      "item_code": "1.01.03.99.999.000892",
+      "item_name": "TAS DAN PERLENGKAPAN CAPI ST2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000893",
+      "item_name": "TAS DAN PERLENGKAPAN PAPI ST2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000894",
+      "item_name": "TOPI ST2023",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.000895",
+      "item_name": "SPANDUK ST2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000896",
+      "item_name": "KUESIONER ST2023 - L2 - UTP",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000897",
+      "item_name": "KUESIONER ST2023 - L2 - UPB",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000898",
+      "item_name": "KUESIONER ST2023 - L2 - UTL",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000899",
+      "item_name": "Buku Pedoman Pencacahan Sensus",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000900",
+      "item_name": "Buku Pedoman Pengawasan/Pemeriksaan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000901",
+      "item_name": "Buku Pedoman Pencacahan Sensus",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000902",
+      "item_name": "Buku Pedoman Pencacahan Sensus",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000903",
+      "item_name": "Buku Pedoman Pencacahan Sensus",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000904",
+      "item_name": "Buku Pedoman Pengawasan / Pemeriksaan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000905",
+      "item_name": "Buku Pedoman Pengawasan/ Pemeriksaan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000906",
+      "item_name": "Kuesioner REGSOSEK22-K (BPS Kabupaten",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000907",
+      "item_name": "Kuesioner REGSOSEK22-K (BPS Provinsi",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000908",
+      "item_name": "Kuesioner Harga Produsen Gabah (HP-G)",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000909",
+      "item_name": "Kuesioner Harga Produsen Beras di",
+      "satuan": "Exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000910",
+      "item_name": "Kuesioner Harga Produsen (HP) 2023",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000911",
+      "item_name": "Kuesioner Jasa Pendidikan (HP-JP) 2023",
+      "satuan": "Exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000912",
+      "item_name": "Suplemen Survei Harga Produsen (SHP)",
+      "satuan": "Exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000913",
+      "item_name": "Pedoman Pencacahan Survei Harga",
+      "satuan": "Exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000914",
+      "item_name": "Pedoman Pemeriksaan Survei Harga",
+      "satuan": "Exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000915",
+      "item_name": "Pedoman Pencacahan Survei Harga",
+      "satuan": "Exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000916",
+      "item_name": "Pedoman Pemeriksaan Survei Harga",
+      "satuan": "Exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000917",
+      "item_name": "Pedoman Pencacahan Survei Harga",
+      "satuan": "Exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000918",
+      "item_name": "Pedoman Pemeriksaan Survei Harga",
+      "satuan": "Exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000920",
+      "item_name": "Daftar SAK.FEB23-AK",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000921",
+      "item_name": "Pedoman Pencacahan Sakernas 2023",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.000922",
+      "item_name": "Pedoman Pemeriksaan Sakernas 2023",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.000923",
+      "item_name": "Buku Kode Sakernas 2023",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.000924",
+      "item_name": "Kuesioner HKD-1",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000925",
+      "item_name": "Kuesioner HKD-2.1",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000926",
+      "item_name": "Kuesioner HKD-2.2",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000927",
+      "item_name": "Kuesioner HD-1",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000928",
+      "item_name": "Kuesioner HD-2",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000929",
+      "item_name": "Kuesioner HD-4",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000930",
+      "item_name": "Kuesioner HD-5.1",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000931",
+      "item_name": "Kuesioner HD-5.2",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000932",
+      "item_name": "Pedoman Survei Konsumen Perdesaan",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000933",
+      "item_name": "Pedoman Survei Harga Produsen",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000934",
+      "item_name": "Pedoman Pengolahan Survei Harga",
+      "satuan": "exp"
+    },
+    {
+      "item_code": "1.01.03.99.999.000935",
+      "item_name": "Kuesioner VSERUTI23.INTI",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000936",
+      "item_name": "Sepatu Boots Celana",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.000937",
+      "item_name": "Tas Punggung",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.000938",
+      "item_name": "Kemeja",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.000939",
+      "item_name": "Kaos Kerah",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.000940",
+      "item_name": "Kaos Tanpa Kerah",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.000941",
+      "item_name": "Kuesioner VSEN23.K",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000942",
+      "item_name": "Kuesioner VSEN23.KP",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000943",
+      "item_name": "Pedoman Kepala BPS Provinsi dan Kepala",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000944",
+      "item_name": "Pedoman Pencacahan Susenas Maret 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000945",
+      "item_name": "Pedoman Pengawas Susenas Maret 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000946",
+      "item_name": "Konsep dan Definisi Susenas Maret 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000947",
+      "item_name": "Pemanfaatan Data Susenas Kor dan KP",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000948",
+      "item_name": "VSEN23.MHP/MHU",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000949",
+      "item_name": "VSEN23.DSRT",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000950",
+      "item_name": "VSEN23.P",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000951",
+      "item_name": "Kuesioner PMTB23-PERKEBUNAN",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000952",
+      "item_name": "Kuesioner PMTB23-HEWAN",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000953",
+      "item_name": "Kuesioner PMTB23-APBDesa",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000954",
+      "item_name": "Kuesioner PMTB23-IMB/PBG",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000955",
+      "item_name": "Kuesioner PMTB23-PBB",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000956",
+      "item_name": "Kuesioner PMTB23-LKPM",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000957",
+      "item_name": "Kuesioner PMTB23-Finansial",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000958",
+      "item_name": "Kuesioner PMTB23-NonFinansial",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000959",
+      "item_name": "Kuesioner PMTB23-RT",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000960",
+      "item_name": "Kuesioner PMTB23-Hortikultura",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000961",
+      "item_name": "Kuesioner Listing VECOM23.L",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000962",
+      "item_name": "Kuesioner Sampel VECOM2023.S",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000963",
+      "item_name": "Buku Pedoman Survei E-Commerce 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000964",
+      "item_name": "Buku Pedoman Updating Direktori",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000965",
+      "item_name": "Kuesioner Updating Direktori Penyedia Jasa",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000966",
+      "item_name": "Kuesioner PMTB23-LNPRT",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000967",
+      "item_name": "Buku Pedoman Pencacahan SPDT IHPB",
+      "satuan": "eks"
+    },
+    {
+      "item_code": "1.01.03.99.999.000968",
+      "item_name": "Buku Pedoman Pemeriksaan SPDT IHPB",
+      "satuan": "eks"
+    },
+    {
+      "item_code": "1.01.03.99.999.000969",
+      "item_name": "Kuesioner Survei SKLNPT 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000970",
+      "item_name": "Kuesioner Survei Industri Mikro dan Kecil",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000971",
+      "item_name": "Lembar Klasifikasi dan Kasus Batas IMK",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000972",
+      "item_name": "Kuesioner STIPM IIA 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000973",
+      "item_name": "Kartu Kendali Survei IBS 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000974",
+      "item_name": "Amplop Coklat Survei IBS 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000975",
+      "item_name": "Kuesioner Survei Perdagangan Antar",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000976",
+      "item_name": "Pedoman Penc. Lapangan Survei",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.000977",
+      "item_name": "Kuesioner Survei Pola Distribusi Barang",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000978",
+      "item_name": "Pedoman Lapangan Survei Pola Distribusi",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.000979",
+      "item_name": "Kuesioner Survei Perusahaan Konstruksi",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000980",
+      "item_name": "Kuesioner Survei Perusahaan Konstruksi",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000981",
+      "item_name": "Sampel Usaha Konstruksi Perorangan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000982",
+      "item_name": "Surat Pengantar BPS 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000983",
+      "item_name": "Kuesioner Survei Lembaga Keuangan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000984",
+      "item_name": "Kuesioner Lembaga Keuangan Koperasi",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000985",
+      "item_name": "Surat Permohonan Data Survei Lembaga",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000986",
+      "item_name": "Kuesioner Uji Coba Survei Terintegrasi PDN",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000987",
+      "item_name": "Kartu Kendali Uji Coba Survei Terintegrasi",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000988",
+      "item_name": "Buku Pedoman Lapangan Uji Coba Survei",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.000989",
+      "item_name": "Kuesioner Survei Tahunan Usaha",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000990",
+      "item_name": "Kuesioner Survei Tahunan Perusahaan Air",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000991",
+      "item_name": "Kuesioner Survei Captiva Power 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000992",
+      "item_name": "Kuesioner Updating Direktori Perusahaan",
+      "satuan": "lembar"
+    },
+    {
+      "item_code": "1.01.03.99.999.000993",
+      "item_name": "Kuesioner Survei Triwulanan Perusahaan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000994",
+      "item_name": "Pedoman Pencacahan Survei",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.000995",
+      "item_name": "Pedoman Forum Konsultasi Publik 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000996",
+      "item_name": "Pedoman Fasilitator Forum Konsultan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000997",
+      "item_name": "Alat Peraga FKP 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000998",
+      "item_name": "Cue Card Fasilitator FKP 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.000999",
+      "item_name": "Cue Card Asisten Fasilitator FKP 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001000",
+      "item_name": "Ballpoint Trendee 02 FKP 2023",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.001001",
+      "item_name": "Perlengkapan Asisten Fasilitator FKP",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001002",
+      "item_name": "Buku Pedoman Survei Perusahaan/Usaha",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001003",
+      "item_name": "Kuesioner Survei Perusahaan/Usaha Jasa",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001004",
+      "item_name": "Pedoman Survei Usaha Penyedia Makan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001005",
+      "item_name": "Kuesioner Survei Usaha Penyedia Makan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001006",
+      "item_name": "Pedoman Survei Usaha/ Perusahaan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001007",
+      "item_name": "Kuesioner Survei Usaha/ Perusahaan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001008",
+      "item_name": "Kuesioner Seruti Inti (VSERUTI23.INTI)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001009",
+      "item_name": "Kuesioner Seruti Mkanan (VSERUTI23.MAK)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001012",
+      "item_name": "KUESIONER SKSPPI 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001013",
+      "item_name": "BUKU PEDOMAN SKSPPI 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001014",
+      "item_name": "Kuesioner Laporan Triwulan Pelabuhan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001015",
+      "item_name": "Kuesioner SKLNP Tahun 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001016",
+      "item_name": "Pedoman SKLNP Tahun 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001017",
+      "item_name": "Kuesioner NTA Tahun 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001018",
+      "item_name": "Lembar Tambahan NTA Tahun 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001019",
+      "item_name": "Pedoman NTA Tahun 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001020",
+      "item_name": "Kuesioner SKPS Tahun 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001021",
+      "item_name": "Pedoman SKPS Tahun 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001022",
+      "item_name": "Surat Pengantar Kabupaten/Kota Survei",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001023",
+      "item_name": "DOKUMEN K2 TAHUN 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001024",
+      "item_name": "DOKUMEN APBD2 TAHUN 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001025",
+      "item_name": "DOKUMEN K3 TAHUN 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001026",
+      "item_name": "Surat Pengantar Survei Tahunan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001027",
+      "item_name": "Surat Pengantar Survei Captive Power",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001028",
+      "item_name": "Surat Pengantar Survei Triwulanan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001029",
+      "item_name": "PEDOMAN SURVEI KONSTRUKSI 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001030",
+      "item_name": "REKOMENDASI PU SURVEI KONSTRUKSI",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001031",
+      "item_name": "KARTU KENDALI SURVEI KONSTRUKSI",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001032",
+      "item_name": "TANDA TERIMA DOKUMEN SURVEI",
+      "satuan": "lembar"
+    },
+    {
+      "item_code": "1.01.03.99.999.001033",
+      "item_name": "LEAFLET STATISTIK KONSTRUKSI 2022",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001034",
+      "item_name": "DAFTAR SAK.AGS23-AK (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001035",
+      "item_name": "BUKU PEDOMAN PENCACAHAN SAK.AGS23",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001036",
+      "item_name": "BUKU PEDOMAN PEMERIKSAAN SAK.",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001037",
+      "item_name": "BUKU KODE SAK.AGS23",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001038",
+      "item_name": "Kuesioner BUMD 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001039",
+      "item_name": "KUESIONER SURVEI KESEJAHTERAAN",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001040",
+      "item_name": "PEDOMAN PENCACAHAN SKP2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001041",
+      "item_name": "PEDOMAN PEMERIKSAAN SKP2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001042",
+      "item_name": "KUESIONER VIMK23-L2",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001043",
+      "item_name": "KUESIONER VIMK23-S2",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001044",
+      "item_name": "LAKBAN KUNING",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.001045",
+      "item_name": "LAKBAN HITAM B",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.001046",
+      "item_name": "Pedoman Harga Konsumen Perdesaan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001047",
+      "item_name": "Pedoman Harga Produsen Perdesaan 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001048",
+      "item_name": "Pedoman Pengolahan SHPED 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001049",
+      "item_name": "Pedoman Pencacahan Survei Harga",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001050",
+      "item_name": "Pedoman Pemeriksaan Survei Harga",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001051",
+      "item_name": "Kuesioner HD-1 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001052",
+      "item_name": "Kuesioner HD-2 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001053",
+      "item_name": "Kuesioner HD-4 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001054",
+      "item_name": "Kuesioner HD-5.1 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001055",
+      "item_name": "Kuesioner HD-5.2 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001056",
+      "item_name": "Kuesioner SHPG-2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001057",
+      "item_name": "Pedoman Pencacahan Survei Harga",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001058",
+      "item_name": "Pedoman Pemeriksaan Survei Harga",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001059",
+      "item_name": "Pedoman Pencacahan Survei Harga",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001060",
+      "item_name": "Kuesioner HP 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001061",
+      "item_name": "Kuesioner HP-JP 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001062",
+      "item_name": "Suplemen Survei Harga Produsen 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001063",
+      "item_name": "Kuesioner LaporanTriwulanan Pelabuhan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001064",
+      "item_name": "Kuesioner Susenas VSEN24.K (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001065",
+      "item_name": "Kuesioner Susenas VSEN24.KP (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001066",
+      "item_name": "Kuesioner Susenas VSEN24.K (2)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001067",
+      "item_name": "Kuesioner Susenas VSEN24.KP (2)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001068",
+      "item_name": "Daftar Sub-S Survei Ubinan 2023",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001069",
+      "item_name": "Daftar SP-Lahan, SP-Alsintan TP, dan SP-",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001070",
+      "item_name": "Rekap Kab/Kota SP Tanaman Pangan 2023",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.001071",
+      "item_name": "Buku Kasus Batas KBLI 2020 (2)",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.001072",
+      "item_name": "Pedoman Pemeriksaan Survei Harga",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001073",
+      "item_name": "Kalender Dinding 2024",
+      "satuan": "eksemplar"
+    },
+    {
+      "item_code": "1.01.03.99.999.001074",
+      "item_name": "Kalender Meja 2024",
+      "satuan": "eksemplar"
+    },
+    {
+      "item_code": "1.01.03.99.999.001075",
+      "item_name": "Buku Kerja 2024",
+      "satuan": "Buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.001076",
+      "item_name": "Kuesioner Susenas VSEN24-P",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001077",
+      "item_name": "Kuesioner Susenas VSEN.24-DSBS",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001078",
+      "item_name": "Kuesioner Susenas VSEN24-DSRT",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001079",
+      "item_name": "Kuesioner Seruti Inti (VSERUTI24.INTI)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001080",
+      "item_name": "Kuesioner Survei Konstruksi Tahunan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001081",
+      "item_name": "Kuesioner Survei Konstruksi Triwulanan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001082",
+      "item_name": "Amplop Coklat Survei Konstruksi TA 2024",
+      "satuan": "pcs"
+    },
+    {
+      "item_code": "1.01.03.99.999.001083",
+      "item_name": "Surat Pengantar Survei Konstruksi TA 2024",
+      "satuan": "lembar"
+    },
+    {
+      "item_code": "1.01.03.99.999.001084",
+      "item_name": "\"Kuesioner K3 Keuangan Pemerintah Desa",
+      "satuan": "eks"
+    },
+    {
+      "item_code": "1.01.03.99.999.001085",
+      "item_name": "Kuesioner VSLK24-KSP",
+      "satuan": "eks"
+    },
+    {
+      "item_code": "1.01.03.99.999.001086",
+      "item_name": "Kuesioner VSLK-VALAS 2024",
+      "satuan": "eks"
+    },
+    {
+      "item_code": "1.01.03.99.999.001087",
+      "item_name": "Kuesioner V-BUMD24",
+      "satuan": "eks"
+    },
+    {
+      "item_code": "1.01.03.99.999.001088",
+      "item_name": "Kuesioner V-IBS23 Tahunan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001089",
+      "item_name": "Surat Pengantar Survei IBS Tahunan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001090",
+      "item_name": "Kuesioner V-KOM23",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001091",
+      "item_name": "Surat Pengantar Survei IBS Tahunan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001092",
+      "item_name": "Kuesioner VIMK24-S2",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001093",
+      "item_name": "Kuesioner Survei Captive Power 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001094",
+      "item_name": "Kuesioner Survei Air Bersih 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001095",
+      "item_name": "Kuesioner Survei Galian-BH 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001096",
+      "item_name": "Kuesioner Survei Galian-URT 2024",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001097",
+      "item_name": "Kuesioner Survei Air Bersih-TW 2024",
+      "satuan": "lembar"
+    },
+    {
+      "item_code": "1.01.03.99.999.001098",
+      "item_name": "Kuesioner Survei Galian BH-TW 2024",
+      "satuan": "lembar"
+    },
+    {
+      "item_code": "1.01.03.99.999.001099",
+      "item_name": "Kuesioner ST2023.SEP.UTP",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001100",
+      "item_name": "Daftar SAK AGS24-AK",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001101",
+      "item_name": "Buku Pedoman Pencacahan SAK.AGS24",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001102",
+      "item_name": "Buku Pedoman Pemeriksaan SAK.AGS24",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001103",
+      "item_name": "Buku Kode SAK.AGS24",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001104",
+      "item_name": "Buku 1 Pedoman Kepala BPS Provinsi dan",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001105",
+      "item_name": "Buku 2 Pedoman Petugas Pendata Susenas",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001106",
+      "item_name": "Buku 3 Pedoman Pegawas Susenas Modul",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001107",
+      "item_name": "Buku 4 Konsep dan Definisi Susenas Modul",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001108",
+      "item_name": "Buku 5 Pemanfaatan Data Susenas Modul",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001109",
+      "item_name": "VSEN24.MSBP",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001110",
+      "item_name": "VSEN24.KP",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001111",
+      "item_name": "VSERUTI24.INTI",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001112",
+      "item_name": "VSEN24.DSBS contoh",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001113",
+      "item_name": "VSEN24.MHP",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001114",
+      "item_name": "VSEN24.DSRT contoh",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001115",
+      "item_name": "VSEN24.P contoh",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001116",
+      "item_name": "Kuesioner Seruti MAK (VSERUTI24.MAK)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001117",
+      "item_name": "Kuesioner Sub-S Survei Ubinan 2025",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001118",
+      "item_name": "Daftar SP-Palawija 2025",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.001119",
+      "item_name": "Daftar SP-Lahan, SP-Alsintan TP dan Benih",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.001121",
+      "item_name": "Rekap Kab/Kota SP Tanaman Pangan 2025",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.001122",
+      "item_name": "Perlengkapan Petugas Ubinan Survei",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.001123",
+      "item_name": "Perlengkapan Petugas Ubinan Survei",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.001124",
+      "item_name": "Kuesioner HP 2025",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001125",
+      "item_name": "Kuesioner HP-JA 2025",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001126",
+      "item_name": "Kuesioner HP-JP 2025",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001127",
+      "item_name": "Kuesioner HP-JR 2025",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001128",
+      "item_name": "Kuesioner HP-JS 2025",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001129",
+      "item_name": "Kuesioner HPT 2025",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001130",
+      "item_name": "Suplemen Survei Harga Produsen 2025",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001131",
+      "item_name": "Daftar SAK.FEB25-AK",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001132",
+      "item_name": "Buku Pedoman Pendataan SAK.FEB25",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.001133",
+      "item_name": "Buku Pedoman Pemeriksaan SAK.FEB25",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.001134",
+      "item_name": "Buku Kode SAK.FEB25",
+      "satuan": "buku"
+    },
+    {
+      "item_code": "1.01.03.99.999.001135",
+      "item_name": "Pedoman Pencacah Susenas Maret 2025",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001136",
+      "item_name": "Pedoman Pengawas Susenas Maret 2025",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001137",
+      "item_name": "Pedoman Konsep dan Definisi Susenas",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001138",
+      "item_name": "Pedoman Seruti Triwulan I 2025 (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001139",
+      "item_name": "Kuesioner VSEN25.K (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001140",
+      "item_name": "Kuesioner VSEN25.KP (2)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001141",
+      "item_name": "Kuesioner VSEN25.DSBS (3)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001142",
+      "item_name": "Kuesioner VSEN25.P (3)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001143",
+      "item_name": "Kuesioner VSEN25.DSRT (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001144",
+      "item_name": "Kuesioner VSERUTI25.INTI (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001145",
+      "item_name": "Kuesioner VSEN25.K (4)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001146",
+      "item_name": "Kuesioner VSEN25.KP (4)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001147",
+      "item_name": "Kuesioner VSERUTI25.INTI (3)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001148",
+      "item_name": "Kalender Dinding 2025",
+      "satuan": "eks"
+    },
+    {
+      "item_code": "1.01.03.99.999.001149",
+      "item_name": "Kalender Meja 2025",
+      "satuan": "eks"
+    },
+    {
+      "item_code": "1.01.03.99.999.001150",
+      "item_name": "Buku Kerja 2025",
+      "satuan": "eks"
+    },
+    {
+      "item_code": "1.01.03.99.999.001151",
+      "item_name": "Kuesioner K3 keuangan Pemerinah Daerah",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001152",
+      "item_name": "Kuesioner VSLK25-KSP",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001153",
+      "item_name": "Kuesioner VSLK-VALAS 2025",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001154",
+      "item_name": "Kuesioner V-BUMD25",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001155",
+      "item_name": "VSERUTI25.INTI",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001156",
+      "item_name": "VSERUTI25.MAK",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001157",
+      "item_name": "Buku Pedoman Pendataan Sakernas",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001158",
+      "item_name": "Buku Pedoman Pemeriksaan Sakernas",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001159",
+      "item_name": "Buku Kode Sakernas Agustus 2025",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001160",
+      "item_name": "Daftar SAK.AGS25-AK",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001161",
+      "item_name": "Pedoman Pencacah Susenas September",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001162",
+      "item_name": "Kuesioner VSEN25.M",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001163",
+      "item_name": "Kuesioner VSEN25.KP",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001164",
+      "item_name": "Kuesioner VSERUTI25.INTI",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001165",
+      "item_name": "Kuesioner VSEN25.DSLBS",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001166",
+      "item_name": "Kuesioner VSEN25.DSRT",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001167",
+      "item_name": "Kertas HVS A4 Natural MBG25 Demak",
+      "satuan": "rim"
+    },
+    {
+      "item_code": "1.01.03.99.999.001168",
+      "item_name": "Kertas HVS F4 Natural MBG25 Demak",
+      "satuan": "rim"
+    },
+    {
+      "item_code": "1.01.03.99.999.001169",
+      "item_name": "Toner 12A MBG25 Demak",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.001170",
+      "item_name": "Toner 30A MBG25 Demak",
+      "satuan": "buah"
+    },
+    {
+      "item_code": "1.01.03.99.999.001171",
+      "item_name": "Suplemen SHP 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001172",
+      "item_name": "Kuesioner HPT 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001173",
+      "item_name": "Kuesioner HP 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001174",
+      "item_name": "Kuesioner HP-JA 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001175",
+      "item_name": "Kuesioner HP-JTDL 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001176",
+      "item_name": "Kuesioner HP-JTB 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001177",
+      "item_name": "Kuesioner HP-JR 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001178",
+      "item_name": "Kuesioner HP-JP 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001179",
+      "item_name": "Kuesioner HP-JS 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001180",
+      "item_name": "Pedoman Pendata Susenas Maret 2026 (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001181",
+      "item_name": "Pedoman Pemeriksa Susenas Maret 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001182",
+      "item_name": "Konsep dan Definisi Susenas Maret 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001183",
+      "item_name": "Pedoman Seruti 2026 (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001184",
+      "item_name": "Kuesioner VSEN26.K (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001185",
+      "item_name": "Kuesioner VSEN26.K (2)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001186",
+      "item_name": "Kuesioner VSEN26.KP (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001187",
+      "item_name": "Kuesioner VSEN26.KP (2)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001188",
+      "item_name": "Kuesioner VSEN26.DSSLS (2)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001189",
+      "item_name": "Kuesioner VSEN26.P (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001190",
+      "item_name": "Kuesioner VSEN26.DSRT (2)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001191",
+      "item_name": "Kuesioner VSERUTI26.INTI (1)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001192",
+      "item_name": "Kuesioner VSERUTI26.INTI (2)",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001193",
+      "item_name": "Kalender Dinding 2026 (1)",
+      "satuan": "eks"
+    },
+    {
+      "item_code": "1.01.03.99.999.001194",
+      "item_name": "Kalender Meja 2026",
+      "satuan": "eks"
+    },
+    {
+      "item_code": "1.01.03.99.999.001195",
+      "item_name": "Buku Kerja 2026",
+      "satuan": "eks"
+    },
+    {
+      "item_code": "1.01.03.99.999.001196",
+      "item_name": "\"Buku Pedoman Penjelasan Umum SNLIK",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001197",
+      "item_name": "\"Buku Pedoman Konsep dan Definisi SNLIK",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001198",
+      "item_name": "Showcard SNLIK 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001199",
+      "item_name": "Kuesioner Pemutakhiran SNLIK 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001200",
+      "item_name": "\"Kuesioner Pendataan SNLIK 2026",
+      "satuan": "set"
+    },
+    {
+      "item_code": "1.01.03.99.999.001201",
+      "item_name": "Kertas A4 Natural SNLIK26 Demak",
+      "satuan": "rim"
+    }
+  ],
+  "transactions": [
+    {
+      "item_code": "1.01.03.01.001.000005",
+      "tanggal": "2026-02-20",
+      "keterangan": "Ipds",
+      "no_dok": "018/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 3,
+      "keluar_harga": 4000.0,
+      "keluar_jumlah": 12000.0,
+      "saldo_unit": 13,
+      "saldo_harga": 4000.0,
+      "saldo_jumlah": 52000.0
+    },
+    {
+      "item_code": "1.01.03.01.003.000003",
+      "tanggal": "2026-01-05",
+      "keterangan": "Umum",
+      "no_dok": "002/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 4500.0,
+      "keluar_jumlah": 4500.0,
+      "saldo_unit": 27,
+      "saldo_harga": 4500.0,
+      "saldo_jumlah": 121500.0
+    },
+    {
+      "item_code": "1.01.03.01.003.000003",
+      "tanggal": "2026-01-08",
+      "keterangan": "Distribusi",
+      "no_dok": "004/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 2,
+      "keluar_harga": 4500.0,
+      "keluar_jumlah": 9000.0,
+      "saldo_unit": 25,
+      "saldo_harga": 4500.0,
+      "saldo_jumlah": 112500.0
+    },
+    {
+      "item_code": "1.01.03.01.003.000003",
+      "tanggal": "2026-01-12",
+      "keterangan": "Sosial",
+      "no_dok": "005/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 4500.0,
+      "keluar_jumlah": 4500.0,
+      "saldo_unit": 24,
+      "saldo_harga": 4500.0,
+      "saldo_jumlah": 108000.0
+    },
+    {
+      "item_code": "1.01.03.01.003.000003",
+      "tanggal": "2026-02-02",
+      "keterangan": "Umum",
+      "no_dok": "010/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 4500.0,
+      "keluar_jumlah": 4500.0,
+      "saldo_unit": 23,
+      "saldo_harga": 4500.0,
+      "saldo_jumlah": 103500.0
+    },
+    {
+      "item_code": "1.01.03.01.003.000003",
+      "tanggal": "2026-02-04",
+      "keterangan": "Produksi",
+      "no_dok": "012/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 4500.0,
+      "keluar_jumlah": 4500.0,
+      "saldo_unit": 22,
+      "saldo_harga": 4500.0,
+      "saldo_jumlah": 99000.0
+    },
+    {
+      "item_code": "1.01.03.01.003.000003",
+      "tanggal": "2026-02-25",
+      "keterangan": "produksi",
+      "no_dok": "020/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 4500.0,
+      "keluar_jumlah": 4500.0,
+      "saldo_unit": 21,
+      "saldo_harga": 4500.0,
+      "saldo_jumlah": 94500.0
+    },
+    {
+      "item_code": "1.01.03.01.003.000003",
+      "tanggal": "2026-02-27",
+      "keterangan": "Sosial",
+      "no_dok": "021/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 4500.0,
+      "keluar_jumlah": 4500.0,
+      "saldo_unit": 20,
+      "saldo_harga": 4500.0,
+      "saldo_jumlah": 90000.0
+    },
+    {
+      "item_code": "1.01.03.01.003.000014",
+      "tanggal": "2026-02-11",
+      "keterangan": "IPDS",
+      "no_dok": "016/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 6000.0,
+      "keluar_jumlah": 6000.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.01.003.000016",
+      "tanggal": "2026-02-18",
+      "keterangan": "Umum",
+      "no_dok": "017/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 16000.0,
+      "keluar_jumlah": 16000.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000006",
+      "tanggal": "2026-02-04",
+      "keterangan": "Produksi",
+      "no_dok": "012/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 3,
+      "keluar_harga": 1500.0,
+      "keluar_jumlah": 4500.0,
+      "saldo_unit": 97,
+      "saldo_harga": 1500.0,
+      "saldo_jumlah": 145500.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000006",
+      "tanggal": "2026-02-06",
+      "keterangan": "Sosial",
+      "no_dok": "013/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 3,
+      "keluar_harga": 1500.0,
+      "keluar_jumlah": 4500.0,
+      "saldo_unit": 94,
+      "saldo_harga": 1500.0,
+      "saldo_jumlah": 141000.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000006",
+      "tanggal": "2026-02-09",
+      "keterangan": "Distribusi",
+      "no_dok": "015/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 2,
+      "keluar_harga": 1500.0,
+      "keluar_jumlah": 3000.0,
+      "saldo_unit": 92,
+      "saldo_harga": 1500.0,
+      "saldo_jumlah": 138000.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000006",
+      "tanggal": "2026-02-18",
+      "keterangan": "Umum",
+      "no_dok": "017/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 5,
+      "keluar_harga": 1500.0,
+      "keluar_jumlah": 7500.0,
+      "saldo_unit": 87,
+      "saldo_harga": 1500.0,
+      "saldo_jumlah": 130500.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000006",
+      "tanggal": "2026-02-20",
+      "keterangan": "Ipds",
+      "no_dok": "018/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 4,
+      "keluar_harga": 1500.0,
+      "keluar_jumlah": 6000.0,
+      "saldo_unit": 83,
+      "saldo_harga": 1500.0,
+      "saldo_jumlah": 124500.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000026",
+      "tanggal": "2026-01-07",
+      "keterangan": "Umum",
+      "no_dok": "003/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 6,
+      "keluar_harga": 6000.0,
+      "keluar_jumlah": 36000.0,
+      "saldo_unit": 257,
+      "saldo_harga": 6000.0,
+      "saldo_jumlah": 1542000.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000026",
+      "tanggal": "2026-01-08",
+      "keterangan": "Distribusi",
+      "no_dok": "004/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 6,
+      "keluar_harga": 6000.0,
+      "keluar_jumlah": 36000.0,
+      "saldo_unit": 251,
+      "saldo_harga": 6000.0,
+      "saldo_jumlah": 1506000.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000026",
+      "tanggal": "2026-01-12",
+      "keterangan": "Sosial",
+      "no_dok": "005/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 12,
+      "keluar_harga": 6000.0,
+      "keluar_jumlah": 72000.0,
+      "saldo_unit": 239,
+      "saldo_harga": 6000.0,
+      "saldo_jumlah": 1434000.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000026",
+      "tanggal": "2026-01-26",
+      "keterangan": "Produksi",
+      "no_dok": "008/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 3,
+      "keluar_harga": 6000.0,
+      "keluar_jumlah": 18000.0,
+      "saldo_unit": 236,
+      "saldo_harga": 6000.0,
+      "saldo_jumlah": 1416000.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000026",
+      "tanggal": "2026-02-04",
+      "keterangan": "Produksi",
+      "no_dok": "012/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 3,
+      "keluar_harga": 6000.0,
+      "keluar_jumlah": 18000.0,
+      "saldo_unit": 233,
+      "saldo_harga": 6000.0,
+      "saldo_jumlah": 1398000.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000026",
+      "tanggal": "2026-02-23",
+      "keterangan": "Umum",
+      "no_dok": "019/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 3,
+      "keluar_harga": 6000.0,
+      "keluar_jumlah": 18000.0,
+      "saldo_unit": 230,
+      "saldo_harga": 6000.0,
+      "saldo_jumlah": 1380000.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000026",
+      "tanggal": "2026-02-25",
+      "keterangan": "produksi",
+      "no_dok": "020/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 5,
+      "keluar_harga": 6000.0,
+      "keluar_jumlah": 30000.0,
+      "saldo_unit": 225,
+      "saldo_harga": 6000.0,
+      "saldo_jumlah": 1350000.0
+    },
+    {
+      "item_code": "1.01.03.01.006.000026",
+      "tanggal": "2026-02-27",
+      "keterangan": "Sosial",
+      "no_dok": "021/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 5,
+      "keluar_harga": 6000.0,
+      "keluar_jumlah": 30000.0,
+      "saldo_unit": 220,
+      "saldo_harga": 6000.0,
+      "saldo_jumlah": 1320000.0
+    },
+    {
+      "item_code": "1.01.03.01.010.000001",
+      "tanggal": "2026-01-05",
+      "keterangan": "Umum",
+      "no_dok": "002/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 12000.0,
+      "keluar_jumlah": 12000.0,
+      "saldo_unit": 4,
+      "saldo_harga": 12000.0,
+      "saldo_jumlah": 48000.0
+    },
+    {
+      "item_code": "1.01.03.01.010.000001",
+      "tanggal": "2026-02-02",
+      "keterangan": "Umum",
+      "no_dok": "010/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 12000.0,
+      "keluar_jumlah": 12000.0,
+      "saldo_unit": 3,
+      "saldo_harga": 12000.0,
+      "saldo_jumlah": 36000.0
+    },
+    {
+      "item_code": "1.01.03.01.010.000001",
+      "tanggal": "2026-02-09",
+      "keterangan": "Distribusi",
+      "no_dok": "015/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 12000.0,
+      "keluar_jumlah": 12000.0,
+      "saldo_unit": 2,
+      "saldo_harga": 12000.0,
+      "saldo_jumlah": 24000.0
+    },
+    {
+      "item_code": "1.01.03.01.010.000026",
+      "tanggal": "2026-01-05",
+      "keterangan": "Umum",
+      "no_dok": "002/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 20000.0,
+      "keluar_jumlah": 20000.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.01.010.000027",
+      "tanggal": "2026-02-18",
+      "keterangan": "Umum",
+      "no_dok": "017/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 15000.0,
+      "keluar_jumlah": 15000.0,
+      "saldo_unit": 1,
+      "saldo_harga": 15000.0,
+      "saldo_jumlah": 15000.0
+    },
+    {
+      "item_code": "1.01.03.01.010.000027",
+      "tanggal": "2026-02-23",
+      "keterangan": "Umum",
+      "no_dok": "019/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 15000.0,
+      "keluar_jumlah": 15000.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-01-05",
+      "keterangan": "Umum",
+      "no_dok": "002/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 2,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 106000.0,
+      "saldo_unit": 24,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 1272000.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-01-07",
+      "keterangan": "Umum",
+      "no_dok": "003/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 2,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 106000.0,
+      "saldo_unit": 22,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 1166000.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-01-12",
+      "keterangan": "Sosial",
+      "no_dok": "005/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 2,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 106000.0,
+      "saldo_unit": 20,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 1060000.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-01-13",
+      "keterangan": "Neraca",
+      "no_dok": "006/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 53000.0,
+      "saldo_unit": 19,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 1007000.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-01-20",
+      "keterangan": "IPDS",
+      "no_dok": "007/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 53000.0,
+      "saldo_unit": 18,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 954000.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-01-26",
+      "keterangan": "Produksi",
+      "no_dok": "008/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 53000.0,
+      "saldo_unit": 17,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 901000.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-01-29",
+      "keterangan": "Sosial",
+      "no_dok": "009/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 2,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 106000.0,
+      "saldo_unit": 15,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 795000.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-02-02",
+      "keterangan": "Umum",
+      "no_dok": "010/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 3,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 159000.0,
+      "saldo_unit": 12,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 636000.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-02-04",
+      "keterangan": "Produksi",
+      "no_dok": "012/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 2,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 106000.0,
+      "saldo_unit": 10,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 530000.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-02-09",
+      "keterangan": "Distribusi",
+      "no_dok": "015/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 2,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 106000.0,
+      "saldo_unit": 8,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 424000.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-02-20",
+      "keterangan": "Ipds",
+      "no_dok": "018/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 53000.0,
+      "saldo_unit": 7,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 371000.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-02-25",
+      "keterangan": "produksi",
+      "no_dok": "020/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 53000.0,
+      "saldo_unit": 6,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 318000.0
+    },
+    {
+      "item_code": "1.01.03.02.001.000002",
+      "tanggal": "2026-02-27",
+      "keterangan": "Sosial",
+      "no_dok": "021/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 53000.0,
+      "saldo_unit": 5,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 265000.0
+    },
+    {
+      "item_code": "1.01.03.02.004.000008",
+      "tanggal": "2026-01-26",
+      "keterangan": "Produksi",
+      "no_dok": "008/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 139,
+      "keluar_harga": 1500.0,
+      "keluar_jumlah": 208500.0,
+      "saldo_unit": 361,
+      "saldo_harga": 1500.0,
+      "saldo_jumlah": 541500.0
+    },
+    {
+      "item_code": "1.01.03.02.004.000008",
+      "tanggal": "2026-02-06",
+      "keterangan": "Sosial",
+      "no_dok": "013/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 3,
+      "keluar_harga": 1500.0,
+      "keluar_jumlah": 4500.0,
+      "saldo_unit": 358,
+      "saldo_harga": 1500.0,
+      "saldo_jumlah": 537000.0
+    },
+    {
+      "item_code": "1.01.03.02.004.000008",
+      "tanggal": "2026-02-25",
+      "keterangan": "produksi",
+      "no_dok": "020/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 300,
+      "keluar_harga": 1500.0,
+      "keluar_jumlah": 450000.0,
+      "saldo_unit": 58,
+      "saldo_harga": 1500.0,
+      "saldo_jumlah": 87000.0
+    },
+    {
+      "item_code": "1.01.03.02.004.000011",
+      "tanggal": "2026-01-26",
+      "keterangan": "Produksi",
+      "no_dok": "008/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 155,
+      "keluar_harga": 500.0,
+      "keluar_jumlah": 77500.0,
+      "saldo_unit": 345,
+      "saldo_harga": 500.0,
+      "saldo_jumlah": 172500.0
+    },
+    {
+      "item_code": "1.01.03.02.004.000011",
+      "tanggal": "2026-01-29",
+      "keterangan": "Sosial",
+      "no_dok": "009/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 135,
+      "keluar_harga": 500.0,
+      "keluar_jumlah": 67500.0,
+      "saldo_unit": 210,
+      "saldo_harga": 500.0,
+      "saldo_jumlah": 105000.0
+    },
+    {
+      "item_code": "1.01.03.02.004.000011",
+      "tanggal": "2026-02-27",
+      "keterangan": "Sosial",
+      "no_dok": "021/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 154,
+      "keluar_harga": 500.0,
+      "keluar_jumlah": 77000.0,
+      "saldo_unit": 56,
+      "saldo_harga": 500.0,
+      "saldo_jumlah": 28000.0
+    },
+    {
+      "item_code": "1.01.03.04.004.000037",
+      "tanggal": "2026-02-11",
+      "keterangan": "IPDS",
+      "no_dok": "016/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 3,
+      "keluar_harga": 235000.0,
+      "keluar_jumlah": 705000.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.04.004.000044",
+      "tanggal": "2026-02-06",
+      "keterangan": "Umum",
+      "no_dok": "014/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 215000.0,
+      "keluar_jumlah": 215000.0,
+      "saldo_unit": 1,
+      "saldo_harga": 215000.0,
+      "saldo_jumlah": 215000.0
+    },
+    {
+      "item_code": "1.01.03.04.004.000146",
+      "tanggal": "2026-02-20",
+      "keterangan": "Ipds",
+      "no_dok": "018/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 300000.0,
+      "keluar_jumlah": 300000.0,
+      "saldo_unit": 1,
+      "saldo_harga": 300000.0,
+      "saldo_jumlah": 300000.0
+    },
+    {
+      "item_code": "1.01.03.05.008.000010",
+      "tanggal": "2026-01-02",
+      "keterangan": "Umum",
+      "no_dok": "001/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 2,
+      "keluar_harga": 18000.0,
+      "keluar_jumlah": 36000.0,
+      "saldo_unit": 5,
+      "saldo_harga": 18000.0,
+      "saldo_jumlah": 90000.0
+    },
+    {
+      "item_code": "1.01.03.05.008.000010",
+      "tanggal": "2026-01-29",
+      "keterangan": "umum",
+      "no_dok": "009/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 18000.0,
+      "keluar_jumlah": 18000.0,
+      "saldo_unit": 4,
+      "saldo_harga": 18000.0,
+      "saldo_jumlah": 72000.0
+    },
+    {
+      "item_code": "1.01.03.05.008.000011",
+      "tanggal": "2026-02-03",
+      "keterangan": "Umum",
+      "no_dok": "011/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 21000.0,
+      "keluar_jumlah": 21000.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.05.008.000024",
+      "tanggal": "2026-01-02",
+      "keterangan": "Umum",
+      "no_dok": "001/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 2,
+      "keluar_harga": 6000.0,
+      "keluar_jumlah": 12000.0,
+      "saldo_unit": 6,
+      "saldo_harga": 6000.0,
+      "saldo_jumlah": 36000.0
+    },
+    {
+      "item_code": "1.01.03.05.008.000028",
+      "tanggal": "2026-01-02",
+      "keterangan": "Umum",
+      "no_dok": "001/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 2,
+      "keluar_harga": 16000.0,
+      "keluar_jumlah": 32000.0,
+      "saldo_unit": 6,
+      "saldo_harga": 16000.0,
+      "saldo_jumlah": 96000.0
+    },
+    {
+      "item_code": "1.01.03.05.008.000028",
+      "tanggal": "2026-01-29",
+      "keterangan": "umum",
+      "no_dok": "009/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 16000.0,
+      "keluar_jumlah": 16000.0,
+      "saldo_unit": 5,
+      "saldo_harga": 16000.0,
+      "saldo_jumlah": 80000.0
+    },
+    {
+      "item_code": "1.01.03.05.008.000029",
+      "tanggal": "2026-01-02",
+      "keterangan": "Umum",
+      "no_dok": "001/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 10000.0,
+      "keluar_jumlah": 10000.0,
+      "saldo_unit": 3,
+      "saldo_harga": 10000.0,
+      "saldo_jumlah": 30000.0
+    },
+    {
+      "item_code": "1.01.03.05.008.000029",
+      "tanggal": "2026-02-03",
+      "keterangan": "Umum",
+      "no_dok": "011/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 10000.0,
+      "keluar_jumlah": 10000.0,
+      "saldo_unit": 2,
+      "saldo_harga": 10000.0,
+      "saldo_jumlah": 20000.0
+    },
+    {
+      "item_code": "1.01.03.05.008.000030",
+      "tanggal": "2026-02-03",
+      "keterangan": "Umum",
+      "no_dok": "011/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 21000.0,
+      "keluar_jumlah": 21000.0,
+      "saldo_unit": 1,
+      "saldo_harga": 21000.0,
+      "saldo_jumlah": 21000.0
+    },
+    {
+      "item_code": "1.01.03.05.012.000005",
+      "tanggal": "2026-01-02",
+      "keterangan": "Umum",
+      "no_dok": "001/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 3,
+      "keluar_harga": 27500.0,
+      "keluar_jumlah": 82500.0,
+      "saldo_unit": 2,
+      "saldo_harga": 27500.0,
+      "saldo_jumlah": 55000.0
+    },
+    {
+      "item_code": "1.01.03.05.012.000006",
+      "tanggal": "2026-01-02",
+      "keterangan": "Umum",
+      "no_dok": "001/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 4,
+      "keluar_harga": 12500.0,
+      "keluar_jumlah": 50000.0,
+      "saldo_unit": 2,
+      "saldo_harga": 12500.0,
+      "saldo_jumlah": 25000.0
+    },
+    {
+      "item_code": "1.01.03.05.999.000003",
+      "tanggal": "2026-01-02",
+      "keterangan": "Umum",
+      "no_dok": "001/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 43000.0,
+      "keluar_jumlah": 43000.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.05.999.000009",
+      "tanggal": "2026-01-02",
+      "keterangan": "Umum",
+      "no_dok": "001/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 34000.0,
+      "keluar_jumlah": 34000.0,
+      "saldo_unit": 2,
+      "saldo_harga": 34000.0,
+      "saldo_jumlah": 68000.0
+    },
+    {
+      "item_code": "1.01.03.05.999.000009",
+      "tanggal": "2026-01-29",
+      "keterangan": "umum",
+      "no_dok": "009/1/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 34000.0,
+      "keluar_jumlah": 34000.0,
+      "saldo_unit": 1,
+      "saldo_harga": 34000.0,
+      "saldo_jumlah": 34000.0
+    },
+    {
+      "item_code": "1.01.03.05.999.000009",
+      "tanggal": "2026-02-03",
+      "keterangan": "Umum",
+      "no_dok": "011/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 34000.0,
+      "keluar_jumlah": 34000.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.000267",
+      "tanggal": "2026-02-23",
+      "keterangan": "Umum",
+      "no_dok": "019/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 1,
+      "keluar_harga": 11495.0,
+      "keluar_jumlah": 11495.0,
+      "saldo_unit": 36,
+      "saldo_harga": 11495.0,
+      "saldo_jumlah": 413820.0
+    },
+    {
+      "item_code": "1.01.03.99.999.000268",
+      "tanggal": "2026-02-02",
+      "keterangan": "Umum",
+      "no_dok": "010/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 12,
+      "keluar_harga": 1593.0,
+      "keluar_jumlah": 19116.0,
+      "saldo_unit": 300,
+      "saldo_harga": 1593.0,
+      "saldo_jumlah": 477900.0
+    },
+    {
+      "item_code": "1.01.03.99.999.000268",
+      "tanggal": "2026-02-23",
+      "keterangan": "Umum",
+      "no_dok": "019/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 30,
+      "keluar_harga": 1593.0,
+      "keluar_jumlah": 47790.0,
+      "saldo_unit": 270,
+      "saldo_harga": 1593.0,
+      "saldo_jumlah": 430110.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001180",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 61,
+      "keluar_harga": 3919.0,
+      "keluar_jumlah": 239059.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001181",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 34,
+      "keluar_harga": 6237.0,
+      "keluar_jumlah": 212058.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001182",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 89,
+      "keluar_harga": 27750.0,
+      "keluar_jumlah": 2469750.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001183",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 36,
+      "keluar_harga": 6826.0,
+      "keluar_jumlah": 245736.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001184",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 89,
+      "keluar_harga": 2220.0,
+      "keluar_jumlah": 197580.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001185",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 889,
+      "keluar_harga": 2553.0,
+      "keluar_jumlah": 2269617.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001186",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 89,
+      "keluar_harga": 3330.0,
+      "keluar_jumlah": 296370.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001187",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 889,
+      "keluar_harga": 3330.0,
+      "keluar_jumlah": 2960370.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001188",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 89,
+      "keluar_harga": 166.0,
+      "keluar_jumlah": 14774.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001189",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 89,
+      "keluar_harga": 750.0,
+      "keluar_jumlah": 66750.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001190",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 89,
+      "keluar_harga": 148.0,
+      "keluar_jumlah": 13172.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001191",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 36,
+      "keluar_harga": 1998.0,
+      "keluar_jumlah": 71928.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001192",
+      "tanggal": "2026-01-08",
+      "keterangan": "Sosial",
+      "no_dok": "B-308-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 213,
+      "keluar_harga": 1998.0,
+      "keluar_jumlah": 425574.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001193",
+      "tanggal": "2026-01-15",
+      "keterangan": "Transfer Masuk Online",
+      "no_dok": "B-9-",
+      "masuk_unit": 46,
+      "masuk_harga": 9501.0,
+      "masuk_jumlah": 437046.0,
+      "keluar_unit": 46,
+      "keluar_harga": 9501.0,
+      "keluar_jumlah": 437046.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001194",
+      "tanggal": "2026-01-15",
+      "keterangan": "Transfer Masuk Online",
+      "no_dok": "B-9-",
+      "masuk_unit": 36,
+      "masuk_harga": 7750.0,
+      "masuk_jumlah": 279000.0,
+      "keluar_unit": 36,
+      "keluar_harga": 7750.0,
+      "keluar_jumlah": 279000.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001195",
+      "tanggal": "2026-01-15",
+      "keterangan": "Transfer Masuk Online",
+      "no_dok": "B-9-",
+      "masuk_unit": 36,
+      "masuk_harga": 77500.0,
+      "masuk_jumlah": 2790000.0,
+      "keluar_unit": 36,
+      "keluar_harga": 77500.0,
+      "keluar_jumlah": 2790000.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001196",
+      "tanggal": "2026-01-14",
+      "keterangan": "Transfer Masuk Online",
+      "no_dok": "B-8-",
+      "masuk_unit": 5,
+      "masuk_harga": 21848.0,
+      "masuk_jumlah": 109240.0,
+      "keluar_unit": 0,
+      "keluar_harga": 0.0,
+      "keluar_jumlah": 0.0,
+      "saldo_unit": 5,
+      "saldo_harga": 21848.0,
+      "saldo_jumlah": 109240.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001196",
+      "tanggal": "2026-01-19",
+      "keterangan": "Sosial",
+      "no_dok": "B-8-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 5,
+      "keluar_harga": 21848.0,
+      "keluar_jumlah": 109240.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001197",
+      "tanggal": "2026-01-14",
+      "keterangan": "Transfer Masuk Online",
+      "no_dok": "B-8-",
+      "masuk_unit": 5,
+      "masuk_harga": 57730.0,
+      "masuk_jumlah": 288650.0,
+      "keluar_unit": 0,
+      "keluar_harga": 0.0,
+      "keluar_jumlah": 0.0,
+      "saldo_unit": 5,
+      "saldo_harga": 57730.0,
+      "saldo_jumlah": 288650.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001197",
+      "tanggal": "2026-01-19",
+      "keterangan": "Sosial",
+      "no_dok": "B-8-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 5,
+      "keluar_harga": 57730.0,
+      "keluar_jumlah": 288650.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001198",
+      "tanggal": "2026-01-14",
+      "keterangan": "Transfer Masuk Online",
+      "no_dok": "B-8-",
+      "masuk_unit": 5,
+      "masuk_harga": 62172.0,
+      "masuk_jumlah": 310860.0,
+      "keluar_unit": 0,
+      "keluar_harga": 0.0,
+      "keluar_jumlah": 0.0,
+      "saldo_unit": 5,
+      "saldo_harga": 62172.0,
+      "saldo_jumlah": 310860.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001198",
+      "tanggal": "2026-01-19",
+      "keterangan": "Sosial",
+      "no_dok": "B-8-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 5,
+      "keluar_harga": 62172.0,
+      "keluar_jumlah": 310860.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001199",
+      "tanggal": "2026-01-14",
+      "keterangan": "Transfer Masuk Online",
+      "no_dok": "B-8-",
+      "masuk_unit": 4,
+      "masuk_harga": 3617.0,
+      "masuk_jumlah": 14468.0,
+      "keluar_unit": 0,
+      "keluar_harga": 0.0,
+      "keluar_jumlah": 0.0,
+      "saldo_unit": 4,
+      "saldo_harga": 3617.0,
+      "saldo_jumlah": 14468.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001199",
+      "tanggal": "2026-01-19",
+      "keterangan": "Sosial",
+      "no_dok": "B-8-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 4,
+      "keluar_harga": 3617.0,
+      "keluar_jumlah": 14468.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001200",
+      "tanggal": "2026-01-14",
+      "keterangan": "Transfer Masuk Online",
+      "no_dok": "B-8-",
+      "masuk_unit": 4,
+      "masuk_harga": 3725.0,
+      "masuk_jumlah": 14900.0,
+      "keluar_unit": 0,
+      "keluar_harga": 0.0,
+      "keluar_jumlah": 0.0,
+      "saldo_unit": 4,
+      "saldo_harga": 3725.0,
+      "saldo_jumlah": 14900.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001200",
+      "tanggal": "2026-01-19",
+      "keterangan": "Sosial",
+      "no_dok": "B-8-",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 4,
+      "keluar_harga": 3725.0,
+      "keluar_jumlah": 14900.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001201",
+      "tanggal": "2026-02-04",
+      "keterangan": "Transfer Masuk Online",
+      "no_dok": "B-",
+      "masuk_unit": 15,
+      "masuk_harga": 53000.0,
+      "masuk_jumlah": 795000.0,
+      "keluar_unit": 0,
+      "keluar_harga": 0.0,
+      "keluar_jumlah": 0.0,
+      "saldo_unit": 15,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 795000.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001201",
+      "tanggal": "2026-02-06",
+      "keterangan": "Sosial",
+      "no_dok": "013/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 3,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 159000.0,
+      "saldo_unit": 12,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 636000.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001201",
+      "tanggal": "2026-02-06",
+      "keterangan": "Umum",
+      "no_dok": "014/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 5,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 265000.0,
+      "saldo_unit": 7,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 371000.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001201",
+      "tanggal": "2026-02-11",
+      "keterangan": "IPDS",
+      "no_dok": "016/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 2,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 106000.0,
+      "saldo_unit": 5,
+      "saldo_harga": 53000.0,
+      "saldo_jumlah": 265000.0
+    },
+    {
+      "item_code": "1.01.03.99.999.001201",
+      "tanggal": "2026-02-18",
+      "keterangan": "Umum",
+      "no_dok": "017/2/2026",
+      "masuk_unit": 0,
+      "masuk_harga": 0.0,
+      "masuk_jumlah": 0.0,
+      "keluar_unit": 5,
+      "keluar_harga": 53000.0,
+      "keluar_jumlah": 265000.0,
+      "saldo_unit": 0,
+      "saldo_harga": 0.0,
+      "saldo_jumlah": 0.0
+    }
+  ],
+  "errors": []
+}
