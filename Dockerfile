@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     zip unzip git \
+    python3 python3-venv python3-pip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install intl gd zip pdo_mysql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -27,6 +28,11 @@ RUN composer install \
     --optimize-autoloader \
     --no-interaction \
     --no-scripts
+
+# SETUP PYTHON VENV FOR SEP-BP
+RUN mkdir -p /app/app/Scripts \
+    && python3 -m venv /app/app/Scripts/venv \
+    && /app/app/Scripts/venv/bin/pip install pdfplumber
 
 # Copy Caddyfile
 COPY Caddyfile /etc/caddy/Caddyfile

@@ -15,6 +15,18 @@ services:
     networks:
       - default
       - mysql-stack_mysql_network
+  queue-worker:
+    container_name: surat-queue
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: php artisan queue:work --timeout=600 --tries=3
+    volumes:
+      - ./.env:/app/.env
+    networks:
+      - default
+      - mysql-stack_mysql_network
 
 networks:
   default: {}
