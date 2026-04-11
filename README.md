@@ -25,6 +25,7 @@ Aplikasi ini dibangun menggunakan teknologi modern:
 - **Database**: MySQL
 - **Plugins & Packages**:
   - `bezhansalleh/filament-shield`: Manajemen Role & Permission.
+  - `maatwebsite/excel`: Ekspor dan impor data Excel.
   - `phpoffice/phpword`: Generasi dokumen Word dari template.
   - `spatie/laravel-settings`: Pengaturan aplikasi.
 
@@ -112,6 +113,8 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 
 ### [Unreleased]
 #### Added
+- Integrasi `maatwebsite/excel` (Laravel Excel) untuk mendukung fitur ekspor laporan ke format spreadsheet (XLSX).
+- Perencanaan pembuatan laporan "Kartu Kendali Persediaan" dengan format *Multi-Sheet* per kategori barang/item.
 - Modul ekstraksi PDF Rincian Buku Persediaan (SEP-BP) tersendiri di `app/Scripts/parse_buku_persediaan.py` menggunakan pustaka Python `pdfplumber`.
 - Output parsing PDF tervalidasi menggunakan format JSON dari script ekstraktor data.
 - Setup environment virtual khusus Python (`venv`) untuk mengisolir *dependencies* parser (pdfplumber) di dalam folder `app/Scripts` agar proses migrasi tidak terhambat.
