@@ -50,5 +50,12 @@ jobs:
       - name: Build Assets
         run: npm run build
 
+      - name: Setup Python Environment (SEP-BP)
+        run: |
+          mkdir -p app/Scripts
+          python3 -m venv app/Scripts/venv
+          source app/Scripts/venv/bin/activate
+          pip install pdfplumber
+
       - name: Run Tests
         run: ./vendor/bin/pest
