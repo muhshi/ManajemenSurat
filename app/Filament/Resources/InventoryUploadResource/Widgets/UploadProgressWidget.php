@@ -13,7 +13,7 @@ class UploadProgressWidget extends Widget
 
     public function getActiveUploads()
     {
-        // Get the latest 2 uploads to show in widget
-        return InventoryUpload::latest('id')->take(2)->get();
+        // Get the latest 1 upload to show in widget
+        return InventoryUpload::latest('id')->take(1)->get();
     }
 }

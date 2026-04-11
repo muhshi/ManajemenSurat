@@ -1,12 +1,12 @@
 <x-filament-widgets::widget>
     <x-filament::section>
         <div wire:poll.2s>
-            <h3 class="text-base font-semibold leading-6 mb-3">Live Progress Server (2 Proses Terakhir)</h3>
+            <h3 class="text-base font-semibold leading-6 mb-3">Live Progress Server (Proses Terakhir)</h3>
             @php $uploads = $this->getActiveUploads(); @endphp
             @if($uploads->isEmpty())
                 <p class="text-sm text-gray-500">Belum ada riwayat proses upload.</p>
             @endif
-            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <div class="grid grid-cols-1 gap-4">
                 @foreach($uploads as $upload)
                     <div class="bg-gray-900 rounded-lg p-3 overflow-hidden shadow-inner border border-gray-800">
                         <div class="flex justify-between items-center mb-2 border-b border-gray-700 pb-2">

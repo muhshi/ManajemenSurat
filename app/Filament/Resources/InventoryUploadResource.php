@@ -79,6 +79,12 @@ class InventoryUploadResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('print')
+                    ->label('Print Laporan')
+                    ->icon('heroicon-o-printer')
+                    ->color('success')
+                    ->url(fn (InventoryUpload $record) => route('inventory-upload.print', $record))
+                    ->openUrlInNewTab(),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

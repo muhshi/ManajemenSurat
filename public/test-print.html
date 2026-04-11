@@ -1,0 +1,3825 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Print Nota Permintaan</title>
+    <style>
+        body { 
+            font-family: 'Helvetica', 'Arial', sans-serif; 
+            font-size: 13px; 
+            margin: 0;
+            padding: 0;
+            background-color: #525659; /* PDF viewer background */
+        }
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 20mm;
+            margin: 20px auto;
+            box-sizing: border-box;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            page-break-after: always;
+            position: relative;
+        }
+        @media print {
+            body { background: none; }
+            .page { 
+                margin: 0; 
+                padding: 10mm; 
+                border: none; 
+                min-height: auto; 
+                box-shadow: none; 
+                width: 100%; 
+            }
+            .no-print { display: none !important; }
+        }
+        .header-table {
+            width: 100%;
+            border: none;
+            margin-bottom: 15px;
+        }
+        .header-table td {
+            border: none;
+            padding: 2px;
+            vertical-align: top;
+        }
+        .logo { width: 55px; height: auto; }
+        .kop-text { font-weight: bold; font-size: 14px; line-height: 1.2; }
+        .kop-text-address { font-size: 10px; font-weight: normal; }
+        
+        .title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 13px;
+            text-decoration: underline;
+            margin: 20px 0 15px 0;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #111;
+            padding: 6px 4px;
+            font-size: 12px;
+            height: 24px;
+        }
+        .data-table th {
+            text-align: center;
+            font-weight: normal;
+        }
+        .text-center { text-align: center; }
+        .col-no { width: 5%; text-align: center; }
+        .col-nama { width: 45%; }
+        .col-banyak { width: 15%; text-align: center; }
+        .col-ket { width: 35%; text-align: center; }
+        
+        .signatures {
+            width: 100%;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        .sig-left { 
+            float: left; 
+            width: 35%;
+            text-align: center;
+        }
+        .sig-right { 
+            float: right; 
+            width: 35%;
+            text-align: center;
+        }
+        
+        .sig-center { 
+            margin: 0 auto; 
+            display: block; 
+            width: 35%; 
+            text-align: center; 
+            margin-top: 130px; 
+            clear: both;
+        }
+        
+        .signature-line {
+            display: inline-block;
+            min-width: 140px;
+            border-bottom: 1px solid #000;
+            margin-top: 50px;
+            height: 10px;
+        }
+        
+        .nip-text {
+            text-align: left;
+            margin-left: max(0px, calc(50% - 70px));
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print" style="text-align: center; padding: 15px; background: #e0e0e0; position: sticky; top: 0; z-index: 100;">
+        <button onclick="window.print()" style="padding: 10px 20px; font-size: 14px; cursor: pointer; font-weight: bold; background: #4CAF50; color: white; border: none; border-radius: 4px;">Print PDF</button>
+        <button onclick="window.close()" style="padding: 10px 20px; font-size: 14px; cursor: pointer; margin-left: 10px; border: 1px solid #ccc; background: #fff; border-radius: 4px;">Tutup</button>
+    </div>
+
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    018/2/2026<br>
+                    20/02/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">penghapus stedler</td>
+                    <td class="col-banyak">3</td>
+                    <td class="col-ket">Ipds</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">stopmap kertas</td>
+                    <td class="col-banyak">4</td>
+                    <td class="col-ket">Ipds</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Ipds</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Tinta Epson 008 Magenta</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Ipds</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20/02/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    002/1/2026<br>
+                    05/01/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">klip biasa</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">POST IT</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">LAKBAN HITAM NEW</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">2</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;05/01/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    004/1/2026, B-308-<br>
+                    08/01/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">klip biasa</td>
+                    <td class="col-banyak">2</td>
+                    <td class="col-ket">Distribusi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">STOPMAP KOP</td>
+                    <td class="col-banyak">6</td>
+                    <td class="col-ket">Distribusi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Pedoman Pendata Susenas Maret 2026 (1)</td>
+                    <td class="col-banyak">61</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Pedoman Pemeriksa Susenas Maret 2026</td>
+                    <td class="col-banyak">34</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">5.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Konsep dan Definisi Susenas Maret 2026</td>
+                    <td class="col-banyak">89</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">6.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Pedoman Seruti 2026 (1)</td>
+                    <td class="col-banyak">36</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">7.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kuesioner VSEN26.K (1)</td>
+                    <td class="col-banyak">89</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">8.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kuesioner VSEN26.K (2)</td>
+                    <td class="col-banyak">889</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">9.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kuesioner VSEN26.KP (1)</td>
+                    <td class="col-banyak">89</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">10.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kuesioner VSEN26.KP (2)</td>
+                    <td class="col-banyak">889</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">11.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kuesioner VSEN26.DSSLS (2)</td>
+                    <td class="col-banyak">89</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">12.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kuesioner VSEN26.P (1)</td>
+                    <td class="col-banyak">89</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">13.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kuesioner VSEN26.DSRT (2)</td>
+                    <td class="col-banyak">89</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">14.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kuesioner VSERUTI26.INTI (1)</td>
+                    <td class="col-banyak">36</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">15.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kuesioner VSERUTI26.INTI (2)</td>
+                    <td class="col-banyak">213</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">16.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">17.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;08/01/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    005/1/2026<br>
+                    12/01/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">klip biasa</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">STOPMAP KOP</td>
+                    <td class="col-banyak">12</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">2</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">4.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12/01/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    010/2/2026<br>
+                    02/02/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">klip biasa</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">POST IT</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">3</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Map arsip</td>
+                    <td class="col-banyak">12</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;02/02/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    012/2/2026, B-<br>
+                    04/02/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">klip biasa</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Produksi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">stopmap kertas</td>
+                    <td class="col-banyak">3</td>
+                    <td class="col-ket">Produksi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">STOPMAP KOP</td>
+                    <td class="col-banyak">3</td>
+                    <td class="col-ket">Produksi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">2</td>
+                    <td class="col-ket">Produksi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">5.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas A4 Natural SNLIK26 Demak</td>
+                    <td class="col-banyak">15</td>
+                    <td class="col-ket">Transfer Masuk Online</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;04/02/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    020/2/2026<br>
+                    25/02/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">klip biasa</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">produksi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">STOPMAP KOP</td>
+                    <td class="col-banyak">5</td>
+                    <td class="col-ket">produksi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">produksi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">AMPLOP KOP BESAR</td>
+                    <td class="col-banyak">300</td>
+                    <td class="col-ket">produksi</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25/02/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    021/2/2026<br>
+                    27/02/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">klip biasa</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">STOPMAP KOP</td>
+                    <td class="col-banyak">5</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">AMPLOP KECIL</td>
+                    <td class="col-banyak">154</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;27/02/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    016/2/2026<br>
+                    11/02/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">BINDER KLIP 107 (JOYKO)</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">IPDS</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">TINTA EPSON 008 colour</td>
+                    <td class="col-banyak">3</td>
+                    <td class="col-ket">IPDS</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas A4 Natural SNLIK26 Demak</td>
+                    <td class="col-banyak">2</td>
+                    <td class="col-ket">IPDS</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">4.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11/02/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    017/2/2026<br>
+                    18/02/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">BINDER KLIP NO 200</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">stopmap kertas</td>
+                    <td class="col-banyak">5</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">LAKBAN BENING BESAR</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas A4 Natural SNLIK26 Demak</td>
+                    <td class="col-banyak">5</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18/02/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    013/2/2026, 014/2/2026<br>
+                    06/02/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">stopmap kertas</td>
+                    <td class="col-banyak">3</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">AMPLOP KOP BESAR</td>
+                    <td class="col-banyak">3</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">TINTA EPSON 001</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas A4 Natural SNLIK26 Demak</td>
+                    <td class="col-banyak">3</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">5.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas A4 Natural SNLIK26 Demak</td>
+                    <td class="col-banyak">5</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;06/02/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    015/2/2026<br>
+                    09/02/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">stopmap kertas</td>
+                    <td class="col-banyak">2</td>
+                    <td class="col-ket">Distribusi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">POST IT</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Distribusi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">2</td>
+                    <td class="col-ket">Distribusi</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">4.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;09/02/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    003/1/2026<br>
+                    07/01/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">STOPMAP KOP</td>
+                    <td class="col-banyak">6</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">2</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">3.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">4.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;07/01/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    008/1/2026<br>
+                    26/01/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">STOPMAP KOP</td>
+                    <td class="col-banyak">3</td>
+                    <td class="col-ket">Produksi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Produksi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">AMPLOP KOP BESAR</td>
+                    <td class="col-banyak">139</td>
+                    <td class="col-ket">Produksi</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">AMPLOP KECIL</td>
+                    <td class="col-banyak">155</td>
+                    <td class="col-ket">Produksi</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;26/01/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    019/2/2026<br>
+                    23/02/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">STOPMAP KOP</td>
+                    <td class="col-banyak">3</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">LAKBAN BENING BESAR</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">BOX arsip</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Map arsip</td>
+                    <td class="col-banyak">30</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23/02/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    006/1/2026<br>
+                    13/01/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Neraca</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">2.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">3.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">4.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13/01/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    007/1/2026<br>
+                    20/01/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">IPDS</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">2.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">3.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">4.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20/01/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    009/1/2026<br>
+                    29/01/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kertas HVS A4</td>
+                    <td class="col-banyak">2</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">AMPLOP KECIL</td>
+                    <td class="col-banyak">135</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">PEMBERSIH LANTAI (SOKLIN )</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">SABUN CUCI PIRING REFILL</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">5.</td>
+                    <td class="col-nama" style="padding-left: 8px;">BATU BATERAI AA (ALKALINE)</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">umum</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;29/01/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    001/1/2026<br>
+                    02/01/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">PEMBERSIH LANTAI (SOKLIN )</td>
+                    <td class="col-banyak">2</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">CLING REFILL</td>
+                    <td class="col-banyak">2</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">SABUN CUCI PIRING REFILL</td>
+                    <td class="col-banyak">2</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">SABUN CUCI TANGAN REFILL</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">5.</td>
+                    <td class="col-nama" style="padding-left: 8px;">PENGHARUM RUANGAN (STELLA)</td>
+                    <td class="col-banyak">3</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">6.</td>
+                    <td class="col-nama" style="padding-left: 8px;">PENGHARUM RUANGAN BATHROOM</td>
+                    <td class="col-banyak">4</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">7.</td>
+                    <td class="col-nama" style="padding-left: 8px;">tisu</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">8.</td>
+                    <td class="col-nama" style="padding-left: 8px;">BATU BATERAI AA (ALKALINE)</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;02/01/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    011/2/2026<br>
+                    03/02/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">PEMBERSIH LANTAI (WIPOL)</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">SABUN CUCI TANGAN REFILL</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">PEMBERSIH LANTAI (VIXAL)</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">BATU BATERAI AA (ALKALINE)</td>
+                    <td class="col-banyak">1</td>
+                    <td class="col-ket">Umum</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;03/02/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    B-9-<br>
+                    15/01/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kalender Dinding 2026 (1)</td>
+                    <td class="col-banyak">46</td>
+                    <td class="col-ket">Transfer Masuk Online</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kalender Meja 2026</td>
+                    <td class="col-banyak">36</td>
+                    <td class="col-ket">Transfer Masuk Online</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Buku Kerja 2026</td>
+                    <td class="col-banyak">36</td>
+                    <td class="col-ket">Transfer Masuk Online</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">4.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">5.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15/01/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    B-8-<br>
+                    14/01/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">&quot;Buku Pedoman Penjelasan Umum SNLIK</td>
+                    <td class="col-banyak">5</td>
+                    <td class="col-ket">Transfer Masuk Online</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">&quot;Buku Pedoman Konsep dan Definisi SNLIK</td>
+                    <td class="col-banyak">5</td>
+                    <td class="col-ket">Transfer Masuk Online</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Showcard SNLIK 2026</td>
+                    <td class="col-banyak">5</td>
+                    <td class="col-ket">Transfer Masuk Online</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kuesioner Pemutakhiran SNLIK 2026</td>
+                    <td class="col-banyak">4</td>
+                    <td class="col-ket">Transfer Masuk Online</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">5.</td>
+                    <td class="col-nama" style="padding-left: 8px;">&quot;Kuesioner Pendataan SNLIK 2026</td>
+                    <td class="col-banyak">4</td>
+                    <td class="col-ket">Transfer Masuk Online</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14/01/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+        <div class="page">
+        <table class="header-table">
+            <tr>
+                <td style="width: 70px; text-align: center; vertical-align: middle;">
+                    <img src="http://localhost:8000/images/logo_bps.png" class="logo" alt="-">
+                </td>
+                <td style="width: 50%;">
+                    <div class="kop-text">BADAN PUSAT STATISTIK<br>KABUPATEN DEMAK</div>
+                    <div class="kop-text-address">Jl. Sultan Hadiwijaya 23 Demak, Telp (0291) 685445</div>
+                </td>
+                <td style="width: 10%;">
+                    No<br>
+                    Dibukukan
+                </td>
+                <td style="width: 2%;">
+                    :<br>:
+                </td>
+                <td style="width: 38%;">
+                    B-8-<br>
+                    19/01/2026
+                </td>
+            </tr>
+        </table>
+
+        <div class="title">NOTA PERMINTAAN ALAT TULIS KANTOR / CETAKAN / PUBLIKASI</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-no" style="font-weight: bold;">No</th>
+                    <th class="col-nama" style="font-weight: bold;">Nama Barang</th>
+                    <th class="col-banyak" style="font-weight: bold;">Banyaknya</th>
+                    <th class="col-ket" style="font-weight: bold;">KETERANGAN</th>
+                </tr>
+                <tr>
+                    <th class="text-center">(1)</th>
+                    <th class="text-center">(2)</th>
+                    <th class="text-center">(3)</th>
+                    <th class="text-center">(4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <td class="col-no">1.</td>
+                    <td class="col-nama" style="padding-left: 8px;">&quot;Buku Pedoman Penjelasan Umum SNLIK</td>
+                    <td class="col-banyak">5</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">2.</td>
+                    <td class="col-nama" style="padding-left: 8px;">&quot;Buku Pedoman Konsep dan Definisi SNLIK</td>
+                    <td class="col-banyak">5</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">3.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Showcard SNLIK 2026</td>
+                    <td class="col-banyak">5</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">4.</td>
+                    <td class="col-nama" style="padding-left: 8px;">Kuesioner Pemutakhiran SNLIK 2026</td>
+                    <td class="col-banyak">4</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                <tr>
+                    <td class="col-no">5.</td>
+                    <td class="col-nama" style="padding-left: 8px;">&quot;Kuesioner Pendataan SNLIK 2026</td>
+                    <td class="col-banyak">4</td>
+                    <td class="col-ket">Sosial</td>
+                </tr>
+                                
+                
+                                <tr>
+                    <td class="col-no text-center">6.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">7.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">8.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">9.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">10.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">11.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">12.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">13.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                                <tr>
+                    <td class="col-no text-center">14.</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-left">
+                Yang Menerima
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+            
+            <div class="sig-right">
+                Demak, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;19/01/2026
+                <br>
+                <span style="border-bottom: 1px dotted #000; width: 140px; display: inline-block; height: 18px;"></span>
+                <br>
+                <div class="signature-line"></div>
+                <div class="nip-text">NIP.</div>
+            </div>
+
+            <div class="sig-center">
+                SETUJU DIKELUARKAN<br>
+                Kasubbag Umum
+                <br>
+                <br>
+                <br>
+                <br>
+                <div style="font-weight: bold; text-decoration: underline;">SUCIPTO, ST</div>
+                <div>NIP. 19780630 200604 1 003</div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>
