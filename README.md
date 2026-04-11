@@ -15,6 +15,10 @@ Aplikasi Manajemen Surat untuk BPS Kabupaten Demak yang dibangun menggunakan Lar
   - **Profil Pengguna**: Setiap pengguna dapat mengelola profil mereka sendiri (Nama, NIP, Jabatan, dll).
   - **Import & Export**: Fitur import user dari Excel dan download template import (khusus Super Admin).
   - **WhatsApp**: Penyimpanan nomor WhatsApp untuk integrasi notifikasi (future dev).
+- **Manajemen Persediaan**:
+  - **Ekstraksi Data**: Otomatisasi pengambilan data dari PDF Rincian Buku Persediaan (SEP-BP).
+  - **Generasi Bon Harian**: Pembuatan Nota Permintaan / Bon Permintaan barang secara otomatis.
+  - **Kartu Kendali (WIP)**: Laporan mutasi barang per item dalam format Excel multi-sheet.
 
 ## Teknologi
 
@@ -113,6 +117,7 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 
 ### [Unreleased]
 #### Added
+- Fitur **Generasi Bon Harian** (Nota Permintaan) otomatis berdasarkan pengelompokan transaksi persediaan per tanggal.
 - Integrasi `maatwebsite/excel` (Laravel Excel) untuk mendukung fitur ekspor laporan ke format spreadsheet (XLSX).
 - Perencanaan pembuatan laporan "Kartu Kendali Persediaan" dengan format *Multi-Sheet* per kategori barang/item.
 - Modul ekstraksi PDF Rincian Buku Persediaan (SEP-BP) tersendiri di `app/Scripts/parse_buku_persediaan.py` menggunakan pustaka Python `pdfplumber`.
