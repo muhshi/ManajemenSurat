@@ -117,15 +117,17 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 
 ### [Unreleased]
 #### Added
+- Fitur **Export Kartu Kendali Persediaan** ke Excel (`.xlsx`) dengan format multi-sheet per item barang, berisi tabel ringkasan bulanan dan rincian transaksi lengkap dengan logo BPS.
 - Fitur **Generasi Bon Harian** (Nota Permintaan) otomatis berdasarkan pengelompokan transaksi persediaan per tanggal.
 - Integrasi `maatwebsite/excel` (Laravel Excel) untuk mendukung fitur ekspor laporan ke format spreadsheet (XLSX).
-- Perencanaan pembuatan laporan "Kartu Kendali Persediaan" dengan format *Multi-Sheet* per kategori barang/item.
 - Modul ekstraksi PDF Rincian Buku Persediaan (SEP-BP) tersendiri di `app/Scripts/parse_buku_persediaan.py` menggunakan pustaka Python `pdfplumber`.
 - Output parsing PDF tervalidasi menggunakan format JSON dari script ekstraktor data.
 - Setup environment virtual khusus Python (`venv`) untuk mengisolir *dependencies* parser (pdfplumber) di dalam folder `app/Scripts` agar proses migrasi tidak terhambat.
 - **UploadProgressWidget**: Fitur pemantauan Real-time progress upload buku persediaan berbentuk Terminal Log UI, polling 2 detik.
 
 #### Changed
+- **Dockerfile**: Menambahkan post-install scripts (`package:discover`, `filament:upgrade`, `storage:link`) dan pembuatan direktori `storage/framework`.
+- **docker-compose.yml**: Menambahkan shared `storage_data` volume antara container web dan queue worker agar file upload dan log dapat diakses bersama.
 - Skrip Upload SEP-BP sekarang memproses ekstraksi melalui **Queue (Background Job)** (`ProcessInventoryUpload`) alih-alih dieksekusi sinkron untuk menghindari batas waktu Time-out PHP (30 detik).
 - Optimalisasi penyisipan master data Barang dari Eloquent Insert loop ke **Upsert Massal** (`Item::upsert`) menjadi 1 kueri database (mengurangi waktu penambahan item dari hitungan menit menjadi milidetik).
 - Format tampilan kolom `Filename` pada grid upload dipersingkat membuang absolute path dengan `basename()`.

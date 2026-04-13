@@ -12,6 +12,7 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./.env:/app/.env
+      - storage_data:/app/storage
     networks:
       - default
       - mysql-stack_mysql_network
@@ -24,9 +25,13 @@ services:
     command: php artisan queue:work --timeout=600 --tries=3
     volumes:
       - ./.env:/app/.env
+      - storage_data:/app/storage
     networks:
       - default
       - mysql-stack_mysql_network
+
+volumes:
+  storage_data:
 
 networks:
   default: {}

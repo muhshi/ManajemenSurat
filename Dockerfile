@@ -3,7 +3,7 @@ FROM dunglas/frankenphp:php8.3
 ENV SERVER_NAME=":80"
 WORKDIR /app
 
-# Install system deps & PHP extensions (WAJIB sebelum composer)
+# Install system deps & PHP extensions
 RUN apt-get update && apt-get install -y \
     libicu-dev \
     libzip-dev \
@@ -22,14 +22,14 @@ COPY . /app
 # Install composer binary
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# INSTALL DEPENDENCIES (KUNCI)
+# INSTALL DEPENDENCIES
 RUN composer install \
     --no-dev \
     --optimize-autoloader \
     --no-interaction \
     --no-scripts
 
-# SETUP PYTHON VENV FOR SEP-BP
+# SETUP PYTHON VENV FOR SEP-BP (PDF Extraction)
 RUN mkdir -p /app/app/Scripts \
     && python3 -m venv /app/app/Scripts/venv \
     && /app/app/Scripts/venv/bin/pip install pdfplumber
@@ -37,7 +37,11 @@ RUN mkdir -p /app/app/Scripts \
 # Copy Caddyfile
 COPY Caddyfile /etc/caddy/Caddyfile
 
-RUN mkdir -p storage bootstrap/cache \
+# Post-install: generate Laravel caches & Filament assets
+RUN mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache \
+    && php artisan package:discover --ansi \
+    && php artisan filament:upgrade \
+    && php artisan storage:link || true \
     && chown -R www-data:www-data storage bootstrap/cache
 
 EXPOSE 80
