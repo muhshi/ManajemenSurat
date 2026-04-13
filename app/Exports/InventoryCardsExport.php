@@ -21,16 +21,20 @@ class InventoryCardsExport implements WithMultipleSheets
     public function sheets(): array
     {
         $sheets = [];
-        
-        // Ambil hanya item yang memiliki transaksi
-        $items = Item::whereHas('transactions')
+        $year = $this->year;
+
+        // Ambil item yang memiliki transaksi di tahun tersebut
+        $items = Item::whereHas('transactions', function ($q) use ($year) {
+                $q->whereYear('tanggal', $year);
+            })
             ->with(['transactions' => function ($query) {
+                // Ambil SEMUA transaksi item (untuk hitung carry-over saldo awal & rincian)
                 $query->orderBy('tanggal', 'asc')->orderBy('id', 'asc');
-            }])->get();
+            }])
+            ->get();
 
         $index = 1;
         foreach ($items as $item) {
-            // Buat 1 sheet untuk setiap item (barang)
             $sheets[] = new InventoryItemSheet($item, $this->year, $index);
             $index++;
         }

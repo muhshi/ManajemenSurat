@@ -18,7 +18,8 @@ Aplikasi Manajemen Surat untuk BPS Kabupaten Demak yang dibangun menggunakan Lar
 - **Manajemen Persediaan**:
   - **Ekstraksi Data**: Otomatisasi pengambilan data dari PDF Rincian Buku Persediaan (SEP-BP).
   - **Generasi Bon Harian**: Pembuatan Nota Permintaan / Bon Permintaan barang secara otomatis.
-  - **Kartu Kendali (WIP)**: Laporan mutasi barang per item dalam format Excel multi-sheet.
+  - **Kartu Kendali Persediaan**: Ekspor laporan mutasi barang tahunan per item ke Excel multi-sheet, dengan saldo carry-over antar tahun.
+  - **Permintaan Barang**: Modul pengajuan permintaan barang dengan repeater item dan tanda tangan digital.
 
 ## Teknologi
 
@@ -117,22 +118,24 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 
 ### [Unreleased]
 #### Added
+- Modul **Permintaan Barang** baru: resource Filament dengan form nama peminta, tanggal, repeater daftar barang (nama, jumlah, satuan, keterangan), dan **Tanda Tangan Digital** berbasis HTML5 Canvas (Alpine.js, touch-enabled, disimpan sebagai Base64 PNG).
+- Tabel `permintaan_barangs` dan `permintaan_barang_items` beserta models dengan relasi `hasMany` / `belongsTo`.
+- **Export Kartu Kendali Tahunan**: export XLSX sekarang filter per tahun yang dipilih via modal di UI, dengan **saldo carry-over** dari akhir tahun sebelumnya tampil sebagai baris "Saldo Awal Tahun XXXX" di tabel rincian.
 - Fitur **Export Kartu Kendali Persediaan** ke Excel (`.xlsx`) dengan format multi-sheet per item barang, berisi tabel ringkasan bulanan dan rincian transaksi lengkap dengan logo BPS.
 - Fitur **Generasi Bon Harian** (Nota Permintaan) otomatis berdasarkan pengelompokan transaksi persediaan per tanggal.
 - Integrasi `maatwebsite/excel` (Laravel Excel) untuk mendukung fitur ekspor laporan ke format spreadsheet (XLSX).
 - Modul ekstraksi PDF Rincian Buku Persediaan (SEP-BP) tersendiri di `app/Scripts/parse_buku_persediaan.py` menggunakan pustaka Python `pdfplumber`.
-- Output parsing PDF tervalidasi menggunakan format JSON dari script ekstraktor data.
-- Setup environment virtual khusus Python (`venv`) untuk mengisolir *dependencies* parser (pdfplumber) di dalam folder `app/Scripts` agar proses migrasi tidak terhambat.
 - **UploadProgressWidget**: Fitur pemantauan Real-time progress upload buku persediaan berbentuk Terminal Log UI, polling 2 detik.
 
 #### Changed
+- **Kartu Kendali**: tombol export sekarang membuka modal pilih tahun sebelum download.
+- **Print Laporan Nota Permintaan**: posisi label "Kasubbag Umum" dipindah ke bawah nama dan NIP penandatangan (setelah garis TTD), bukan di samping tulisan "SETUJU DIKELUARKAN".
 - **Dockerfile**: Menambahkan post-install scripts (`package:discover`, `filament:upgrade`, `storage:link`) dan pembuatan direktori `storage/framework`.
 - **docker-compose.yml**: Menambahkan shared `storage_data` volume antara container web dan queue worker agar file upload dan log dapat diakses bersama.
-- Skrip Upload SEP-BP sekarang memproses ekstraksi melalui **Queue (Background Job)** (`ProcessInventoryUpload`) alih-alih dieksekusi sinkron untuk menghindari batas waktu Time-out PHP (30 detik).
-- Optimalisasi penyisipan master data Barang dari Eloquent Insert loop ke **Upsert Massal** (`Item::upsert`) menjadi 1 kueri database (mengurangi waktu penambahan item dari hitungan menit menjadi milidetik).
-- Format tampilan kolom `Filename` pada grid upload dipersingkat membuang absolute path dengan `basename()`.
-- Waktu `timeout` pada Worker ditingkatkan menjadi 600 detik baik pada properti Job `timeout` maupun dev script `php artisan queue:listen`.
+- Skrip Upload SEP-BP sekarang memproses ekstraksi melalui **Queue (Background Job)** (`ProcessInventoryUpload`) alih-alih dieksekusi sinkron.
+- Optimalisasi penyisipan master data Barang ke **Upsert Massal** (`Item::upsert`) menjadi 1 kueri database.
+- Format tampilan kolom `Filename` pada grid upload dipersingkat dengan `basename()`.
 
 #### Fixed
-- Duplikasi transaksi laporan persediaan yang sama berulang kali diatasi dengan integrasi **Sidik Jari SHA-256 (`tx_hash`)** unik sebagai penanda primer. Transaksi kembar hanya akan tersinkronisasi / memicu UPSERT menimpa data bukannya menduplikat.
-- Memperbaiki format penulisan "Nama Barang" pada cetak dokumen PDF Nota Permintaan agar lebih rapi dan seragam menggunakan format huruf kapital di awal setiap kata (Title Case).
+- Duplikasi transaksi diatasi dengan integrasi **Sidik Jari SHA-256 (`tx_hash`)** unik sebagai penanda primer.
+- Memperbaiki format "Nama Barang" pada cetak PDF Nota Permintaan menggunakan Title Case.

@@ -52,7 +52,26 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                $transactions = $this->item->transactions;
+                $allTransactions = $this->item->transactions;
+                $year = $this->year;
+
+                // ============================================================
+                // PISAHKAN: transaksi sebelum tahun ini (untuk carry-over)
+                //           transaksi dalam tahun ini (untuk ditampilkan)
+                // ============================================================
+                $prevTransactions = $allTransactions->filter(function ($tx) use ($year) {
+                    return $tx->tanggal && \Carbon\Carbon::parse($tx->tanggal)->year < $year;
+                });
+
+                $transactions = $allTransactions->filter(function ($tx) use ($year) {
+                    return $tx->tanggal && \Carbon\Carbon::parse($tx->tanggal)->year == $year;
+                })->values();
+
+                // Saldo carry-over = saldo_unit dari transaksi terakhir sebelum tahun ini
+                $carryOverSaldo = 0;
+                if ($prevTransactions->isNotEmpty()) {
+                    $carryOverSaldo = $prevTransactions->last()->saldo_unit;
+                }
 
                 $thinBorder = [
                     'borders' => [
@@ -127,11 +146,11 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
                 // ============================================================
                 $r = 6;
                 $sheet->mergeCells("A{$r}:O{$r}");
-                $sheet->setCellValue("A{$r}", 'RINGKASAN PENGELUARAN PER BULAN');
+                $sheet->setCellValue("A{$r}", 'RINGKASAN PENGELUARAN PER BULAN - TAHUN ' . $this->year);
                 $boldCenter("A{$r}:O{$r}");
                 $sheet->getStyle("A{$r}:O{$r}")->applyFromArray($headerFill);
 
-                // Row 7: Header bulan - semua 12 bulan dalam 1 baris horizontal
+                // Row 7: Header bulan
                 $r = 7;
                 $months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
                 $monthCols = ['A','B','C','D','E','F','G','H','I','J','K','L'];
@@ -151,20 +170,11 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
                 $sheet->getStyle("A{$r}:O{$r}")->getAlignment()->setWrapText(true);
                 $sheet->getRowDimension($r)->setRowHeight(25);
 
-                // Hitung pengeluaran per bulan dari transaksi
+                // Hitung pengeluaran per bulan dari transaksi TAHUN INI saja
                 $monthlyOut = array_fill(1, 12, 0);
-                $stockAwal = 0;
-                $firstSaldo = null;
-
                 foreach ($transactions as $tx) {
-                    if ($tx->tanggal) {
-                        $bulan = (int) \Carbon\Carbon::parse($tx->tanggal)->format('m');
-                        $monthlyOut[$bulan] += $tx->keluar_unit;
-                    }
-                    if ($firstSaldo === null) {
-                        $stockAwal = $tx->saldo_unit + $tx->keluar_unit - $tx->masuk_unit;
-                        $firstSaldo = true;
-                    }
+                    $bulan = (int) \Carbon\Carbon::parse($tx->tanggal)->format('m');
+                    $monthlyOut[$bulan] += $tx->keluar_unit;
                 }
 
                 // Row 8: Angka pengeluaran per bulan
@@ -175,9 +185,9 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
                 }
                 $totalOut = array_sum($monthlyOut);
                 $sheet->setCellValue("M{$r}", $totalOut > 0 ? $totalOut : 0);
-                $sheet->setCellValue("N{$r}", $stockAwal);
+                $sheet->setCellValue("N{$r}", $carryOverSaldo);  // Stock Awal = carry-over
                 $lastTx = $transactions->last();
-                $sheet->setCellValue("O{$r}", $lastTx ? $lastTx->saldo_unit : 0);
+                $sheet->setCellValue("O{$r}", $lastTx ? $lastTx->saldo_unit : $carryOverSaldo);
                 $sheet->getStyle("A{$r}:O{$r}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyle("A{$r}:O{$r}")->getFont()->setSize(9);
 
@@ -189,7 +199,7 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
                 // ============================================================
                 $r = 10;
                 $sheet->mergeCells("A{$r}:I{$r}");
-                $sheet->setCellValue("A{$r}", 'RINCIAN TRANSAKSI');
+                $sheet->setCellValue("A{$r}", 'RINCIAN TRANSAKSI TAHUN ' . $this->year);
                 $boldCenter("A{$r}:I{$r}");
                 $sheet->getStyle("A{$r}:I{$r}")->applyFromArray($headerFill);
 
@@ -207,8 +217,21 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
                 $sheet->getStyle("A{$r}:I{$r}")->getFont()->setSize(8);
                 $sheet->getRowDimension($r)->setRowHeight(28);
 
-                // Data transaksi
+                // ============================================================
+                // BARIS SALDO AWAL (carry-over dari tahun sebelumnya)
+                // ============================================================
                 $r = 12;
+                $sheet->mergeCells("A{$r}:E{$r}");
+                $sheet->setCellValue("A{$r}", 'Saldo Awal Tahun ' . $this->year);
+                $sheet->getStyle("A{$r}")->getFont()->setBold(true)->setItalic(true)->setSize(8);
+                $sheet->getStyle("A{$r}:I{$r}")->applyFromArray($headerFill);
+                $sheet->setCellValue("I{$r}", $carryOverSaldo);
+                $sheet->getStyle("I{$r}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+                $sheet->getStyle("I{$r}")->getFont()->setBold(true)->setSize(8);
+
+                // Data transaksi tahun ini
+                $r = 13;
+                $firstData = $r;
                 $no = 1;
                 foreach ($transactions as $tx) {
                     $sheet->setCellValue("A{$r}", $no);
@@ -232,7 +255,6 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
 
                 // JUMLAH row
                 $sumRow = $r;
-                $firstData = 12;
                 $lastData = $sumRow - 1;
 
                 $sheet->mergeCells("A{$sumRow}:E{$sumRow}");
@@ -250,7 +272,7 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
                 $sheet->getStyle("G{$sumRow}:I{$sumRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
                 $sheet->getStyle("A{$sumRow}:I{$sumRow}")->getFont()->setBold(true)->setSize(8);
 
-                // Border tabel rincian
+                // Border tabel rincian (mulai row 10 hingga sumRow, termasuk row saldo awal)
                 $sheet->getStyle("A10:I{$sumRow}")->applyFromArray($thinBorder);
 
                 // ============================================================

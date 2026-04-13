@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->string('tx_hash', 64)->nullable()->unique()->after('id');
-        });
+        if (!Schema::hasColumn('transactions', 'tx_hash')) {
+            Schema::table('transactions', function (Blueprint $table) {
+                $table->string('tx_hash', 64)->nullable()->unique()->after('id');
+            });
+        }
     }
 
     /**

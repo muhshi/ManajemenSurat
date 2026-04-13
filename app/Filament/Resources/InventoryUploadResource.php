@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Exports\InventoryCardsExport;
 use App\Filament\Resources\InventoryUploadResource\Pages;
 use App\Filament\Resources\InventoryUploadResource\RelationManagers;
 use App\Models\InventoryUpload;
@@ -12,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InventoryUploadResource extends Resource
 {
@@ -79,6 +81,31 @@ class InventoryUploadResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('export_kartu_kendali')
+                    ->label('Export Kartu Kendali')
+                    ->icon('heroicon-o-table-cells')
+                    ->color('primary')
+                    ->form([
+                        Forms\Components\Select::make('year')
+                            ->label('Tahun')
+                            ->options(function () {
+                                $currentYear = (int) date('Y');
+                                $years = [];
+                                for ($y = $currentYear; $y >= $currentYear - 10; $y--) {
+                                    $years[$y] = $y;
+                                }
+                                return $years;
+                            })
+                            ->default((int) date('Y'))
+                            ->required(),
+                    ])
+                    ->action(function (array $data) {
+                        $year = $data['year'];
+                        return Excel::download(
+                            new InventoryCardsExport($year),
+                            "kartu-kendali-persediaan-{$year}.xlsx"
+                        );
+                    }),
                 Tables\Actions\Action::make('print')
                     ->label('Print Laporan')
                     ->icon('heroicon-o-printer')
