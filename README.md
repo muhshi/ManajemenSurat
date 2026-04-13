@@ -133,3 +133,4 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 
 #### Fixed
 - Duplikasi transaksi laporan persediaan yang sama berulang kali diatasi dengan integrasi **Sidik Jari SHA-256 (`tx_hash`)** unik sebagai penanda primer. Transaksi kembar hanya akan tersinkronisasi / memicu UPSERT menimpa data bukannya menduplikat.
+- Memperbaiki format penulisan "Nama Barang" pada cetak dokumen PDF Nota Permintaan agar lebih rapi dan seragam menggunakan format huruf kapital di awal setiap kata (Title Case).

@@ -211,7 +211,7 @@
                     @foreach($nota->transactions as $index => $trx)
                     <tr>
                         <td class="col-no">{{ $index + 1 }}.</td>
-                        <td class="col-nama" style="padding-left: 8px;">{{ optional($trx->item)->item_name ?? $trx->item_code }}</td>
+                        <td class="col-nama" style="padding-left: 8px;">{{ ucwords(strtolower(optional($trx->item)->item_name ?? $trx->item_code)) }}</td>
                         <td class="col-banyak">{{ $trx->keluar_unit > 0 ? $trx->keluar_unit : $trx->masuk_unit }}</td>
                         <td class="col-ket">{{ $trx->keterangan }}</td>
                     </tr>
