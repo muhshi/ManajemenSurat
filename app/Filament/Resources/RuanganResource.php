@@ -5,12 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\RuanganResource\Pages\CreateRuangan;
 use App\Filament\Resources\RuanganResource\Pages\EditRuangan;
 use App\Filament\Resources\RuanganResource\Pages\ListRuangans;
-use App\Filament\Resources\RuanganResource\Pages\ViewRuangan;
 use App\Filament\Resources\RuanganResource\RelationManagers\BmnsRelationManager;
 use App\Models\Ruangan;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -56,13 +54,13 @@ class RuanganResource extends Resource
                 Select::make('nama_tipe_ruang')
                     ->label('Tipe Ruang')
                     ->options([
-                        'Ruang Kerja'       => 'Ruang Kerja',
-                        'Ruang Pelayanan'   => 'Ruang Pelayanan',
-                        'Ruang Istirahat'   => 'Ruang Istirahat',
-                        'Ruang Toilet/WC'   => 'Ruang Toilet/WC',
-                        'Ruang Gudang'      => 'Ruang Gudang',
+                        'Ruang Kerja' => 'Ruang Kerja',
+                        'Ruang Pelayanan' => 'Ruang Pelayanan',
+                        'Ruang Istirahat' => 'Ruang Istirahat',
+                        'Ruang Toilet/WC' => 'Ruang Toilet/WC',
+                        'Ruang Gudang' => 'Ruang Gudang',
                         'Ruang Rapat Besar' => 'Ruang Rapat Besar',
-                        'Ruang Ibadah'      => 'Ruang Ibadah',
+                        'Ruang Ibadah' => 'Ruang Ibadah',
                     ])
                     ->searchable(),
 
@@ -108,7 +106,7 @@ class RuanganResource extends Resource
 
                 TextColumn::make('lantai')
                     ->label('Lantai')
-                    ->formatStateUsing(fn ($state) => 'Lantai ' . $state)
+                    ->formatStateUsing(fn($state) => 'Lantai ' . $state)
                     ->badge()
                     ->color('info')
                     ->sortable(),
@@ -130,7 +128,6 @@ class RuanganResource extends Resource
                     ->options([1 => 'Lantai 1', 2 => 'Lantai 2', 3 => 'Lantai 3']),
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
@@ -147,10 +144,9 @@ class RuanganResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListRuangans::route('/'),
+            'index' => ListRuangans::route('/'),
             'create' => CreateRuangan::route('/create'),
-            'view'   => ViewRuangan::route('/{record}'),
-            'edit'   => EditRuangan::route('/{record}/edit'),
+            'edit' => EditRuangan::route('/{record}/edit'),
         ];
     }
 }

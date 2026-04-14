@@ -105,11 +105,11 @@ class BmnsRelationManager extends RelationManager
                     ]),
             ])
             ->headerActions([
-                // Attach aset yang belum punya ruangan atau pindahin dari ruangan lain
                 Action::make('attach_bmn')
                     ->label('Tambahkan Aset ke Ruangan Ini')
                     ->icon('heroicon-o-plus')
                     ->color('primary')
+                    ->modalDescription('Pilih aset dari daftar. Aset yang sudah berada di ruangan lain akan otomatis dipindahkan ke ruangan ini.')
                     ->form([
                         Select::make('bmn_ids')
                             ->label('Pilih Aset BMN')

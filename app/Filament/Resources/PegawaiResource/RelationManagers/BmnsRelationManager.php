@@ -113,6 +113,7 @@ class BmnsRelationManager extends RelationManager
                     ->label('Tugaskan Aset ke Pegawai Ini')
                     ->icon('heroicon-o-plus')
                     ->color('primary')
+                    ->modalDescription('Pilih aset dari daftar. Aset yang sudah ditanggung pegawai lain akan otomatis dipindahkan ke pegawai ini.')
                     ->form([
                         Select::make('bmn_ids')
                             ->label('Pilih Aset BMN')
