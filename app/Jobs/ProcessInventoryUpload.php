@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use Exception;
+use Throwable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -83,7 +85,7 @@ class ProcessInventoryUpload implements ShouldQueue
             $this->logMessage("Python: {$pythonPath}");
 
             if (!file_exists($pythonPath)) {
-                throw new \Exception("Python venv tidak ditemukan di: {$pythonPath}");
+                throw new Exception("Python venv tidak ditemukan di: {$pythonPath}");
             }
 
             $this->logMessage("🔄 Menjalankan Python script... (Ini mungkin memakan waktu)");
@@ -96,7 +98,7 @@ class ProcessInventoryUpload implements ShouldQueue
 
             if ($result->failed()) {
                 $this->logMessage("❌ Python STDERR: " . substr($result->errorOutput(), 0, 500), true);
-                throw new \Exception("Python script failed.");
+                throw new Exception("Python script failed.");
             }
 
             $this->logMessage("✅ Python berhasil, memproses JSON...");
@@ -104,7 +106,7 @@ class ProcessInventoryUpload implements ShouldQueue
             $output = json_decode($result->output(), true);
             if (!$output || $output['status'] !== 'success') {
                 $this->logMessage("❌ JSON tidak valid.", true);
-                throw new \Exception("Invalid JSON output.");
+                throw new Exception("Invalid JSON output.");
             }
 
             $totalItems = count($output['items'] ?? []);
@@ -208,7 +210,7 @@ class ProcessInventoryUpload implements ShouldQueue
 
             $this->logMessage("✅ ====== UPLOAD SELESAI ======");
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logMessage("❌ GAGAL: " . $e->getMessage(), true);
             $upload->update(['status' => 'failed']);
         }
@@ -217,7 +219,7 @@ class ProcessInventoryUpload implements ShouldQueue
     /**
      * Handle a job failure.
      */
-    public function failed(?\Throwable $exception): void
+    public function failed(?Throwable $exception): void
     {
         $error = $exception ? $exception->getMessage() : 'Unknown error';
         $this->logMessage("💀 JOB FAILED FATALLY: " . $error, true);

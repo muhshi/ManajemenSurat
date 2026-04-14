@@ -2,13 +2,13 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use App\Settings\SystemSettings;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -19,10 +19,10 @@ class SystemSettingsPage extends Page implements HasForms
     use InteractsWithForms, HasPageShield;
 
     protected static ?string $slug = 'system-settings';
-    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
-    protected static ?string $navigationGroup = 'Pengaturan';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string | \UnitEnum | null $navigationGroup = 'Pengaturan';
     protected static ?string $title = 'Pengaturan Sistem';
-    protected static string $view = 'filament.pages.system-settings-page';
+    protected string $view = 'filament.pages.system-settings-page';
     protected static ?int $navigationSort = 70;
 
     public ?array $data = [];
@@ -45,9 +45,9 @@ class SystemSettingsPage extends Page implements HasForms
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Section::make('Informasi Kantor')
                 ->description('Pengaturan identitas kantor')
                 ->schema([

@@ -26,7 +26,7 @@ Aplikasi Manajemen Surat untuk BPS Kabupaten Demak yang dibangun menggunakan Lar
 Aplikasi ini dibangun menggunakan teknologi modern:
 
 - **Framework**: [Laravel 12](https://laravel.com)
-- **Admin Panel**: [FilamentPHP v3](https://filamentphp.com)
+- **Admin Panel**: [FilamentPHP v4](https://filamentphp.com)
 - **Database**: MySQL
 - **Plugins & Packages**:
   - `bezhansalleh/filament-shield`: Manajemen Role & Permission.
@@ -139,3 +139,12 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 #### Fixed
 - Duplikasi transaksi diatasi dengan integrasi **Sidik Jari SHA-256 (`tx_hash`)** unik sebagai penanda primer.
 - Memperbaiki format "Nama Barang" pada cetak PDF Nota Permintaan menggunakan Title Case.
+
+### [2026-04-14]
+#### Changed
+- **Upgrade Filament v3 → v4** (`v3.3.45` → `v4.10.0`): Upgrade mayor framework admin panel menggunakan official automated upgrade script.
+- **Upgrade filament-shield v3 → v4** (`v3.9.10` → `v4.2.0`): Kompatibel dengan Filament v4, config diperbarui ke format ShieldConfig baru.
+- **Migrasi struktur direktori ke v4**: Semua resource dipindahkan ke subfolder per model (`SuratKeluars/`, `SuratMasuks/`, `Disposisis/`, dst.) menggunakan artisan command `filament:upgrade-directory-structure-to-v4`.
+- Namespace semua Resource dan Pages diperbarui otomatis oleh upgrade script.
+- `config/filament-shield.php` diperbarui ke format v4 (ShieldConfig object).
+

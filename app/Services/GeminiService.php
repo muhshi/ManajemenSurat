@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Throwable;
 use App\Settings\SystemSettings;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -96,7 +97,7 @@ PROMPT;
 
             return $json;
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error('Gemini Exception', [
                 'message' => $e->getMessage(),
             ]);

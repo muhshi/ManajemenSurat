@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Exception;
+use Illuminate\Support\Carbon;
 use App\Models\Surat;
 use App\Settings\SystemSettings;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -18,13 +20,13 @@ class TemplateService
 
         // Check if template exists
         if (!$settings->template_sk) {
-            throw new \Exception('Template SK belum diupload. Silakan upload template di halaman Pengaturan Kantor.');
+            throw new Exception('Template SK belum diupload. Silakan upload template di halaman Pengaturan Kantor.');
         }
 
         $templatePath = Storage::disk('public')->path($settings->template_sk);
 
         if (!file_exists($templatePath)) {
-            throw new \Exception('File template tidak ditemukan.');
+            throw new Exception('File template tidak ditemukan.');
         }
 
         // Load template
@@ -38,7 +40,7 @@ class TemplateService
         $jenisWord = $surat->perihal === 'Peserta' ? 'Peserta' : 'Petugas';
         $templateProcessor->setValue('jenis', $jenisWord);
 
-        $templateProcessor->setValue('tanggal_surat', \Illuminate\Support\Carbon::parse($surat->tanggal_surat)->translatedFormat('d F Y'));
+        $templateProcessor->setValue('tanggal_surat', Carbon::parse($surat->tanggal_surat)->translatedFormat('d F Y'));
         $templateProcessor->setValue('kepala', $settings->cert_signer_name);
         $templateProcessor->setValue('tahun', $surat->tahun);
 
@@ -63,7 +65,7 @@ class TemplateService
     public function downloadSurat(Surat $surat)
     {
         if (!$surat->file_path || !Storage::disk('local')->exists($surat->file_path)) {
-            throw new \Exception('File surat tidak ditemukan.');
+            throw new Exception('File surat tidak ditemukan.');
         }
 
         $filename = str_replace(['/', ' '], ['-', '_'], $surat->nomor_surat) . '.docx';

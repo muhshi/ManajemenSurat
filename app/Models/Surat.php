@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Settings\SystemSettings;
 use Illuminate\Database\Eloquent\Model;
 
 class Surat extends Model
@@ -61,7 +62,7 @@ class Surat extends Model
      */
     public static function generateNomorSurat(int $nomorUrut, int $tahun, string $jenisSurat = 'Surat Keluar', string $klasifikasi = 'KP.650'): string
     {
-        $settings = app(\App\Settings\SystemSettings::class);
+        $settings = app(SystemSettings::class);
         $nomorUrutPadded = str_pad($nomorUrut, 4, '0', STR_PAD_LEFT);
         $kodeKantor = $settings->office_code ?: '33210';
 

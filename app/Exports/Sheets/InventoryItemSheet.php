@@ -2,6 +2,8 @@
 
 namespace App\Exports\Sheets;
 
+use Carbon\Carbon;
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithDrawings;
@@ -60,11 +62,11 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
                 //           transaksi dalam tahun ini (untuk ditampilkan)
                 // ============================================================
                 $prevTransactions = $allTransactions->filter(function ($tx) use ($year) {
-                    return $tx->tanggal && \Carbon\Carbon::parse($tx->tanggal)->year < $year;
+                    return $tx->tanggal && Carbon::parse($tx->tanggal)->year < $year;
                 });
 
                 $transactions = $allTransactions->filter(function ($tx) use ($year) {
-                    return $tx->tanggal && \Carbon\Carbon::parse($tx->tanggal)->year == $year;
+                    return $tx->tanggal && Carbon::parse($tx->tanggal)->year == $year;
                 })->values();
 
                 // Saldo carry-over = saldo_unit dari transaksi terakhir sebelum tahun ini
@@ -173,7 +175,7 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
                 // Hitung pengeluaran per bulan dari transaksi TAHUN INI saja
                 $monthlyOut = array_fill(1, 12, 0);
                 foreach ($transactions as $tx) {
-                    $bulan = (int) \Carbon\Carbon::parse($tx->tanggal)->format('m');
+                    $bulan = (int) Carbon::parse($tx->tanggal)->format('m');
                     $monthlyOut[$bulan] += $tx->keluar_unit;
                 }
 
@@ -236,7 +238,7 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
                 foreach ($transactions as $tx) {
                     $sheet->setCellValue("A{$r}", $no);
                     $sheet->setCellValue("B{$r}", $tx->no_dok ?? '');
-                    $sheet->setCellValue("C{$r}", $tx->tanggal ? \Carbon\Carbon::parse($tx->tanggal)->format('d/m/Y') : '-');
+                    $sheet->setCellValue("C{$r}", $tx->tanggal ? Carbon::parse($tx->tanggal)->format('d/m/Y') : '-');
                     $sheet->mergeCells("D{$r}:E{$r}");
                     $sheet->setCellValue("D{$r}", $tx->keterangan);
                     $sheet->setCellValue("F{$r}", $tx->masuk_harga > 0 ? $tx->masuk_harga : ($tx->keluar_harga > 0 ? $tx->keluar_harga : ''));
@@ -284,8 +286,8 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
                 // ============================================================
                 // PRINT SETTINGS
                 // ============================================================
-                $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_PORTRAIT);
-                $sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_FOLIO);
+                $sheet->getPageSetup()->setOrientation(PageSetup::ORIENTATION_PORTRAIT);
+                $sheet->getPageSetup()->setPaperSize(PageSetup::PAPERSIZE_FOLIO);
                 $sheet->getPageSetup()->setFitToWidth(1);
                 $sheet->getPageSetup()->setFitToHeight(0);
                 $sheet->getPageMargins()->setTop(0.5);
