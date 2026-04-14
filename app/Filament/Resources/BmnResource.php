@@ -15,7 +15,10 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\BulkAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -384,11 +387,120 @@ class BmnResource extends Resource
                 TernaryFilter::make('usul_hapus')->label('Usul Hapus'),
             ])
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make()->label('Edit Lengkap'),
+
+                    Action::make('assign_ruangan')
+                        ->label('Assign Ruangan')
+                        ->icon('heroicon-o-building-office')
+                        ->color('info')
+                        ->schema([
+                            \Filament\Forms\Components\Select::make('ruangan_id')
+                                ->label('Lokasi Ruangan')
+                                ->options(
+                                    fn () => Ruangan::orderBy('kode_ruang')
+                                        ->get()
+                                        ->mapWithKeys(fn ($r) => [$r->id => $r->kode_ruang . ' – ' . $r->nama_ruang])
+                                )
+                                ->searchable()
+                                ->nullable()
+                                ->placeholder('— Tidak ada lokasi —'),
+                        ])
+                        ->fillForm(fn ($record) => ['ruangan_id' => $record->ruangan_id])
+                        ->action(function ($record, array $data) {
+                            $record->update(['ruangan_id' => $data['ruangan_id']]);
+                            \Filament\Notifications\Notification::make()
+                                ->title('Lokasi diperbarui')
+                                ->success()->send();
+                        }),
+
+                    Action::make('assign_pj')
+                        ->label('Assign Penanggung Jawab')
+                        ->icon('heroicon-o-user-circle')
+                        ->color('warning')
+                        ->schema([
+                            \Filament\Forms\Components\Radio::make('tipe_pj')
+                                ->label('Tipe Penanggung Jawab')
+                                ->options([
+                                    'pegawai' => 'Pegawai',
+                                    'ruangan' => 'Tim / Ruangan',
+                                    'none'    => 'Tidak Ada',
+                                ])
+                                ->default('none')
+                                ->live(),
+
+                            \Filament\Forms\Components\Select::make('pj_pegawai_id')
+                                ->label('Pilih Pegawai')
+                                ->options(fn () => Pegawai::where('aktif', true)->orderBy('nama')->pluck('nama', 'id'))
+                                ->searchable()
+                                ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('tipe_pj') === 'pegawai'),
+
+                            \Filament\Forms\Components\Select::make('pj_ruangan_id')
+                                ->label('Pilih Ruangan / Tim')
+                                ->options(fn () => Ruangan::orderBy('kode_ruang')->pluck('nama_ruang', 'id'))
+                                ->searchable()
+                                ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('tipe_pj') === 'ruangan'),
+                        ])
+                        ->fillForm(function ($record) {
+                            $tipe = match ($record->penanggung_jawab_type) {
+                                Pegawai::class  => 'pegawai',
+                                Ruangan::class  => 'ruangan',
+                                default         => 'none',
+                            };
+                            return [
+                                'tipe_pj'       => $tipe,
+                                'pj_pegawai_id' => $tipe === 'pegawai' ? $record->penanggung_jawab_id : null,
+                                'pj_ruangan_id' => $tipe === 'ruangan' ? $record->penanggung_jawab_id : null,
+                            ];
+                        })
+                        ->action(function ($record, array $data) {
+                            match ($data['tipe_pj']) {
+                                'pegawai' => $record->update([
+                                    'penanggung_jawab_type' => Pegawai::class,
+                                    'penanggung_jawab_id'   => $data['pj_pegawai_id'],
+                                ]),
+                                'ruangan' => $record->update([
+                                    'penanggung_jawab_type' => Ruangan::class,
+                                    'penanggung_jawab_id'   => $data['pj_ruangan_id'],
+                                ]),
+                                default => $record->update([
+                                    'penanggung_jawab_type' => null,
+                                    'penanggung_jawab_id'   => null,
+                                ]),
+                            };
+                            \Filament\Notifications\Notification::make()
+                                ->title('Penanggung jawab diperbarui')
+                                ->success()->send();
+                        }),
+
+                    DeleteAction::make(),
+                ])->tooltip('Aksi'),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
+                    BulkAction::make('bulk_assign_ruangan')
+                        ->label('Assign Ruangan (massal)')
+                        ->icon('heroicon-o-building-office')
+                        ->color('info')
+                        ->schema([
+                            \Filament\Forms\Components\Select::make('ruangan_id')
+                                ->label('Lokasi Ruangan')
+                                ->options(
+                                    fn () => Ruangan::orderBy('kode_ruang')
+                                        ->get()
+                                        ->mapWithKeys(fn ($r) => [$r->id => $r->kode_ruang . ' – ' . $r->nama_ruang])
+                                )
+                                ->searchable()
+                                ->required(),
+                        ])
+                        ->action(function ($records, array $data) {
+                            $records->each->update(['ruangan_id' => $data['ruangan_id']]);
+                            \Filament\Notifications\Notification::make()
+                                ->title($records->count() . ' aset berhasil di-assign')
+                                ->success()->send();
+                        })
+                        ->deselectRecordsAfterCompletion(),
+
                     DeleteBulkAction::make(),
                 ]),
             ])
