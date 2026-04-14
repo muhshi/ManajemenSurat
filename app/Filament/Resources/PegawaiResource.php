@@ -5,9 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PegawaiResource\Pages\CreatePegawai;
 use App\Filament\Resources\PegawaiResource\Pages\EditPegawai;
 use App\Filament\Resources\PegawaiResource\Pages\ListPegawais;
+use App\Filament\Resources\PegawaiResource\Pages\ViewPegawai;
+use App\Filament\Resources\PegawaiResource\RelationManagers\BmnsRelationManager;
 use App\Models\Pegawai;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
@@ -93,6 +96,7 @@ class PegawaiResource extends Resource
                 TernaryFilter::make('aktif')->label('Status Aktif'),
             ])
             ->recordActions([
+                ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
@@ -101,7 +105,9 @@ class PegawaiResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            BmnsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
@@ -109,6 +115,7 @@ class PegawaiResource extends Resource
         return [
             'index'  => ListPegawais::route('/'),
             'create' => CreatePegawai::route('/create'),
+            'view'   => ViewPegawai::route('/{record}'),
             'edit'   => EditPegawai::route('/{record}/edit'),
         ];
     }

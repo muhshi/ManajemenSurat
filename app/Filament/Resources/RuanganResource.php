@@ -5,9 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\RuanganResource\Pages\CreateRuangan;
 use App\Filament\Resources\RuanganResource\Pages\EditRuangan;
 use App\Filament\Resources\RuanganResource\Pages\ListRuangans;
+use App\Filament\Resources\RuanganResource\Pages\ViewRuangan;
+use App\Filament\Resources\RuanganResource\RelationManagers\BmnsRelationManager;
 use App\Models\Ruangan;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -127,6 +130,7 @@ class RuanganResource extends Resource
                     ->options([1 => 'Lantai 1', 2 => 'Lantai 2', 3 => 'Lantai 3']),
             ])
             ->recordActions([
+                ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
@@ -135,7 +139,9 @@ class RuanganResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            BmnsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
@@ -143,6 +149,7 @@ class RuanganResource extends Resource
         return [
             'index'  => ListRuangans::route('/'),
             'create' => CreateRuangan::route('/create'),
+            'view'   => ViewRuangan::route('/{record}'),
             'edit'   => EditRuangan::route('/{record}/edit'),
         ];
     }
