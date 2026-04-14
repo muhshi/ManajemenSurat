@@ -1,11 +1,12 @@
 @php
+    $fieldWrapperView = $getFieldWrapperView();
     $statePath = $getStatePath();
     $padId = 'sig-pad-' . str_replace(['.', '[', ']'], '-', $statePath);
     $existingSignature = $getState();
     $isReadOnly = $isDisabled() || (method_exists($field, 'isViewMode') && $field->isViewMode());
 @endphp
 
-<x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
+<x-dynamic-component :component="$fieldWrapperView" :field="$field">
     <div
         x-data="{
             isDrawing: false,
@@ -17,6 +18,7 @@
 
             init() {
                 this.canvas = document.getElementById('{{ $padId }}');
+                if (!this.canvas) return;
                 this.ctx = this.canvas.getContext('2d');
                 this.ctx.strokeStyle = '#1a1a1a';
                 this.ctx.lineWidth = 2;
@@ -101,12 +103,10 @@
                 $wire.set('{{ $statePath }}', null);
             }
         }"
-        class="w-full"
+        style="width: 100%; max-width: 100%;"
     >
-        <div class="border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden bg-white dark:bg-gray-800"
-             style="position: relative;">
-
-            {{-- Canvas TTD --}}
+        {{-- Canvas container --}}
+        <div style="position: relative; border: 1px solid #d1d5db; border-radius: 0.5rem; overflow: hidden; background: #fff;">
             <canvas
                 id="{{ $padId }}"
                 width="700"
@@ -122,31 +122,33 @@
             @endif
         </div>
 
+        {{-- Action buttons --}}
         @if(!$isReadOnly)
-        <div class="flex items-center gap-3 mt-2">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 0.5rem;">
             <button
                 type="button"
                 x-on:click="clearSignature()"
-                class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40 rounded-lg border border-red-200 dark:border-red-800 transition-colors"
+                style="display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.375rem 0.75rem; font-size: 0.875rem; font-weight: 500; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; border-radius: 0.5rem; cursor: pointer;"
+                onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem; height: 1rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 6h18M19 6l-1 14H6L5 6M8 6V4h8v2"/>
                 </svg>
                 Hapus Tanda Tangan
             </button>
-            <span class="text-xs text-gray-400 dark:text-gray-500">Gunakan mouse atau jari untuk membuat tanda tangan</span>
+            <span style="font-size: 0.75rem; color: #9ca3af;">Gunakan mouse atau jari untuk membuat tanda tangan</span>
         </div>
         @else
-            {{-- View mode: tampilkan gambar TTD jika ada --}}
+            {{-- View mode --}}
             @if($existingSignature)
-            <div class="mt-2 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-500" viewBox="0 0 24 24" fill="currentColor">
+            <div style="display: flex; align-items: center; gap: 0.25rem; margin-top: 0.5rem; font-size: 0.75rem; color: #6b7280;">
+                <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem; height: 1rem; color: #22c55e;" viewBox="0 0 24 24" fill="currentColor">
                     <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd"/>
                 </svg>
                 Tanda tangan tersimpan
             </div>
             @else
-            <div class="mt-2 text-xs text-gray-400 dark:text-gray-500">Belum ada tanda tangan</div>
+            <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #9ca3af;">Belum ada tanda tangan</div>
             @endif
         @endif
     </div>

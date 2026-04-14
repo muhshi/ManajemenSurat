@@ -13,8 +13,11 @@ class SignaturePad extends Field
      */
     public function isViewMode(): bool
     {
-        // Filament sets the container's operation when rendering infolists
-        $operation = $this->getContainer()->getOperation();
-        return in_array($operation, ['view', 'viewRecord']);
+        try {
+            $operation = $this->getContainer()->getOperation();
+            return in_array($operation, ['view', 'viewRecord']);
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 }
