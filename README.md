@@ -20,6 +20,12 @@ Aplikasi Manajemen Surat untuk BPS Kabupaten Demak yang dibangun menggunakan Lar
   - **Generasi Bon Harian**: Pembuatan Nota Permintaan / Bon Permintaan barang secara otomatis.
   - **Kartu Kendali Persediaan**: Ekspor laporan mutasi barang tahunan per item ke Excel multi-sheet, dengan saldo carry-over antar tahun.
   - **Permintaan Barang**: Modul pengajuan permintaan barang dengan repeater item dan tanda tangan digital.
+- **Manajemen BMN (Barang Milik Negara)**:
+  - **Data Aset BMN**: Pencatatan aset dengan 4 tab (Identitas, Lokasi & PJ, Nilai Aset, Status).
+  - **Data Ruangan**: Master ruangan per lantai dengan sinkronisasi data DBR/DBL SIMAN.
+  - **Data Pegawai**: Master pegawai sebagai penanggung jawab aset (polymorphic).
+  - **Import dari SIMAN**: Upload file Excel ekspor SIMAN, mapping otomatis ke database dengan summary hasil import.
+  - **Dashboard BMN**: Widget statistik total aset, kondisi, henti guna, nilai buku, chart distribusi jenis BMN, dan tabel top ruangan.
 
 ## Teknologi
 
@@ -118,6 +124,16 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 
 ### [Unreleased]
 #### Added
+- **Modul Manajemen BMN**: Implementasi lengkap modul Barang Milik Negara berbasis data SIMAN.
+  - Migration & Model `ruangans`, `pegawais`, `bmns` dengan relasi polymorphic `penanggung_jawab`.
+  - **RuanganResource**: CRUD ruangan dengan badge kode, filter lantai, dan count BMN per ruangan.
+  - **PegawaiResource**: CRUD pegawai dengan badge jumlah BMN ditanggung dan filter status aktif.
+  - **BmnResource**: Form 4 tab (Identitas, Lokasi & PJ, Nilai Aset, Status & Flags), filter multi-kriteria, badge warna per jenis dan kondisi, auto-hitung nilai buku.
+  - **Import dari SIMAN**: Action upload file `.xlsx` ekspor SIMAN dengan mapping otomatis, upsert berdasarkan `kode_register`, resolve ruangan & pegawai, summary hasil import.
+  - **BmnStatsWidget**: 6 metrik statistik (total, kondisi 3 level, henti guna, nilai buku total).
+  - **BmnPerJenisChart**: Donut chart distribusi aset per jenis BMN.
+  - **BmnPerRuanganTable**: Tabel top ruangan berdasarkan jumlah aset.
+  - Seeder `RuanganSeeder` (11 ruangan dari DBR/DBL SIMAN) dan `PegawaiSeeder` (2 pegawai).
 - Modul **Permintaan Barang** baru: resource Filament dengan form nama peminta, tanggal, repeater daftar barang (nama, jumlah, satuan, keterangan), dan **Tanda Tangan Digital** berbasis HTML5 Canvas (Alpine.js, touch-enabled, disimpan sebagai Base64 PNG).
 - Tabel `permintaan_barangs` dan `permintaan_barang_items` beserta models dengan relasi `hasMany` / `belongsTo`.
 - **Export Kartu Kendali Tahunan**: export XLSX sekarang filter per tahun yang dipilih via modal di UI, dengan **saldo carry-over** dari akhir tahun sebelumnya tampil sebagai baris "Saldo Awal Tahun XXXX" di tabel rincian.
