@@ -6,6 +6,8 @@ use App\Filament\Resources\RuanganResource\Pages\CreateRuangan;
 use App\Filament\Resources\RuanganResource\Pages\EditRuangan;
 use App\Filament\Resources\RuanganResource\Pages\ListRuangans;
 use App\Models\Ruangan;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -125,8 +127,8 @@ class RuanganResource extends Resource
                     ->options([1 => 'Lantai 1', 2 => 'Lantai 2', 3 => 'Lantai 3']),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->defaultSort('kode_ruang');
     }

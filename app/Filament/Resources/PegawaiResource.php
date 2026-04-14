@@ -6,6 +6,8 @@ use App\Filament\Resources\PegawaiResource\Pages\CreatePegawai;
 use App\Filament\Resources\PegawaiResource\Pages\EditPegawai;
 use App\Filament\Resources\PegawaiResource\Pages\ListPegawais;
 use App\Models\Pegawai;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
@@ -91,8 +93,8 @@ class PegawaiResource extends Resource
                 TernaryFilter::make('aktif')->label('Status Aktif'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->defaultSort('nama');
     }
