@@ -106,7 +106,7 @@ class BmnsRelationManager extends RelationManager
             ])
             ->headerActions([
                 // Attach aset yang belum punya ruangan atau pindahin dari ruangan lain
-                Tables\Actions\Action::make('attach_bmn')
+                Action::make('attach_bmn')
                     ->label('Tambahkan Aset ke Ruangan Ini')
                     ->icon('heroicon-o-plus')
                     ->color('primary')

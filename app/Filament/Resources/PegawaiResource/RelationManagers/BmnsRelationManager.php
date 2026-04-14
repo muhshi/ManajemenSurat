@@ -109,7 +109,7 @@ class BmnsRelationManager extends RelationManager
                     ]),
             ])
             ->headerActions([
-                \Filament\Tables\Actions\Action::make('assign_bmn')
+                Action::make('assign_bmn')
                     ->label('Tugaskan Aset ke Pegawai Ini')
                     ->icon('heroicon-o-plus')
                     ->color('primary')
@@ -117,7 +117,12 @@ class BmnsRelationManager extends RelationManager
                         Select::make('bmn_ids')
                             ->label('Pilih Aset BMN')
                             ->options(
-                                fn () => Bmn::whereDoesntHave('penanggungJawab', fn ($q) => $q->where('penanggung_jawab_type', Pegawai::class)->where('penanggung_jawab_id', $this->getOwnerRecord()->id))
+                                fn () => Bmn::whereNotIn('id', function ($query) {
+                                        $query->select('id')
+                                            ->from('bmns')
+                                            ->where('penanggung_jawab_type', Pegawai::class)
+                                            ->where('penanggung_jawab_id', $this->getOwnerRecord()->id);
+                                    })
                                     ->orderBy('kode_barang')
                                     ->get()
                                     ->mapWithKeys(fn ($b) => [
