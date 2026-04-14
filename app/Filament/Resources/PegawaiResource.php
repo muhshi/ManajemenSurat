@@ -92,7 +92,7 @@ class PegawaiResource extends Resource
             ->filters([
                 TernaryFilter::make('aktif')->label('Status Aktif'),
             ])
-            ->actions([
+            ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
             ])

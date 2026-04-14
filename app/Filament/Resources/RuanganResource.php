@@ -126,7 +126,7 @@ class RuanganResource extends Resource
                 SelectFilter::make('lantai')
                     ->options([1 => 'Lantai 1', 2 => 'Lantai 2', 3 => 'Lantai 3']),
             ])
-            ->actions([
+            ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
             ])

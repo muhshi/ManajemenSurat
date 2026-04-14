@@ -386,7 +386,7 @@ class BmnResource extends Resource
                 TernaryFilter::make('henti_guna')->label('Henti Guna'),
                 TernaryFilter::make('usul_hapus')->label('Usul Hapus'),
             ])
-            ->actions([
+            ->recordActions([
                 ActionGroup::make([
                     EditAction::make()->label('Edit Lengkap'),
 
@@ -394,7 +394,7 @@ class BmnResource extends Resource
                         ->label('Assign Ruangan')
                         ->icon('heroicon-o-building-office')
                         ->color('info')
-                        ->schema([
+                        ->form([
                             \Filament\Forms\Components\Select::make('ruangan_id')
                                 ->label('Lokasi Ruangan')
                                 ->options(
@@ -418,7 +418,7 @@ class BmnResource extends Resource
                         ->label('Assign Penanggung Jawab')
                         ->icon('heroicon-o-user-circle')
                         ->color('warning')
-                        ->schema([
+                        ->form([
                             \Filament\Forms\Components\Radio::make('tipe_pj')
                                 ->label('Tipe Penanggung Jawab')
                                 ->options([
@@ -476,13 +476,13 @@ class BmnResource extends Resource
                     DeleteAction::make(),
                 ])->tooltip('Aksi'),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     BulkAction::make('bulk_assign_ruangan')
                         ->label('Assign Ruangan (massal)')
                         ->icon('heroicon-o-building-office')
                         ->color('info')
-                        ->schema([
+                        ->form([
                             \Filament\Forms\Components\Select::make('ruangan_id')
                                 ->label('Lokasi Ruangan')
                                 ->options(
