@@ -78,12 +78,7 @@ class SuratMasukResource extends Resource
 
                                         $state = $get('file_surat');
 
-                                        \Log::info('Upload state', [
-                                            'state' => $state,
-                                            'type' => gettype($state),
-                                        ]);
-
-                                        if (!is_array($state) || empty($state)) {
+                                        if (empty($state)) {
                                             Notification::make()
                                                 ->title('File belum siap')
                                                 ->danger()
@@ -91,19 +86,24 @@ class SuratMasukResource extends Resource
                                             return;
                                         }
 
-                                        /** @var TemporaryUploadedFile $file */
-                                        $file = collect($state)->first();
+                                        $path = null;
+                                        $file = is_array($state) ? collect($state)->first() : $state;
 
-                                        if (!$file instanceof TemporaryUploadedFile) {
+                                        if ($file instanceof TemporaryUploadedFile) {
+                                            $path = $file->getRealPath();
+                                        } elseif (is_string($file)) {
+                                            // Handle case where file is already saved in storage
+                                            $path = \Illuminate\Support\Facades\Storage::disk('public')->path($file);
+                                        }
+
+                                        if (!$path || !file_exists($path)) {
                                             Notification::make()
-                                                ->title('File upload tidak valid')
+                                                ->title('File fisik tidak ditemukan')
                                                 ->danger()
                                                 ->send();
                                             return;
                                         }
 
-                                        $path = $file->getRealPath(); // ✅ VALID UNTUK TEMP FILE
-                            
                                         $data = $gemini->extractMetadata($path);
 
                                         if (!$data) {
