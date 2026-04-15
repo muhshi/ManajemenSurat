@@ -48,6 +48,22 @@ docker compose exec surat-franken php artisan view:cache
 ```
 
 ---
+
+### CARA UPDATE (Jika ada perubahan code)
+Jika Anda baru saja melakukan `git pull`, jalankan langkah berikut:
+
+1. **Rebuild Image & Restart**:
+   ```bash
+   docker compose up -d --build
+   ```
+2. **Bersihkan Cache & Migrasi**:
+   ```bash
+   docker compose exec surat-franken php artisan optimize:clear
+   docker compose exec surat-franken php artisan migrate --force
+   ```
+
+---
 **Catatan:**
 - Pastikan port `8080` di server Anda sudah dibuka atau sesuaikan di `docker-compose.yml`.
 - Jika menggunakan SQLite (default), pastikan file `database/database.sqlite` sudah ada sebelum migrasi (bisa dibuat dengan `touch database/database.sqlite`).
+

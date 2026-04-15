@@ -1,3 +1,12 @@
+# Stage 1: Build Assets
+FROM node:20-alpine AS assets-builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Stage 2: Production
 FROM dunglas/frankenphp:php8.3
 
 ENV SERVER_NAME=":80"
@@ -18,6 +27,8 @@ RUN apt-get update && apt-get install -y \
 
 # Copy source
 COPY . /app
+# Copy compiled assets from Stage 1
+COPY --from=assets-builder /app/public/build /app/public/build
 
 # Install composer binary
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -45,3 +56,4 @@ RUN mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache
 
 EXPOSE 80
+

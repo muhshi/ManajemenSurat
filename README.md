@@ -146,7 +146,7 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 #### Changed
 - **Kartu Kendali**: tombol export sekarang membuka modal pilih tahun sebelum download.
 - **Print Laporan Nota Permintaan**: posisi label "Kasubbag Umum" dipindah ke bawah nama dan NIP penandatangan (setelah garis TTD), bukan di samping tulisan "SETUJU DIKELUARKAN".
-- **Dockerfile**: Menambahkan post-install scripts (`package:discover`, `filament:upgrade`, `storage:link`) dan pembuatan direktori `storage/framework`.
+- **Dockerfile**: Menambahkan build stage Node.js (Vite) untuk kompilasi assets secara otomatis, post-install scripts (`package:discover`, `filament:upgrade`, `storage:link`), dan pembuatan direktori `storage/framework`.
 - **docker-compose.yml**: Menambahkan shared `storage_data` volume antara container web dan queue worker agar file upload dan log dapat diakses bersama.
 - Skrip Upload SEP-BP sekarang memproses ekstraksi melalui **Queue (Background Job)** (`ProcessInventoryUpload`) alih-alih dieksekusi sinkron.
 - Optimalisasi penyisipan master data Barang ke **Upsert Massal** (`Item::upsert`) menjadi 1 kueri database.
@@ -164,3 +164,10 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 - Namespace semua Resource dan Pages diperbarui otomatis oleh upgrade script.
 - `config/filament-shield.php` diperbarui ke format v4 (ShieldConfig object).
 
+### [2026-04-15]
+#### Added
+- **Otomatisasi Build Assets di Docker**: Menambahkan multi-stage build pada `Dockerfile` untuk menginstal Node.js dan menjalankan `npm run build` secara otomatis saat pembuatan image. Ini memastikan file CSS/JS (Vite) selalu terupdate di production.
+- **Panduan Update di Server**: Menambahkan bagian "CARA UPDATE" di `deploy-docker.md` untuk memudahkan sinkronisasi code, rebuild image, dan pembersihan cache Laravel/Filament.
+
+#### Fixed
+- **Deployment Staleness**: Memperbaiki isu di mana `git pull` di server tidak mengubah tampilan aplikasi karena container masih menggunakan image lama dan assets belum di-build.
