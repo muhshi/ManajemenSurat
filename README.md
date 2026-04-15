@@ -167,6 +167,7 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 ### [2026-04-15]
 #### Added
 - **Otomatisasi Build Assets di Docker**: Menambahkan multi-stage build pada `Dockerfile` untuk menginstal Node.js dan menjalankan `npm run build` secara otomatis saat pembuatan image. Ini memastikan file CSS/JS (Vite) selalu terupdate di production.
+- **Upgrade PHP di Docker**: Menaikkan versi PHP dari 8.3 ke 8.4 di base image `frankenphp` untuk mendukung dependency terbaru (Symfony 8.0).
 - **Panduan Update di Server**: Menambahkan bagian "CARA UPDATE" di `deploy-docker.md` untuk memudahkan sinkronisasi code, rebuild image, dan pembersihan cache Laravel/Filament.
 
 #### Fixed
