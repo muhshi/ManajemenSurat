@@ -96,7 +96,7 @@ class InventoryItemSheet implements WithTitle, WithEvents, WithDrawings
                 // ============================================================
                 // COLUMN WIDTHS
                 // ============================================================
-                $widths = ['A'=>5,'B'=>6,'C'=>14,'D'=>14,'E'=>28,'F'=>14,'G'=>12,'H'=>12,'I'=>12];
+                $widths = ['A'=>5,'B'=>22,'C'=>14,'D'=>14,'E'=>28,'F'=>14,'G'=>12,'H'=>12,'I'=>12];
                 foreach ($widths as $col => $w) {
                     $sheet->getColumnDimension($col)->setWidth($w);
                 }

@@ -169,6 +169,14 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 - **Otomatisasi Build Assets di Docker**: Menambahkan multi-stage build pada `Dockerfile` untuk menginstal Node.js dan menjalankan `npm run build` secara otomatis saat pembuatan image. Ini memastikan file CSS/JS (Vite) selalu terupdate di production.
 - **Upgrade PHP di Docker**: Menaikkan versi PHP dari 8.3 ke 8.4 di base image `frankenphp` untuk mendukung dependency terbaru (Symfony 8.0).
 - **Panduan Update di Server**: Menambahkan bagian "CARA UPDATE" di `deploy-docker.md` untuk memudahkan sinkronisasi code, rebuild image, dan pembersihan cache Laravel/Filament.
+- **Migration Data Cleanup**: Migrasi untuk membersihkan karakter *newline* (`\n`) pada kolom `no_dok` di tabel `transactions` yang disebabkan oleh limitasi parser PDF sebelumnya.
+
+#### Changed
+- **Layout Signature Nota Permintaan**: Menyesuaikan posisi jabatan "Kasubbag Umum" agar berada di bawah "SETUJU DIKELUARKAN" dan di atas garis tanda tangan, sesuai standar format baku.
+- **Grouping Nota Permintaan**: Logika pengelompokan transaksi pada cetakan Nota Permintaan kini menggunakan kombinasi Tanggal dan Nomor Dokumen agar transaksi dengan nomor berbeda di hari yang sama terpisah tabelnya.
+- **Lebar Kolom Export**: Menyesuaikan lebar kolom "No Dok" di ekspor Excel agar teks panjang tidak terpotong atau terbungkus ke baris baru.
 
 #### Fixed
 - **Deployment Staleness**: Memperbaiki isu di mana `git pull` di server tidak mengubah tampilan aplikasi karena container masih menggunakan image lama dan assets belum di-build.
+- **Multiline No Dok Parser**: Memperbaiki skrip Python `parse_buku_persediaan.py` agar mampu menangkap sambungan nomor dokumen yang terpotong ke baris baru pada file PDF sumber (SEP-BP).
+- **No Dok Row Split**: Memperbaiki isu di mana nomor dokumen terbelah menjadi 3 baris pada PDF laporan dengan menggunakan CSS `white-space: nowrap` dan pembersihan data saat import.

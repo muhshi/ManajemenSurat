@@ -29,7 +29,7 @@
     <tr>
         <th align="center"><b>Tanggal</b></th>
         <th align="center"><b>Keterangan</b></th>
-        <th align="center"><b>No. Dokumen</b></th>
+        <th align="center" width="20%"><b>No. Dokumen</b></th>
         <th align="center"><b>Masuk (Unit)</b></th>
         <th align="center"><b>Keluar (Unit)</b></th>
         <th align="center"><b>Saldo (Unit)</b></th>
@@ -39,7 +39,7 @@
     <tr>
         <td>{{ $tx->tanggal ? \Carbon\Carbon::parse($tx->tanggal)->format('d/m/Y') : '-' }}</td>
         <td>{{ $tx->keterangan }}</td>
-        <td>{{ $tx->no_dok ?? '-' }}</td>
+        <td style="white-space: nowrap;"><nobr>{!! str_replace('-', '&#8209;', $tx->no_dok ?? '-') !!}</nobr></td>
         <td align="right">{{ $tx->masuk_unit > 0 ? $tx->masuk_unit : '' }}</td>
         <td align="right">{{ $tx->keluar_unit > 0 ? $tx->keluar_unit : '' }}</td>
         <td align="right">{{ $tx->saldo_unit }}</td>

@@ -148,7 +148,7 @@ class ProcessInventoryUpload implements ShouldQueue
                     if (isset($itemIds[$txData['item_code']])) {
                         $itemId = $itemIds[$txData['item_code']];
                         $tanggal = $txData['tanggal'];
-                        $noDok = $txData['no_dok'] ?? '';
+                        $noDok = str_replace(["\n", "\r"], '', $txData['no_dok'] ?? '');
                         $keterangan = $txData['keterangan'] ?? '';
 
                         // Create unique fingerprint for this transaction

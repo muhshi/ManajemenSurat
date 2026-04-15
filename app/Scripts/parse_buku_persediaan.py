@@ -169,6 +169,13 @@ def main():
                                     tx["saldo_unit"] = su
                                     tx["saldo_jumlah"] = sj
                                     break
+                        elif current_tx_key and re.match(r'^[\w\-\/\.]+$', line_str):
+                            # Jika baris ini hanya berisi karakter no_dok (huruf, angka, strip, garis miring) tanpa spasi
+                            # Kemungkinan besar ini adalah sambungan dari no_dok yang terpotong ke baris bawahnya
+                            for tx in reversed(transactions_list):
+                                if tx["item_code"] == current_item_code:
+                                    tx["no_dok"] += line_str
+                                    break
                         
     except Exception as e:
         errors.append(f"Exception: {str(e)}")
