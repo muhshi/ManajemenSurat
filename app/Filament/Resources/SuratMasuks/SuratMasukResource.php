@@ -104,24 +104,36 @@ class SuratMasukResource extends Resource
                                             return;
                                         }
 
-                                        $data = $gemini->extractMetadata($path);
+                                        try {
+                                            $data = $gemini->extractMetadata($path);
 
-                                        if (!$data) {
+                                            if (!$data) {
+                                                Notification::make()
+                                                    ->title('Ekstraksi gagal')
+                                                    ->body('AI tidak mengembalikan data yang valid.')
+                                                    ->danger()
+                                                    ->send();
+                                                return;
+                                            }
+
+                                            foreach ($data as $key => $value) {
+                                                $set($key, $value);
+                                            }
+
                                             Notification::make()
-                                                ->title('Ekstraksi gagal')
+                                                ->title('Ekstraksi berhasil')
+                                                ->success()
+                                                ->send();
+
+                                        } catch (\Exception $e) {
+                                            Notification::make()
+                                                ->title('Ekstraksi Gagal')
+                                                ->body($e->getMessage())
                                                 ->danger()
+                                                ->persistent()
                                                 ->send();
                                             return;
                                         }
-
-                                        foreach ($data as $key => $value) {
-                                            $set($key, $value);
-                                        }
-
-                                        Notification::make()
-                                            ->title('Ekstraksi berhasil')
-                                            ->success()
-                                            ->send();
                                     })
 
                             ),

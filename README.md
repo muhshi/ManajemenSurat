@@ -165,6 +165,9 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 - `config/filament-shield.php` diperbarui ke format v4 (ShieldConfig object).
 
 ### [2026-04-16]
+#### Added
+- **Otomasi Notifikasi Gemini AI**: Peningkatan penanganan error pada ekstraksi surat masuk. Sekarang sistem memberikan notifikasi spesifik jika API Key belum diset, API Key tidak valid, atau jika kuota (rate limit) Gemini AI telah habis.
+
 #### Fixed
 - **Gemini API Key Loading**: Menambahkan fallback untuk membaca `GEMINI_API_KEY` dari file `.env` jika nilai di database (SystemSettings) kosong. Ini memperbaiki isu kegagalan ekstraksi surat masuk saat API key hanya disetting di `.env`.
 
