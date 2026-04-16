@@ -179,11 +179,12 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 - **Migration Data Cleanup**: Migrasi untuk membersihkan karakter *newline* (`\n`) pada kolom `no_dok` di tabel `transactions` yang disebabkan oleh limitasi parser PDF sebelumnya.
 
 #### Changed
-- **Layout Signature Nota Permintaan**: Menyesuaikan posisi jabatan "Kasubbag Umum" agar berada di bawah "SETUJU DIKELUARKAN" dan di atas garis tanda tangan, sesuai standar format baku.
+- **Layout Signature Nota Permintaan**: Menggunakan struktur tabel 3 kolom untuk stabilitas tampilan cetak A5. Menambahkan *padding-top* khusus (120px) pada tanda tangan Kasubbag Umum sesuai arahan user.
+- **Strategi Deployment**: Mengubah konfigurasi `docker-compose.yml` menjadi model *Bind Mounting*. Hal ini memungkinkan pembaruan kode (terutama tampilan Blade dan CSS) di server menjadi instan cukup dengan `git pull` tanpa perlu proses build ulang image Docker.
 - **Grouping Nota Permintaan**: Logika pengelompokan transaksi pada cetakan Nota Permintaan kini menggunakan kombinasi Tanggal dan Nomor Dokumen agar transaksi dengan nomor berbeda di hari yang sama terpisah tabelnya.
 - **Lebar Kolom Export**: Menyesuaikan lebar kolom "No Dok" di ekspor Excel agar teks panjang tidak terpotong atau terbungkus ke baris baru.
 
 #### Fixed
-- **Deployment Staleness**: Memperbaiki isu di mana `git pull` di server tidak mengubah tampilan aplikasi karena container masih menggunakan image lama dan assets belum di-build.
-- **Multiline No Dok Parser**: Memperbaiki skrip Python `parse_buku_persediaan.py` agar mampu menangkap sambungan nomor dokumen yang terpotong ke baris baru pada file PDF sumber (SEP-BP).
+- **Gemini AI Surat Masuk**: Memperbaiki isu "File belum siap" saat mengekstrak data dari file yang sudah tersimpan di storage (menangani perbedaan *state* TemporaryUploadedFile vs String Path).
+- **Deployment Staleness**: Memperbaiki isu sinkronisasi kode dengan metode *mounting* folder root.- **Multiline No Dok Parser**: Memperbaiki skrip Python `parse_buku_persediaan.py` agar mampu menangkap sambungan nomor dokumen yang terpotong ke baris baru pada file PDF sumber (SEP-BP).
 - **No Dok Row Split**: Memperbaiki isu di mana nomor dokumen terbelah menjadi 3 baris pada PDF laporan dengan menggunakan CSS `white-space: nowrap` dan pembersihan data saat import.

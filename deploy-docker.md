@@ -50,16 +50,20 @@ docker compose exec surat-franken php artisan view:cache
 ---
 
 ### CARA UPDATE (Jika ada perubahan code)
-Jika Anda baru saja melakukan `git pull`, jalankan langkah berikut:
+Dengan sistem *Mounting* yang baru, Anda tidak perlu melakukan build ulang setiap kali ada perubahan kecil di tampilan (CSS/Blade).
 
-1. **Rebuild Image & Restart**:
+1. **Sinkronisasi Kode**:
    ```bash
-   docker compose up -d --build
+   git pull origin main
    ```
-2. **Bersihkan Cache & Migrasi**:
+2. **Bersihkan Cache & Migrasi (Jika ada perubahan database/logic)**:
    ```bash
    docker compose exec surat-franken php artisan optimize:clear
    docker compose exec surat-franken php artisan migrate --force
+   ```
+3. **Rebuild Image (Hanya jika mengubah Dockerfile atau dependensi PHP/Python)**:
+   ```bash
+   docker compose up -d --build
    ```
 
 ---

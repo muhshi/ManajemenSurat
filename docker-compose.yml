@@ -10,6 +10,10 @@ services:
     ports:
       - "8004:80"
     volumes:
+      - .:/app
+      - /app/vendor
+      - /app/node_modules
+      - /app/public/build
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./.env:/app/.env
       - storage_data:/app/storage
@@ -24,6 +28,10 @@ services:
       dockerfile: Dockerfile
     command: php artisan queue:work --timeout=600 --tries=3
     volumes:
+      - .:/app
+      - /app/vendor
+      - /app/node_modules
+      - /app/public/build
       - ./.env:/app/.env
       - storage_data:/app/storage
     networks:
