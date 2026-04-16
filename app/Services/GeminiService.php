@@ -14,7 +14,7 @@ class GeminiService
 
     public function __construct()
     {
-        $this->apiKey = app(SystemSettings::class)->gemini_api_key ?? '';
+        $this->apiKey = app(SystemSettings::class)->gemini_api_key ?: env('GEMINI_API_KEY', '');
     }
 
     public function extractMetadata(string $fullPath): ?array

@@ -164,6 +164,10 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 - Namespace semua Resource dan Pages diperbarui otomatis oleh upgrade script.
 - `config/filament-shield.php` diperbarui ke format v4 (ShieldConfig object).
 
+### [2026-04-16]
+#### Fixed
+- **Gemini API Key Loading**: Menambahkan fallback untuk membaca `GEMINI_API_KEY` dari file `.env` jika nilai di database (SystemSettings) kosong. Ini memperbaiki isu kegagalan ekstraksi surat masuk saat API key hanya disetting di `.env`.
+
 ### [2026-04-15]
 #### Added
 - **Otomatisasi Build Assets di Docker**: Menambahkan multi-stage build pada `Dockerfile` untuk menginstal Node.js dan menjalankan `npm run build` secara otomatis saat pembuatan image. Ini memastikan file CSS/JS (Vite) selalu terupdate di production.
