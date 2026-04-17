@@ -29,6 +29,19 @@ class User extends Authenticatable
         'jabatan',
         'golongan',
         'nomor_hp',
+        'sipetra_id',
+        'sipetra_token',
+        'sipetra_refresh_token',
+        'nip_baru',
+        'sobat_id',
+        'kd_satker',
+        'unit_kerja',
+        'identity_type',
+        'jenis_kelamin',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'pendidikan',
+        'avatar_url',
     ];
 
     /**
@@ -39,6 +52,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'sipetra_token',
+        'sipetra_refresh_token',
     ];
 
     /**
