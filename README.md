@@ -26,6 +26,11 @@ Aplikasi Manajemen Surat untuk BPS Kabupaten Demak yang dibangun menggunakan Lar
   - **Data Pegawai**: Master pegawai sebagai penanggung jawab aset (polymorphic).
   - **Import dari SIMAN**: Upload file Excel ekspor SIMAN, mapping otomatis ke database dengan summary hasil import.
   - **Dashboard BMN**: Widget statistik total aset, kondisi, henti guna, nilai buku, chart distribusi jenis BMN, dan tabel top ruangan.
+- **Rekap SP2D**:
+  - **Import Excel Bulanan**: Upload file monitoring SPP/SPM/SP2D dengan deteksi periode otomatis berbasis modus tanggal.
+  - **Manajemen Pajak**: Pencatatan multi-jenis pajak (PPN, PPh 21, 22, 23, Final) per transaksi melalui modal interaktif.
+  - **Sinkronisasi Data**: Fitur merge berbasis No SPP untuk menghindari duplikasi saat upload ulang file yang sama.
+
 
 ## Teknologi
 
@@ -142,8 +147,15 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 - Integrasi `maatwebsite/excel` (Laravel Excel) untuk mendukung fitur ekspor laporan ke format spreadsheet (XLSX).
 - Modul ekstraksi PDF Rincian Buku Persediaan (SEP-BP) tersendiri di `app/Scripts/parse_buku_persediaan.py` menggunakan pustaka Python `pdfplumber`.
 - **UploadProgressWidget**: Fitur pemantauan Real-time progress upload buku persediaan berbentuk Terminal Log UI, polling 2 detik.
+- **Modul Rekap SP2D**: Modul baru untuk mengelola rekap SP2D bulanan.
+  - Fitur import file `.xlsx` monitoring SPP/SPM/SP2D dengan auto-detect periode.
+  - Manajemen pajak (multi-pilih & nominal) per baris transaksi via modal repeater. Opsi dinamis layaknya multi-select.
+  - Tabel rekap ringkas dengan UI lencana interaktif (Inline Action Badges) yang dapat mekar (Expandable Limited List) menyesuaikan jumlah pajak.
+  - Logika sinkronisasi data (Upsert) berbasis `no_spp` untuk upload file bulan yang sama tanpa duplikasi hasil inputan pajak pengguna.
+  - Tabel Riwayat Upload (*Sp2dUploadsTableWidget*) di bagian *footer* tabel utama.
 
 #### Changed
+- Skrip Upload SP2D kini berjalan secara **Synchronous** tanpa *Queue processing* karena data sedikit dan prosesnya instan.
 - **Kartu Kendali**: tombol export sekarang membuka modal pilih tahun sebelum download.
 - **Print Laporan Nota Permintaan**: posisi label "Kasubbag Umum" dipindah ke bawah nama dan NIP penandatangan (setelah garis TTD), bukan di samping tulisan "SETUJU DIKELUARKAN".
 - **Dockerfile**: Menambahkan build stage Node.js (Vite) untuk kompilasi assets secara otomatis, post-install scripts (`package:discover`, `filament:upgrade`, `storage:link`), dan pembuatan direktori `storage/framework`.
@@ -186,5 +198,7 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 
 #### Fixed
 - **Gemini AI Surat Masuk**: Memperbaiki isu "File belum siap" saat mengekstrak data dari file yang sudah tersimpan di storage (menangani perbedaan *state* TemporaryUploadedFile vs String Path).
-- **Deployment Staleness**: Memperbaiki isu sinkronisasi kode dengan metode *mounting* folder root.- **Multiline No Dok Parser**: Memperbaiki skrip Python `parse_buku_persediaan.py` agar mampu menangkap sambungan nomor dokumen yang terpotong ke baris baru pada file PDF sumber (SEP-BP).
+- **Deployment Staleness**: Memperbaiki isu sinkronisasi kode dengan metode *mounting* folder root.
+- **Multiline No Dok Parser**: Memperbaiki skrip Python `parse_buku_persediaan.py` agar mampu menangkap sambungan nomor dokumen yang terpotong ke baris baru pada file PDF sumber (SEP-BP).
 - **No Dok Row Split**: Memperbaiki isu di mana nomor dokumen terbelah menjadi 3 baris pada PDF laporan dengan menggunakan CSS `white-space: nowrap` dan pembersihan data saat import.
+- **Cascade Delete SP2D**: Mengubah aturan *Foreign Key* `upload_id` pada tabel `sp2d_rekaps` menjadi `Null On Delete` untuk menyelamatkan rekam riwayat pajak ketika pengguna menghapus arsip file unggahan. Mencegah hilangnya data isian (*data loss*).

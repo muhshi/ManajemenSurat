@@ -30,9 +30,9 @@ class InventoryUploadResource extends Resource
 {
     protected static ?string $model = InventoryUpload::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-arrow-up';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-document-arrow-up';
     protected static ?string $navigationLabel = 'Upload Buku Persediaan';
-    protected static string | \UnitEnum | null $navigationGroup = 'Inventaris';
+    protected static string|\UnitEnum|null $navigationGroup = 'Inventaris';
 
     public static function form(Schema $schema): Schema
     {
@@ -57,7 +57,7 @@ class InventoryUploadResource extends Resource
             ->columns([
                 TextColumn::make('filename')
                     ->label('File')
-                    ->formatStateUsing(fn ($state) => basename($state))
+                    ->formatStateUsing(fn($state) => basename($state))
                     ->searchable(),
                 TextColumn::make('period_start')
                     ->label('Periode Mulai')
@@ -69,7 +69,7 @@ class InventoryUploadResource extends Resource
                     ->sortable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'done' => 'success',
                         'failed' => 'danger',
                         'processing' => 'warning',
@@ -121,7 +121,7 @@ class InventoryUploadResource extends Resource
                     ->label('Print Laporan')
                     ->icon('heroicon-o-printer')
                     ->color('success')
-                    ->url(fn (InventoryUpload $record) => route('inventory-upload.print', $record))
+                    ->url(fn(InventoryUpload $record) => route('inventory-upload.print', $record))
                     ->openUrlInNewTab(),
                 ViewAction::make(),
                 DeleteAction::make(),
@@ -144,7 +144,7 @@ class InventoryUploadResource extends Resource
     {
         return [
             'index' => ListInventoryUploads::route('/'),
-            'create' => CreateInventoryUpload::route('/create'),
+            //'create' => CreateInventoryUpload::route('/create'),
         ];
     }
 }
