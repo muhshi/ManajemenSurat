@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Laravel\Socialite\Facades\Socialite::extend('sipetra', function ($app) {
+            $config = $app['config']['services.sipetra'];
+
+            return \Laravel\Socialite\Facades\Socialite::buildProvider(SipetraSocialiteProvider::class, $config);
+        });
     }
 }
