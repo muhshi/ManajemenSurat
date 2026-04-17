@@ -43,8 +43,13 @@ class SsoController extends Controller
             $hint = $errorData['hint'] ?? '';
             return redirect()->route('filament.admin.auth.login')->withErrors(['email' => 'Gagal melakukan login via SSO SIPETRA. Info: ' . $hint]);
         } catch (\Exception $e) {
+            logger()->error('SSO Callback Error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
             return redirect()->route('filament.admin.auth.login')->withErrors(['email' => 'Gagal melakukan login via SSO SIPETRA. ' . $e->getMessage()]);
         }
+
+        logger()->info('SSO User obtained successfully', ['email' => $sipetraUser->getEmail()]);
 
         // Token dari Socialite payload
         $accessToken = $sipetraUser->token;
@@ -63,7 +68,7 @@ class SsoController extends Controller
 
         // Match the user locally (sipetra_id first, then email fallback)
         $localUser = User::where('sipetra_id', $sipetraUser->getId())->first()
-                  ?? User::where('email', $sipetraUser->getEmail())->first();
+            ?? User::where('email', $sipetraUser->getEmail())->first();
 
         $userData = [
             'sipetra_id'            => $sipetraUser->getId(),
@@ -95,9 +100,16 @@ class SsoController extends Controller
         } else {
             $userData['password'] = null; // No password for SSO users
             $localUser = User::create($userData);
+
+            // // Assign default role to access the panel (Filament Shield)
+            // if (method_exists($localUser, 'assignRole')) {
+            //     $localUser->assignRole('panel_user');
+            // }
         }
 
         Auth::login($localUser);
+
+        logger()->info('User logged in via SSO', ['user_id' => $localUser->id]);
 
         return redirect()->intended(route('filament.admin.pages.dashboard', absolute: false));
     }
