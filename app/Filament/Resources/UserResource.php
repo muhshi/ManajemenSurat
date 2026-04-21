@@ -80,7 +80,6 @@ class UserResource extends Resource
                                     ->label('Foto Profil')
                                     ->image()
                                     ->avatar()
-                                    ->circleDimensions()
                                     ->directory('avatars'),
                             ]),
 
