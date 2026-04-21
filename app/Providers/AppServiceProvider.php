@@ -19,20 +19,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Defer until all service providers (including SocialiteServiceProvider)
-        // are fully booted, to avoid "not instantiable" binding errors.
-        // Guard with class_exists so the app doesn't crash if socialite
-        // is not yet installed in vendor (e.g. before image rebuild).
-        $this->app->booted(function () {
-            if (!class_exists(\Laravel\Socialite\Contracts\Factory::class)) {
-                return;
-            }
-            $socialite = $this->app->make(\Laravel\Socialite\Contracts\Factory::class);
-            $socialite->extend('sipetra', function ($app) use ($socialite) {
-                $config = $app['config']['services.sipetra'];
-
-                return $socialite->buildProvider(SipetraSocialiteProvider::class, $config);
+        // Defer until all service providers are fully booted.
+        // Guard with class_exists so the app doesn't crash if socialite is missing.
+        if (class_exists(\Laravel\Socialite\Facades\Socialite::class)) {
+            $this->app->booted(function () {
+                try {
+                    \Laravel\Socialite\Facades\Socialite::extend('sipetra', function ($app) {
+                        $config = $app['config']['services.sipetra'];
+                        return \Laravel\Socialite\Facades\Socialite::buildProvider(SipetraSocialiteProvider::class, $config);
+                    });
+                } catch (\Exception $e) {
+                    // Ignore if contract is not bound yet
+                }
             });
-        });
+        }
     }
 }
