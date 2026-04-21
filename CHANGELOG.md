@@ -13,6 +13,10 @@
     - Nonaktifkan `register_role_policy` untuk memberikan kontrol manual lebih lanjut.
     - Refaktor format array metode izin pada konfigurasi shield.
 
+### Fixed
+- **Bug Navigation Group:**
+    - Perbaikan `FatalError` pada `UserResource` dengan menyesuaikan type hint `$navigationGroup` agar sesuai dengan class induk (Filament v4).
+
 ---
 
 ## [1.1.0] - 2026-04-17
