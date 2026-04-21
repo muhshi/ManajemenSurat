@@ -1,108 +1,75 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Models\User;
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\SuratMasuk;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SuratMasukPolicy
 {
     use HandlesAuthorization;
-
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->can('view_any_surat::masuk');
+        return $authUser->can('ViewAny:SuratMasuk');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, SuratMasuk $suratMasuk): bool
+    public function view(AuthUser $authUser, SuratMasuk $suratMasuk): bool
     {
-        return $user->can('view_surat::masuk');
+        return $authUser->can('View:SuratMasuk');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->can('create_surat::masuk');
+        return $authUser->can('Create:SuratMasuk');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, SuratMasuk $suratMasuk): bool
+    public function update(AuthUser $authUser, SuratMasuk $suratMasuk): bool
     {
-        return $user->can('update_surat::masuk');
+        return $authUser->can('Update:SuratMasuk');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, SuratMasuk $suratMasuk): bool
+    public function delete(AuthUser $authUser, SuratMasuk $suratMasuk): bool
     {
-        return $user->can('delete_surat::masuk');
+        return $authUser->can('Delete:SuratMasuk');
     }
 
-    /**
-     * Determine whether the user can bulk delete.
-     */
-    public function deleteAny(User $user): bool
+    public function deleteAny(AuthUser $authUser): bool
     {
-        return $user->can('delete_any_surat::masuk');
+        return $authUser->can('DeleteAny:SuratMasuk');
     }
 
-    /**
-     * Determine whether the user can permanently delete.
-     */
-    public function forceDelete(User $user, SuratMasuk $suratMasuk): bool
+    public function restore(AuthUser $authUser, SuratMasuk $suratMasuk): bool
     {
-        return $user->can('force_delete_surat::masuk');
+        return $authUser->can('Restore:SuratMasuk');
     }
 
-    /**
-     * Determine whether the user can permanently bulk delete.
-     */
-    public function forceDeleteAny(User $user): bool
+    public function forceDelete(AuthUser $authUser, SuratMasuk $suratMasuk): bool
     {
-        return $user->can('force_delete_any_surat::masuk');
+        return $authUser->can('ForceDelete:SuratMasuk');
     }
 
-    /**
-     * Determine whether the user can restore.
-     */
-    public function restore(User $user, SuratMasuk $suratMasuk): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->can('restore_surat::masuk');
+        return $authUser->can('ForceDeleteAny:SuratMasuk');
     }
 
-    /**
-     * Determine whether the user can bulk restore.
-     */
-    public function restoreAny(User $user): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->can('restore_any_surat::masuk');
+        return $authUser->can('RestoreAny:SuratMasuk');
     }
 
-    /**
-     * Determine whether the user can replicate.
-     */
-    public function replicate(User $user, SuratMasuk $suratMasuk): bool
+    public function replicate(AuthUser $authUser, SuratMasuk $suratMasuk): bool
     {
-        return $user->can('replicate_surat::masuk');
+        return $authUser->can('Replicate:SuratMasuk');
     }
 
-    /**
-     * Determine whether the user can reorder.
-     */
-    public function reorder(User $user): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->can('reorder_surat::masuk');
+        return $authUser->can('Reorder:SuratMasuk');
     }
+
 }
