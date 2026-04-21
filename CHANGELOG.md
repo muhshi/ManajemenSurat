@@ -7,6 +7,8 @@
     - Implementasi Form dengan sistem Tabs untuk mengelompokkan data (Akun, Identitas, Organisasi, Data Tambahan, SSO).
     - Dukungan manajemen Role langsung dari form user.
     - Tabel user dengan pratinjau avatar dan kolom yang bisa di-toggle.
+- **Security Policies:**
+    - Pembuatan dan pembaruan struktur `Policy` untuk seluruh modul (User, Bmn, Pegawai, Ruangan, Surat, dll) guna mendukung integrasi Filament Shield.
 
 ### Changed
 - **Konfigurasi Filament Shield:**
