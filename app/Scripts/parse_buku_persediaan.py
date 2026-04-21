@@ -21,6 +21,8 @@ def main():
     
     items = {}
     transactions_list = []
+    # O(1) lookup dict: key = (item_code, tanggal, no_dok) -> index in transactions_list
+    tx_index = {}
     
     current_item_code = None
     current_satuan = None
@@ -29,10 +31,21 @@ def main():
     # State for merging within the same date+dok
     current_tx_key = None
     
+    # Pre-compile regex patterns (avoid recompilation per line)
+    re_item_code = re.compile(r'KODE\s*BARANG\s*:\s*([\d\.]+)', re.IGNORECASE)
+    re_item_name = re.compile(r'NAMA\s*BARANG\s*:\s*(.+)', re.IGNORECASE)
+    re_satuan = re.compile(r'SATUAN\s*:\s*(.+)', re.IGNORECASE)
+    re_tx_line = re.compile(r'^(\d+)\s+(\d{2}-\d{2}-\d{4})\s+(.*?)\s+([\w\-\/\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)$')
+    re_fifo_6 = re.compile(r'^([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)$')
+    re_saldo = re.compile(r'^Saldo\s+([\d,\.]+)\s+([\d,\.]+)$', re.IGNORECASE)
+    re_nodok_cont = re.compile(r'^[\w\-\/\.]+$')
+    
     try:
         with pdfplumber.open(file_path) as pdf:
             for page in pdf.pages:
-                text = page.extract_text(layout=True) or page.extract_text()
+                text = page.extract_text(layout=True)
+                if not text:
+                    text = page.extract_text()
                 if not text:
                     continue
                 
@@ -43,17 +56,17 @@ def main():
                         continue
                         
                     # Match Master Data
-                    item_match = re.search(r'KODE\s*BARANG\s*:\s*([\d\.]+)', line, re.IGNORECASE)
+                    item_match = re_item_code.search(line)
                     if item_match:
                         current_item_code = item_match.group(1).strip()
                         if current_item_code not in items:
                             items[current_item_code] = {"item_code": current_item_code, "item_name": "", "satuan": ""}
                             
-                    nama_match = re.search(r'NAMA\s*BARANG\s*:\s*(.+)', line, re.IGNORECASE)
+                    nama_match = re_item_name.search(line)
                     if nama_match and current_item_code:
                         items[current_item_code]["item_name"] = nama_match.group(1).strip()
                             
-                    satuan_match = re.search(r'SATUAN\s*:\s*(.+)', line, re.IGNORECASE)
+                    satuan_match = re_satuan.search(line)
                     if satuan_match and current_item_code:
                         sat_str = satuan_match.group(1).strip()
                         items[current_item_code]["satuan"] = sat_str
@@ -61,7 +74,7 @@ def main():
                         
                     # Normal Transaction Match
                     # Example: 2  05-01-2026 Umum       002/1/2026   0 0 0 1 4,500 4,500 7 4,500 31,500
-                    tx_match = re.match(r'^(\d+)\s+(\d{2}-\d{2}-\d{4})\s+(.*?)\s+([\w\-\/\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)$', line_str)
+                    tx_match = re_tx_line.match(line_str)
                     
                     if tx_match and current_item_code:
                         no_urut = tx_match.group(1)
@@ -90,15 +103,11 @@ def main():
                         tx_key = f"{tanggal}_{no_dok}"
                         current_tx_key = tx_key
                         
-                        # Find if we already have this transaction in the list
-                        # Merge if YES.
-                        existing = None
-                        for tx in transactions_list:
-                            if tx["item_code"] == current_item_code and tx["tanggal"] == tanggal and tx["no_dok"] == no_dok:
-                                existing = tx
-                                break
-                                
-                        if existing:
+                        # O(1) lookup instead of O(n) linear search
+                        lookup_key = (current_item_code, tanggal, no_dok)
+                        
+                        if lookup_key in tx_index:
+                            existing = transactions_list[tx_index[lookup_key]]
                             existing["masuk_unit"] += masuk_unit
                             existing["masuk_jumlah"] += masuk_jumlah
                             if masuk_unit > 0:
@@ -113,7 +122,7 @@ def main():
                             existing["saldo_harga"] = saldo_harga
                             existing["saldo_jumlah"] = saldo_jumlah
                         else:
-                            transactions_list.append({
+                            tx_data = {
                                 "item_code": current_item_code,
                                 "tanggal": tanggal,
                                 "keterangan": keterangan,
@@ -127,14 +136,16 @@ def main():
                                 "saldo_unit": saldo_unit,
                                 "saldo_harga": saldo_harga,
                                 "saldo_jumlah": saldo_jumlah
-                            })
+                            }
+                            tx_index[lookup_key] = len(transactions_list)
+                            transactions_list.append(tx_data)
                             
                     # Check for partial FIFO lines
                     # Sometimes a line might have 6 numbers at the end (Keluar + Saldo) or 3 (Just Saldo)
                     # We are only interested in Keluar/Masuk spread lines.
                     # If a line has 6 numbers, it's extra Keluar and Saldo
                     # Format: spaces then 6 numbers: unit harga jumlah unit harga jumlah
-                    elif re.match(r'^([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)$', line_str) and current_tx_key:
+                    elif re_fifo_6.match(line_str) and current_tx_key:
                         parts = line_str.split()
                         keluar_unit = int(parse_number(parts[0]))
                         keluar_harga = parse_number(parts[1])
@@ -145,7 +156,7 @@ def main():
                         saldo_jumlah = parse_number(parts[5])
                         
                         if keluar_unit > 0 or keluar_jumlah > 0:
-                            # Merge into the current transaction
+                            # Merge into the current transaction (last tx for this item)
                             for tx in reversed(transactions_list):
                                 if tx["item_code"] == current_item_code:
                                     tx["keluar_unit"] += keluar_unit
@@ -159,7 +170,7 @@ def main():
                     else:
                         # Could be 3 tokens for just saldo, we can update the last tx saldo_unit but usually "Saldo" word is there
                         # e.g. "Saldo 28 126,000"
-                        m_saldo = re.match(r'^Saldo\s+([\d,\.]+)\s+([\d,\.]+)$', line_str, re.IGNORECASE)
+                        m_saldo = re_saldo.match(line_str)
                         if m_saldo and current_item_code:
                             su = int(parse_number(m_saldo.group(1)))
                             sj = parse_number(m_saldo.group(2))
@@ -169,7 +180,7 @@ def main():
                                     tx["saldo_unit"] = su
                                     tx["saldo_jumlah"] = sj
                                     break
-                        elif current_tx_key and re.match(r'^[\w\-\/\.]+$', line_str):
+                        elif current_tx_key and re_nodok_cont.match(line_str):
                             # Jika baris ini hanya berisi karakter no_dok (huruf, angka, strip, garis miring) tanpa spasi
                             # Kemungkinan besar ini adalah sambungan dari no_dok yang terpotong ke baris bawahnya
                             for tx in reversed(transactions_list):
@@ -190,7 +201,7 @@ def main():
         "transactions": transactions_list,
         "errors": errors
     }
-    print(json.dumps(output, indent=2))
+    print(json.dumps(output))
 
 if __name__ == '__main__':
     main()
