@@ -144,7 +144,7 @@ class InventoryUploadResource extends Resource
     {
         return [
             'index' => ListInventoryUploads::route('/'),
-            //'create' => CreateInventoryUpload::route('/create'),
+            'create' => CreateInventoryUpload::route('/create'),
         ];
     }
 }
