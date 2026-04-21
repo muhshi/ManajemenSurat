@@ -1,5 +1,20 @@
 # Changelog - ManajemenSurat
 
+## [1.2.0] - 2026-04-21
+### Added
+- **User Management Resource:**
+    - Pembuatan `UserResource` yang komprehensif mendukung Filament v4.
+    - Implementasi Form dengan sistem Tabs untuk mengelompokkan data (Akun, Identitas, Organisasi, Data Tambahan, SSO).
+    - Dukungan manajemen Role langsung dari form user.
+    - Tabel user dengan pratinjau avatar dan kolom yang bisa di-toggle.
+
+### Changed
+- **Konfigurasi Filament Shield:**
+    - Nonaktifkan `register_role_policy` untuk memberikan kontrol manual lebih lanjut.
+    - Refaktor format array metode izin pada konfigurasi shield.
+
+---
+
 ## [1.1.0] - 2026-04-17
 ### Added
 - **Integrasi SIPETRA SSO (Socialite):**
