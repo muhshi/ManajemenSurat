@@ -16,6 +16,8 @@
 ### Fixed
 - **Bug Navigation Group:**
     - Perbaikan `FatalError` pada `UserResource` dengan menyesuaikan type hint `$navigationGroup` agar sesuai dengan class induk (Filament v4).
+- **Bug Table Actions:**
+    - Perbaikan `FatalError` pada `UserResource` dengan mengubah namespace `Action` (Edit, Delete, Bulk) ke `Filament\Actions` sesuai standar Filament v4.
 
 ---
 
