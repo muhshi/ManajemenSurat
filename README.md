@@ -30,6 +30,9 @@ Aplikasi Manajemen Surat untuk BPS Kabupaten Demak yang dibangun menggunakan Lar
   - **Import Excel Bulanan**: Upload file monitoring SPP/SPM/SP2D dengan deteksi periode otomatis berbasis modus tanggal.
   - **Manajemen Pajak**: Pencatatan multi-jenis pajak (PPN, PPh 21, 22, 23, Final) per transaksi melalui modal interaktif.
   - **Sinkronisasi Data**: Fitur merge berbasis No SPP untuk menghindari duplikasi saat upload ulang file yang sama.
+- **Integrasi SSO SIPETRA**:
+  - **Single Sign-On**: Login menggunakan akun SIPETRA BPS.
+  - **Sinkronisasi Otomatis**: Update data profil, jabatan, dan foto dari SSO ke database lokal secara otomatis.
 
 
 ## Teknologi
@@ -129,6 +132,26 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 
 ### [Unreleased]
 #### Added
+- **Integrasi SIPETRA SSO (Socialite)**:
+  - Implementasi Driver Socialite kustom untuk SIPETRA.
+  - Konfigurasi OAuth2 SIPETRA pada `config/services.php`.
+  - `SsoController` untuk alur autentikasi redirect dan callback.
+  - Sinkronisasi profil (NIP, Jabatan, Avatar) otomatis saat login.
+- **Manajemen User Komprehensif**:
+  - `UserResource` baru dengan form sistem Tabs (Akun, Identitas, Organisasi, SSO).
+  - Tabel user dengan pratinjau avatar dan kolom dinamis.
+  - Integrasi interface `HasAvatar` untuk sinkronisasi foto profil.
+- **Keamanan & Kebijakan**:
+  - Perbaikan seluruh struktur `Policy` modul untuk integrasi Filament Shield yang lebih baik.
+  - Konfigurasi Shield untuk kontrol manual role policy.
+
+#### Fixed
+- **Bug UI Filament v4**:
+  - Perbaikan namespace `Action` dan `Placeholder` sesuai standar Filament v4.
+  - Penyesuaian `navigationGroup` type hint.
+  - Perbaikan pratinjau foto profil pada form edit user.
+
+#### Added (Previous)
 - **Modul Manajemen BMN**: Implementasi lengkap modul Barang Milik Negara berbasis data SIMAN.
   - Migration & Model `ruangans`, `pegawais`, `bmns` dengan relasi polymorphic `penanggung_jawab`.
   - **RuanganResource**: CRUD ruangan dengan badge kode, filter lantai, dan count BMN per ruangan.
