@@ -20,6 +20,9 @@
     - Perbaikan `FatalError` pada `UserResource` dengan mengubah namespace `Action` (Edit, Delete, Bulk) ke `Filament\Actions` sesuai standar Filament v4.
 - **Bug Avatar Upload:**
     - Penghapusan method `circleDimensions()` yang tidak tersedia pada komponen `FileUpload` di Filament v4.
+    - Penambahan preview foto saat ini pada form edit user menggunakan `Placeholder`. Hal ini memperbaiki masalah foto tidak muncul di form jika data berupa URL eksternal (SSO).
+- **Integrasi HasAvatar:**
+    - Implementasi interface `HasAvatar` pada model `User` untuk sinkronisasi foto profil (lokal & SSO) di seluruh panel Filament.
 
 ---
 
