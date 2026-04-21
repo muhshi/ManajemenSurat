@@ -122,6 +122,13 @@ The MIT License (MIT).
 
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
+### [2026-04-21]
+#### Fixed
+- **Kompatibilitas Windows**: Memperbaiki perintah `composer dev` agar dapat berjalan di sistem operasi Windows.
+  - Menjalankan `npm install` untuk menginstal Vite dan dependensi lainnya.
+  - Menghapus perintah `php artisan pail` dari skrip `dev` dan `dev:ssr` di `composer.json` karena ekstensi `pcntl` tidak tersedia di Windows.
+  - Menyesuaikan konfigurasi `concurrently` untuk menghapus panel logs yang bergantung pada Pail.
+
 ### [Unreleased]
 #### Added
 - **Modul Manajemen BMN**: Implementasi lengkap modul Barang Milik Negara berbasis data SIMAN.
