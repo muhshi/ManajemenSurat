@@ -22,7 +22,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
-use Filament\Schemas\Components\Placeholder;
+use Filament\Forms\Components\Placeholder;
 use Illuminate\Support\HtmlString;
 
 class UserResource extends Resource
