@@ -19,10 +19,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        \Laravel\Socialite\Facades\Socialite::extend('sipetra', function ($app) {
-            $config = $app['config']['services.sipetra'];
+        // Defer until all service providers (including SocialiteServiceProvider)
+        // are fully booted, to avoid "not instantiable" binding errors.
+        $this->app->booted(function () {
+            $socialite = $this->app->make(\Laravel\Socialite\Contracts\Factory::class);
+            $socialite->extend('sipetra', function ($app) use ($socialite) {
+                $config = $app['config']['services.sipetra'];
 
-            return \Laravel\Socialite\Facades\Socialite::buildProvider(SipetraSocialiteProvider::class, $config);
+                return $socialite->buildProvider(SipetraSocialiteProvider::class, $config);
+            });
         });
     }
 }
