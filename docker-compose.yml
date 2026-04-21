@@ -17,6 +17,7 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./.env:/app/.env
       - storage_data:/app/storage
+      - python_venv_data:/app/app/Scripts/venv
     networks:
       - default
       - mysql-stack_mysql_network
@@ -34,12 +35,14 @@ services:
       - /app/public/build
       - ./.env:/app/.env
       - storage_data:/app/storage
+      - python_venv_data:/app/app/Scripts/venv
     networks:
       - default
       - mysql-stack_mysql_network
 
 volumes:
   storage_data:
+  python_venv_data:
 
 networks:
   default: {}
