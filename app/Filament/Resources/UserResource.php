@@ -25,13 +25,14 @@ class UserResource extends Resource
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-users';
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
+
     protected static ?string $navigationLabel = 'Manajemen User';
 
     protected static ?string $modelLabel = 'User';
 
     protected static ?string $pluralModelLabel = 'Manajemen User';
 
-    protected static ?string $navigationGroup = 'Sistem';
 
     protected static ?int $navigationSort = 1;
 
