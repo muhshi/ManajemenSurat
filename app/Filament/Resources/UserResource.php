@@ -22,6 +22,8 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
+use Filament\Schemas\Components\Placeholder;
+use Illuminate\Support\HtmlString;
 
 class UserResource extends Resource
 {
@@ -76,11 +78,23 @@ class UserResource extends Resource
                                         ->preload()
                                         ->searchable(),
                                 ]),
-                                FileUpload::make('avatar_url')
-                                    ->label('Foto Profil')
-                                    ->image()
-                                    ->avatar()
-                                    ->directory('avatars'),
+                                Grid::make(2)->schema([
+                                    Placeholder::make('current_avatar')
+                                        ->label('Foto Saat Ini')
+                                        ->content(function ($record) {
+                                            if (!$record?->avatar_url) return 'Belum ada foto';
+                                            $url = filter_var($record->avatar_url, FILTER_VALIDATE_URL)
+                                                ? $record->avatar_url
+                                                : asset('storage/' . $record->avatar_url);
+                                            return new HtmlString("<img src='$url' class='w-20 h-20 rounded-full object-cover shadow border'>");
+                                        }),
+                                    FileUpload::make('avatar_url')
+                                        ->label('Ganti Foto Profil')
+                                        ->image()
+                                        ->avatar()
+                                        ->directory('avatars')
+                                        ->helperText('Unggah untuk mengganti atau membiarkannya tetap jika menggunakan foto SSO.'),
+                                ]),
                             ]),
 
                         Tab::make('Identitas Pegawai')
