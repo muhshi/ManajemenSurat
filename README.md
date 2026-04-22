@@ -122,6 +122,15 @@ The MIT License (MIT).
 
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
+### [2026-04-22]
+#### Fixed
+- **Ekstraksi PDF Python (SEP-BP)**: 
+  - Memperbaiki kompatibilitas path Python Virtual Environment agar mendukung sistem Windows (`Scripts/python.exe`) dan Linux.
+  - Memperbaiki metode pemanggilan *background process* menggunakan array untuk menghindari masalah *escaping* tanda petik pada Windows.
+  - Meningkatkan robustnes Regex pada parser PDF (`parse_buku_persediaan.py`) agar mendukung format tanggal bulan singkatan (misal: `01-MAR-26`) dan membersihkan karakter whitespace yang tidak perlu pada Kode/Nama Barang.
+  - Mengubah konfigurasi `FileUpload` agar secara eksplisit menggunakan disk `public` untuk menghindari *File Not Found error* pada antrian job.
+- **Tampilan Nota Permintaan**: Menghapus sisa-sisa elemen border/span dan mengatur ulang margin pada kolom tanda tangan (`inventory-print.blade.php`) untuk memastikan teks "Yang Menyerahkan" (yang berasal dari cache server) tergantikan dengan tata letak yang bersih.
+
 ### [2026-04-21]
 #### Fixed
 - **Kompatibilitas Windows**: Memperbaiki perintah `composer dev` agar dapat berjalan di sistem operasi Windows.
