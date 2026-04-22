@@ -294,6 +294,7 @@
                             <div class="sig-left">
                                 Yang Menerima
                                 <br>
+                                <br>
                                 <div class="signature-line"></div>
                                 <div class="nip-text">NIP.</div>
                             </div>
@@ -301,6 +302,7 @@
                             <div class="sig-right">
                                 Demak,
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ \Carbon\Carbon::parse($nota->tanggal)->format('d/m/Y') }}
+                                <br>
                                 <br>
                                 <div class="signature-line"></div>
                                 <div class="nip-text">NIP.</div>
@@ -310,7 +312,7 @@
                         <div class="sig-center">
                             SETUJU DIKELUARKAN<br>
                             <div style="margin-top: 4px;">Kasubbag Umum</div>
-                            <div class="signature-line" style="margin-top: 30px;"></div>
+                            <div class="signature-line" style="margin-top: 50px;"></div>
                             <div style="font-weight: bold; text-decoration: underline; margin-top: 2px;">SUCIPTO, ST</div>
                             <div>NIP. 19780630 200604 1 003</div>
                         </div>
