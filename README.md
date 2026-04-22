@@ -129,10 +129,6 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
   - Menghapus perintah `php artisan pail` dari skrip `dev` dan `dev:ssr` di `composer.json` karena ekstensi `pcntl` tidak tersedia di Windows.
   - Menyesuaikan konfigurasi `concurrently` untuk menghapus panel logs yang bergantung pada Pail.
 
-### [2026-04-22]
-#### Changed
-- **Laporan Persediaan**: Menghapus label tanda tangan "Yang Menerima" pada cetakan Nota Permintaan (inventory-print.blade.php) sesuai permintaan.
-
 ### [Unreleased]
 #### Added
 - **Modul Manajemen BMN**: Implementasi lengkap modul Barang Milik Negara berbasis data SIMAN.
