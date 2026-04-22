@@ -79,13 +79,22 @@ class ProcessInventoryUpload implements ShouldQueue
         $this->logMessage("✅ File ditemukan, ukuran: " . round(filesize($filePath) / 1024, 1) . " KB");
 
         try {
-            $pythonPath = base_path('app/Scripts/venv/bin/python3');
+            // Check for Python venv path (Cross-platform)
+            $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+            $pythonPath = $isWindows 
+                ? base_path('app/Scripts/venv/Scripts/python.exe')
+                : base_path('app/Scripts/venv/bin/python3');
+
             $scriptPath = base_path('app/Scripts/parse_buku_persediaan.py');
 
-            $this->logMessage("Python: {$pythonPath}");
+            $this->logMessage("Python Path: {$pythonPath}");
 
             if (!file_exists($pythonPath)) {
-                throw new Exception("Python venv tidak ditemukan di: {$pythonPath}");
+                $setupCmd = $isWindows 
+                    ? "python -m venv app/Scripts/venv && app/Scripts/venv/Scripts/pip install pdfplumber"
+                    : "python3 -m venv app/Scripts/venv && ./app/Scripts/venv/bin/pip install pdfplumber";
+                
+                throw new Exception("Python venv tidak ditemukan. Silakan jalankan perintah berikut di terminal: {$setupCmd}");
             }
 
             $this->logMessage("🔄 Menjalankan Python script... (Ini mungkin memakan waktu)");
