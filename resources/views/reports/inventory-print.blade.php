@@ -231,8 +231,6 @@
             <div class="signatures">
                 <div class="sig-row">
                     <div class="sig-left">
-                        Yang Menerima
-                        <br>
                         <div class="signature-line"></div>
                         <div class="nip-text">NIP.</div>
                     </div>
