@@ -51,17 +51,19 @@ def main():
                             
                     nama_match = re.search(r'NAMA\s*BARANG\s*:\s*(.+)', line, re.IGNORECASE)
                     if nama_match and current_item_code:
-                        items[current_item_code]["item_name"] = nama_match.group(1).strip()
+                        name_str = nama_match.group(1).strip().lstrip(':').strip()
+                        items[current_item_code]["item_name"] = name_str
                             
                     satuan_match = re.search(r'SATUAN\s*:\s*(.+)', line, re.IGNORECASE)
                     if satuan_match and current_item_code:
-                        sat_str = satuan_match.group(1).strip()
+                        sat_str = satuan_match.group(1).strip().lstrip(':').strip()
                         items[current_item_code]["satuan"] = sat_str
                         current_satuan = sat_str
                         
                     # Normal Transaction Match
-                    # Example: 2  05-01-2026 Umum       002/1/2026   0 0 0 1 4,500 4,500 7 4,500 31,500
-                    tx_match = re.match(r'^(\d+)\s+(\d{2}-\d{2}-\d{4})\s+(.*?)\s+([\w\-\/\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)$', line_str)
+                    # Support DD-MM-YYYY and DD-MMM-YY
+                    # Example: 2  03-03-2026 Umum ... or 1 Saldo Awal 01-MAR-26 ...
+                    tx_match = re.match(r'^(\d+)\s+(\d{2}-[\w]{2,3}-\d{2,4})\s+(.*?)\s+([\w\-\/\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)\s+([\d,\.]+)$', line_str)
                     
                     if tx_match and current_item_code:
                         no_urut = tx_match.group(1)
@@ -70,7 +72,25 @@ def main():
                         # Convert to YYYY-MM-DD
                         d_parts = tanggal.split('-')
                         if len(d_parts) == 3:
-                            tanggal = f"{d_parts[2]}-{d_parts[1]}-{d_parts[0]}"
+                            day = d_parts[0]
+                            month = d_parts[1]
+                            year = d_parts[2]
+
+                            # Handle abbreviated months (MAR, JAN, etc)
+                            month_map = {
+                                'JAN': '01', 'FEB': '02', 'MAR': '03', 'APR': '04', 
+                                'MEI': '05', 'MAY': '05', 'JUN': '06', 'JUL': '07', 
+                                'AGU': '08', 'AUG': '08', 'SEP': '09', 'OKT': '10', 
+                                'OCT': '10', 'NOV': '11', 'DES': '12', 'DEC': '12'
+                            }
+                            if month.upper() in month_map:
+                                month = month_map[month.upper()]
+                            
+                            # Handle 2-digit year
+                            if len(year) == 2:
+                                year = "20" + year
+                                
+                            tanggal = f"{year}-{month.zfill(2)}-{day.zfill(2)}"
                             
                         keterangan = tx_match.group(3).strip()
                         no_dok = tx_match.group(4).strip()

@@ -100,22 +100,28 @@ class ProcessInventoryUpload implements ShouldQueue
             $this->logMessage("🔄 Menjalankan Python script... (Ini mungkin memakan waktu)");
             $startTime = microtime(true);
 
-            $result = Process::timeout(600)->run("{$pythonPath} {$scriptPath} '{$filePath}'");
+            // Use array format for better cross-platform escaping
+            $result = Process::timeout(600)->run([$pythonPath, $scriptPath, $filePath]);
 
             $elapsed = round(microtime(true) - $startTime, 2);
             $this->logMessage("Python selesai dalam {$elapsed} detik");
 
             if ($result->failed()) {
                 $this->logMessage("❌ Python STDERR: " . substr($result->errorOutput(), 0, 500), true);
-                throw new Exception("Python script failed.");
+                throw new Exception("Python script failed with exit code " . $result->exitCode());
             }
 
-            $this->logMessage("✅ Python berhasil, memproses JSON...");
+            $rawOutput = $result->output();
+            $output = json_decode($rawOutput, true);
 
-            $output = json_decode($result->output(), true);
-            if (!$output || $output['status'] !== 'success') {
-                $this->logMessage("❌ JSON tidak valid.", true);
+            if (!$output) {
+                $this->logMessage("❌ JSON tidak valid. Raw Output: " . substr($rawOutput, 0, 200), true);
                 throw new Exception("Invalid JSON output.");
+            }
+
+            if ($output['status'] !== 'success') {
+                $this->logMessage("❌ Python Logic Error: " . ($output['message'] ?? 'Unknown error'), true);
+                throw new Exception("Python script reported an error.");
             }
 
             $totalItems = count($output['items'] ?? []);
