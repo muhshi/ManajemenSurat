@@ -25,9 +25,9 @@ class SipetraSocialiteProvider extends AbstractProvider implements ProviderInter
 
     protected function getUserByToken($token)
     {
-        // Menggunakan endpoint /api/user/me untuk mendapatkan profil lengkap
+        // Menggunakan endpoint /api/user untuk mendapatkan profil lengkap
         $response = $this->getHttpClient()->get(
-            config('services.sipetra.base_url') . '/api/user/me',
+            config('services.sipetra.base_url') . '/api/user',
             [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $token,

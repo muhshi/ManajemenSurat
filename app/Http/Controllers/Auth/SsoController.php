@@ -59,10 +59,6 @@ class SsoController extends Controller
         // Data dari /api/user/me (sudah lengkap karena provider menggunakan endpoint ini)
         $rawData = $ssoUser->getRaw();
 
-        // Data profil dari response
-        $profile      = $rawData['profile'] ?? [];
-        $organization = $rawData['organization'] ?? [];
-
         // === STRATEGI LINKING ===
         // Cari user lokal berdasarkan sipetra_id, lalu fallback ke email
         $localUser = User::where('sipetra_id', $ssoUser->getId())->first()
@@ -75,11 +71,11 @@ class SsoController extends Controller
             'sipetra_token'         => $accessToken,
             'sipetra_refresh_token' => $refreshToken,
 
-            // Identity (dari profile)
-            'nip'            => $profile['nip'] ?? null,
-            'jabatan'        => $organization['jabatan'] ?? null,
-            'golongan'       => $organization['golongan'] ?? null,
-            'nomor_hp'       => $rawData['phone'] ?? null,
+            // Identity & Employee Data (dari response flat Sipetra)
+            'nip'            => $rawData['nip'] ?? null,
+            'jabatan'        => $rawData['employee']['jabatan'] ?? null,
+            'golongan'       => $rawData['employee']['golongan'] ?? null,
+            'nomor_hp'       => $rawData['phone_number'] ?? null,
         ];
 
         if ($localUser) {
