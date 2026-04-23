@@ -29,6 +29,9 @@ class User extends Authenticatable
         'jabatan',
         'golongan',
         'nomor_hp',
+        'sipetra_id',
+        'sipetra_token',
+        'sipetra_refresh_token',
     ];
 
     /**

@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'sipetra' => [
+        'client_id'     => env('SIPETRA_CLIENT_ID'),
+        'client_secret' => env('SIPETRA_CLIENT_SECRET'),
+        'redirect'      => env('SIPETRA_REDIRECT_URI'),
+        'base_url'      => env('SIPETRA_BASE_URL', 'https://sipetra.test'),
+        'scopes'        => ['profile:read', 'email:read', 'identity:read', 'organization:read'],
+    ],
+
 ];

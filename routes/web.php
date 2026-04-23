@@ -19,3 +19,10 @@ Route::get('/inventory-uploads/{record}/print', function (\App\Models\InventoryU
     
     return view('reports.inventory-print', compact('record', 'grouped'));
 })->name('inventory-upload.print');
+
+// ─── SSO SIPETRA ────────────────────────────────────────────────
+use App\Http\Controllers\Auth\SsoController;
+
+Route::get('/auth/sipetra/redirect',  [SsoController::class, 'redirect'])->name('sipetra.login');
+Route::get('/auth/sipetra/callback', [SsoController::class, 'callback'])->name('sipetra.callback');
+
