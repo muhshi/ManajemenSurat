@@ -79,34 +79,49 @@ class ProcessInventoryUpload implements ShouldQueue
         $this->logMessage("✅ File ditemukan, ukuran: " . round(filesize($filePath) / 1024, 1) . " KB");
 
         try {
-            $pythonPath = base_path('app/Scripts/venv/bin/python3');
+            // Check for Python venv path (Cross-platform)
+            $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+            $pythonPath = $isWindows 
+                ? base_path('app/Scripts/venv/Scripts/python.exe')
+                : base_path('app/Scripts/venv/bin/python3');
+
             $scriptPath = base_path('app/Scripts/parse_buku_persediaan.py');
 
-            $this->logMessage("Python: {$pythonPath}");
+            $this->logMessage("Python Path: {$pythonPath}");
 
             if (!file_exists($pythonPath)) {
-                throw new Exception("Python venv tidak ditemukan di: {$pythonPath}");
+                $setupCmd = $isWindows 
+                    ? "python -m venv app/Scripts/venv && app/Scripts/venv/Scripts/pip install pdfplumber"
+                    : "python3 -m venv app/Scripts/venv && ./app/Scripts/venv/bin/pip install pdfplumber";
+                
+                throw new Exception("Python venv tidak ditemukan. Silakan jalankan perintah berikut di terminal: {$setupCmd}");
             }
 
             $this->logMessage("🔄 Menjalankan Python script... (Ini mungkin memakan waktu)");
             $startTime = microtime(true);
 
-            $result = Process::timeout(600)->run("{$pythonPath} {$scriptPath} '{$filePath}'");
+            // Use array format for better cross-platform escaping
+            $result = Process::timeout(600)->run([$pythonPath, $scriptPath, $filePath]);
 
             $elapsed = round(microtime(true) - $startTime, 2);
             $this->logMessage("Python selesai dalam {$elapsed} detik");
 
             if ($result->failed()) {
                 $this->logMessage("❌ Python STDERR: " . substr($result->errorOutput(), 0, 500), true);
-                throw new Exception("Python script failed.");
+                throw new Exception("Python script failed with exit code " . $result->exitCode());
             }
 
-            $this->logMessage("✅ Python berhasil, memproses JSON...");
+            $rawOutput = $result->output();
+            $output = json_decode($rawOutput, true);
 
-            $output = json_decode($result->output(), true);
-            if (!$output || $output['status'] !== 'success') {
-                $this->logMessage("❌ JSON tidak valid.", true);
+            if (!$output) {
+                $this->logMessage("❌ JSON tidak valid. Raw Output: " . substr($rawOutput, 0, 200), true);
                 throw new Exception("Invalid JSON output.");
+            }
+
+            if ($output['status'] !== 'success') {
+                $this->logMessage("❌ Python Logic Error: " . ($output['message'] ?? 'Unknown error'), true);
+                throw new Exception("Python script reported an error.");
             }
 
             $totalItems = count($output['items'] ?? []);
