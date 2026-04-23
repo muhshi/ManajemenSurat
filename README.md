@@ -132,6 +132,7 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
   - Konfigurasi `config/services.php` untuk credential SIPETRA.
   - Route `/auth/sipetra/redirect` dan `/auth/sipetra/callback`.
   - Variabel `.env` untuk `SIPETRA_CLIENT_ID`, `SIPETRA_CLIENT_SECRET`, `SIPETRA_REDIRECT_URI`, `SIPETRA_BASE_URL`.
+- **Docker Deployment**: Menambahkan *volume mapping* `- .:/app` pada `docker-compose.yml` untuk sinkronisasi kode instan antara host dan container tanpa perlu rebuild image setiap kali ada perubahan file.
 
 ### [2026-04-22]
 #### Fixed
