@@ -1,52 +1,42 @@
-<div class="mt-6">
+<div style="margin-top: 1.5rem;">
     {{-- Divider --}}
-    <div class="relative flex items-center justify-center">
-        <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-gray-200 dark:border-gray-700"></div>
+    <div style="position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+        <div style="position: absolute; inset: 0; display: flex; align-items: center;">
+            <div style="width: 100%; border-top: 1px solid #e5e7eb;"></div>
         </div>
-        <div class="relative px-4 bg-white dark:bg-gray-900">
-            <span class="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">atau</span>
+        <div style="position: relative; padding: 0 0.75rem; background: white;">
+            <span style="font-size: 0.75rem; font-weight: 500; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em;">atau</span>
         </div>
     </div>
 
     {{-- SSO Button --}}
-    <div class="mt-5">
-        <a href="{{ route('sipetra.login') }}"
-           class="group relative flex items-center justify-center w-full px-5 py-2.5 
-                  bg-white dark:bg-gray-800 
-                  border border-gray-300 dark:border-gray-600 
-                  rounded-lg shadow-sm 
-                  hover:bg-gray-50 dark:hover:bg-gray-700 
-                  hover:border-blue-400 dark:hover:border-blue-500
-                  hover:shadow-md
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
-                  transition-all duration-200 ease-in-out
-                  no-underline"
-           style="text-decoration: none;">
+    <a href="{{ route('sipetra.login') }}"
+       style="display: flex; align-items: center; justify-content: center; width: 100%; padding: 0.625rem 1.25rem; 
+              font-size: 0.875rem; font-weight: 500; color: #374151; text-decoration: none;
+              background-color: #ffffff; border: 1px solid #d1d5db; border-radius: 0.5rem; 
+              box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); 
+              transition: all 0.2s ease; cursor: pointer;"
+       onmouseover="this.style.backgroundColor='#f9fafb'; this.style.borderColor='#60a5fa'; this.style.boxShadow='0 4px 6px -1px rgba(0,0,0,0.1)';"
+       onmouseout="this.style.backgroundColor='#ffffff'; this.style.borderColor='#d1d5db'; this.style.boxShadow='0 1px 2px 0 rgba(0,0,0,0.05)';">
 
-            {{-- Logo BPS --}}
-            <div class="flex items-center justify-center w-6 h-6 mr-3 flex-shrink-0">
-                <img src="{{ asset('images/logo_bps.png') }}" 
-                     alt="Logo BPS" 
-                     class="w-5 h-5 object-contain"
-                     loading="lazy">
-            </div>
+        {{-- Logo BPS --}}
+        <img src="{{ asset('images/logo_bps.png') }}" 
+             alt="Logo BPS" 
+             style="width: 20px; height: 20px; object-fit: contain; margin-right: 0.75rem; flex-shrink: 0;"
+             loading="lazy">
 
-            {{-- Label --}}
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-200">
-                Masuk dengan SIPETRA SSO
-            </span>
+        {{-- Label --}}
+        <span>Masuk dengan SIPETRA SSO</span>
 
-            {{-- Arrow icon --}}
-            <svg class="w-4 h-4 ml-2 text-gray-400 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all duration-200 flex-shrink-0" 
-                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-        </a>
-    </div>
+        {{-- Arrow --}}
+        <svg style="width: 16px; height: 16px; margin-left: 0.5rem; color: #9ca3af; flex-shrink: 0;" 
+             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+    </a>
 
     {{-- Info text --}}
-    <p class="mt-3 text-center text-xs text-gray-400 dark:text-gray-500">
+    <p style="margin-top: 0.75rem; text-align: center; font-size: 0.7rem; color: #9ca3af;">
         Login terpusat menggunakan akun BPS Kabupaten Demak
     </p>
 </div>
