@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Filament\Notifications\Notification;
 
 class SsoController extends Controller
 {
@@ -23,21 +24,33 @@ class SsoController extends Controller
      */
     public function callback(Request $request)
     {
-        // Tangani jika user menolak izin
+        // Tangani jika user menolak izin atau ada error dari server
         if ($request->has('error')) {
-            $message = match ($request->input('error')) {
-                'access_denied' => 'Login dibatalkan. Anda harus memberikan izin untuk masuk.',
-                default => 'Terjadi kesalahan SSO: ' . $request->input('error_description', 'Unknown error'),
-            };
-            return redirect()->route('filament.admin.auth.login')->withErrors(['sso' => $message]);
+            $errorDescription = $request->input('error_description', $request->input('error'));
+            
+            Notification::make()
+                ->title('SSO SIPETRA Error')
+                ->body('Terjadi kesalahan: ' . $errorDescription)
+                ->danger()
+                ->persistent()
+                ->send();
+
+            return redirect()->route('filament.admin.auth.login');
         }
 
         try {
             $ssoUser = Socialite::driver('sipetra')->user();
         } catch (\Exception $e) {
             logger()->error('SSO Login Failed: ' . $e->getMessage());
-            return redirect()->route('filament.admin.auth.login')
-                ->withErrors(['sso' => 'Gagal login via SSO SIPETRA. Silakan coba lagi.']);
+            
+            Notification::make()
+                ->title('SSO Login Gagal')
+                ->body('Detail: ' . $e->getMessage())
+                ->danger()
+                ->persistent()
+                ->send();
+
+            return redirect()->route('filament.admin.auth.login');
         }
 
         $accessToken  = $ssoUser->token;
