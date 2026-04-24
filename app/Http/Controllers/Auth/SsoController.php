@@ -83,6 +83,9 @@ class SsoController extends Controller
         } else {
             $userData['password'] = null; // SSO-only user, tidak punya password lokal
             $localUser = User::create($userData);
+
+            // Assign default role 'pegawai' untuk login pertama kali
+            $localUser->assignRole('pegawai');
         }
 
         Auth::login($localUser);

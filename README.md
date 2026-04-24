@@ -123,11 +123,19 @@ The MIT License (MIT).
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
 ### [2026-04-24]
+#### Added
+- **Default Role SSO**: Otomatis memberikan role `pegawai` kepada user yang pertama kali login via SIPETRA SSO agar langsung memiliki akses ke menu aplikasi.
+
 #### Merged
 - **Pull dan Merge Branch asmuam**: Sinkronisasi perubahan terbaru dari branch `asmuam` ke branch `main`.
   - Update resource dan policy untuk BMN, Inventory, dan User.
   - Penambahan migrasi untuk integrasi SIPETRA.
   - Penambahan file setting Docker.
+
+#### Fixed
+- **SSO Login Fix**: Memperbaiki error 403 (Invalid Scope) saat login SSO dengan menyesuaikan permintaan scope di client dan server.
+- **UI Cleanup**: Menghapus tombol login SSO duplikat pada halaman login.
+- **Docker Mount Fix**: Menambahkan anonymous volume pada `docker-compose.yml` untuk mencegah folder `vendor` dan `public/build` tertimpa oleh bind mount host.
 
 ### [2026-04-23]
 #### Added
