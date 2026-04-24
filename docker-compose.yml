@@ -14,6 +14,8 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./.env:/app/.env
       - storage_data:/app/storage
+      - /app/vendor
+      - /app/public/build
     networks:
       - default
       - mysql-stack_mysql_network
@@ -28,6 +30,8 @@ services:
       - .:/app
       - ./.env:/app/.env
       - storage_data:/app/storage
+      - /app/vendor
+      - /app/public/build
     networks:
       - default
       - mysql-stack_mysql_network
