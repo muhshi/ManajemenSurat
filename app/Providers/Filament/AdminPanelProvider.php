@@ -30,11 +30,6 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        FilamentView::registerRenderHook(
-            PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
-            fn (): View => view('filament.auth.login-extra'),
-        );
-
         return $panel
             ->default()
             ->id('admin')
