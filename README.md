@@ -122,6 +122,13 @@ The MIT License (MIT).
 
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
+### [2026-04-24]
+#### Merged
+- **Pull dan Merge Branch asmuam**: Sinkronisasi perubahan terbaru dari branch `asmuam` ke branch `main`.
+  - Update resource dan policy untuk BMN, Inventory, dan User.
+  - Penambahan migrasi untuk integrasi SIPETRA.
+  - Penambahan file setting Docker.
+
 ### [2026-04-23]
 #### Added
 - **Integrasi SSO SIPETRA**: Implementasi login via SIPETRA SSO menggunakan Laravel Socialite (OAuth2 Authorization Code Grant).
