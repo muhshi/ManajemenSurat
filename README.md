@@ -125,6 +125,7 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 ### [2026-04-24]
 #### Added
 - **Default Role SSO**: Otomatis memberikan role `pegawai` kepada user yang pertama kali login via SIPETRA SSO agar langsung memiliki akses ke menu aplikasi.
+- **SSO Guide Update**: Memperbarui panduan integrasi SSO (`SSO_GUIDE.md`) khususnya pada bagian tampilan tombol login agar menggunakan desain premium dengan logo BPS, divider, dan hover effects yang konsisten dengan implementasi terbaru.
 
 #### Merged
 - **Pull dan Merge Branch asmuam**: Sinkronisasi perubahan terbaru dari branch `asmuam` ke branch `main`.
