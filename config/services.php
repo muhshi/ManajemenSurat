@@ -40,7 +40,7 @@ return [
         'client_secret' => env('SIPETRA_CLIENT_SECRET'),
         'redirect' => env('SIPETRA_REDIRECT_URI'),
         'base_url' => env('SIPETRA_BASE_URL'),
-        'scopes' => ['profile:read', 'identity_pegawai:read', 'employee:read', 'contact:read'],
+        'scopes' => ['profile:read', 'identity_pegawai:read', 'identity_mitra:read', 'employee:read', 'contact:read', 'roles:read'],
     ],
 
 ];
