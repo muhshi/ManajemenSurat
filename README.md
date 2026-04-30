@@ -45,7 +45,7 @@ Aplikasi Manajemen Surat untuk BPS Kabupaten Demak yang dibangun menggunakan Lar
 Aplikasi ini dibangun menggunakan teknologi modern:
 
 - **Framework**: [Laravel 12](https://laravel.com)
-- **Admin Panel**: [FilamentPHP v4](https://filamentphp.com)
+- **Admin Panel**: [FilamentPHP v5](https://filamentphp.com)
 - **Database**: MySQL
 - **Plugins & Packages**:
   - `bezhansalleh/filament-shield`: Manajemen Role & Permission.
@@ -183,6 +183,11 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 
 ### [2026-04-30]
 #### Added
+- **Upgrade Filament v4 → v5**: Upgrade mayor ke Filament v5 yang memberikan dukungan penuh untuk **Livewire v4** dan **Tailwind CSS v4**.
+- **Update Dependencies**: 
+  - `filament/filament` ke `^5.0`
+  - `asmit/filament-upload` ke `^2.0` (v5-compatible)
+  - `bezhansalleh/filament-shield` ke `^4.0` (v5-compatible)
 - **Modul Notulensi Rapat**: Implementasi lengkap modul notulensi yang menggabungkan undangan, daftar hadir, dan hasil rapat dalam satu dokumen.
   - Migration & Model `agendas` dan `agenda_pesertas` dengan relasi `hasMany`.
   - **AgendaResource**: Manajemen agenda dengan fitur isi notulensi via modal dan cetak dokumen .docx.
