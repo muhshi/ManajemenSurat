@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Filament\Notifications\Notification;
 
 class SsoController extends Controller
 {
     /**
-     * Redirect the user to the SIPETRA authentication page.
+     * Redirect ke halaman login SIPETRA SSO.
      */
     public function redirect()
     {
@@ -19,98 +20,76 @@ class SsoController extends Controller
     }
 
     /**
-     * Obtain the user information from SIPETRA.
+     * Handle callback dari SIPETRA setelah user login.
      */
     public function callback(Request $request)
     {
-        // If SSO Server rejected the authorization request
+        // Tangani jika user menolak izin atau ada error dari server
         if ($request->has('error')) {
-            $message = match ($request->input('error')) {
-                'access_denied' => 'Login dibatalkan. Anda harus memberikan izin untuk dapat masuk ke aplikasi.',
-                default => 'Terjadi kesalahan pada server SSO: ' . $request->input('error_description', 'Unknown error'),
-            };
+            $errorDescription = $request->input('error_description', $request->input('error'));
+            
+            Notification::make()
+                ->title('SSO SIPETRA Error')
+                ->body('Terjadi kesalahan: ' . $errorDescription)
+                ->danger()
+                ->persistent()
+                ->send();
 
-            return redirect()->route('filament.admin.auth.login')->withErrors(['email' => $message]);
+            return redirect()->route('filament.admin.auth.login');
         }
 
         try {
-            /** @var \Laravel\Socialite\Two\User $sipetraUser */
-            $sipetraUser = Socialite::driver('sipetra')->user();
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
-            $responseBody = $e->getResponse()->getBody()->getContents();
-            logger()->error('SSO Client Error: ' . $responseBody);
-            $errorData = json_decode($responseBody, true);
-            $hint = $errorData['hint'] ?? '';
-            return redirect()->route('filament.admin.auth.login')->withErrors(['email' => 'Gagal melakukan login via SSO SIPETRA. Info: ' . $hint]);
+            $ssoUser = Socialite::driver('sipetra')->user();
         } catch (\Exception $e) {
-            logger()->error('SSO Callback Error: ' . $e->getMessage(), [
-                'trace' => $e->getTraceAsString(),
-            ]);
-            return redirect()->route('filament.admin.auth.login')->withErrors(['email' => 'Gagal melakukan login via SSO SIPETRA. ' . $e->getMessage()]);
+            logger()->error('SSO Login Failed: ' . $e->getMessage());
+            
+            Notification::make()
+                ->title('SSO Login Gagal')
+                ->body('Detail: ' . $e->getMessage())
+                ->danger()
+                ->persistent()
+                ->send();
+
+            return redirect()->route('filament.admin.auth.login');
         }
 
-        logger()->info('SSO User obtained successfully', ['email' => $sipetraUser->getEmail()]);
+        $accessToken  = $ssoUser->token;
+        $refreshToken = $ssoUser->refreshToken;
 
-        // Token dari Socialite payload
-        $accessToken = $sipetraUser->token;
-        $refreshToken = $sipetraUser->refreshToken;
+        // Data dari /api/user/me (sudah lengkap karena provider menggunakan endpoint ini)
+        $rawData = $ssoUser->getRaw();
 
-        // Semua data sudah tersedia di raw payload (/api/user/me)
-        $rawData      = $sipetraUser->getRaw();
-        $profile      = $rawData['profile'] ?? [];
-        $organization = $rawData['organization'] ?? [];
-
-        logger()->debug('SSO User Profile Data:', [
-            'id'    => $sipetraUser->getId(),
-            'name'  => $sipetraUser->getName(),
-            'email' => $sipetraUser->getEmail(),
-        ]);
-
-        // Match the user locally (sipetra_id first, then email fallback)
-        $localUser = User::where('sipetra_id', $sipetraUser->getId())->first()
-            ?? User::where('email', $sipetraUser->getEmail())->first();
+        // === STRATEGI LINKING ===
+        // Cari user lokal berdasarkan sipetra_id, lalu fallback ke email
+        $localUser = User::where('sipetra_id', $ssoUser->getId())->first()
+                  ?? User::where('email', $ssoUser->getEmail())->first();
 
         $userData = [
-            'sipetra_id'            => $sipetraUser->getId(),
-            'name'                  => $sipetraUser->getName(),
-            'email'                 => $sipetraUser->getEmail(),
+            'sipetra_id'            => $ssoUser->getId(),
+            'name'                  => $ssoUser->getName(),
+            'email'                 => $ssoUser->getEmail(),
             'sipetra_token'         => $accessToken,
             'sipetra_refresh_token' => $refreshToken,
-            'avatar_url'            => $sipetraUser->getAvatar(),
 
-            // From profile (nested in /api/user/me)
-            'identity_type' => $profile['identity_type'] ?? null,
-            'nip'           => $profile['nip'] ?? null,
-            'nip_baru'      => $profile['nip_baru'] ?? null,
-            'sobat_id'      => $profile['sobat_id'] ?? null,
-            'jenis_kelamin' => $profile['jenis_kelamin'] ?? null,
-            'tempat_lahir'  => $profile['tempat_lahir'] ?? null,
-            'tanggal_lahir' => $profile['tanggal_lahir'] ?? null,
-            'pendidikan'    => $profile['pendidikan'] ?? null,
-
-            // From organization (nested in /api/user/me)
-            'kd_satker'  => $organization['kd_satker'] ?? null,
-            'jabatan'    => $organization['jabatan'] ?? null,
-            'unit_kerja' => $organization['unit_kerja'] ?? null,
-            'golongan'   => $organization['golongan'] ?? null,
+            // Identity & Employee Data (dari response flat Sipetra)
+            'nip'            => $rawData['nip'] ?? null,
+            'jabatan'        => $rawData['employee']['jabatan'] ?? null,
+            'golongan'       => $rawData['employee']['golongan'] ?? null,
+            'nomor_hp'       => $rawData['phone_number'] ?? null,
         ];
 
         if ($localUser) {
             $localUser->update($userData);
         } else {
-            $userData['password'] = null; // No password for SSO users
+            $userData['password'] = null; // SSO-only user, tidak punya password lokal
             $localUser = User::create($userData);
 
-            // // Assign default role to access the panel (Filament Shield)
-            // if (method_exists($localUser, 'assignRole')) {
-            //     $localUser->assignRole('panel_user');
-            // }
+            // Assign default role 'pegawai' untuk login pertama kali
+            $localUser->assignRole('pegawai');
         }
 
         Auth::login($localUser);
 
-        logger()->info('User logged in via SSO', ['user_id' => $localUser->id]);
-
-        return redirect()->intended(route('filament.admin.pages.dashboard', absolute: false));
+        return redirect()->intended(route('filament.admin.pages.dashboard'));
     }
 }

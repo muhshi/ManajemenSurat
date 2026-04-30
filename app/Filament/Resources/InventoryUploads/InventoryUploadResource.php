@@ -45,6 +45,7 @@ class InventoryUploadResource extends Resource
                             ->label('File PDF')
                             ->acceptedFileTypes(['application/pdf'])
                             ->directory('inventory-uploads')
+                            ->disk('public')
                             ->required()
                             ->columnSpanFull(),
                     ]),

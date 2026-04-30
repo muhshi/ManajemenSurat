@@ -135,6 +135,50 @@ The MIT License (MIT).
 
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
+### [2026-04-24]
+#### Added
+- **Default Role SSO**: Otomatis memberikan role `pegawai` kepada user yang pertama kali login via SIPETRA SSO agar langsung memiliki akses ke menu aplikasi.
+- **SSO Guide Update**: Memperbarui panduan integrasi SSO (`SSO_GUIDE.md`) khususnya pada bagian tampilan tombol login agar menggunakan desain premium dengan logo BPS, divider, dan hover effects yang konsisten dengan implementasi terbaru.
+
+#### Merged
+- **Pull dan Merge Branch asmuam**: Sinkronisasi perubahan terbaru dari branch `asmuam` ke branch `main`.
+  - Update resource dan policy untuk BMN, Inventory, dan User.
+  - Penambahan migrasi untuk integrasi SIPETRA.
+  - Penambahan file setting Docker.
+
+#### Fixed
+- **SSO Login Fix**: Memperbaiki error 403 (Invalid Scope) saat login SSO dengan menyesuaikan permintaan scope di client dan server.
+- **UI Cleanup**: Menghapus tombol login SSO duplikat pada halaman login.
+- **Docker Mount Fix**: Menambahkan anonymous volume pada `docker-compose.yml` untuk mencegah folder `vendor` dan `public/build` tertimpa oleh bind mount host.
+
+### [2026-04-23]
+#### Added
+- **Integrasi SSO SIPETRA**: Implementasi login via SIPETRA SSO menggunakan Laravel Socialite (OAuth2 Authorization Code Grant).
+  - `SipetraSocialiteProvider`: Custom Socialite provider untuk komunikasi dengan SIPETRA SSO Server.
+  - `SsoController`: Controller yang menangani redirect ke SIPETRA dan callback setelah autentikasi berhasil.
+  - **Tombol SSO di halaman login Filament**: Tombol "Masuk dengan SIPETRA SSO" bergaya Google SSO dengan logo BPS, divider, hover effects, dan dark mode support.
+  - **Strategi Linking User**: User SSO otomatis terhubung ke akun lokal berdasarkan email yang sama (tidak duplikasi).
+  - Konfigurasi `config/services.php` untuk credential SIPETRA.
+  - Route `/auth/sipetra/redirect` dan `/auth/sipetra/callback`.
+  - Variabel `.env` untuk `SIPETRA_CLIENT_ID`, `SIPETRA_CLIENT_SECRET`, `SIPETRA_REDIRECT_URI`, `SIPETRA_BASE_URL`.
+- **Docker Deployment**: Menambahkan *volume mapping* `- .:/app` pada `docker-compose.yml` untuk sinkronisasi kode instan antara host dan container tanpa perlu rebuild image setiap kali ada perubahan file.
+
+### [2026-04-22]
+#### Fixed
+- **Ekstraksi PDF Python (SEP-BP)**: 
+  - Memperbaiki kompatibilitas path Python Virtual Environment agar mendukung sistem Windows (`Scripts/python.exe`) dan Linux.
+  - Memperbaiki metode pemanggilan *background process* menggunakan array untuk menghindari masalah *escaping* tanda petik pada Windows.
+  - Meningkatkan robustnes Regex pada parser PDF (`parse_buku_persediaan.py`) agar mendukung format tanggal bulan singkatan (misal: `01-MAR-26`) dan membersihkan karakter whitespace yang tidak perlu pada Kode/Nama Barang.
+  - Mengubah konfigurasi `FileUpload` agar secara eksplisit menggunakan disk `public` untuk menghindari *File Not Found error* pada antrian job.
+- **Tampilan Nota Permintaan**: Menghapus sisa-sisa elemen border/span dan mengatur ulang margin pada kolom tanda tangan (`inventory-print.blade.php`) untuk memastikan teks "Yang Menyerahkan" (yang berasal dari cache server) tergantikan dengan tata letak yang bersih.
+
+### [2026-04-21]
+#### Fixed
+- **Kompatibilitas Windows**: Memperbaiki perintah `composer dev` agar dapat berjalan di sistem operasi Windows.
+  - Menjalankan `npm install` untuk menginstal Vite dan dependensi lainnya.
+  - Menghapus perintah `php artisan pail` dari skrip `dev` dan `dev:ssr` di `composer.json` karena ekstensi `pcntl` tidak tersedia di Windows.
+  - Menyesuaikan konfigurasi `concurrently` untuk menghapus panel logs yang bergantung pada Pail.
+
 ### [Unreleased]
 
 ### [2026-04-30]

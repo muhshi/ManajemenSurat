@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Socialite\Facades\Socialite;
+use App\Providers\SipetraSocialiteProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -36,11 +36,11 @@ return [
     ],
 
     'sipetra' => [
-        'client_id'     => env('SIPETRA_CLIENT_ID'),
+        'client_id' => env('SIPETRA_CLIENT_ID'),
         'client_secret' => env('SIPETRA_CLIENT_SECRET'),
-        'redirect'      => env('SIPETRA_REDIRECT_URI'),
-        'base_url'      => env('SIPETRA_BASE_URL'),
-        'scopes' => ['profile:read', 'email:read', 'identity:read', 'organization:read'],
+        'redirect' => env('SIPETRA_REDIRECT_URI'),
+        'base_url' => env('SIPETRA_BASE_URL'),
+        'scopes' => ['identity_pegawai:read', 'identity_mitra:read', 'employee:read', 'contact:read', 'roles:read'],
     ],
 
 ];
