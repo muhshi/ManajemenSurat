@@ -18,6 +18,7 @@ class SystemSettings extends Settings
     public ?string $template_surat_keluar;
     public ?string $template_memo;
     public ?string $template_surat_pengantar;
+    public ?string $template_notulensi;
 
     public ?string $gemini_api_key;
 

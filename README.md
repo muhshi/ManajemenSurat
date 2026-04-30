@@ -33,6 +33,11 @@ Aplikasi Manajemen Surat untuk BPS Kabupaten Demak yang dibangun menggunakan Lar
 - **Integrasi SSO SIPETRA**:
   - **Single Sign-On**: Login menggunakan akun SIPETRA BPS.
   - **Sinkronisasi Otomatis**: Update data profil, jabatan, dan foto dari SSO ke database lokal secara otomatis.
+- **Notulensi Rapat**:
+  - **Manajemen Agenda**: Pencatatan agenda rapat, judul, waktu, tempat, dan pimpinan rapat.
+  - **Manajemen Peserta**: Pengelolaan daftar hadir peserta rapat secara dinamis melalui RelationManager.
+  - **Input Notulensi**: Pengisian hasil pembahasan, keputusan, dan tindak lanjut rapat melalui modal interaktif di tabel.
+  - **Generasi Dokumen**: Penggabungan Undangan, Daftar Hadir, dan Notulensi menjadi satu file (.docx) otomatis dengan snapshot data penandatangan.
 
 
 ## Teknologi
@@ -131,6 +136,21 @@ The MIT License (MIT).
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
 ### [Unreleased]
+
+### [2026-04-30]
+#### Added
+- **Modul Notulensi Rapat**: Implementasi lengkap modul notulensi yang menggabungkan undangan, daftar hadir, dan hasil rapat dalam satu dokumen.
+  - Migration & Model `agendas` dan `agenda_pesertas` dengan relasi `hasMany`.
+  - **AgendaResource**: Manajemen agenda dengan fitur isi notulensi via modal dan cetak dokumen .docx.
+  - **PesertaRelationManager**: Pengelolaan peserta rapat pada halaman edit agenda.
+  - **AgendaDocService**: Service khusus untuk manipulasi template Word menggunakan PHPWord (fitur `cloneRow` untuk tabel dinamis).
+  - **Snapshot Penandatangan**: Otomatis menyimpan data nama/NIP/jabatan kepala saat agenda dibuat untuk konsistensi dokumen historis.
+  - **Template Management**: Penambahan field upload template Notulensi di halaman Pengaturan Sistem.
+
+#### Changed
+- **Layout Permintaan Barang**: Refaktor layout form menjadi lebih ergonomis dengan pengelompokan (Group) Nama Peminta dan Tanda Tangan di bagian atas (2 kolom) serta membuat section Daftar Barang menjadi lebar penuh (Full Span).
+
+### [Unreleased] (Previous)
 #### Added
 - **Integrasi SIPETRA SSO (Socialite)**:
   - Implementasi Driver Socialite kustom untuk SIPETRA.

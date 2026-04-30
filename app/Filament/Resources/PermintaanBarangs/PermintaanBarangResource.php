@@ -4,6 +4,7 @@ namespace App\Filament\Resources\PermintaanBarangs;
 
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
@@ -31,9 +32,9 @@ class PermintaanBarangResource extends Resource
 {
     protected static ?string $model = PermintaanBarang::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-shopping-cart';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-shopping-cart';
     protected static ?string $navigationLabel = 'Permintaan Barang';
-    protected static string | \UnitEnum | null $navigationGroup = 'Inventaris';
+    protected static string|\UnitEnum|null $navigationGroup = 'Inventaris';
     protected static ?string $modelLabel = 'Permintaan Barang';
     protected static ?string $pluralModelLabel = 'Permintaan Barang';
 
@@ -41,19 +42,24 @@ class PermintaanBarangResource extends Resource
     {
         return $schema
             ->components([
-                Section::make('Informasi Peminta')
+                Section::make('Informasi Peminta & Tanda Tangan')
                     ->schema([
-                        TextInput::make('nama_peminta')
-                            ->label('Nama Peminta')
-                            ->required()
-                            ->maxLength(255),
-                        DatePicker::make('tanggal')
-                            ->label('Tanggal')
-                            ->required()
-                            ->default(now())
-                            ->displayFormat('d/m/Y'),
+                        Group::make([
+                            TextInput::make('nama_peminta')
+                                ->label('Nama Peminta')
+                                ->required()
+                                ->maxLength(255),
+                            DatePicker::make('tanggal')
+                                ->label('Tanggal')
+                                ->required()
+                                ->default(now())
+                                ->displayFormat('d/m/Y'),
+                        ]),
+                        SignaturePad::make('signature')
+                            ->label('Tanda Tangan Peminta'),
                     ])
-                    ->columns(2),
+                    ->columns(2)
+                    ->columnSpanFull(),
 
                 Section::make('Daftar Barang')
                     ->schema([
@@ -84,14 +90,8 @@ class PermintaanBarangResource extends Resource
                             ->reorderable()
                             ->cloneable()
                             ->columnSpanFull(),
-                    ]),
-
-                Section::make('Tanda Tangan')
-                    ->schema([
-                        SignaturePad::make('signature')
-                            ->label('Tanda Tangan Peminta')
-                            ->columnSpanFull(),
-                    ]),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -117,7 +117,7 @@ class PermintaanBarangResource extends Resource
                     ->boolean()
                     ->trueIcon('heroicon-o-check-badge')
                     ->falseIcon('heroicon-o-x-mark')
-                    ->getStateUsing(fn ($record) => !empty($record->signature)),
+                    ->getStateUsing(fn($record) => !empty($record->signature)),
                 TextColumn::make('created_at')
                     ->label('Dibuat')
                     ->dateTime('d/m/Y H:i')
@@ -133,8 +133,8 @@ class PermintaanBarangResource extends Resource
                     ])
                     ->query(function ($query, array $data) {
                         return $query
-                            ->when($data['dari'], fn ($q, $d) => $q->whereDate('tanggal', '>=', $d))
-                            ->when($data['sampai'], fn ($q, $d) => $q->whereDate('tanggal', '<=', $d));
+                            ->when($data['dari'], fn($q, $d) => $q->whereDate('tanggal', '>=', $d))
+                            ->when($data['sampai'], fn($q, $d) => $q->whereDate('tanggal', '<=', $d));
                     }),
             ])
             ->recordActions([

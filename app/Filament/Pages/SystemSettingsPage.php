@@ -41,6 +41,7 @@ class SystemSettingsPage extends Page implements HasForms
             'template_surat_keluar' => $s->template_surat_keluar,
             'template_memo' => $s->template_memo,
             'template_surat_pengantar' => $s->template_surat_pengantar,
+            'template_notulensi' => $s->template_notulensi,
             'gemini_api_key' => $s->gemini_api_key,
         ]);
     }
@@ -96,6 +97,11 @@ class SystemSettingsPage extends Page implements HasForms
                         ->maxSize(5120),
                     FileUpload::make('template_surat_pengantar')
                         ->label('Template Surat Pengantar')
+                        ->directory('templates')
+                        ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
+                        ->maxSize(5120),
+                    FileUpload::make('template_notulensi')
+                        ->label('Template Notulensi Rapat')
                         ->directory('templates')
                         ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
                         ->maxSize(5120),
