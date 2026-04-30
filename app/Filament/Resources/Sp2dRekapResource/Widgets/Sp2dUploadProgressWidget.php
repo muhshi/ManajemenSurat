@@ -25,7 +25,7 @@ class Sp2dUploadProgressWidget extends Widget
         // or if it was recently finished (e.g. created in the last 15 minutes)
         $this->currentUpload = Sp2dUpload::latest()
             ->first();
-            
+
         // If there's no upload or the latest is very old and already done/failed, don't show the widget progress details
         // Actually, let's always show the very latest upload's log, users can dismiss it or we just keep it as terminal
     }
