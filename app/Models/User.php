@@ -46,6 +46,10 @@ class User extends Authenticatable implements HasAvatar
         'tanggal_lahir',
         'pendidikan',
         'avatar_url',
+        'is_active',
+        'period',
+        'contract_start',
+        'contract_end',
     ];
 
     /**
@@ -70,6 +74,9 @@ class User extends Authenticatable implements HasAvatar
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'contract_start' => 'date',
+            'contract_end' => 'date',
         ];
     }
 
@@ -99,5 +106,31 @@ class User extends Authenticatable implements HasAvatar
         }
 
         return asset('storage/' . $this->avatar_url);
+    }
+
+    /**
+     * Scope: Hanya tampilkan pengguna yang aktif.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * Scope: Tampilkan pegawai (dan juga aktif).
+     */
+    public function scopePegawai($query)
+    {
+        return $query->active()->where('identity_type', 'pegawai');
+    }
+
+    /**
+     * Scope: Tampilkan mitra (dan juga aktif).
+     * @param string|null $period Filter spesifik period mitra (opsional)
+     */
+    public function scopeMitra($query, ?string $period = null)
+    {
+        $q = $query->active()->where('identity_type', 'mitra');
+        return $period ? $q->where('period', $period) : $q;
     }
 }

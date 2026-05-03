@@ -9,8 +9,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Actions\BulkActionGroup;
@@ -46,138 +47,163 @@ class UserResource extends Resource
     {
         return $schema
             ->components([
-                Tabs::make('Tabs')
-                    ->tabs([
-                        Tab::make('Akun & Dasar')
-                            ->icon('heroicon-o-user-circle')
-                            ->schema([
-                                Grid::make(2)->schema([
-                                    TextInput::make('name')
-                                        ->label('Nama Lengkap')
-                                        ->required()
-                                        ->maxLength(255),
-                                    TextInput::make('email')
-                                        ->label('Alamat Email')
-                                        ->email()
-                                        ->required()
-                                        ->unique(ignoreRecord: true)
-                                        ->maxLength(255),
-                                ]),
-                                Grid::make(2)->schema([
-                                    TextInput::make('password')
-                                        ->label('Password')
-                                        ->password()
-                                        ->dehydrateStateUsing(fn($state) => Hash::make($state))
-                                        ->dehydrated(fn($state) => filled($state))
-                                        ->required(fn(string $context): bool => $context === 'create')
-                                        ->placeholder('Kosongkan jika tidak ingin mengubah password'),
-                                    Select::make('roles')
-                                        ->label('Role / Peran')
-                                        ->relationship('roles', 'name')
-                                        ->multiple()
-                                        ->preload()
-                                        ->searchable(),
-                                ]),
-                                Grid::make(2)->schema([
-                                    Placeholder::make('current_avatar')
-                                        ->label('Foto Saat Ini')
-                                        ->content(function ($record) {
-                                            if (!$record?->avatar_url) return 'Belum ada foto';
-                                            $url = filter_var($record->avatar_url, FILTER_VALIDATE_URL)
-                                                ? $record->avatar_url
-                                                : asset('storage/' . $record->avatar_url);
-                                            return new HtmlString("<img src='$url' class='w-20 h-20 rounded-full object-cover shadow border'>");
-                                        }),
-                                    FileUpload::make('avatar_url')
-                                        ->label('Ganti Foto Profil')
-                                        ->image()
-                                        ->avatar()
-                                        ->directory('avatars')
-                                        ->helperText('Unggah untuk mengganti atau membiarkannya tetap jika menggunakan foto SSO.'),
-                                ]),
-                            ]),
+                Section::make('Form Kelola Pengguna')
+                    ->description('Manajemen profil dan akses pengguna')
+                    ->icon('heroicon-o-users')
+                    ->schema([
+                        Tabs::make('Tabs')
+                            ->tabs([
+                                Tab::make('Akun & Dasar')
+                                    ->icon('heroicon-o-user-circle')
+                                    ->schema([
+                                        Group::make([
+                                            TextInput::make('name')
+                                                ->label('Nama Lengkap')
+                                                ->prefixIcon('heroicon-m-user')
+                                                ->required()
+                                                ->maxLength(255),
+                                            TextInput::make('email')
+                                                ->label('Alamat Email')
+                                                ->prefixIcon('heroicon-m-envelope')
+                                                ->email()
+                                                ->required()
+                                                ->unique(ignoreRecord: true)
+                                                ->maxLength(255),
+                                        ])->columns(2)->columnSpanFull(),
+                                        Group::make([
+                                            TextInput::make('password')
+                                                ->label('Password')
+                                                ->prefixIcon('heroicon-m-lock-closed')
+                                                ->password()
+                                                ->dehydrateStateUsing(fn($state) => Hash::make($state))
+                                                ->dehydrated(fn($state) => filled($state))
+                                                ->required(fn(string $context): bool => $context === 'create')
+                                                ->placeholder('Kosongkan jika tidak ingin mengubah password'),
+                                            Select::make('roles')
+                                                ->label('Role / Peran')
+                                                ->prefixIcon('heroicon-m-shield-check')
+                                                ->relationship('roles', 'name')
+                                                ->multiple()
+                                                ->preload()
+                                                ->searchable(),
+                                        ])->columns(2)->columnSpanFull(),
+                                        Group::make([
+                                            Placeholder::make('current_avatar')
+                                                ->label('Foto Saat Ini')
+                                                ->content(function ($record) {
+                                                    if (!$record?->avatar_url) return 'Belum ada foto';
+                                                    $url = filter_var($record->avatar_url, FILTER_VALIDATE_URL)
+                                                        ? $record->avatar_url
+                                                        : asset('storage/' . $record->avatar_url);
+                                                    return new HtmlString("<img src='$url' class='w-20 h-20 rounded-full object-cover shadow border'>");
+                                                }),
+                                            FileUpload::make('avatar_url')
+                                                ->label('Ganti Foto Profil')
+                                                ->image()
+                                                ->avatar()
+                                                ->directory('avatars')
+                                                ->helperText('Unggah untuk mengganti atau membiarkannya tetap jika menggunakan foto SSO.'),
+                                        ])->columns(2)->columnSpanFull(),
+                                    ]),
 
-                        Tab::make('Identitas Pegawai')
-                            ->icon('heroicon-o-identification')
-                            ->schema([
-                                Grid::make(2)->schema([
-                                    TextInput::make('nip')
-                                        ->label('NIP (Lama)')
-                                        ->maxLength(20),
-                                    TextInput::make('nip_baru')
-                                        ->label('NIP Baru')
-                                        ->maxLength(20),
-                                ]),
-                                Grid::make(2)->schema([
-                                    TextInput::make('sobat_id')
-                                        ->label('Sobat ID')
-                                        ->maxLength(50),
-                                    TextInput::make('nomor_hp')
-                                        ->label('Nomor HP / WhatsApp')
-                                        ->tel()
-                                        ->maxLength(20),
-                                ]),
-                                Grid::make(2)->schema([
-                                    Select::make('gender')
-                                        ->label('Jenis Kelamin')
-                                        ->options([
-                                            'L' => 'Laki-laki',
-                                            'P' => 'Perempuan',
-                                        ]),
-                                    TextInput::make('identity_type')
-                                        ->label('Tipe Identitas')
-                                        ->placeholder('Pegawai / Mitra'),
-                                ]),
-                            ]),
+                                Tab::make('Identitas Pegawai')
+                                    ->icon('heroicon-o-identification')
+                                    ->schema([
+                                        Group::make([
+                                            TextInput::make('nip')
+                                                ->label('NIP (Lama)')
+                                                ->prefixIcon('heroicon-m-identification')
+                                                ->maxLength(20),
+                                            TextInput::make('nip_baru')
+                                                ->label('NIP Baru')
+                                                ->prefixIcon('heroicon-m-identification')
+                                                ->maxLength(20),
+                                        ])->columns(2)->columnSpanFull(),
+                                        Group::make([
+                                            TextInput::make('sobat_id')
+                                                ->label('Sobat ID')
+                                                ->prefixIcon('heroicon-m-hashtag')
+                                                ->maxLength(50),
+                                            TextInput::make('nomor_hp')
+                                                ->label('Nomor HP / WhatsApp')
+                                                ->prefixIcon('heroicon-m-device-phone-mobile')
+                                                ->tel()
+                                                ->maxLength(20),
+                                        ])->columns(2)->columnSpanFull(),
+                                        Group::make([
+                                            Select::make('gender')
+                                                ->label('Jenis Kelamin')
+                                                ->prefixIcon('heroicon-m-users')
+                                                ->options([
+                                                    'L' => 'Laki-laki',
+                                                    'P' => 'Perempuan',
+                                                ]),
+                                            TextInput::make('identity_type')
+                                                ->label('Tipe Identitas')
+                                                ->prefixIcon('heroicon-m-tag')
+                                                ->placeholder('Pegawai / Mitra'),
+                                        ])->columns(2)->columnSpanFull(),
+                                    ]),
 
-                        Tab::make('Organisasi')
-                            ->icon('heroicon-o-briefcase')
-                            ->schema([
-                                Grid::make(2)->schema([
-                                    TextInput::make('jabatan')
-                                        ->label('Jabatan')
-                                        ->maxLength(255),
-                                    TextInput::make('golongan')
-                                        ->label('Golongan')
-                                        ->maxLength(50),
-                                ]),
-                                Grid::make(2)->schema([
-                                    TextInput::make('kd_satker')
-                                        ->label('Kode Satker')
-                                        ->maxLength(10),
-                                    TextInput::make('unit_kerja')
-                                        ->label('Unit Kerja')
-                                        ->maxLength(255),
-                                ]),
-                            ]),
+                                Tab::make('Organisasi')
+                                    ->icon('heroicon-o-briefcase')
+                                    ->schema([
+                                        Group::make([
+                                            TextInput::make('jabatan')
+                                                ->label('Jabatan')
+                                                ->prefixIcon('heroicon-m-briefcase')
+                                                ->maxLength(255),
+                                            TextInput::make('golongan')
+                                                ->label('Golongan')
+                                                ->prefixIcon('heroicon-m-academic-cap')
+                                                ->maxLength(50),
+                                        ])->columns(2)->columnSpanFull(),
+                                        Group::make([
+                                            TextInput::make('kd_satker')
+                                                ->label('Kode Satker')
+                                                ->prefixIcon('heroicon-m-building-office')
+                                                ->maxLength(10),
+                                            TextInput::make('unit_kerja')
+                                                ->label('Unit Kerja')
+                                                ->prefixIcon('heroicon-m-building-office-2')
+                                                ->maxLength(255),
+                                        ])->columns(2)->columnSpanFull(),
+                                    ]),
 
-                        Tab::make('Data Tambahan')
-                            ->icon('heroicon-o-document-plus')
-                            ->schema([
-                                Grid::make(2)->schema([
-                                    TextInput::make('tempat_lahir')
-                                        ->label('Tempat Lahir'),
-                                    TextInput::make('tanggal_lahir')
-                                        ->label('Tanggal Lahir')
-                                        ->placeholder('YYYY-MM-DD'),
-                                ]),
-                                TextInput::make('pendidikan')
-                                    ->label('Pendidikan Terakhir'),
-                            ]),
+                                Tab::make('Data Tambahan')
+                                    ->icon('heroicon-o-document-plus')
+                                    ->schema([
+                                        Group::make([
+                                            TextInput::make('tempat_lahir')
+                                                ->label('Tempat Lahir')
+                                                ->prefixIcon('heroicon-m-map-pin'),
+                                            TextInput::make('tanggal_lahir')
+                                                ->label('Tanggal Lahir')
+                                                ->prefixIcon('heroicon-m-calendar')
+                                                ->placeholder('YYYY-MM-DD'),
+                                        ])->columns(2)->columnSpanFull(),
+                                        TextInput::make('pendidikan')
+                                            ->label('Pendidikan Terakhir')
+                                            ->prefixIcon('heroicon-m-academic-cap')
+                                            ->columnSpanFull(),
+                                    ]),
 
-                        Tab::make('SSO Sipetra')
-                            ->icon('heroicon-o-key')
-                            ->schema([
-                                Grid::make(2)->schema([
-                                    TextInput::make('sipetra_id')
-                                        ->label('Sipetra ID')
-                                        ->readOnly(),
-                                    TextInput::make('sipetra_token')
-                                        ->label('Access Token')
-                                        ->readOnly()
-                                        ->password(),
-                                ]),
-                            ]),
+                                Tab::make('SSO Sipetra')
+                                    ->icon('heroicon-o-key')
+                                    ->schema([
+                                        Group::make([
+                                            TextInput::make('sipetra_id')
+                                                ->label('Sipetra ID')
+                                                ->prefixIcon('heroicon-m-key')
+                                                ->readOnly(),
+                                            TextInput::make('sipetra_token')
+                                                ->label('Access Token')
+                                                ->prefixIcon('heroicon-m-lock-closed')
+                                                ->readOnly()
+                                                ->password(),
+                                        ])->columns(2)->columnSpanFull(),
+                                    ]),
+                            ])->columnSpanFull(),
                     ])->columnSpanFull(),
             ]);
     }

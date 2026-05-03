@@ -5,6 +5,8 @@ namespace App\Filament\Resources\SKS;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Components\Utilities\Get;
@@ -63,97 +65,106 @@ class SKResource extends Resource
     {
         return $schema
             ->components([
-                TextInput::make('nomor_surat')
-                    ->label('Nomor SK')
-                    ->readOnly()
-                    ->default(fn() => Surat::generateNomorSurat(
-                        (int) Surat::getNextNomorUrut(now()->year, 'SK'),
-                        now()->year,
-                        'SK'
-                    ))
-                    ->helperText('Format: XXX/{office_code}/KPA TAHUN {tahun}')
-                    ->columnSpanFull(),
-
-                Section::make('Generator Nomor SK')
-                    ->description('Ubah komponen ini untuk menghasilkan nomor SK.')
+                Section::make('Form Surat Keputusan')
+                    ->description('Isi data SK untuk mendapatkan nomor dan generate dokumen')
+                    ->icon('heroicon-o-document-text')
                     ->schema([
-                        Hidden::make('jenis_surat')
-                            ->default('SK'),
+                        Fieldset::make('Generator Nomor SK')
+                            ->schema([
+                                Group::make([
+                                    Hidden::make('jenis_surat')
+                                        ->default('SK'),
+                                    TextInput::make('nomor_urut')
+                                        ->label('No. Urut')
+                                        ->prefixIcon('heroicon-m-hashtag')
+                                        ->required()
+                                        ->numeric()
+                                        ->minValue(1)
+                                        ->default(fn() => Surat::getNextNomorUrut(now()->year, 'SK'))
+                                        ->helperText('Bisa diubah manual')
+                                        ->live(onBlur: true)
+                                        ->afterStateUpdated(function ($state, Set $set, Get $get) {
+                                            $tahun = $get('tahun') ?: now()->year;
+                                            $set('nomor_surat', Surat::generateNomorSurat((int) $state, (int) $tahun, 'SK'));
+                                        }),
+                                    Select::make('perihal')
+                                        ->label('Jenis Kegiatan')
+                                        ->prefixIcon('heroicon-m-tag')
+                                        ->options([
+                                            'Peserta' => 'Pelatihan',
+                                            'Petugas' => 'Pelaksanaan',
+                                        ])
+                                        ->required()
+                                        ->native(false),
+                                    DatePicker::make('tanggal_surat')
+                                        ->label('Tanggal Penetapan')
+                                        ->prefixIcon('heroicon-m-calendar')
+                                        ->required()
+                                        ->default(now())
+                                        ->native(false)
+                                        ->displayFormat('d F Y')
+                                        ->live(onBlur: true)
+                                        ->afterStateUpdated(function ($state, Set $set, Get $get) {
+                                            $carbonDate = Carbon::parse($state);
+                                            $tahun = $carbonDate->year;
+                                            $set('tahun', $tahun);
 
-                        TextInput::make('nomor_urut')
-                            ->label('No. Urut')
-                            ->required()
-                            ->numeric()
-                            ->minValue(1)
-                            ->default(fn() => Surat::getNextNomorUrut(now()->year, 'SK'))
-                            ->helperText('Nomor urut SK')
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function ($state, Set $set, Get $get) {
-                                $tahun = $get('tahun') ?: now()->year;
-                                $set('nomor_surat', Surat::generateNomorSurat((int) $state, (int) $tahun, 'SK'));
-                            }),
+                                            $nomorUrut = $get('nomor_urut') ?: Surat::getNextNomorUrut($tahun, 'SK');
+                                            $set('nomor_urut', $nomorUrut);
+                                            $set('nomor_surat', Surat::generateNomorSurat((int) $nomorUrut, (int) $tahun, 'SK'));
+                                        }),
+                                ])->columns(3)->columnSpanFull(),
 
-                        Select::make('perihal')
-                            ->label('Jenis Kegiatan (Placeholder)')
-                            ->options([
-                                'Peserta' => 'Pelatihan',
-                                'Petugas' => 'Pelaksanaan',
-                            ])
-                            ->required()
-                            ->helperText('Akan mengisi placeholder ${jenis_surat} di template SK')
-                            ->native(false),
+                                TextInput::make('nomor_surat')
+                                    ->label('Nomor SK')
+                                    ->prefixIcon('heroicon-m-document-text')
+                                    ->readOnly()
+                                    ->default(fn() => Surat::generateNomorSurat(
+                                        (int) Surat::getNextNomorUrut(now()->year, 'SK'),
+                                        now()->year,
+                                        'SK'
+                                    ))
+                                    ->helperText('Format: XXX/{office_code}/KPA TAHUN {tahun}')
+                                    ->columnSpanFull(),
 
-                        DatePicker::make('tanggal_surat')
-                            ->label('Tanggal Penetapan')
-                            ->required()
-                            ->default(now())
-                            ->native(false)
-                            ->displayFormat('d F Y')
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function ($state, Set $set, Get $get) {
-                                $carbonDate = Carbon::parse($state);
-                                $tahun = $carbonDate->year;
-                                $set('tahun', $tahun);
+                                Hidden::make('tahun')
+                                    ->default(now()->year),
+                            ])->columnSpanFull(),
 
-                                $nomorUrut = $get('nomor_urut') ?: Surat::getNextNomorUrut($tahun, 'SK');
-                                $set('nomor_urut', $nomorUrut);
-                                $set('nomor_surat', Surat::generateNomorSurat((int) $nomorUrut, (int) $tahun, 'SK'));
-                            }),
-
-                        Hidden::make('tahun')
-                            ->default(now()->year),
-                    ])
-                    ->columns(3),
-
-                Section::make('Informasi SK')
-                    ->description('Isi informasi SK yang akan digenerate')
-                    ->schema([
-                        TextInput::make('judul_surat')
-                            ->label('Tentang (Judul SK)')
-                            ->required()
-                            ->maxLength(255)
-                            ->placeholder('Contoh: Pembentukan Panitia Pelatihan Statistik')
-                            ->columnSpanFull(),
-                    ])
-                    ->columns(1),
+                        Fieldset::make('Informasi SK')
+                            ->schema([
+                                TextInput::make('judul_surat')
+                                    ->label('Tentang (Judul SK)')
+                                    ->prefixIcon('heroicon-m-chat-bubble-left-ellipsis')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->placeholder('Contoh: Pembentukan Panitia Pelatihan Statistik')
+                                    ->columnSpanFull(),
+                            ])->columnSpanFull(),
+                    ])->columnSpanFull(),
 
                 Section::make('Pejabat Penandatangan (Snapshot)')
                     ->description('Data ini tersimpan di surat dan tidak akan berubah meski pengaturan sistem diganti.')
+                    ->icon('heroicon-o-pencil-square')
                     ->schema([
                         TextInput::make('signer_city')
                             ->label('Kota Penetapan')
+                            ->prefixIcon('heroicon-m-building-office-2')
                             ->default(fn() => app(SystemSettings::class)->cert_city)
                             ->readOnly(),
                         TextInput::make('signer_name')
                             ->label('Nama Pejabat')
+                            ->prefixIcon('heroicon-m-user')
                             ->default(fn() => app(SystemSettings::class)->cert_signer_name)
                             ->readOnly(),
                         TextInput::make('signer_nip')
                             ->label('NIP')
+                            ->prefixIcon('heroicon-m-identification')
                             ->default(fn() => app(SystemSettings::class)->cert_signer_nip)
                             ->readOnly(),
                         TextInput::make('signer_title')
                             ->label('Jabatan Pejabat')
+                            ->prefixIcon('heroicon-m-briefcase')
                             ->default(fn() => app(SystemSettings::class)->cert_signer_title)
                             ->readOnly()
                             ->columnSpanFull(),

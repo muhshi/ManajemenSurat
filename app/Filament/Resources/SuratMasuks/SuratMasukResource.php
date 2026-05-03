@@ -4,6 +4,8 @@ namespace App\Filament\Resources\SuratMasuks;
 
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Group;
 use Filament\Actions\Action;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
@@ -54,9 +56,12 @@ class SuratMasukResource extends Resource
     {
         return $schema
             ->components([
-                Section::make('Arsip Digital')
-                    ->description('Upload file surat untuk ekstraksi data otomatis')
+                Section::make('Form Surat Masuk')
+                    ->description('Input data surat masuk dan upload arsip digital')
+                    ->icon('heroicon-o-inbox-arrow-down')
                     ->schema([
+                        Fieldset::make('Arsip Digital')
+                            ->schema([
                         AdvancedFileUpload::make('file_surat')
                             ->label('File Surat (PDF/Gambar)')
                             ->directory('surat-masuk')
@@ -137,35 +142,45 @@ class SuratMasukResource extends Resource
                                     })
 
                             ),
-                    ]),
+                            ])->columns(1)->columnSpanFull(),
 
-                Section::make('Identitas Pengirim')
-                    ->schema([
-                        TextInput::make('nama_pengirim')
-                            ->label('Nama Pengirim'),
-                        TextInput::make('jabatan_pengirim')
-                            ->label('Jabatan Pengirim'),
-                        TextInput::make('instansi_pengirim')
-                            ->label('Instansi Pengirim')
-                            ->columnSpanFull(),
-                    ])->columns(2),
+                        Fieldset::make('Identitas Pengirim')
+                            ->schema([
+                                TextInput::make('nama_pengirim')
+                                    ->label('Nama Pengirim')
+                                    ->prefixIcon('heroicon-m-user'),
+                                TextInput::make('jabatan_pengirim')
+                                    ->label('Jabatan Pengirim')
+                                    ->prefixIcon('heroicon-m-briefcase'),
+                                TextInput::make('instansi_pengirim')
+                                    ->label('Instansi Pengirim')
+                                    ->prefixIcon('heroicon-m-building-office-2')
+                                    ->columnSpanFull(),
+                            ])->columns(2)->columnSpanFull(),
 
-                Section::make('Detail Surat')
-                    ->schema([
-                        TextInput::make('nomor_surat')
-                            ->label('Nomor Surat'),
-                        DatePicker::make('tanggal_surat')
-                            ->label('Tanggal Surat'),
-                        DatePicker::make('tanggal_diterima')
-                            ->label('Tanggal Diterima')
-                            ->default(now()),
-                        TextInput::make('perihal')
-                            ->label('Perihal')
-                            ->columnSpanFull(),
-                        Textarea::make('isi_ringkas')
-                            ->label('Isi Ringkas')
-                            ->columnSpanFull(),
-                    ])->columns(3),
+                        Fieldset::make('Detail Surat')
+                            ->schema([
+                                Group::make([
+                                    TextInput::make('nomor_surat')
+                                        ->label('Nomor Surat')
+                                        ->prefixIcon('heroicon-m-hashtag'),
+                                    DatePicker::make('tanggal_surat')
+                                        ->label('Tanggal Surat')
+                                        ->prefixIcon('heroicon-m-calendar'),
+                                    DatePicker::make('tanggal_diterima')
+                                        ->label('Tanggal Diterima')
+                                        ->prefixIcon('heroicon-m-inbox-arrow-down')
+                                        ->default(now()),
+                                ])->columns(3)->columnSpanFull(),
+                                TextInput::make('perihal')
+                                    ->label('Perihal')
+                                    ->prefixIcon('heroicon-m-chat-bubble-left-ellipsis')
+                                    ->columnSpanFull(),
+                                Textarea::make('isi_ringkas')
+                                    ->label('Isi Ringkas')
+                                    ->columnSpanFull(),
+                            ])->columns(3)->columnSpanFull(),
+                    ])->columnSpanFull(),
             ]);
     }
 

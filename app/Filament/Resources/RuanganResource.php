@@ -14,6 +14,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Group;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -37,48 +40,67 @@ class RuanganResource extends Resource
     {
         return $schema
             ->components([
-                Grid::make(2)->schema([
-                    TextInput::make('kode_ruang')
-                        ->label('Kode Ruang')
-                        ->required()
-                        ->unique(ignoreRecord: true)
-                        ->placeholder('1001'),
+                Section::make('Form Ruangan')
+                    ->description('Masukkan data ruangan gedung')
+                    ->icon('heroicon-o-building-office')
+                    ->schema([
+                        Fieldset::make('Informasi Utama')
+                            ->schema([
+                                Group::make([
+                                    TextInput::make('kode_ruang')
+                                        ->label('Kode Ruang')
+                                        ->prefixIcon('heroicon-m-hashtag')
+                                        ->required()
+                                        ->unique(ignoreRecord: true)
+                                        ->placeholder('1001'),
 
-                    Select::make('lantai')
-                        ->label('Lantai')
-                        ->options([1 => 'Lantai 1', 2 => 'Lantai 2', 3 => 'Lantai 3'])
-                        ->default(1)
-                        ->required(),
-                ]),
+                                    Select::make('lantai')
+                                        ->label('Lantai')
+                                        ->prefixIcon('heroicon-m-building-office-2')
+                                        ->options([1 => 'Lantai 1', 2 => 'Lantai 2', 3 => 'Lantai 3'])
+                                        ->default(1)
+                                        ->required(),
+                                ])->columns(2)->columnSpanFull(),
 
-                Select::make('nama_tipe_ruang')
-                    ->label('Tipe Ruang')
-                    ->options([
-                        'Ruang Kerja' => 'Ruang Kerja',
-                        'Ruang Pelayanan' => 'Ruang Pelayanan',
-                        'Ruang Istirahat' => 'Ruang Istirahat',
-                        'Ruang Toilet/WC' => 'Ruang Toilet/WC',
-                        'Ruang Gudang' => 'Ruang Gudang',
-                        'Ruang Rapat Besar' => 'Ruang Rapat Besar',
-                        'Ruang Ibadah' => 'Ruang Ibadah',
-                    ])
-                    ->searchable(),
+                                Select::make('nama_tipe_ruang')
+                                    ->label('Tipe Ruang')
+                                    ->prefixIcon('heroicon-m-tag')
+                                    ->options([
+                                        'Ruang Kerja' => 'Ruang Kerja',
+                                        'Ruang Pelayanan' => 'Ruang Pelayanan',
+                                        'Ruang Istirahat' => 'Ruang Istirahat',
+                                        'Ruang Toilet/WC' => 'Ruang Toilet/WC',
+                                        'Ruang Gudang' => 'Ruang Gudang',
+                                        'Ruang Rapat Besar' => 'Ruang Rapat Besar',
+                                        'Ruang Ibadah' => 'Ruang Ibadah',
+                                    ])
+                                    ->searchable()
+                                    ->columnSpanFull(),
 
-                TextInput::make('nama_ruang')
-                    ->label('Nama Ruang')
-                    ->required()
-                    ->placeholder('RUANG PELAYANAN PUBLIK'),
+                                TextInput::make('nama_ruang')
+                                    ->label('Nama Ruang')
+                                    ->prefixIcon('heroicon-m-chat-bubble-left-ellipsis')
+                                    ->required()
+                                    ->placeholder('RUANG PELAYANAN PUBLIK')
+                                    ->columnSpanFull(),
+                            ])->columnSpanFull(),
 
-                Grid::make(2)->schema([
-                    TextInput::make('luas_ruang')
-                        ->label('Luas Ruang (m²)')
-                        ->numeric()
-                        ->suffix('m²'),
+                        Fieldset::make('Detail Tambahan')
+                            ->schema([
+                                Group::make([
+                                    TextInput::make('luas_ruang')
+                                        ->label('Luas Ruang (m²)')
+                                        ->prefixIcon('heroicon-m-arrows-pointing-out')
+                                        ->numeric()
+                                        ->suffix('m²'),
 
-                    TextInput::make('gedung')
-                        ->label('Nama Gedung')
-                        ->placeholder('Kosongkan jika satu gedung'),
-                ]),
+                                    TextInput::make('gedung')
+                                        ->label('Nama Gedung')
+                                        ->prefixIcon('heroicon-m-building-office-2')
+                                        ->placeholder('Kosongkan jika satu gedung'),
+                                ])->columns(2)->columnSpanFull(),
+                            ])->columnSpanFull(),
+                    ])->columnSpanFull(),
             ]);
     }
 

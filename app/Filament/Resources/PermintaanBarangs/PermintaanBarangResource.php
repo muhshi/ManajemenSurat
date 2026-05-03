@@ -4,6 +4,7 @@ namespace App\Filament\Resources\PermintaanBarangs;
 
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
@@ -42,26 +43,32 @@ class PermintaanBarangResource extends Resource
     {
         return $schema
             ->components([
-                Section::make('Informasi Peminta & Tanda Tangan')
+                Section::make('Form Permintaan Barang')
+                    ->description('Isi informasi permintaan dan daftar barang yang dibutuhkan')
+                    ->icon('heroicon-o-shopping-cart')
                     ->schema([
-                        Group::make([
-                            TextInput::make('nama_peminta')
-                                ->label('Nama Peminta')
-                                ->required()
-                                ->maxLength(255),
-                            DatePicker::make('tanggal')
-                                ->label('Tanggal')
-                                ->required()
-                                ->default(now())
-                                ->displayFormat('d/m/Y'),
-                        ]),
-                        SignaturePad::make('signature')
-                            ->label('Tanda Tangan Peminta'),
-                    ])
-                    ->columns(2)
-                    ->columnSpanFull(),
+                        Fieldset::make('Informasi Peminta & Tanda Tangan')
+                            ->schema([
+                                Group::make([
+                                    TextInput::make('nama_peminta')
+                                        ->label('Nama Peminta')
+                                        ->prefixIcon('heroicon-m-user')
+                                        ->required()
+                                        ->maxLength(255),
+                                    DatePicker::make('tanggal')
+                                        ->label('Tanggal')
+                                        ->prefixIcon('heroicon-m-calendar')
+                                        ->required()
+                                        ->default(now())
+                                        ->displayFormat('d/m/Y'),
+                                ]),
+                                SignaturePad::make('signature')
+                                    ->label('Tanda Tangan Peminta'),
+                            ])
+                            ->columns(2)
+                            ->columnSpanFull(),
 
-                Section::make('Daftar Barang')
+                        Fieldset::make('Daftar Barang')
                     ->schema([
                         Repeater::make('items')
                             ->label('Item Barang')
@@ -69,19 +76,23 @@ class PermintaanBarangResource extends Resource
                             ->schema([
                                 TextInput::make('nama_item')
                                     ->label('Nama Barang')
+                                    ->prefixIcon('heroicon-m-cube')
                                     ->required()
                                     ->columnSpan(2),
                                 TextInput::make('jumlah')
                                     ->label('Jumlah')
+                                    ->prefixIcon('heroicon-m-hashtag')
                                     ->numeric()
                                     ->required()
                                     ->minValue(1)
                                     ->default(1),
                                 TextInput::make('satuan')
                                     ->label('Satuan')
+                                    ->prefixIcon('heroicon-m-scale')
                                     ->placeholder('buah, rim, pak, dll.'),
                                 TextInput::make('keterangan')
                                     ->label('Keterangan')
+                                    ->prefixIcon('heroicon-m-chat-bubble-left-ellipsis')
                                     ->columnSpan(2),
                             ])
                             ->columns(6)
@@ -92,6 +103,7 @@ class PermintaanBarangResource extends Resource
                             ->columnSpanFull(),
                     ])
                     ->columnSpanFull(),
+                ])->columnSpanFull(),
             ]);
     }
 

@@ -23,6 +23,22 @@ class PesertaRelationManager extends RelationManager
     {
         return $schema
             ->components([
+                \Filament\Forms\Components\Select::make('user_search')
+                    ->label('Cari & Pilih Pegawai/Mitra (Otomatis isi form)')
+                    ->options(\App\Models\User::active()->pluck('name', 'id'))
+                    ->searchable()
+                    ->dehydrated(false) // Tidak disimpan ke database
+                    ->live()
+                    ->afterStateUpdated(function ($state, \Filament\Forms\Set $set) {
+                        if ($state) {
+                            $user = \App\Models\User::find($state);
+                            if ($user) {
+                                $set('nama', $user->name);
+                                $set('jabatan', $user->jabatan ?? '-');
+                                $set('no_hp', $user->nomor_hp);
+                            }
+                        }
+                    }),
                 TextInput::make('nama')
                     ->required()
                     ->maxLength(255),
