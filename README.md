@@ -157,7 +157,9 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
   - Kolom `notulis` kini otomatis terisi default dengan nama user yang sedang login pertama kali (kreator agenda).
   - Input **Waktu Mulai** dan **Waktu Selesai** kini hanya menampilkan Jam dan Menit (tanpa detik).
   - Jika **Waktu Selesai** dikosongkan, dokumen otomatis mencantumkan tulisan "selesai".
-  - Status **Draft/Publish** kini menggunakan komponen **Toggle** yang lebih intuitif.
+  - Status **Draft/Publish** kini menggunakan komponen **ToggleButtons** dengan desain premium (seperti Radio Card).
+  - Penambahan field **Tanggal Surat** yang terpisah dari Tanggal Rapat, diposisikan di header form bersandingan dengan Nomor Surat.
+  - Perbaikan error `BadMethodCallException` pada komponen status.
 
 
 ### [2026-04-30] (Updated)

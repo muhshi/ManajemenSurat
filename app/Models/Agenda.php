@@ -10,6 +10,7 @@ class Agenda extends Model
 {
     protected $fillable = [
         'nomor_surat',
+        'tanggal_surat',
         'nomor_urut',
         'judul',
         'perihal',
@@ -34,6 +35,7 @@ class Agenda extends Model
 
     protected $casts = [
         'tanggal_rapat' => 'date',
+        'tanggal_surat' => 'date',
     ];
 
     public function peserta(): HasMany

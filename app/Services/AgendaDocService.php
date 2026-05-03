@@ -25,7 +25,7 @@ class AgendaDocService
 
         // --- Halaman 1: Surat Undangan ---
         $template->setValue('nomor_surat',       $agenda->nomor_surat);
-        $template->setValue('tanggal_surat',     $tanggal->translatedFormat('d F Y'));
+        $template->setValue('tanggal_surat',     $agenda->tanggal_surat ? Carbon::parse($agenda->tanggal_surat)->translatedFormat('d F Y') : '-');
         $template->setValue('perihal',           $agenda->perihal);
         $template->setValue('penerima_undangan', $agenda->penerima_undangan);
         $template->setValue('hari_tanggal_rapat', $hariTanggalRapat);

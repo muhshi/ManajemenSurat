@@ -21,7 +21,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -67,7 +67,13 @@ class AgendaResource extends Resource
                                 ->label('Nomor Surat')
                                 ->readOnly()
                                 ->default(fn() => Agenda::generateNomor(now()->year)),
-                        ])->columns(2),
+                            DatePicker::make('tanggal_surat')
+                                ->label('Tanggal Surat')
+                                ->required()
+                                ->default(now())
+                                ->native(false)
+                                ->displayFormat('d/m/Y'),
+                        ])->columns(3),
 
                         TextInput::make('judul')
                             ->label('Judul Rapat')
@@ -117,13 +123,22 @@ class AgendaResource extends Resource
                         TextInput::make('peserta_rapat')
                             ->label('Peserta Rapat (Keterangan)')
                             ->placeholder('Contoh: Ketua Tim, Kepala, Kasubag dll'),
-                        Toggle::make('status')
-                            ->label('Publish ke Tabel?')
-                            ->onColor('success')
-                            ->offColor('gray')
-                            ->onValue('published')
-                            ->offValue('draft')
-                            ->default('draft'),
+                        ToggleButtons::make('status')
+                            ->label('Status Publikasi')
+                            ->options([
+                                'draft' => 'Draft',
+                                'published' => 'Published',
+                            ])
+                            ->icons([
+                                'draft' => 'heroicon-o-pencil',
+                                'published' => 'heroicon-o-check-circle',
+                            ])
+                            ->colors([
+                                'draft' => 'gray',
+                                'published' => 'success',
+                            ])
+                            ->default('draft')
+                            ->inline(),
                     ])
                     ->columns(2)
                     ->columnSpanFull(),
