@@ -47,128 +47,132 @@ class AgendaResource extends Resource
     {
         return $schema
             ->components([
-                Section::make('Header Surat Undangan')
-                    ->description('Informasi utama surat undangan')
+                Section::make('Surat Undangan')
+                    ->description('Informasi surat dan detail pelaksanaan rapat')
                     ->icon('heroicon-o-envelope')
                     ->schema([
-                        Group::make([
-                            TextInput::make('nomor_urut')
-                                ->label('Nomor Urut')
-                                ->numeric()
-                                ->prefixIcon('heroicon-m-hashtag')
-                                ->required()
-                                ->live()
-                                ->default(fn() => Agenda::getNextUrut(now()->year))
-                                ->afterStateUpdated(function (Set $set, $state, Get $get) {
-                                    $tanggal = $get('tanggal_rapat');
-                                    if ($tanggal && $state) {
-                                        $set('nomor_surat', Agenda::formatNomor((int) $state, new \DateTime($tanggal)));
-                                    }
-                                }),
-                            TextInput::make('nomor_surat')
-                                ->label('Nomor Surat')
-                                ->prefixIcon('heroicon-m-document-text')
-                                ->readOnly()
-                                ->default(fn() => Agenda::generateNomor(now()->year)),
-                            DatePicker::make('tanggal_surat')
-                                ->label('Tanggal Surat')
-                                ->prefixIcon('heroicon-m-calendar')
-                                ->required()
-                                ->default(now())
-                                ->native(false)
-                                ->displayFormat('d/m/Y'),
-                        ])->columns(3)->columnSpanFull(),
+                        Forms\Components\Fieldset::make('Header Surat Undangan')
+                            ->schema([
+                            Group::make([
+                                TextInput::make('nomor_urut')
+                                    ->label('Nomor Urut')
+                                    ->numeric()
+                                    ->prefixIcon('heroicon-m-hashtag')
+                                    ->required()
+                                    ->live()
+                                    ->default(fn() => Agenda::getNextUrut(now()->year))
+                                    ->afterStateUpdated(function (Set $set, $state, Get $get) {
+                                        $tanggal = $get('tanggal_rapat');
+                                        if ($tanggal && $state) {
+                                            $set('nomor_surat', Agenda::formatNomor((int) $state, new \DateTime($tanggal)));
+                                        }
+                                    }),
+                                TextInput::make('nomor_surat')
+                                    ->label('Nomor Surat')
+                                    ->prefixIcon('heroicon-m-document-text')
+                                    ->readOnly()
+                                    ->default(fn() => Agenda::generateNomor(now()->year)),
+                                DatePicker::make('tanggal_surat')
+                                    ->label('Tanggal Surat')
+                                    ->prefixIcon('heroicon-m-calendar')
+                                    ->required()
+                                    ->default(now())
+                                    ->native(false)
+                                    ->displayFormat('d/m/Y'),
+                            ])->columns(3)->columnSpanFull(),
 
-                        TextInput::make('judul')
-                            ->label('Judul Rapat')
-                            ->prefixIcon('heroicon-m-chat-bubble-left-ellipsis')
-                            ->required()
-                            ->placeholder('Contoh: Rapat Pembahasan Mutasi Pegawai')
-                            ->columnSpanFull(),
-                        TextInput::make('perihal')
-                            ->label('Perihal Undangan')
-                            ->prefixIcon('heroicon-m-envelope-open')
-                            ->required()
-                            ->placeholder('Contoh: Undangan Rapat Struktural'),
-                        TextInput::make('penerima_undangan')
-                            ->label('Kepada Yth.')
-                            ->prefixIcon('heroicon-m-users')
-                            ->required()
-                            ->placeholder('Contoh: Seluruh Ketua Tim'),
-                    ])
-                    ->columns(2),
-
-                Section::make('Detail Pelaksanaan Rapat')
-                    ->description('Informasi waktu, tempat, dan peserta rapat')
-                    ->icon('heroicon-o-calendar-days')
-                    ->schema([
-                        TextInput::make('tempat')
-                            ->label('Tempat')
-                            ->prefixIcon('heroicon-m-map-pin')
-                            ->columnSpanFull(),
-                        Group::make([
-                            DatePicker::make('tanggal_rapat')
-                                ->label('Tanggal Rapat')
-                                ->prefixIcon('heroicon-m-calendar-days')
+                            TextInput::make('judul')
+                                ->label('Judul Rapat')
+                                ->prefixIcon('heroicon-m-chat-bubble-left-ellipsis')
                                 ->required()
-                                ->default(now())
-                                ->native(false)
-                                ->displayFormat('d/m/Y')
-                                ->live()
-                                ->afterStateUpdated(function (Set $set, $state, Get $get) {
-                                    if ($state) {
-                                        $year = (int) date('Y', strtotime($state));
-                                        $set('nomor_urut', Agenda::getNextUrut($year));
-                                        $set('nomor_surat', Agenda::formatNomor(Agenda::getNextUrut($year), new \DateTime($state)));
-                                    }
-                                }),
-                            TimePicker::make('waktu_mulai')
-                                ->label('Waktu Mulai')
-                                ->prefixIcon('heroicon-m-clock')
-                                ->seconds(false)
+                                ->placeholder('Contoh: Rapat Pembahasan Mutasi Pegawai')
+                                ->columnSpanFull(),
+                            TextInput::make('perihal')
+                                ->label('Perihal Undangan')
+                                ->prefixIcon('heroicon-m-envelope-open')
+                                ->required()
+                                ->placeholder('Contoh: Undangan Rapat Struktural'),
+                            TextInput::make('penerima_undangan')
+                                ->label('Kepada Yth.')
+                                ->prefixIcon('heroicon-m-users')
+                                ->required()
+                                ->placeholder('Contoh: Seluruh Ketua Tim'),
+                            ])
+                            ->columns(2)
+                            ->columnSpanFull(),
+
+                        Forms\Components\Fieldset::make('Detail Pelaksanaan Rapat')
+                            ->schema([
+                            TextInput::make('tempat')
+                                ->label('Tempat')
+                                ->prefixIcon('heroicon-m-map-pin')
+                                ->columnSpanFull(),
+                            Group::make([
+                                DatePicker::make('tanggal_rapat')
+                                    ->label('Tanggal Rapat')
+                                    ->prefixIcon('heroicon-m-calendar-days')
+                                    ->required()
+                                    ->default(now())
+                                    ->native(false)
+                                    ->displayFormat('d/m/Y')
+                                    ->live()
+                                    ->afterStateUpdated(function (Set $set, $state, Get $get) {
+                                        if ($state) {
+                                            $year = (int) date('Y', strtotime($state));
+                                            $set('nomor_urut', Agenda::getNextUrut($year));
+                                            $set('nomor_surat', Agenda::formatNomor(Agenda::getNextUrut($year), new \DateTime($state)));
+                                        }
+                                    }),
+                                TimePicker::make('waktu_mulai')
+                                    ->label('Waktu Mulai')
+                                    ->prefixIcon('heroicon-m-clock')
+                                    ->seconds(false)
+                                    ->required(),
+                                TimePicker::make('waktu_selesai')
+                                    ->label('Waktu Selesai')
+                                    ->prefixIcon('heroicon-m-clock')
+                                    ->seconds(false)
+                                    ->helperText('Kosongkan jika ingin tertulis "selesai"'),
+                            ])->columns(3)->columnSpanFull(),
+
+                            TextInput::make('pimpinan_rapat')
+                                ->label('Pimpinan Rapat')
+                                ->prefixIcon('heroicon-m-user-circle')
                                 ->required(),
-                            TimePicker::make('waktu_selesai')
-                                ->label('Waktu Selesai')
-                                ->prefixIcon('heroicon-m-clock')
-                                ->seconds(false)
-                                ->helperText('Kosongkan jika ingin tertulis "selesai"'),
-                        ])->columns(3)->columnSpanFull(),
 
-                        TextInput::make('pimpinan_rapat')
-                            ->label('Pimpinan Rapat')
-                            ->prefixIcon('heroicon-m-user-circle')
-                            ->required(),
-                        TextInput::make('narasumber')
-                            ->label('Narasumber')
-                            ->prefixIcon('heroicon-m-microphone'),
-                        TextInput::make('notulis')
-                            ->label('Notulis')
-                            ->prefixIcon('heroicon-m-pencil-square')
-                            ->default(fn() => auth()->user() ? auth()->user()->name : ''),
-                        TextInput::make('peserta_rapat')
-                            ->label('Peserta Rapat (Keterangan)')
-                            ->prefixIcon('heroicon-m-user-group')
-                            ->placeholder('Contoh: Ketua Tim, Kepala, Kasubag dll'),
-                        ToggleButtons::make('status')
-                            ->label('Status Publikasi')
-                            ->options([
-                                'draft' => 'Draft',
-                                'published' => 'Published',
+                                TextInput::make('narasumber')
+                                    ->label('Narasumber')
+                                    ->prefixIcon('heroicon-m-microphone'),
+                                TextInput::make('notulis')
+                                    ->label('Notulis')
+                                    ->prefixIcon('heroicon-m-pencil-square')
+                                    ->default(fn() => auth()->user() ? auth()->user()->name : ''),
+                                TextInput::make('peserta_rapat')
+                                    ->label('Peserta Rapat (Keterangan)')
+                                    ->prefixIcon('heroicon-m-user-group')
+                                    ->placeholder('Contoh: Ketua Tim, Kepala, Kasubag dll'),
+                                ToggleButtons::make('status')
+                                    ->label('Status Publikasi')
+                                    ->options([
+                                        'draft' => 'Draft',
+                                        'published' => 'Published',
+                                    ])
+                                    ->icons([
+                                        'draft' => 'heroicon-o-pencil',
+                                        'published' => 'heroicon-o-check-circle',
+                                    ])
+                                    ->colors([
+                                        'draft' => 'gray',
+                                        'published' => 'success',
+                                    ])
+                                    ->default('draft')
+                                    ->inline()
+                                    ->grouped()
+                                    ->columnSpanFull(),
                             ])
-                            ->icons([
-                                'draft' => 'heroicon-o-pencil',
-                                'published' => 'heroicon-o-check-circle',
-                            ])
-                            ->colors([
-                                'draft' => 'gray',
-                                'published' => 'success',
-                            ])
-                            ->default('draft')
-                            ->inline()
-                            ->grouped()
+                            ->columns(2)
                             ->columnSpanFull(),
-                    ])
-                    ->columns(2),
+                    ]),
 
                 Section::make('Penandatangan (Snapshot)')
                     ->description('Pejabat yang menandatangani undangan')
