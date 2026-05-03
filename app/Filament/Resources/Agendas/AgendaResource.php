@@ -22,7 +22,6 @@ use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -52,7 +51,7 @@ class AgendaResource extends Resource
                     ->description('Informasi surat dan detail pelaksanaan rapat')
                     ->icon('heroicon-o-envelope')
                     ->schema([
-                        Fieldset::make('Header Surat Undangan')
+                        Forms\Components\Fieldset::make('Header Surat Undangan')
                             ->schema([
                             Group::make([
                                 TextInput::make('nomor_urut')
@@ -102,7 +101,7 @@ class AgendaResource extends Resource
                             ->columns(2)
                             ->columnSpanFull(),
 
-                        Fieldset::make('Detail Pelaksanaan Rapat')
+                        Forms\Components\Fieldset::make('Detail Pelaksanaan Rapat')
                             ->schema([
                             TextInput::make('tempat')
                                 ->label('Tempat')
