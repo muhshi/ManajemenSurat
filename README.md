@@ -141,9 +141,15 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 - **Penomoran Agenda Otomatis**: Implementasi sistem penomoran surat otomatis untuk modul Agenda dengan format `B-XXX/33210/PR-710/MM/YYYY`.
   - Penambahan kolom `nomor_urut` pada tabel `agendas` untuk pelacakan urutan yang lebih akurat.
   - Fitur input nomor urut manual yang secara dinamis memperbarui format nomor surat lengkap.
-  - **Widget Monitor Nomor Surat**: Dashboard widget untuk memantau nomor urut yang terlewat (gaps) dalam satu tahun, dikelompokkan berdasarkan bulan (best-guess logic).
-  - **Notifikasi Nomor Terlewat**: Peringatan visual pada form pembuatan agenda jika terdapat nomor urut yang belum digunakan di tahun berjalan.
+  - **Notifikasi Nomor Terlewat**: Peringatan visual di **atas tabel Agenda Rapat** (`/admin/agendas`) jika terdapat nomor urut yang belum digunakan di tahun berjalan.
   - Logika otomatisasi nomor urut baru yang menyesuaikan dengan tahun rapat yang dipilih.
+
+#### Changed
+- **Posisi Warning Nomor Skip**: Dipindah dari dalam form (ViewField) ke header halaman daftar agenda (`ListAgendas`) sehingga langsung terlihat di atas tabel tanpa harus membuka form baru.
+- **AgendaDocService**: Penyesuaian seluruh placeholder template agar sesuai dengan format dokumen asli: `${nomor_surat}`, `${tanggal_surat}`, `${hari_tanggal_rapat}`, `${agenda}`, `${kepala}`, `${peserta}`, `${foto}`, dll.
+  - Penambahan metode `setValueSafe()` agar placeholder opsional (foto, notulensi) tidak menyebabkan error jika tidak ada di template.
+  - `${kepala}` kini diisi dengan nama + NIP kepala dalam satu placeholder.
+
 
 ### [2026-04-30] (Updated)
 #### Added

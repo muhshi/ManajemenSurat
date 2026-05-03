@@ -11,7 +11,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms;
-use Filament\Forms\Components\ViewField;
+
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Utilities\Get;
@@ -67,14 +67,6 @@ class AgendaResource extends Resource
                                 ->readOnly()
                                 ->default(fn() => Agenda::generateNomor(now()->year)),
                         ])->columns(2),
-
-                        ViewField::make('skipped_numbers')
-                            ->view('filament.forms.components.skipped-numbers-warning')
-                            ->viewData(fn(Get $get) => [
-                                'tanggal' => $get('tanggal_rapat'),
-                            ])
-                            ->columnSpanFull()
-                            ->live(),
 
                         TextInput::make('judul')
                             ->label('Judul Rapat')
