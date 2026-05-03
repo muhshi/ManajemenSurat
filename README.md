@@ -155,6 +155,9 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
   - Kolom **Informasi Agenda** dan **Penandatangan (Snapshot)** dibuat menjadi lebar penuh (*full span* / 1 kolom).
   - Menambahkan isian `peserta_rapat` yang bertipe *text input* agar user bisa mengisi bebas keterangan peserta (misal: "Ketua Tim, Kepala, Kasubag dll"), menggantikan array otomatis.
   - Kolom `notulis` kini otomatis terisi default dengan nama user yang sedang login pertama kali (kreator agenda).
+  - Input **Waktu Mulai** dan **Waktu Selesai** kini hanya menampilkan Jam dan Menit (tanpa detik).
+  - Jika **Waktu Selesai** dikosongkan, dokumen otomatis mencantumkan tulisan "selesai".
+  - Status **Draft/Publish** kini menggunakan komponen **Toggle** yang lebih intuitif.
 
 
 ### [2026-04-30] (Updated)

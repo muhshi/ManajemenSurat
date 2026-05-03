@@ -21,6 +21,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -99,10 +100,12 @@ class AgendaResource extends Resource
                             }),
                         TimePicker::make('waktu_mulai')
                             ->label('Waktu Mulai')
+                            ->seconds(false)
                             ->required(),
                         TimePicker::make('waktu_selesai')
                             ->label('Waktu Selesai')
-                            ->helperText('Kosongkan jika "sampai selesai"'),
+                            ->seconds(false)
+                            ->helperText('Kosongkan jika ingin tertulis "selesai" di surat'),
                         TextInput::make('pimpinan_rapat')
                             ->label('Pimpinan Rapat')
                             ->required(),
@@ -114,15 +117,16 @@ class AgendaResource extends Resource
                         TextInput::make('peserta_rapat')
                             ->label('Peserta Rapat (Keterangan)')
                             ->placeholder('Contoh: Ketua Tim, Kepala, Kasubag dll'),
-                        Select::make('status')
-                            ->options([
-                                'draft' => 'Draft',
-                                'published' => 'Published',
-                            ])
-                            ->required()
+                        Toggle::make('status')
+                            ->label('Publish ke Tabel?')
+                            ->onColor('success')
+                            ->offColor('gray')
+                            ->onValue('published')
+                            ->offValue('draft')
                             ->default('draft'),
                     ])
-                    ->columns(1),
+                    ->columns(2)
+                    ->columnSpanFull(),
 
                 Section::make('Penandatangan (Snapshot)')
                     ->description('Pejabat yang menandatangani undangan')
@@ -146,7 +150,8 @@ class AgendaResource extends Resource
                             ->readOnly(),
                     ])
                     ->collapsed()
-                    ->columns(1),
+                    ->columns(3)
+                    ->columnSpanFull(),
             ]);
     }
 
