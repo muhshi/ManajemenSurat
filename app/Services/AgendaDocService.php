@@ -21,7 +21,7 @@ class AgendaDocService
 
         $template = new TemplateProcessor($templatePath);
         $tanggal  = Carbon::parse($agenda->tanggal_rapat);
-        $hariTanggalRapat = $tanggal->translatedFormat('l, d F Y');
+        $hariTanggalRapat = $tanggal->translatedFormat('l/d-m-Y');
 
         // --- Halaman 1: Surat Undangan ---
         $template->setValue('nomor_surat',       $agenda->nomor_surat);
@@ -62,14 +62,11 @@ class AgendaDocService
         // --- Halaman 3: Notulen Rapat ---
         $template->setValue('notulis', $agenda->notulis ?: '-');
 
-        // ${peserta} = daftar nama ringkasan sebagai teks
-        $daftarNama = $peserta->count() > 0
-            ? $peserta->pluck('nama')->join(', ')
-            : '-';
-        $template->setValue('peserta', $daftarNama);
+        // ${peserta} = keterangan peserta rapat (Ketua Tim, Kepala, dll)
+        $template->setValue('peserta', $agenda->peserta_rapat ?: '-');
 
-        // Placeholder konten notulensi (opsional — skip jika tidak ada di template)
-        $this->setValueSafe($template, 'isi_notulensi', $this->formatTextForWord($agenda->isi_notulensi));
+        // Placeholder konten notulensi
+        $this->setValueSafe($template, 'isi_agenda',    $this->formatTextForWord($agenda->isi_notulensi));
         $this->setValueSafe($template, 'keputusan',     $this->formatTextForWord($agenda->keputusan));
         $this->setValueSafe($template, 'tindak_lanjut', $this->formatTextForWord($agenda->tindak_lanjut));
 

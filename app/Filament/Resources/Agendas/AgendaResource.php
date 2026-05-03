@@ -109,7 +109,11 @@ class AgendaResource extends Resource
                         TextInput::make('narasumber')
                             ->label('Narasumber'),
                         TextInput::make('notulis')
-                            ->label('Notulis'),
+                            ->label('Notulis')
+                            ->default(fn() => auth()->user() ? auth()->user()->name : ''),
+                        TextInput::make('peserta_rapat')
+                            ->label('Peserta Rapat (Keterangan)')
+                            ->placeholder('Contoh: Ketua Tim, Kepala, Kasubag dll'),
                         Select::make('status')
                             ->options([
                                 'draft' => 'Draft',
@@ -118,7 +122,7 @@ class AgendaResource extends Resource
                             ->required()
                             ->default('draft'),
                     ])
-                    ->columns(2),
+                    ->columns(1),
 
                 Section::make('Penandatangan (Snapshot)')
                     ->description('Pejabat yang menandatangani undangan')
@@ -142,7 +146,7 @@ class AgendaResource extends Resource
                             ->readOnly(),
                     ])
                     ->collapsed()
-                    ->columns(3),
+                    ->columns(1),
             ]);
     }
 

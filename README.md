@@ -149,6 +149,12 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
 - **AgendaDocService**: Penyesuaian seluruh placeholder template agar sesuai dengan format dokumen asli: `${nomor_surat}`, `${tanggal_surat}`, `${hari_tanggal_rapat}`, `${agenda}`, `${kepala}`, `${peserta}`, `${foto}`, dll.
   - Penambahan metode `setValueSafe()` agar placeholder opsional (foto, notulensi) tidak menyebabkan error jika tidak ada di template.
   - `${kepala}` kini diisi dengan nama + NIP kepala dalam satu placeholder.
+  - Mengubah placeholder konten notulensi dari `${isi_notulensi}` menjadi `${isi_agenda}` sesuai template terbaru.
+  - Format `${hari_tanggal_rapat}` diubah menjadi format khusus seperti `Senin/08-02-1993` (l/d-m-Y).
+- **Form AgendaResource**:
+  - Kolom **Informasi Agenda** dan **Penandatangan (Snapshot)** dibuat menjadi lebar penuh (*full span* / 1 kolom).
+  - Menambahkan isian `peserta_rapat` yang bertipe *text input* agar user bisa mengisi bebas keterangan peserta (misal: "Ketua Tim, Kepala, Kasubag dll"), menggantikan array otomatis.
+  - Kolom `notulis` kini otomatis terisi default dengan nama user yang sedang login pertama kali (kreator agenda).
 
 
 ### [2026-04-30] (Updated)

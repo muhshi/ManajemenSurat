@@ -21,6 +21,7 @@ class Agenda extends Model
         'pimpinan_rapat',
         'narasumber',
         'notulis',
+        'peserta_rapat',
         'isi_notulensi',
         'keputusan',
         'tindak_lanjut',
