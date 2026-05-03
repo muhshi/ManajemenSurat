@@ -49,11 +49,13 @@ class AgendaResource extends Resource
             ->components([
                 Section::make('Header Surat Undangan')
                     ->description('Informasi utama surat undangan')
+                    ->icon('heroicon-o-envelope')
                     ->schema([
                         Group::make([
                             TextInput::make('nomor_urut')
                                 ->label('Nomor Urut')
                                 ->numeric()
+                                ->prefixIcon('heroicon-m-hashtag')
                                 ->required()
                                 ->live()
                                 ->default(fn() => Agenda::getNextUrut(now()->year))
@@ -65,10 +67,12 @@ class AgendaResource extends Resource
                                 }),
                             TextInput::make('nomor_surat')
                                 ->label('Nomor Surat')
+                                ->prefixIcon('heroicon-m-document-text')
                                 ->readOnly()
                                 ->default(fn() => Agenda::generateNomor(now()->year)),
                             DatePicker::make('tanggal_surat')
                                 ->label('Tanggal Surat')
+                                ->prefixIcon('heroicon-m-calendar')
                                 ->required()
                                 ->default(now())
                                 ->native(false)
@@ -77,15 +81,18 @@ class AgendaResource extends Resource
 
                         TextInput::make('judul')
                             ->label('Judul Rapat')
+                            ->prefixIcon('heroicon-m-chat-bubble-left-ellipsis')
                             ->required()
                             ->placeholder('Contoh: Rapat Pembahasan Mutasi Pegawai')
                             ->columnSpanFull(),
                         TextInput::make('perihal')
                             ->label('Perihal Undangan')
+                            ->prefixIcon('heroicon-m-envelope-open')
                             ->required()
                             ->placeholder('Contoh: Undangan Rapat Struktural'),
                         TextInput::make('penerima_undangan')
                             ->label('Kepada Yth.')
+                            ->prefixIcon('heroicon-m-users')
                             ->required()
                             ->placeholder('Contoh: Seluruh Ketua Tim'),
                     ])
@@ -93,13 +100,16 @@ class AgendaResource extends Resource
 
                 Section::make('Detail Pelaksanaan Rapat')
                     ->description('Informasi waktu, tempat, dan peserta rapat')
+                    ->icon('heroicon-o-calendar-days')
                     ->schema([
                         TextInput::make('tempat')
                             ->label('Tempat')
+                            ->prefixIcon('heroicon-m-map-pin')
                             ->columnSpanFull(),
                         Group::make([
                             DatePicker::make('tanggal_rapat')
                                 ->label('Tanggal Rapat')
+                                ->prefixIcon('heroicon-m-calendar-days')
                                 ->required()
                                 ->default(now())
                                 ->native(false)
@@ -114,24 +124,30 @@ class AgendaResource extends Resource
                                 }),
                             TimePicker::make('waktu_mulai')
                                 ->label('Waktu Mulai')
+                                ->prefixIcon('heroicon-m-clock')
                                 ->seconds(false)
                                 ->required(),
                             TimePicker::make('waktu_selesai')
                                 ->label('Waktu Selesai')
+                                ->prefixIcon('heroicon-m-clock')
                                 ->seconds(false)
                                 ->helperText('Kosongkan jika ingin tertulis "selesai"'),
                         ])->columns(3)->columnSpanFull(),
 
                         TextInput::make('pimpinan_rapat')
                             ->label('Pimpinan Rapat')
+                            ->prefixIcon('heroicon-m-user-circle')
                             ->required(),
                         TextInput::make('narasumber')
-                            ->label('Narasumber'),
+                            ->label('Narasumber')
+                            ->prefixIcon('heroicon-m-microphone'),
                         TextInput::make('notulis')
                             ->label('Notulis')
+                            ->prefixIcon('heroicon-m-pencil-square')
                             ->default(fn() => auth()->user() ? auth()->user()->name : ''),
                         TextInput::make('peserta_rapat')
                             ->label('Peserta Rapat (Keterangan)')
+                            ->prefixIcon('heroicon-m-user-group')
                             ->placeholder('Contoh: Ketua Tim, Kepala, Kasubag dll'),
                         ToggleButtons::make('status')
                             ->label('Status Publikasi')
@@ -149,28 +165,34 @@ class AgendaResource extends Resource
                             ])
                             ->default('draft')
                             ->inline()
+                            ->grouped()
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
 
                 Section::make('Penandatangan (Snapshot)')
                     ->description('Pejabat yang menandatangani undangan')
+                    ->icon('heroicon-o-pencil-square')
                     ->schema([
                         TextInput::make('signer_name')
                             ->label('Nama Pejabat')
+                            ->prefixIcon('heroicon-m-user')
                             ->default(fn() => app(SystemSettings::class)->cert_signer_name)
                             ->readOnly(),
                         TextInput::make('signer_nip')
                             ->label('NIP')
+                            ->prefixIcon('heroicon-m-identification')
                             ->default(fn() => app(SystemSettings::class)->cert_signer_nip)
                             ->readOnly(),
                         TextInput::make('signer_title')
                             ->label('Jabatan')
+                            ->prefixIcon('heroicon-m-briefcase')
                             ->default(fn() => app(SystemSettings::class)->cert_signer_title)
                             ->readOnly()
                             ->columnSpanFull(),
                         TextInput::make('signer_city')
                             ->label('Kota')
+                            ->prefixIcon('heroicon-m-building-office-2')
                             ->default(fn() => app(SystemSettings::class)->cert_city)
                             ->readOnly(),
                     ])
