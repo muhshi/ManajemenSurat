@@ -47,8 +47,8 @@ class AgendaResource extends Resource
     {
         return $schema
             ->components([
-                Section::make('Informasi Agenda')
-                    ->description('Detail jadwal dan lokasi rapat')
+                Section::make('Header Surat Undangan')
+                    ->description('Informasi utama surat undangan')
                     ->schema([
                         Group::make([
                             TextInput::make('nomor_urut')
@@ -73,12 +73,13 @@ class AgendaResource extends Resource
                                 ->default(now())
                                 ->native(false)
                                 ->displayFormat('d/m/Y'),
-                        ])->columns(3),
+                        ])->columns(3)->columnSpanFull(),
 
                         TextInput::make('judul')
                             ->label('Judul Rapat')
                             ->required()
-                            ->placeholder('Contoh: Rapat Pembahasan Mutasi Pegawai'),
+                            ->placeholder('Contoh: Rapat Pembahasan Mutasi Pegawai')
+                            ->columnSpanFull(),
                         TextInput::make('perihal')
                             ->label('Perihal Undangan')
                             ->required()
@@ -87,31 +88,40 @@ class AgendaResource extends Resource
                             ->label('Kepada Yth.')
                             ->required()
                             ->placeholder('Contoh: Seluruh Ketua Tim'),
+                    ])
+                    ->columns(2),
+
+                Section::make('Detail Pelaksanaan Rapat')
+                    ->description('Informasi waktu, tempat, dan peserta rapat')
+                    ->schema([
                         TextInput::make('tempat')
                             ->label('Tempat')
-                            ->required(),
-                        DatePicker::make('tanggal_rapat')
-                            ->label('Tanggal Rapat')
-                            ->required()
-                            ->default(now())
-                            ->native(false)
-                            ->displayFormat('d/m/Y')
-                            ->live()
-                            ->afterStateUpdated(function (Set $set, $state, Get $get) {
-                                if ($state) {
-                                    $year = (int) date('Y', strtotime($state));
-                                    $set('nomor_urut', Agenda::getNextUrut($year));
-                                    $set('nomor_surat', Agenda::formatNomor(Agenda::getNextUrut($year), new \DateTime($state)));
-                                }
-                            }),
-                        TimePicker::make('waktu_mulai')
-                            ->label('Waktu Mulai')
-                            ->seconds(false)
-                            ->required(),
-                        TimePicker::make('waktu_selesai')
-                            ->label('Waktu Selesai')
-                            ->seconds(false)
-                            ->helperText('Kosongkan jika ingin tertulis "selesai" di surat'),
+                            ->columnSpanFull(),
+                        Group::make([
+                            DatePicker::make('tanggal_rapat')
+                                ->label('Tanggal Rapat')
+                                ->required()
+                                ->default(now())
+                                ->native(false)
+                                ->displayFormat('d/m/Y')
+                                ->live()
+                                ->afterStateUpdated(function (Set $set, $state, Get $get) {
+                                    if ($state) {
+                                        $year = (int) date('Y', strtotime($state));
+                                        $set('nomor_urut', Agenda::getNextUrut($year));
+                                        $set('nomor_surat', Agenda::formatNomor(Agenda::getNextUrut($year), new \DateTime($state)));
+                                    }
+                                }),
+                            TimePicker::make('waktu_mulai')
+                                ->label('Waktu Mulai')
+                                ->seconds(false)
+                                ->required(),
+                            TimePicker::make('waktu_selesai')
+                                ->label('Waktu Selesai')
+                                ->seconds(false)
+                                ->helperText('Kosongkan jika ingin tertulis "selesai"'),
+                        ])->columns(3)->columnSpanFull(),
+
                         TextInput::make('pimpinan_rapat')
                             ->label('Pimpinan Rapat')
                             ->required(),
@@ -138,10 +148,10 @@ class AgendaResource extends Resource
                                 'published' => 'success',
                             ])
                             ->default('draft')
-                            ->inline(),
+                            ->inline()
+                            ->columnSpanFull(),
                     ])
-                    ->columns(2)
-                    ->columnSpanFull(),
+                    ->columns(2),
 
                 Section::make('Penandatangan (Snapshot)')
                     ->description('Pejabat yang menandatangani undangan')

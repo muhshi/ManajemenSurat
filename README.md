@@ -152,7 +152,10 @@ Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. M
   - Mengubah placeholder konten notulensi dari `${isi_notulensi}` menjadi `${isi_agenda}` sesuai template terbaru.
   - Format `${hari_tanggal_rapat}` diubah menjadi format khusus seperti `Senin/08-02-1993` (l/d-m-Y).
 - **Form AgendaResource**:
-  - Kolom **Informasi Agenda** dan **Penandatangan (Snapshot)** dibuat menjadi lebar penuh (*full span* / 1 kolom).
+  - Tampilan form dibagi menjadi **3 Section** agar lebih rapi dan intuitif:
+    1. **Header Surat Undangan**: Berisi Nomor Urut, Nomor Surat, Tanggal Surat, Judul, Perihal, dan Kepada Yth.
+    2. **Detail Pelaksanaan Rapat**: Berisi Tempat, Tanggal Rapat, Waktu, Pimpinan, Notulis, Peserta, dan Status Publikasi.
+    3. **Penandatangan (Snapshot)**: Berisi data pejabat yang bertanda tangan.
   - Menambahkan isian `peserta_rapat` yang bertipe *text input* agar user bisa mengisi bebas keterangan peserta (misal: "Ketua Tim, Kepala, Kasubag dll"), menggantikan array otomatis.
   - Kolom `notulis` kini otomatis terisi default dengan nama user yang sedang login pertama kali (kreator agenda).
   - Input **Waktu Mulai** dan **Waktu Selesai** kini hanya menampilkan Jam dan Menit (tanpa detik).
