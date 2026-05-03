@@ -45,10 +45,45 @@ class AgendaResource extends Resource
                 Section::make('Informasi Agenda')
                     ->description('Detail jadwal dan lokasi rapat')
                     ->schema([
-                        TextInput::make('nomor_surat')
-                            ->label('Nomor Surat')
-                            ->readOnly()
-                            ->default(fn() => Agenda::generateNomor(now()->year)),
+                        Forms\Components\Group::make([
+                            TextInput::make('nomor_urut')
+                                ->label('Nomor Urut')
+                                ->numeric()
+                                ->required()
+                                ->live()
+                                ->default(fn() => Agenda::getNextUrut(now()->year))
+                                ->afterStateUpdated(function (Forms\Set $set, $state, Forms\Get $get) {
+                                    $tanggal = $get('tanggal_rapat');
+                                    if ($tanggal && $state) {
+                                        $set('nomor_surat', Agenda::formatNomor((int)$state, new \DateTime($tanggal)));
+                                    }
+                                }),
+                            TextInput::make('nomor_surat')
+                                ->label('Nomor Surat')
+                                ->readOnly()
+                                ->default(fn() => Agenda::generateNomor(now()->year)),
+                        ])->columns(2),
+
+                        Forms\Components\Placeholder::make('skipped_numbers')
+                            ->label('')
+                            ->content(function (Forms\Get $get) {
+                                $tanggal = $get('tanggal_rapat');
+                                if (!$tanggal) return null;
+                                
+                                $year = (int) date('Y', strtotime($tanggal));
+                                $skipped = Agenda::getSkippedNumbers($year);
+                                
+                                if (empty($skipped)) return null;
+
+                                return new \Illuminate\Support\HtmlString(
+                                    '<div class="flex items-center gap-2 text-warning-600 dark:text-warning-400 font-bold p-2 bg-warning-50 dark:bg-warning-900/30 rounded-lg">
+                                        <span class="text-lg">⚠️</span>
+                                        <span>Nomor terlewat di tahun ' . $year . ': ' . Agenda::formatRanges($skipped) . '</span>
+                                    </div>'
+                                );
+                            })
+                            ->columnSpanFull(),
+
                         TextInput::make('judul')
                             ->label('Judul Rapat')
                             ->required()
@@ -69,7 +104,15 @@ class AgendaResource extends Resource
                             ->required()
                             ->default(now())
                             ->native(false)
-                            ->displayFormat('d/m/Y'),
+                            ->displayFormat('d/m/Y')
+                            ->live()
+                            ->afterStateUpdated(function (Forms\Set $set, $state, Forms\Get $get) {
+                                if ($state) {
+                                    $year = (int) date('Y', strtotime($state));
+                                    $set('nomor_urut', Agenda::getNextUrut($year));
+                                    $set('nomor_surat', Agenda::formatNomor(Agenda::getNextUrut($year), new \DateTime($state)));
+                                }
+                            }),
                         TimePicker::make('waktu_mulai')
                             ->label('Waktu Mulai')
                             ->required(),

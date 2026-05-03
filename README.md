@@ -35,6 +35,7 @@ Aplikasi Manajemen Surat untuk BPS Kabupaten Demak yang dibangun menggunakan Lar
   - **Sinkronisasi Otomatis**: Update data profil, jabatan, dan foto dari SSO ke database lokal secara otomatis.
 - **Notulensi Rapat**:
   - **Manajemen Agenda**: Pencatatan agenda rapat, judul, waktu, tempat, dan pimpinan rapat.
+  - **Penomoran Otomatis**: Sistem penomoran surat pintar (B-XXX/...) dengan deteksi nomor terlewat dan widget monitoring urutan.
   - **Manajemen Peserta**: Pengelolaan daftar hadir peserta rapat secara dinamis melalui RelationManager.
   - **Input Notulensi**: Pengisian hasil pembahasan, keputusan, dan tindak lanjut rapat melalui modal interaktif di tabel.
   - **Generasi Dokumen**: Penggabungan Undangan, Daftar Hadir, dan Notulensi menjadi satu file (.docx) otomatis dengan snapshot data penandatangan.
@@ -135,7 +136,16 @@ The MIT License (MIT).
 
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
-### [2026-04-24]
+### [2026-05-03]
+#### Added
+- **Penomoran Agenda Otomatis**: Implementasi sistem penomoran surat otomatis untuk modul Agenda dengan format `B-XXX/33210/PR-710/MM/YYYY`.
+  - Penambahan kolom `nomor_urut` pada tabel `agendas` untuk pelacakan urutan yang lebih akurat.
+  - Fitur input nomor urut manual yang secara dinamis memperbarui format nomor surat lengkap.
+  - **Widget Monitor Nomor Surat**: Dashboard widget untuk memantau nomor urut yang terlewat (gaps) dalam satu tahun, dikelompokkan berdasarkan bulan (best-guess logic).
+  - **Notifikasi Nomor Terlewat**: Peringatan visual pada form pembuatan agenda jika terdapat nomor urut yang belum digunakan di tahun berjalan.
+  - Logika otomatisasi nomor urut baru yang menyesuaikan dengan tahun rapat yang dipilih.
+
+### [2026-04-30] (Updated)
 #### Added
 - **Default Role SSO**: Otomatis memberikan role `pegawai` kepada user yang pertama kali login via SIPETRA SSO agar langsung memiliki akses ke menu aplikasi.
 - **SSO Guide Update**: Memperbarui panduan integrasi SSO (`SSO_GUIDE.md`) khususnya pada bagian tampilan tombol login agar menggunakan desain premium dengan logo BPS, divider, dan hover effects yang konsisten dengan implementasi terbaru.
