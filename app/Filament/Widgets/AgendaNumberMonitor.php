@@ -10,7 +10,7 @@ class AgendaNumberMonitor extends Widget
 {
     protected string $view = 'filament.widgets.agenda-number-monitor';
 
-    protected static ?int $sort = -2;
+    protected static ?int $sort = 2;
 
     public ?int $year = null;
 
@@ -19,68 +19,81 @@ class AgendaNumberMonitor extends Widget
         $this->year = now()->year;
     }
 
-    protected function getViewData(): array
+    public function getYears(): array
     {
-        $skippedByMonth = $this->getSkippedByMonth($this->year);
+        return Agenda::selectRaw('YEAR(tanggal_rapat) as year')
+            ->distinct()
+            ->orderByDesc('year')
+            ->pluck('year')
+            ->toArray() ?: [now()->year];
+    }
+
+    protected function getData(): array
+    {
+        $tahun = $this->year ?? now()->year;
+        
+        // Ambil nomor urut yang terpakai beserta bulannya
+        $used = Agenda::whereYear('tanggal_rapat', $tahun)
+            ->whereNotNull('nomor_urut')
+            ->orderBy('nomor_urut')
+            ->get(['nomor_urut', 'tanggal_rapat'])
+            ->mapWithKeys(fn($item) => [$item->nomor_urut => $item->tanggal_rapat->format('F')])
+            ->toArray();
+
+        if (empty($used)) {
+            return [
+                'skippedByMonth' => [],
+                'totalSkipped' => 0,
+            ];
+        }
+
+        $max = max(array_keys($used));
+        $skippedByMonth = [];
+        $totalSkipped = 0;
+
+        // Cari gap dan kelompokkan berdasarkan bulan (estimasi)
+        for ($i = 1; $i < $max; $i++) {
+            if (!isset($used[$i])) {
+                // Cari bulan terdekat sebelumnya yang terpakai
+                $month = 'Tidak Teridentifikasi';
+                for ($j = $i - 1; $j >= 1; $j--) {
+                    if (isset($used[$j])) {
+                        $month = $used[$j];
+                        break;
+                    }
+                }
+                
+                if ($month === 'Tidak Teridentifikasi') {
+                     // Jika tidak ada sebelumnya, ambil sesudahnya
+                     for ($k = $i + 1; $k <= $max; $k++) {
+                         if (isset($used[$k])) {
+                             $month = $used[$k];
+                             break;
+                         }
+                     }
+                }
+
+                $skippedByMonth[$month][] = $i;
+                $totalSkipped++;
+            }
+        }
+
+        // Format ranges untuk setiap bulan
+        foreach ($skippedByMonth as $month => $numbers) {
+            $skippedByMonth[$month] = Agenda::formatRanges($numbers);
+        }
 
         return [
             'skippedByMonth' => $skippedByMonth,
-            'years' => Agenda::select(DB::raw('DISTINCT EXTRACT(YEAR FROM tanggal_rapat) as year'))
-                ->orderBy('year', 'desc')
-                ->pluck('year')
-                ->union([now()->year])
-                ->unique()
-                ->toArray(),
+            'totalSkipped' => $totalSkipped,
         ];
     }
 
-    protected function getSkippedByMonth(int $year): array
+    protected function getViewData(): array
     {
-        $agendas = Agenda::whereYear('tanggal_rapat', $year)
-            ->whereNotNull('nomor_urut')
-            ->orderBy('nomor_urut')
-            ->get(['nomor_urut', 'tanggal_rapat']);
-
-        if ($agendas->isEmpty()) {
-            return [];
-        }
-
-        $usedNumbers = $agendas->pluck('nomor_urut')->toArray();
-        $max = max($usedNumbers);
-        $skipped = array_diff(range(1, $max), $usedNumbers);
-
-        if (empty($skipped)) {
-            return [];
-        }
-
-        // Group skipped numbers by month
-        // Logic: if a number X is skipped, we look at the next available number Y > X.
-        // The skipped number X likely belongs to the same month as Y (or the month transition).
-        $result = [];
-        $months = [
-            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
-            5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
-            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
-        ];
-
-        foreach ($skipped as $num) {
-            $nextAgenda = $agendas->first(fn($a) => $a->nomor_urut > $num);
-            $monthNum = $nextAgenda ? $nextAgenda->tanggal_rapat->month : $agendas->last()->tanggal_rapat->month;
-            $monthName = $months[$monthNum];
-            
-            $result[$monthName][] = $num;
-        }
-
-        // Format ranges for each month
-        foreach ($result as $month => $nums) {
-            $result[$month] = Agenda::formatRanges($nums);
-        }
-
-        return $result;
-    }
-
-    public function updatedYear(): void
-    {
-        // This will trigger a re-render
+        return array_merge([
+            'years' => $this->getYears(),
+            'year' => $this->year,
+        ], $this->getData());
     }
 }

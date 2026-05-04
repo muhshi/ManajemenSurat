@@ -74,40 +74,60 @@ class SyncUsersFromSipetra extends Command
             // Sipetra mengembalikan `synced_at` untuk incremental update berikutnya
             $syncedAt = $payload['synced_at'] ?? now()->toIso8601String();
 
-            foreach ($payload['data'] as $data) {
-                // Jangan hard delete! Cukup updateOrCreate.
-                $result = User::updateOrCreate(
-                    ['sipetra_id' => $data['sipetra_id']],
-                    [
-                        'name'           => $data['name'],
-                        // Jika email kosong (biasanya mitra), set default untuk hindari unique constraint error
-                        'email'          => $data['email'] ?? "no-email-{$data['sipetra_id']}@bps.go.id",
-                        'avatar_url'     => $data['avatar_url'],
-                        
-                        'identity_type'  => $data['identity_type'],
-                        'nip'            => $data['nip'],
-                        'nip_baru'       => $data['nip_baru'],
-                        'sobat_id'       => $data['sobat_id'],
-                        'jabatan'        => $data['jabatan'],
-                        'golongan'       => $data['golongan'],
-                        'unit_kerja'     => $data['unit_kerja'],
-                        'kd_satker'      => $data['kd_satker'],
-                        'nomor_hp'       => $data['nomor_hp'],
-                        'jenis_kelamin'  => $data['gender'],
-                        
-                        // Metadata sinkronisasi status & kontrak
-                        'is_active'      => $data['is_active'],
-                        'period'         => $data['period'],
-                        'contract_start' => $data['contract_start'],
-                        'contract_end'   => $data['contract_end'],
-                    ]
-                );
+            $pageData = $payload['data'];
+            $sipetraIds = collect($pageData)->pluck('sipetra_id')->filter()->toArray();
+            $emails = collect($pageData)->pluck('email')->filter()->toArray();
 
-                $result->wasRecentlyCreated ? $created++ : $updated++;
+            // Bulk fetch user yang sudah ada untuk mempercepat proses (Eager Loading)
+            $existingUsersById = User::whereIn('sipetra_id', $sipetraIds)->get()->keyBy('sipetra_id');
+            $existingUsersByEmail = User::whereIn('email', $emails)->get()->keyBy('email');
+
+            foreach ($pageData as $data) {
+                $email = $data['email'] ?? "no-email-{$data['sipetra_id']}@bps.go.id";
+
+                // STRATEGI LINKING LOKAL (Tanpa Query Tambahan)
+                $user = $existingUsersById->get($data['sipetra_id']) 
+                     ?? $existingUsersByEmail->get($email);
+
+                $attributes = [
+                    'sipetra_id'     => $data['sipetra_id'],
+                    'name'           => $data['name'],
+                    'avatar_url'     => $data['avatar_url'],
+                    'identity_type'  => $data['identity_type'],
+                    'nip'            => $data['nip'],
+                    'nip_baru'       => $data['nip_baru'],
+                    'sobat_id'       => $data['sobat_id'],
+                    'jabatan'        => $data['jabatan'],
+                    'golongan'       => $data['golongan'],
+                    'unit_kerja'     => $data['unit_kerja'],
+                    'kd_satker'      => $data['kd_satker'],
+                    'nomor_hp'       => $data['nomor_hp'],
+                    'jenis_kelamin'  => $data['gender'],
+                    'is_active'      => $data['is_active'],
+                    'period'         => $data['period'],
+                    'contract_start' => $data['contract_start'],
+                    'contract_end'   => $data['contract_end'],
+                ];
+
+                // Cek konflik email di data lokal yang sudah kita ambil
+                $conflictUser = $existingUsersByEmail->get($email);
+                $isConflict = $conflictUser && (!$user || $conflictUser->id !== $user->id);
+
+                if (! $isConflict) {
+                    $attributes['email'] = $email;
+                }
+
+                if ($user) {
+                    $user->update($attributes);
+                    $updated++;
+                } else {
+                    $attributes['email'] = $email;
+                    User::create($attributes);
+                    $created++;
+                }
             }
 
             $page++;
-
         } while ($page <= $lastPage);
 
         // Simpan timestamp sinkronisasi ini (hingga 30 hari sebagai jaga-jaga).

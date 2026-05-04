@@ -6,7 +6,7 @@ use App\Filament\Resources\Agendas\AgendaResource;
 use App\Models\Agenda;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Contracts\View\View;
+use App\Filament\Widgets\AgendaNumberMonitor;
 
 class ListAgendas extends ListRecords
 {
@@ -19,8 +19,10 @@ class ListAgendas extends ListRecords
         ];
     }
 
-    public function getHeader(): ?View
+    protected function getHeaderWidgets(): array
     {
-        return view('filament.pages.list-agendas-header');
+        return [
+            AgendaNumberMonitor::class,
+        ];
     }
 }

@@ -67,24 +67,33 @@ class SsoController extends Controller
         $userData = [
             'sipetra_id'            => $ssoUser->getId(),
             'name'                  => $ssoUser->getName(),
-            'email'                 => $ssoUser->getEmail(),
             'sipetra_token'         => $accessToken,
             'sipetra_refresh_token' => $refreshToken,
 
-            // Identity & Employee Data (dari response flat Sipetra)
+            // Identity & Employee Data
             'nip'            => $rawData['nip'] ?? null,
             'jabatan'        => $rawData['employee']['jabatan'] ?? null,
             'golongan'       => $rawData['employee']['golongan'] ?? null,
             'nomor_hp'       => $rawData['phone_number'] ?? null,
         ];
 
+        // Hanya update email jika tidak menyebabkan konflik dengan user lain
+        $newEmail = $ssoUser->getEmail();
+        $emailConflict = User::where('email', $newEmail)
+            ->where('sipetra_id', '!=', $ssoUser->getId())
+            ->exists();
+
+        if (!$emailConflict) {
+            $userData['email'] = $newEmail;
+        }
+
         if ($localUser) {
+            // Jika user ditemukan lewat email tapi belum punya sipetra_id, link sekarang
             $localUser->update($userData);
         } else {
-            $userData['password'] = null; // SSO-only user, tidak punya password lokal
+            $userData['email'] = $newEmail; // Pastikan email diset untuk user baru
+            $userData['password'] = null;
             $localUser = User::create($userData);
-
-            // Assign default role 'pegawai' untuk login pertama kali
             $localUser->assignRole('pegawai');
         }
 

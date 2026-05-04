@@ -136,6 +136,17 @@ The MIT License (MIT).
 
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
+### [2026-05-04]
+#### Added
+- **Optimasi Sinkronisasi Sipetra (Bulk Fetching)**: Perbaikan performa drastis pada `sync:users` command. Sistem kini mengambil data user dalam satu batch per halaman (N+1 problem fix), mempercepat proses dari hitungan menit menjadi hitungan detik.
+- **Background Sync Queue**: Implementasi `SyncUsersJob` agar sinkronisasi manual dari tombol UI berjalan di latar belakang (asynchronous) menggunakan antrean database.
+- **Redesain Premium Agenda Widget**: Implementasi ulang widget `AgendaNumberMonitor` dengan desain kartu premium, pengelompokan bulanan, dan dukungan dark mode.
+- **Fix Kompatibilitas Filament v5**: Perbaikan error `FatalError` pada deklarasi properti `$view` dan `$sort` di komponen widget agar sesuai dengan standar non-static Filament v5.
+
+#### Changed
+- **Konfigurasi Antrean Lokal**: Mengubah `QUEUE_CONNECTION` dari `sync` menjadi `database` pada `.env` untuk mendukung pemrosesan background job secara asinkron.
+- **Robust Email Linking**: Penambahan validasi konflik email pada `SsoController` dan `SyncUsersFromSipetra` command untuk mencegah error *Unique Constraint violation* saat terjadi duplikasi data.
+
 ### [2026-05-03]
 #### Added
 - **Penomoran Agenda Otomatis**: Implementasi sistem penomoran surat otomatis untuk modul Agenda dengan format `B-XXX/33210/PR-710/MM/YYYY`.

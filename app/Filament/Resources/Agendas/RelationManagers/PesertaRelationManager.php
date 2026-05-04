@@ -7,6 +7,8 @@ use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -23,13 +25,13 @@ class PesertaRelationManager extends RelationManager
     {
         return $schema
             ->components([
-                \Filament\Forms\Components\Select::make('user_search')
+                Select::make('user_search')
                     ->label('Cari & Pilih Pegawai/Mitra (Otomatis isi form)')
                     ->options(\App\Models\User::active()->pluck('name', 'id'))
                     ->searchable()
                     ->dehydrated(false) // Tidak disimpan ke database
                     ->live()
-                    ->afterStateUpdated(function ($state, \Filament\Forms\Set $set) {
+                    ->afterStateUpdated(function ($state, Set $set) {
                         if ($state) {
                             $user = \App\Models\User::find($state);
                             if ($user) {

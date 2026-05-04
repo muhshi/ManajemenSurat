@@ -6,6 +6,8 @@ use App\Filament\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
+use App\Jobs\SyncUsersJob;
+
 class ListUsers extends ListRecords
 {
     protected static string $resource = UserResource::class;
@@ -18,8 +20,15 @@ class ListUsers extends ListRecords
                 ->icon('heroicon-o-arrow-path')
                 ->color('info')
                 ->requiresConfirmation()
-                ->action(fn () => \Illuminate\Support\Facades\Artisan::call('sync:users', ['--full' => true]))
-                ->successNotificationTitle('Sinkronisasi selesai!'),
+                ->action(function () {
+                    SyncUsersJob::dispatch(true);
+                    
+                    \Filament\Notifications\Notification::make()
+                        ->title('Sinkronisasi Dimulai')
+                        ->body('Proses sinkronisasi sedang berjalan di latar belakang (Background Job). Data akan terupdate otomatis dalam beberapa saat.')
+                        ->info()
+                        ->send();
+                }),
             Actions\CreateAction::make(),
         ];
     }
