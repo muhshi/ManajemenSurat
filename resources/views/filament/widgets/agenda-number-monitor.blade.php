@@ -26,31 +26,27 @@
             </div>
         </x-slot>
 
-        <div class="fi-wi-stats-overview-stats-ctn grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             @forelse ($skippedByMonth as $month => $ranges)
-                <div
-                    class="fi-wi-stats-overview-stat relative rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-950/5 dark:bg-white/5 dark:ring-white/10">
-                    <div class="grid gap-y-2">
-                        <div class="flex items-center gap-x-2">
-                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                {{ $month }}
-                            </span>
-                        </div>
-
-                        <div class="text-3xl font-semibold tracking-tight text-gray-950 dark:text-white">
+                <div class="rounded-lg bg-white p-4 border border-gray-200 dark:bg-gray-900 dark:border-gray-800">
+                    <div class="flex flex-col">
+                        <p class="text-sm font-bold text-red-500 dark:text-red-400">
+                            {{ $month }}
+                        </p>
+                        <p class="mt-1 text-base font-bold text-gray-900 dark:text-white">
                             {{ $ranges }}
-                        </div>
-
-                        <div class="flex items-center gap-x-1 text-xs font-medium text-amber-600 dark:text-amber-400">
-                            <x-heroicon-m-exclamation-triangle class="h-4 w-4" />
-                            <span>Perlu Penyesuaian</span>
-                        </div>
+                        </p>
                     </div>
                 </div>
             @empty
                 <div class="col-span-full py-12 flex flex-col items-center justify-center text-center">
                     <div class="rounded-full bg-success-50 p-3 dark:bg-success-950/20">
-                        <x-heroicon-o-check-badge class="h-10 w-10 text-success-600" />
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="40"
+                            height="40" style="width:2.5rem;height:2.5rem;" class="text-success-600">
+                            <path fill-rule="evenodd"
+                                d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
+                                clip-rule="evenodd" />
+                        </svg>
                     </div>
                     <h4 class="mt-4 text-lg font-bold text-gray-950 dark:text-white">Semua Nomor Berurutan</h4>
                     <p class="text-sm text-gray-500">Tidak ada nomor agenda yang terlewat di tahun {{ $year }}.</p>

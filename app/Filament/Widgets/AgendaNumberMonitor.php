@@ -12,6 +12,8 @@ class AgendaNumberMonitor extends Widget
 
     protected static ?int $sort = 2;
 
+    protected int | string | array $columnSpan = 'full';
+
     public ?int $year = null;
 
     public function mount(): void
