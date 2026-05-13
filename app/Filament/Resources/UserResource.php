@@ -20,7 +20,9 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Placeholder;
@@ -234,6 +236,10 @@ class UserResource extends Resource
                     ->searchable()
                     ->limit(30)
                     ->toggleable(),
+                IconColumn::make('is_active')
+                    ->label('Status')
+                    ->boolean()
+                    ->sortable(),
                 TextColumn::make('roles.name')
                     ->label('Role')
                     ->badge()
@@ -245,7 +251,13 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('is_active')
+                    ->label('Status')
+                    ->options([
+                        '1' => 'Aktif',
+                        '0' => 'Tidak Aktif',
+                    ])
+                    ->default('1'), // Menampilkan yang aktif saja secara default
             ])
             ->recordActions([
                 EditAction::make(),

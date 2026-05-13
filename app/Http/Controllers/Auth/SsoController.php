@@ -94,6 +94,10 @@ class SsoController extends Controller
             $userData['email'] = $newEmail; // Pastikan email diset untuk user baru
             $userData['password'] = null;
             $localUser = User::create($userData);
+        }
+
+        // Pastikan user SSO mendapatkan role pegawai agar bisa akses aplikasi
+        if (!$localUser->hasRole('pegawai')) {
             $localUser->assignRole('pegawai');
         }
 

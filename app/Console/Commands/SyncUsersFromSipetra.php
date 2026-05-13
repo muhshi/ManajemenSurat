@@ -84,10 +84,16 @@ class SyncUsersFromSipetra extends Command
 
             foreach ($pageData as $data) {
                 $email = $data['email'] ?? "no-email-{$data['sipetra_id']}@bps.go.id";
+                $isActiveInSipetra = (bool) ($data['is_active'] ?? false);
 
-                // STRATEGI LINKING LOKAL (Tanpa Query Tambahan)
+                // STRATEGI LINKING LOKAL
                 $user = $existingUsersById->get($data['sipetra_id']) 
                      ?? $existingUsersByEmail->get($email);
+
+                // FILTER: Jika tidak aktif di Sipetra dan belum ada di DB lokal, abaikan saja.
+                if (! $isActiveInSipetra && ! $user) {
+                    continue;
+                }
 
                 $attributes = [
                     'sipetra_id'     => $data['sipetra_id'],
@@ -103,13 +109,13 @@ class SyncUsersFromSipetra extends Command
                     'kd_satker'      => $data['kd_satker'],
                     'nomor_hp'       => $data['nomor_hp'],
                     'jenis_kelamin'  => $data['gender'],
-                    'is_active'      => $data['is_active'],
+                    'is_active'      => $isActiveInSipetra,
                     'period'         => $data['period'],
                     'contract_start' => $data['contract_start'],
                     'contract_end'   => $data['contract_end'],
                 ];
 
-                // Cek konflik email di data lokal yang sudah kita ambil
+                // Cek konflik email
                 $conflictUser = $existingUsersByEmail->get($email);
                 $isConflict = $conflictUser && (!$user || $conflictUser->id !== $user->id);
 
