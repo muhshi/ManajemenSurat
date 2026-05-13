@@ -136,6 +136,11 @@ The MIT License (MIT).
 
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
+### [2026-05-13]
+#### Fixed
+- **Docker Volume Sync Fix**: Mengubah *named volume* `python_venv_data` menjadi *anonymous volume* pada `docker-compose.yml`. Hal ini memastikan `venv` Python yang dibuat saat build `Dockerfile` selalu tersedia di dalam container dan tidak tertimpa oleh volume kosong atau data lama dari host.
+- **Auto-Initialization venv**: Menjamin modul ekstraksi PDF (SEP-BP) langsung berjalan setelah proses `docker-compose build` tanpa perlu inisialisasi manual di dalam container.
+
 ### [2026-05-04]
 #### Added
 - **Optimasi Sinkronisasi Sipetra (Bulk Fetching)**: Perbaikan performa drastis pada `sync:users` command. Sistem kini mengambil data user dalam satu batch per halaman (N+1 problem fix), mempercepat proses dari hitungan menit menjadi hitungan detik.
