@@ -158,27 +158,10 @@
             text-align: center;
         }
 
-<<<<<<< HEAD
         .sig-table {
             width: 100%;
             margin-top: 15px;
             font-size: 10px;
-=======
-        .signatures {
-            width: 100%;
-            margin-top: 15px;
-            font-size: 10px;
-        }
-
-        .sig-row {
-            width: 100%;
-        }
-
-        .sig-left,
-        .sig-right {
-            display: inline-block;
-            width: 49%;
->>>>>>> origin/main
             text-align: center;
             table-layout: fixed;
             border-collapse: collapse;
@@ -189,27 +172,13 @@
             padding: 5px;
         }
 
-<<<<<<< HEAD
         .sig-line {
-=======
-        .sig-center {
-            width: 100%;
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        .signature-line {
->>>>>>> origin/main
             display: inline-block;
             width: 120px;
             border-bottom: 1px solid #000;
         }
 
-<<<<<<< HEAD
         .nip-center {
-=======
-        .nip-text {
->>>>>>> origin/main
             text-align: left;
             margin: 2px auto 0 auto;
             width: 120px;
@@ -312,7 +281,7 @@
                         <tr>
                             <td style="width: 33%;">
                                 Yang Menerima
-                                <br><br><br><br>
+                                <br><br><br><br><br><br><br>
                                 <div class="sig-line"></div>
                                 <div class="nip-center">NIP.</div>
                             </td>
@@ -327,7 +296,7 @@
                                 Demak,
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ \Carbon\Carbon::parse($nota->tanggal)->format('d / m / Y') }}<br>
                                 Yang Menyerahkan
-                                <br><br><br>
+                                <br><br><br><br><br><br>
                                 <div class="sig-line"></div>
                                 <div class="nip-center">NIP.</div>
                             </td>
