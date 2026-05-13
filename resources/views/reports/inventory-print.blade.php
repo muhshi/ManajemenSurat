@@ -312,7 +312,7 @@
                         <tr>
                             <td style="width: 33%;">
                                 Yang Menerima
-                                <br><br><br><br><br><br><br>
+                                <br><br><br><br>
                                 <div class="sig-line"></div>
                                 <div class="nip-center">NIP.</div>
                             </td>
@@ -327,7 +327,7 @@
                                 Demak,
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ \Carbon\Carbon::parse($nota->tanggal)->format('d / m / Y') }}<br>
                                 Yang Menyerahkan
-                                <br><br><br><br><br><br>
+                                <br><br><br>
                                 <div class="sig-line"></div>
                                 <div class="nip-center">NIP.</div>
                             </td>
