@@ -260,7 +260,8 @@
                                 <tr>
                                     <td class="col-no">{{ $index + 1 }}.</td>
                                     <td class="col-nama" style="padding-left: 8px;">
-                                        {{ ucwords(strtolower(optional($trx->item)->item_name ?? $trx->item_code)) }}</td>
+                                        {{ ucwords(strtolower(optional($trx->item)->item_name ?? $trx->item_code)) }}
+                                    </td>
                                     <td class="col-banyak">{{ $trx->keluar_unit > 0 ? $trx->keluar_unit : $trx->masuk_unit }}</td>
                                     <td class="col-ket">{{ $trx->keterangan }}</td>
                                 </tr>
@@ -295,7 +296,7 @@
                             <td style="width: 33%;">
                                 Demak,
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ \Carbon\Carbon::parse($nota->tanggal)->format('d / m / Y') }}<br>
-                                Yang Menyerahkan
+
                                 <br><br><br><br><br><br>
                                 <div class="sig-line"></div>
                                 <div class="nip-center">NIP.</div>
