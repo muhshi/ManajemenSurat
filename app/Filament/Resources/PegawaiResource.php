@@ -11,9 +11,11 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
@@ -39,66 +41,109 @@ class PegawaiResource extends Resource
     {
         return $schema
             ->components([
-                Grid::make(1)->schema([
-                    Select::make('user_id')
-                        ->label('Pilih dari Manajemen User')
-                        ->relationship(
-                            name: 'user',
-                            titleAttribute: 'name',
-                            modifyQueryUsing: function ($query) {
-                                $user = auth()->user();
-                                $query->role('pegawai')->active();
+                Section::make('Data Pegawai')
+                    ->description('Daftarkan pegawai untuk pengelolaan aset BMN')
+                    ->icon('heroicon-o-user-circle')
+                    ->schema([
 
-                                // Jika bukan super_admin, operator, atau ketua_tim
-                                // maka hanya tampilkan diri sendiri
-                                if (
-                                    ! $user->hasAnyRole(['super_admin', 'operator', 'ketua_tim'])
-                                ) {
-                                    $query->where('id', $user->id);
-                                }
+                        // ── Fieldset 1: Sinkronisasi dari User ──────────────────
+                        Fieldset::make('Sinkronisasi Akun')
+                            ->schema([
+                                Select::make('user_id')
+                                    ->label('Pilih dari Manajemen User')
+                                    ->prefixIcon('heroicon-m-user')
+                                    ->relationship(
+                                        name: 'user',
+                                        titleAttribute: 'name',
+                                        modifyQueryUsing: function ($query) {
+                                            $user = auth()->user();
+                                            $query->role('pegawai')->active();
 
-                                return $query;
-                            }
-                        )
-                        ->searchable()
-                        ->preload()
-                        ->live()
-                        ->afterStateUpdated(function ($state, $set) {
-                            if ($state) {
-                                $user = \App\Models\User::find($state);
-                                if ($user) {
-                                    $set('nama', $user->name);
-                                    $set('nip', $user->nip ?? $user->nip_baru);
-                                    $set('jabatan', $user->jabatan);
-                                    $set('no_hp', $user->nomor_hp);
-                                    $set('aktif', $user->is_active);
-                                }
-                            }
-                        })
-                        ->helperText('Pilih user dengan role pegawai. Data di bawah akan terisi otomatis.'),
-                ]),
+                                            // Jika bukan super_admin, operator, atau ketua_tim
+                                            // maka hanya tampilkan diri sendiri
+                                            if (
+                                                ! $user->hasAnyRole(['super_admin', 'operator', 'ketua_tim'])
+                                            ) {
+                                                $query->where('id', $user->id);
+                                            }
 
-                Grid::make(2)->schema([
-                    TextInput::make('nama')
-                        ->label('Nama Lengkap')
-                        ->required(),
+                                            return $query;
+                                        }
+                                    )
+                                    ->searchable()
+                                    ->preload()
+                                    ->live()
+                                    ->afterStateUpdated(function ($state, $set) {
+                                        if ($state) {
+                                            $user = \App\Models\User::find($state);
+                                            if ($user) {
+                                                $set('nama', $user->name);
+                                                $set('nip', $user->nip ?? $user->nip_baru);
+                                                $set('jabatan', $user->jabatan);
+                                                $set('no_hp', $user->nomor_hp);
+                                                $set('aktif', $user->is_active ? '1' : '0');
+                                            }
+                                        }
+                                    })
+                                    ->helperText('Pilih user dengan role pegawai. Data identitas di bawah akan terisi otomatis.')
+                                    ->columnSpanFull(),
+                            ])->columnSpanFull(),
 
-                    TextInput::make('nip')
-                        ->label('NIP'),
-                ]),
+                        // ── Fieldset 2: Identitas Pegawai ───────────────────────
+                        Fieldset::make('Identitas Pegawai')
+                            ->schema([
+                                Group::make([
+                                    TextInput::make('nama')
+                                        ->label('Nama Lengkap')
+                                        ->prefixIcon('heroicon-m-identification')
+                                        ->required()
+                                        ->placeholder('Nama lengkap sesuai data'),
 
-                Grid::make(2)->schema([
-                    TextInput::make('jabatan')
-                        ->label('Jabatan'),
+                                    TextInput::make('nip')
+                                        ->label('NIP')
+                                        ->prefixIcon('heroicon-m-hashtag')
+                                        ->placeholder('–'),
+                                ])->columns(2)->columnSpanFull(),
 
-                    TextInput::make('no_hp')
-                        ->label('No. HP / WA')
-                        ->tel(),
-                ]),
+                                Group::make([
+                                    TextInput::make('jabatan')
+                                        ->label('Jabatan')
+                                        ->prefixIcon('heroicon-m-briefcase')
+                                        ->placeholder('Jabatan / posisi pegawai'),
 
-                Toggle::make('aktif')
-                    ->label('Status Aktif')
-                    ->default(true),
+                                    TextInput::make('no_hp')
+                                        ->label('No. HP / WA')
+                                        ->prefixIcon('heroicon-m-phone')
+                                        ->tel()
+                                        ->placeholder('08xxxxxxxxxx'),
+                                ])->columns(2)->columnSpanFull(),
+                            ])->columnSpanFull(),
+
+                        // ── Fieldset 3: Status ───────────────────────────────────
+                        Fieldset::make('Status Kepegawaian')
+                            ->schema([
+                                ToggleButtons::make('aktif')
+                                    ->label('Status Aktif')
+                                    ->boolean()
+                                    ->options([
+                                        true  => 'Aktif',
+                                        false => 'Tidak Aktif',
+                                    ])
+                                    ->colors([
+                                        true  => 'success',
+                                        false => 'danger',
+                                    ])
+                                    ->icons([
+                                        true  => 'heroicon-m-check-circle',
+                                        false => 'heroicon-m-x-circle',
+                                    ])
+                                    ->default(true)
+                                    ->inline()
+                                    ->grouped()
+                                    ->columnSpanFull(),
+                            ])->columnSpanFull(),
+
+                    ])->columnSpanFull(),
             ]);
     }
 
