@@ -45,7 +45,7 @@ Aplikasi Manajemen Surat untuk BPS Kabupaten Demak yang dibangun menggunakan Lar
 
 Aplikasi ini dibangun menggunakan teknologi modern:
 
-- **Framework**: [Laravel 12](https://laravel.com)
+- **Framework**: [Laravel 13](https://laravel.com)
 - **Admin Panel**: [FilamentPHP v5](https://filamentphp.com)
 - **Database**: MySQL
 - **Plugins & Packages**:
@@ -56,7 +56,7 @@ Aplikasi ini dibangun menggunakan teknologi modern:
 
 ## Persyaratan Sistem
 
-- PHP 8.2 atau lebih baru
+- PHP 8.3 atau lebih baru
 - Composer
 - Node.js & NPM
 - MySQL
@@ -135,6 +135,14 @@ The MIT License (MIT).
 ## Changelog
 
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
+
+### [2026-05-22] (Latest)
+#### Changed
+- **Upgrade Laravel 12 → 13**: Upgrade major framework dari `laravel/framework ^12.0` ke `^13.0` (installed v13.6.0).
+  - Requirement PHP dinaikan dari `^8.2` menjadi `^8.3`.
+  - `laravel/tinker` diupgrade dari `^2.10` ke `^3.0`.
+  - Seluruh Symfony components (console, http-kernel, routing, dll) diupgrade dari versi `7.x` ke `8.0.x` sebagai bagian dari transisi Laravel 13.
+  - `pestphp/pest` diupdate ke `^4.4`, `laravel/pail` ke `^1.2.5`, `laravel/pint` ke `^1.27`.
 
 ### [2026-05-22]
 #### Added
