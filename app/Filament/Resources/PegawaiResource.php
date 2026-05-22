@@ -45,7 +45,20 @@ class PegawaiResource extends Resource
                         ->relationship(
                             name: 'user',
                             titleAttribute: 'name',
-                            modifyQueryUsing: fn ($query) => $query->role('pegawai')->active()
+                            modifyQueryUsing: function ($query) {
+                                $user = auth()->user();
+                                $query->role('pegawai')->active();
+
+                                // Jika bukan super_admin, operator, atau ketua_tim
+                                // maka hanya tampilkan diri sendiri
+                                if (
+                                    ! $user->hasAnyRole(['super_admin', 'operator', 'ketua_tim'])
+                                ) {
+                                    $query->where('id', $user->id);
+                                }
+
+                                return $query;
+                            }
                         )
                         ->searchable()
                         ->preload()
