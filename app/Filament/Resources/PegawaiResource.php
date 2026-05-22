@@ -9,6 +9,7 @@ use App\Filament\Resources\PegawaiResource\RelationManagers\BmnsRelationManager;
 use App\Models\Pegawai;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
@@ -38,6 +39,32 @@ class PegawaiResource extends Resource
     {
         return $schema
             ->components([
+                Grid::make(1)->schema([
+                    Select::make('user_id')
+                        ->label('Pilih dari Manajemen User')
+                        ->relationship(
+                            name: 'user',
+                            titleAttribute: 'name',
+                            modifyQueryUsing: fn ($query) => $query->role('pegawai')->active()
+                        )
+                        ->searchable()
+                        ->preload()
+                        ->live()
+                        ->afterStateUpdated(function ($state, $set) {
+                            if ($state) {
+                                $user = \App\Models\User::find($state);
+                                if ($user) {
+                                    $set('nama', $user->name);
+                                    $set('nip', $user->nip ?? $user->nip_baru);
+                                    $set('jabatan', $user->jabatan);
+                                    $set('no_hp', $user->nomor_hp);
+                                    $set('aktif', $user->is_active);
+                                }
+                            }
+                        })
+                        ->helperText('Pilih user dengan role pegawai. Data di bawah akan terisi otomatis.'),
+                ]),
+
                 Grid::make(2)->schema([
                     TextInput::make('nama')
                         ->label('Nama Lengkap')

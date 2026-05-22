@@ -137,8 +137,16 @@ The MIT License (MIT).
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
 ### [2026-05-22]
+#### Added
+- **Dropdown Pegawai Terhubung ke Manajemen User**: Menambahkan kolom `user_id` di tabel `pegawais` dan mengimplementasikan dropdown `Select` di `PegawaiResource` yang memuat user dari Manajemen User dengan role `pegawai`. Pilihan bersifat reactive dan otomatis mengisi data nama, NIP, jabatan, no HP, serta status keaktifan pegawai.
+- **Bulk Action Assign Role di Manajemen User**: Menambahkan fitur massal "Assign Role" di `UserResource` untuk mengubah/menyinkronkan role beberapa user sekaligus.
+
+#### Changed
+- **Filter Sinkronisasi Sipetra Hanya Pegawai Aktif**: Menyempurnakan perintah `sync:users` agar hanya menyinkronkan pegawai/mitra yang aktif dari Sipetra. Pegawai tidak aktif (seperti yang pensiun atau sudah dihapus manual) akan di-skip sehingga tidak akan pernah dibuat ulang di DB lokal, dan jika sudah ada di DB lokal akan otomatis dinonaktifkan (`is_active = false`).
+
 #### Fixed
 - **Fix Composer Install Environment Issue**: Memperbaiki kegagalan ClassMapGenerator (`realpath failed to resolve`) pada `composer install` dengan menghapus direktori `vendor` yang rusak/parsial, membersihkan cache Composer, melakukan instalasi ulang bersih seluruh dependensi Laravel 12 & Filament v5, serta sukses meregenerasi file autoload dan mempublikasikan aset Filament yang diperlukan.
+
 
 ### [2026-05-13]
 #### Fixed

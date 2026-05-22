@@ -14,6 +14,7 @@ use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -266,6 +267,28 @@ class UserResource extends Resource
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
+                    BulkAction::make('assignRole')
+                        ->label('Assign Role')
+                        ->icon('heroicon-o-shield-check')
+                        ->form([
+                            Select::make('roles')
+                                ->label('Pilih Role')
+                                ->options(\Spatie\Permission\Models\Role::pluck('name', 'name')->toArray())
+                                ->multiple()
+                                ->preload()
+                                ->required(),
+                        ])
+                        ->action(function (\Illuminate\Support\Collection $records, array $data): void {
+                            foreach ($records as $record) {
+                                $record->syncRoles($data['roles']);
+                            }
+                            \Filament\Notifications\Notification::make()
+                                ->title('Perubahan Role Berhasil')
+                                ->body('Role pada ' . $records->count() . ' pengguna telah diperbarui.')
+                                ->success()
+                                ->send();
+                        })
+                        ->deselectRecordsAfterCompletion(),
                 ]),
             ]);
     }

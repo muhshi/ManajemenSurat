@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Pegawai extends Model
 {
     protected $fillable = [
+        'user_id',
         'nama',
         'nip',
         'jabatan',
@@ -18,6 +19,12 @@ class Pegawai extends Model
     protected $casts = [
         'aktif' => 'boolean',
     ];
+
+    // Hubungan ke User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     // BMN yang menjadi tanggung jawab pegawai ini
     public function bmns(): MorphMany

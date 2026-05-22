@@ -90,8 +90,13 @@ class SyncUsersFromSipetra extends Command
                 $user = $existingUsersById->get($data['sipetra_id']) 
                      ?? $existingUsersByEmail->get($email);
 
-                // FILTER: Jika tidak aktif di Sipetra dan belum ada di DB lokal, abaikan saja.
-                if (! $isActiveInSipetra && ! $user) {
+                // FILTER: Hanya sync yang aktif di Sipetra.
+                // Jika tidak aktif (misal: pensiun/pindah/kontrak habis), nonaktifkan di lokal jika ada,
+                // lalu skip sepenuhnya (jangan masukkan/buat baru jika belum ada di lokal).
+                if (! $isActiveInSipetra) {
+                    if ($user) {
+                        $user->update(['is_active' => false]);
+                    }
                     continue;
                 }
 
