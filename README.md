@@ -136,6 +136,10 @@ The MIT License (MIT).
 
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
+### [2026-05-22]
+#### Fixed
+- **Fix Composer Install Environment Issue**: Memperbaiki kegagalan ClassMapGenerator (`realpath failed to resolve`) pada `composer install` dengan menghapus direktori `vendor` yang rusak/parsial, membersihkan cache Composer, melakukan instalasi ulang bersih seluruh dependensi Laravel 12 & Filament v5, serta sukses meregenerasi file autoload dan mempublikasikan aset Filament yang diperlukan.
+
 ### [2026-05-13]
 #### Fixed
 - **Docker Volume Sync Fix**: Mengubah *named volume* `python_venv_data` menjadi *anonymous volume* pada `docker-compose.yml`. Hal ini memastikan `venv` Python yang dibuat saat build `Dockerfile` selalu tersedia di dalam container dan tidak tertimpa oleh volume kosong atau data lama dari host.
