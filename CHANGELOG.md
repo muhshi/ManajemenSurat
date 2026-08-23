@@ -1,5 +1,16 @@
 # Changelog - ManajemenSurat
 
+## [1.3.0] - 2026-08-23
+### Added
+- **Sub-Modul Rekapitulasi Pajak SP2D untuk Coretax:**
+    - Penambahan migrasi `update_sp2d_tables_for_coretax` untuk merevisi skema `sp2d_uploads`, `sp2d_rekaps`, dan `sp2d_pajaks`.
+    - Pembuatan `Sp2dImportService` untuk memparsing file Excel MyIntress (Monitoring SPP/SPM/SP2D & Monitoring Potongan SPM) menggunakan OpenSpout.
+    - Implementasi `ProcessSp2dImport` job untuk pemrosesan import secara background/asynchronous.
+    - Pembuatan `Sp2dCoretaxExport` untuk mengekspor data pajak yang valid ke dalam format Pivot Excel.
+    - Integrasi form import multi-file dan filter periode pada `Sp2dRekapResource`.
+    - Implementasi validasi ketat (balance checking) pada form edit `Sp2dRekapResource` untuk jalur transaksi banyak pihak.
+    - Penambahan test unit dan integrasi `Sp2dCoretaxIntegrationTest`.
+
 ## [1.2.0] - 2026-04-21
 ### Added
 - **User Management Resource:**
