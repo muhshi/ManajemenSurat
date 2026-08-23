@@ -26,6 +26,31 @@ use App\Http\Controllers\Auth\SsoController;
 Route::get('/auth/sipetra/redirect',  [SsoController::class, 'redirect'])->name('sipetra.login');
 Route::get('/auth/sipetra/callback', [SsoController::class, 'callback'])->name('sipetra.callback');
 
+// ─── DEV MODE BYPASS LOGIN ───────────────────────────────────────
+if (app()->environment('local')) {
+    Route::get('/dev/login', function () {
+        $user = \App\Models\User::firstOrCreate(
+            ['email' => 'admin@bps.go.id'],
+            ['name' => 'Admin Dev', 'password' => bcrypt('password')]
+        );
+        
+        // Coba assign role super admin jika ada Filament Shield (tanpa Artisan command)
+        try {
+            if (class_exists(\Spatie\Permission\Models\Role::class)) {
+                $role = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
+                if (!$user->hasRole('super_admin')) {
+                    $user->assignRole($role);
+                }
+            }
+        } catch (\Exception $e) {
+            // Abaikan jika tidak ada Shield
+        }
+
+        auth()->login($user);
+        return redirect('/admin');
+    });
+}
+
 // ─── SP2D CORETAX EXPORT ─────────────────────────────────────────
 Route::get('/sp2d/export/coretax', function (\Illuminate\Http\Request $request) {
     $bulan = $request->query('bulan', date('m'));
