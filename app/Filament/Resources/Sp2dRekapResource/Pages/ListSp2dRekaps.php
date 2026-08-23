@@ -6,10 +6,11 @@ use App\Filament\Resources\Sp2dRekapResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use App\Models\Sp2dUpload;
 use App\Jobs\ProcessSp2dImport;
 use Illuminate\Support\Facades\Auth;
-use App\Filament\Resources\Sp2dRekapResource\Widgets\Sp2dUploadProgressWidget;
+use Filament\Notifications\Notification;
 
 class ListSp2dRekaps extends ListRecords
 {
@@ -18,32 +19,80 @@ class ListSp2dRekaps extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('export_coretax')
+                ->label('Export Rekap Coretax')
+                ->icon('heroicon-o-document-arrow-down')
+                ->color('success')
+                ->form([
+                    Select::make('periode_bulan')
+                        ->label('Periode Bulan')
+                        ->options([
+                            '01' => 'Januari', '02' => 'Februari', '03' => 'Maret',
+                            '04' => 'April', '05' => 'Mei', '06' => 'Juni',
+                            '07' => 'Juli', '08' => 'Agustus', '09' => 'September',
+                            '10' => 'Oktober', '11' => 'November', '12' => 'Desember',
+                        ])
+                        ->default(date('m'))
+                        ->required(),
+                    Select::make('periode_tahun')
+                        ->label('Periode Tahun')
+                        ->options(array_combine(range(date('Y')-2, date('Y')+1), range(date('Y')-2, date('Y')+1)))
+                        ->default(date('Y'))
+                        ->required(),
+                ])
+                ->action(function (array $data) {
+                    return redirect()->route('sp2d.export.coretax', [
+                        'bulan' => $data['periode_bulan'],
+                        'tahun' => $data['periode_tahun']
+                    ]);
+                }),
+
             Actions\Action::make('import')
-                ->label('Import SP2D')
+                ->label('Import SP2D MyIntress')
                 ->icon('heroicon-o-arrow-up-tray')
                 ->color('primary')
                 ->form([
-                    FileUpload::make('filename')
-                        ->label('File Excel SP2D')
+                    Select::make('periode_bulan')
+                        ->label('Periode Bulan')
+                        ->options([
+                            '01' => 'Januari', '02' => 'Februari', '03' => 'Maret',
+                            '04' => 'April', '05' => 'Mei', '06' => 'Juni',
+                            '07' => 'Juli', '08' => 'Agustus', '09' => 'September',
+                            '10' => 'Oktober', '11' => 'November', '12' => 'Desember',
+                        ])
+                        ->required(),
+                    Select::make('periode_tahun')
+                        ->label('Periode Tahun')
+                        ->options(array_combine(range(date('Y')-2, date('Y')+1), range(date('Y')-2, date('Y')+1)))
+                        ->default(date('Y'))
+                        ->required(),
+                    FileUpload::make('file_monitoring_sp2d')
+                        ->label('1. File Monitoring SPP, SPM, dan SP2D')
                         ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
                         ->directory('sp2d-uploads')
                         ->required()
                         ->columnSpanFull(),
+                    FileUpload::make('file_potongan_spm')
+                        ->label('2. File Monitoring Potongan SPM (Opsional)')
+                        ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
+                        ->directory('sp2d-uploads')
+                        ->columnSpanFull(),
                 ])
                 ->action(function (array $data) {
                     $upload = Sp2dUpload::create([
-                        'filename' => $data['filename'],
-                        'periode' => 'PENDING',
+                        'file_monitoring_sp2d' => $data['file_monitoring_sp2d'],
+                        'file_potongan_spm' => $data['file_potongan_spm'] ?? null,
+                        'periode_bulan' => $data['periode_bulan'],
+                        'periode_tahun' => $data['periode_tahun'],
                         'status' => 'processing',
-                        'uploaded_by' => Auth::id(),
+                        'user_id' => Auth::id(),
                     ]);
 
-                    $filePath = \Illuminate\Support\Facades\Storage::disk('public')->path($upload->filename);
-                    \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\Sp2dImport($upload->id), $filePath);
+                    ProcessSp2dImport::dispatch($upload);
 
-                    \Filament\Notifications\Notification::make()
-                        ->title('Import Selesai')
-                        ->body('Data SP2D telah berhasil dibaca dan dimasukkan ke tabel.')
+                    Notification::make()
+                        ->title('Import Diproses')
+                        ->body('Data sedang diproses di latar belakang. Silakan refresh halaman beberapa saat lagi.')
                         ->success()
                         ->send();
                 }),
