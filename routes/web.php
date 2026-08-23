@@ -26,3 +26,15 @@ use App\Http\Controllers\Auth\SsoController;
 Route::get('/auth/sipetra/redirect',  [SsoController::class, 'redirect'])->name('sipetra.login');
 Route::get('/auth/sipetra/callback', [SsoController::class, 'callback'])->name('sipetra.callback');
 
+// ─── SP2D CORETAX EXPORT ─────────────────────────────────────────
+Route::get('/sp2d/export/coretax', function (\Illuminate\Http\Request $request) {
+    $bulan = $request->query('bulan', date('m'));
+    $tahun = $request->query('tahun', date('Y'));
+    
+    $filename = "Coretax_{$bulan}_{$tahun}.xlsx";
+    
+    return \Maatwebsite\Excel\Facades\Excel::download(
+        new \App\Exports\Sp2dCoretaxExport($bulan, $tahun),
+        $filename
+    );
+})->name('sp2d.export.coretax')->middleware('auth');
