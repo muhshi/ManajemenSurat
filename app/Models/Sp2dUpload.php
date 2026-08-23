@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Sp2dUpload extends Model
 {
     protected $fillable = [
-        'filename',
-        'periode',
-        'total_rows',
+        'file_monitoring_sp2d',
+        'file_potongan_spm',
+        'periode_bulan',
+        'periode_tahun',
+        'total_sp2d_terproses',
         'status',
         'error_log',
-        'uploaded_by',
+        'user_id',
     ];
 
     public function rekaps(): HasMany
@@ -24,6 +26,6 @@ class Sp2dUpload extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'uploaded_by');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
