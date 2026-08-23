@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
 use App\Models\Sp2dUpload;
-use App\Imports\Sp2dImport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Services\Sp2dImportService;
 
 class ProcessSp2dImport implements ShouldQueue
 {
@@ -64,34 +63,17 @@ class ProcessSp2dImport implements ShouldQueue
         $upload->update(['error_log' => '', 'status' => 'processing']);
 
         $this->logMessage("====== MULAI PROSES IMPORT SP2D #{$upload->id} ======");
-        $this->logMessage("Filename: {$upload->filename}");
-
-        $filePath = Storage::disk('public')->path($upload->filename);
-
-        if (!file_exists($filePath)) {
-            $this->logMessage("❌ File tidak ditemukan di server: {$filePath}", true);
-            $upload->update(['status' => 'failed']);
-            return;
-        }
-
-        $this->logMessage("✅ File ditemukan. Ukuran: " . round(filesize($filePath) / 1024, 1) . " KB");
 
         try {
-            $this->logMessage("🔄 Mulai membaca Excel...");
+            $service = new Sp2dImportService($upload, function($msg) {
+                $this->logMessage($msg);
+            });
             
-            // Lakukan import data. Sp2dImport sudah punya logic untuk deteksi periode dan insert ke db.
-            // Sp2dImport akan mencari upload->id di databasenya dan otomatis melakukan update status 'done'.
-            // Namun kita tangani log di sini.
-            Excel::import(new Sp2dImport($upload->id), $filePath);
+            $service->process();
             
-            // Jika proses Sp2dImport selesai dengan normal, maka seharusnya tabel sp2d_uploads 
-            // sudah terupdate (oleh collection). Tapi kita double check di sini:
-            $upload->refresh();
-            if ($upload->status !== 'done') {
-                $upload->update([
-                    'status' => 'done',
-                ]);
-            }
+            $upload->update([
+                'status' => 'done',
+            ]);
             
             $this->logMessage("✅ ====== IMPORT SP2D SELESAI ======");
 
@@ -99,14 +81,6 @@ class ProcessSp2dImport implements ShouldQueue
             $this->logMessage("❌ GAGAL: " . $e->getMessage(), true);
             $upload->update(['status' => 'failed']);
         }
-    }
-
-    /**
-     * Optional helper to log from within the Import class if needed.
-     */
-    public function addLog(string $msg): void
-    {
-        $this->logMessage($msg);
     }
 
     /**
