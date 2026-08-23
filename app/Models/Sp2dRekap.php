@@ -10,24 +10,23 @@ class Sp2dRekap extends Model
 {
     protected $fillable = [
         'upload_id',
-        'no_spp',
-        'uraian_spp',
-        'jenis_spp',
-        'tanggal_spp',
+        'no_sp2d',
+        'tgl_sp2d',
+        'no_spm',
+        'tgl_spm',
+        'jenis_spm',
+        'jalur_transaksi',
+        'uraian',
         'jumlah_pengeluaran',
         'jumlah_potongan',
         'jumlah_pembayaran',
-        'tanggal_sp2d',
-        'no_sp2d',
-        'status_sp2d',
-        'kppn',
-        'nama_satker',
-        'periode',
+        'atas_nama_default',
+        'status_verifikasi',
     ];
 
     protected $casts = [
-        'tanggal_spp' => 'date',
-        'tanggal_sp2d' => 'date',
+        'tgl_spm' => 'date',
+        'tgl_sp2d' => 'date',
         'jumlah_pengeluaran' => 'integer',
         'jumlah_potongan' => 'integer',
         'jumlah_pembayaran' => 'integer',
@@ -40,6 +39,21 @@ class Sp2dRekap extends Model
 
     public function pajaks(): HasMany
     {
-        return $this->hasMany(Sp2dPajak::class, 'rekap_id');
+        return $this->hasMany(Sp2dPajak::class, 'sp2d_rekap_id');
+    }
+
+    public function getTotalPajakAttribute(): int
+    {
+        return $this->pajaks->sum('nominal_pajak');
+    }
+
+    public function getSelisihPotonganAttribute(): int
+    {
+        return $this->jumlah_potongan - $this->total_pajak;
+    }
+
+    public function isBalanced(): bool
+    {
+        return $this->selisih_potongan === 0;
     }
 }
