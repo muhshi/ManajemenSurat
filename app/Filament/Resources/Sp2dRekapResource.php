@@ -23,7 +23,7 @@ class Sp2dRekapResource extends Resource
     {
         return $schema
             ->components([
-                Forms\Components\Section::make('Rincian SP2D')
+                \Filament\Schemas\Components\Section::make('Rincian SP2D')
                     ->schema([
                         Forms\Components\TextInput::make('no_sp2d')
                             ->label('No. SP2D')
@@ -51,7 +51,7 @@ class Sp2dRekapResource extends Resource
                             ->required(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Rincian Pajak')
+                \Filament\Schemas\Components\Section::make('Rincian Pajak')
                     ->description('Untuk SP2D Jalur Banyak Pihak, pastikan Total Pajak sama dengan Target Potongan.')
                     ->schema([
                         Forms\Components\Repeater::make('pajaks')
@@ -92,18 +92,30 @@ class Sp2dRekapResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->extraAttributes(['class' => 'scroll-top-table'])
+            ->poll('5s')
+            ->recordUrl(null)
+            ->recordAction(null)
             ->columns([
                 Tables\Columns\TextColumn::make('no_sp2d')
                     ->label('No SP2D')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->copyable()
+                    ->copyMessage('No SP2D berhasil disalin')
+                    ->copyMessageDuration(1500)
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('tgl_sp2d')
                     ->label('Tgl SP2D')
                     ->date('d/m/Y')
-                    ->sortable(),
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('jenis_spm')
                     ->label('Jenis SPM')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('jalur_transaksi')
                     ->label('Jalur')
                     ->badge()
@@ -111,21 +123,36 @@ class Sp2dRekapResource extends Resource
                         'success' => '1_pihak',
                         'warning' => 'banyak_pihak',
                         'danger' => 'gup',
-                    ]),
+                    ])
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('jumlah_pengeluaran')
                     ->label('Bruto')
-                    ->money('IDR')
-                    ->sortable(),
+                    ->money('IDR', locale: 'id')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('jumlah_potongan')
                     ->label('Potongan')
-                    ->money('IDR')
-                    ->sortable(),
+                    ->money('IDR', locale: 'id')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('total_pajak')
-                    ->label('Pajak Input')
-                    ->money('IDR')
+                    ->label('Pajak')
+                    ->money('IDR', locale: 'id')
                     ->state(function (Sp2dRekap $record) {
                         return $record->total_pajak;
-                    }),
+                    })
+                    ->sortable(query: function (\Illuminate\Database\Eloquent\Builder $query, string $direction): \Illuminate\Database\Eloquent\Builder {
+                        return $query->orderBy(
+                            \App\Models\Sp2dPajak::selectRaw('COALESCE(SUM(nominal_pajak), 0)')
+                                ->whereColumn('sp2d_rekaps.id', 'sp2d_pajaks.sp2d_rekap_id'),
+                            $direction
+                        );
+                    })
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('status_verifikasi')
                     ->label('Status')
                     ->badge()
@@ -133,9 +160,28 @@ class Sp2dRekapResource extends Resource
                         'success' => 'valid',
                         'warning' => 'perlu_rincian',
                         'gray' => 'draft',
-                    ]),
+                    ])
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->filters([
+                SelectFilter::make('jenis_spm')
+                    ->label('Jenis SPM')
+                    ->options(function () {
+                        return Sp2dRekap::query()
+                            ->select('jenis_spm')
+                            ->distinct()
+                            ->pluck('jenis_spm', 'jenis_spm')
+                            ->toArray();
+                    }),
+                SelectFilter::make('jalur_transaksi')
+                    ->label('Jalur')
+                    ->options([
+                        '1_pihak' => '1 Pihak',
+                        'banyak_pihak' => 'Banyak Pihak',
+                        'gup' => 'GUP',
+                    ]),
                 SelectFilter::make('status_verifikasi')
                     ->options([
                         'valid' => 'Valid',
@@ -143,12 +189,12 @@ class Sp2dRekapResource extends Resource
                         'draft' => 'Draft',
                     ]),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                \Filament\Actions\EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
