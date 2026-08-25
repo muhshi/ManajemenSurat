@@ -45,6 +45,9 @@ class Sp2dImportService
         $periodeBulan = str_pad($this->upload->periode_bulan, 2, '0', STR_PAD_LEFT);
         $periodeTahun = $this->upload->periode_tahun;
 
+        $this->log("Memuat referensi Kode SPM dari database...");
+        $kodeSpmMapping = \App\Models\KodeSpm::pluck('jalur', 'kode')->toArray();
+
         $this->log("Membaca File Monitoring SP2D...");
         
         // Baca Sheet pertama
@@ -53,8 +56,12 @@ class Sp2dImportService
             foreach ($sheet->getRowIterator() as $rowIndex => $row) {
                 $cells = $row->toArray();
                 
-                if ($rowIndex === 1) {
-                    $header = array_map(fn($c) => trim(strtolower((string)$c)), $cells);
+                if (empty($header)) {
+                    $tempHeader = array_map(fn($c) => trim(strtolower((string)$c)), $cells);
+                    // Jika baris ini mengandung kolom wajib, jadikan header
+                    if (in_array('no. sp2d', $tempHeader, true) || in_array('tanggal sp2d', $tempHeader, true) || in_array('no. spp/spm', $tempHeader, true)) {
+                        $header = $tempHeader;
+                    }
                     continue;
                 }
 
@@ -64,9 +71,17 @@ class Sp2dImportService
                 $tglSp2d = $this->parseDate($data['tanggal sp2d'] ?? null);
                 if (!$tglSp2d) continue;
 
-                // Cek filter periode
-                if ($tglSp2d->format('m') !== $periodeBulan || $tglSp2d->format('Y') !== $periodeTahun) {
+                // Cek filter periode tahun (wajib sama dengan pilihan form)
+                if ((string)$tglSp2d->format('Y') !== (string)$this->upload->periode_tahun) {
                     continue;
+                }
+
+                // Cek filter periode bulan (jika ada)
+                if (!empty($this->upload->periode_bulan)) {
+                    $periodeBulan = str_pad($this->upload->periode_bulan, 2, '0', STR_PAD_LEFT);
+                    if ($tglSp2d->format('m') !== $periodeBulan) {
+                        continue;
+                    }
                 }
 
                 $jumlahPotongan = $this->parseAmount($data['jumlah potongan'] ?? 0);
@@ -74,33 +89,30 @@ class Sp2dImportService
                 
                 $isGup = str_contains($jenisSpm, '312') || str_contains($jenisSpm, '317') || str_contains(strtolower($jenisSpm), 'gup');
 
-                // Hanya simpan SP2D yang memiliki Jumlah Potongan > 0 ATAU Jenis SPM berunsur GUP
-                if ($jumlahPotongan > 0 || $isGup) {
-                    $jalur = $this->tentukanJalur($jenisSpm);
-                    
-                    $rekap = Sp2dRekap::updateOrCreate(
-                        [
-                            'upload_id' => $this->upload->id,
-                            'no_sp2d'   => (string)($data['no. sp2d'] ?? ''),
-                        ],
-                        [
-                            'tgl_sp2d'           => $tglSp2d->format('Y-m-d'),
-                            'no_spm'             => (string)($data['no. spp/spm'] ?? ''),
-                            'tgl_spm'            => $this->parseDate($data['tanggal spm'] ?? null)?->format('Y-m-d'),
-                            'jenis_spm'          => $jenisSpm,
-                            'jalur_transaksi'    => $jalur,
-                            'uraian'             => (string)($data['uraian spp/spm'] ?? ''),
-                            'jumlah_pengeluaran' => $this->parseAmount($data['jumlah pengeluaran'] ?? 0),
-                            'jumlah_potongan'    => $jumlahPotongan,
-                            'jumlah_pembayaran'  => $this->parseAmount($data['jumlah pembayaran'] ?? 0),
-                            'status_verifikasi'  => $jalur === '1_pihak' ? 'valid' : 'perlu_rincian',
-                        ]
-                    );
+                $jalur = $this->tentukanJalur($jenisSpm, $kodeSpmMapping);
+                
+                $rekap = Sp2dRekap::updateOrCreate(
+                    [
+                        'upload_id' => $this->upload->id,
+                        'no_sp2d'   => (string)($data['no. sp2d'] ?? ''),
+                    ],
+                    [
+                        'tgl_sp2d'           => $tglSp2d->format('Y-m-d'),
+                        'no_spm'             => (string)($data['no. spp/spm'] ?? ''),
+                        'tgl_spm'            => $this->parseDate($data['tanggal spm'] ?? null)?->format('Y-m-d'),
+                        'jenis_spm'          => $jenisSpm,
+                        'jalur_transaksi'    => $jalur,
+                        'uraian'             => (string)($data['uraian spp/spm'] ?? ''),
+                        'jumlah_pengeluaran' => $this->parseAmount($data['jumlah pengeluaran'] ?? 0),
+                        'jumlah_potongan'    => $jumlahPotongan,
+                        'jumlah_pembayaran'  => $this->parseAmount($data['jumlah pembayaran'] ?? 0),
+                        'status_verifikasi'  => $jalur === '1_pihak' ? 'valid' : 'perlu_rincian',
+                    ]
+                );
 
-                    $spmList[$rekap->no_spm] = $rekap;
-                    $spmList[$rekap->no_sp2d] = $rekap; // bisa lookup by sp2d or spm
-                    $totalTerproses++;
-                }
+                $spmList[$rekap->no_spm] = $rekap;
+                $spmList[$rekap->no_sp2d] = $rekap; // bisa lookup by sp2d or spm
+                $totalTerproses++;
             }
             break; // hanya sheet pertama
         }
@@ -120,8 +132,11 @@ class Sp2dImportService
                     $header = [];
                     foreach ($sheet->getRowIterator() as $rowIndex => $row) {
                         $cells = $row->toArray();
-                        if ($rowIndex === 1) {
-                            $header = array_map(fn($c) => trim(strtolower((string)$c)), $cells);
+                        if (empty($header)) {
+                            $tempHeader = array_map(fn($c) => trim(strtolower((string)$c)), $cells);
+                            if (in_array('no.sp2d/ntpn', $tempHeader, true) || in_array('no.spm', $tempHeader, true) || in_array('akun', $tempHeader, true)) {
+                                $header = $tempHeader;
+                            }
                             continue;
                         }
 
@@ -168,22 +183,19 @@ class Sp2dImportService
         $this->log("Proses import selesai!");
     }
 
-    protected function tentukanJalur(string $jenisSpm): string
+    protected function tentukanJalur(string $jenisSpm, array $kodeSpmMapping): string
     {
         $jenisSpm = strtolower($jenisSpm);
-        if (str_contains($jenisSpm, '312') || str_contains($jenisSpm, '317') || str_contains($jenisSpm, 'gup')) {
-            return 'gup';
+        
+        // Ekstrak 3 digit angka pertama dari jenisSpm
+        preg_match('/^(\d{3})/', trim($jenisSpm), $matches);
+        $kode = $matches[1] ?? null;
+
+        if ($kode && isset($kodeSpmMapping[$kode])) {
+            return $kodeSpmMapping[$kode];
         }
 
-        // Cek jika banyak pihak
-        $banyakPihakKeywords = ['211', '212', '221', '269', '237', 'gaji', 'honor', 'tukin', 'lembur', 'banyak penerima'];
-        foreach ($banyakPihakKeywords as $kw) {
-            if (str_contains($jenisSpm, $kw)) {
-                return 'banyak_pihak';
-            }
-        }
-
-        // Default 1 pihak (231, 111, dll)
+        // Fallback default (sesuai persetujuan pengguna)
         return '1_pihak';
     }
 
@@ -214,9 +226,19 @@ class Sp2dImportService
     protected function parseAmount($value): int
     {
         if (empty($value)) return 0;
-        if (is_numeric($value)) return (int)$value;
-        // Hapus koma/titik ribuan
-        $cleaned = preg_replace('/[^\d]/', '', (string)$value);
+        
+        if (is_int($value) || is_float($value)) {
+            return (int) round((float) $value);
+        }
+        
+        $valueStr = (string) $value;
+        
+        // Hapus ".00" atau ",00" di belakang jika ada
+        if (preg_match('/[\.,]\d{1,2}$/', $valueStr, $matches, PREG_OFFSET_CAPTURE)) {
+            $valueStr = substr($valueStr, 0, $matches[0][1]);
+        }
+        
+        $cleaned = preg_replace('/[^\d]/', '', $valueStr);
         return (int)$cleaned;
     }
 }
