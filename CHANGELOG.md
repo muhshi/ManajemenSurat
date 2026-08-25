@@ -11,6 +11,15 @@
     - Implementasi validasi ketat (balance checking) pada form edit `Sp2dRekapResource` untuk jalur transaksi banyak pihak.
     - Penambahan test unit dan integrasi `Sp2dCoretaxIntegrationTest`.
 
+### Changed
+- **UI/UX Rekap SP2D:**
+    - Penambahan fitur salin otomatis (copyable) pada nomor SP2D.
+    - Perbaikan tampilan tabel dengan mematikan fungsi klik baris (mencegah klik tidak sengaja saat menyeleksi teks).
+    - Memindahkan posisi *scrollbar* tabel ke atas khusus pada modul SP2D untuk memudahkan navigasi horizontal.
+    - Pengubahan format angka dan mata uang ke format Indonesia (titik sebagai pemisah ribuan).
+    - Fitur *Toggleable* pada kolom tabel untuk memungkinkan pengguna menyembunyikan/menampilkan kolom spesifik (seperti Pajak).
+    - Perbaikan fitur *sorting* pada kolom `total_pajak` yang menggunakan atribut *accessor*.
+
 ## [1.2.0] - 2026-04-21
 ### Added
 - **User Management Resource:**
