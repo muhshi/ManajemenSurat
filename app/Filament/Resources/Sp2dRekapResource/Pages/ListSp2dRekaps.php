@@ -16,9 +16,21 @@ class ListSp2dRekaps extends ListRecords
 {
     protected static string $resource = Sp2dRekapResource::class;
 
+    public function getHeading(): string | \Illuminate\Contracts\Support\Htmlable
+    {
+        return new \Illuminate\Support\HtmlString(
+            'Data Rekap SP2D <style>.fi-ta-content { transform: rotateX(180deg); } .fi-ta-content > table, .fi-ta-content > div { transform: rotateX(180deg); }</style>'
+        );
+    }
+
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('refresh')
+                ->label('Segarkan Data')
+                ->icon('heroicon-o-arrow-path')
+                ->color('secondary')
+                ->action(fn () => null),
             Actions\Action::make('export_coretax')
                 ->label('Export Rekap Coretax')
                 ->icon('heroicon-o-document-arrow-down')
@@ -52,15 +64,6 @@ class ListSp2dRekaps extends ListRecords
                 ->icon('heroicon-o-arrow-up-tray')
                 ->color('primary')
                 ->form([
-                    Select::make('periode_bulan')
-                        ->label('Periode Bulan')
-                        ->options([
-                            '01' => 'Januari', '02' => 'Februari', '03' => 'Maret',
-                            '04' => 'April', '05' => 'Mei', '06' => 'Juni',
-                            '07' => 'Juli', '08' => 'Agustus', '09' => 'September',
-                            '10' => 'Oktober', '11' => 'November', '12' => 'Desember',
-                        ])
-                        ->required(),
                     Select::make('periode_tahun')
                         ->label('Periode Tahun')
                         ->options(array_combine(range(date('Y')-2, date('Y')+1), range(date('Y')-2, date('Y')+1)))
@@ -82,7 +85,7 @@ class ListSp2dRekaps extends ListRecords
                     $upload = Sp2dUpload::create([
                         'file_monitoring_sp2d' => $data['file_monitoring_sp2d'],
                         'file_potongan_spm' => $data['file_potongan_spm'] ?? null,
-                        'periode_bulan' => $data['periode_bulan'],
+                        'periode_bulan' => null,
                         'periode_tahun' => $data['periode_tahun'],
                         'status' => 'processing',
                         'user_id' => Auth::id(),
