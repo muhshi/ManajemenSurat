@@ -91,10 +91,19 @@ class Sp2dImportService
 
                 $jalur = $this->tentukanJalur($jenisSpm, $kodeSpmMapping);
                 
+                $noSp2d = (string)($data['no. sp2d'] ?? '');
+                
+                $existingRekap = Sp2dRekap::where('no_sp2d', $noSp2d)->first();
+
+                if ($existingRekap && $existingRekap->upload_id != $this->upload->id) {
+                    $this->log("Skip: SP2D {$noSp2d} sudah pernah diunggah sebelumnya.");
+                    continue;
+                }
+
                 $rekap = Sp2dRekap::updateOrCreate(
                     [
                         'upload_id' => $this->upload->id,
-                        'no_sp2d'   => (string)($data['no. sp2d'] ?? ''),
+                        'no_sp2d'   => $noSp2d,
                     ],
                     [
                         'tgl_sp2d'           => $tglSp2d->format('Y-m-d'),
@@ -106,7 +115,7 @@ class Sp2dImportService
                         'jumlah_pengeluaran' => $this->parseAmount($data['jumlah pengeluaran'] ?? 0),
                         'jumlah_potongan'    => $jumlahPotongan,
                         'jumlah_pembayaran'  => $this->parseAmount($data['jumlah pembayaran'] ?? 0),
-                        'status_verifikasi'  => $jalur === '1_pihak' ? 'valid' : 'perlu_rincian',
+                        'status_verifikasi'  => ($jalur === 'gup') ? 'perlu_rincian' : (($jalur === '1_pihak' || $jumlahPotongan == 0) ? 'valid' : 'perlu_rincian'),
                     ]
                 );
 
@@ -183,16 +192,37 @@ class Sp2dImportService
         $this->log("Proses import selesai!");
     }
 
-    protected function tentukanJalur(string $jenisSpm, array $kodeSpmMapping): string
+    protected function tentukanJalur(string $jenisSpm, array &$kodeSpmMapping): string
     {
+        $jenisSpmAsli = trim($jenisSpm);
         $jenisSpm = strtolower($jenisSpm);
         
         // Ekstrak 3 digit angka pertama dari jenisSpm
         preg_match('/^(\d{3})/', trim($jenisSpm), $matches);
         $kode = $matches[1] ?? null;
 
-        if ($kode && isset($kodeSpmMapping[$kode])) {
-            return $kodeSpmMapping[$kode];
+        if ($kode) {
+            if (isset($kodeSpmMapping[$kode])) {
+                return $kodeSpmMapping[$kode];
+            } else {
+                // Ekstrak nama (setelah " - ")
+                $parts = explode('-', $jenisSpmAsli, 2);
+                $nama = isset($parts[1]) ? trim($parts[1]) : $jenisSpmAsli;
+
+                // Insert ke database otomatis
+                \App\Models\KodeSpm::firstOrCreate(
+                    ['kode' => $kode],
+                    [
+                        'nama' => $nama, 
+                        'jalur' => '1_pihak'
+                    ]
+                );
+                
+                // Tambahkan ke mapping memori agar import baris selanjutnya lebih cepat
+                $kodeSpmMapping[$kode] = '1_pihak';
+                
+                return '1_pihak';
+            }
         }
 
         // Fallback default (sesuai persetujuan pengguna)

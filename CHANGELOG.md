@@ -1,5 +1,20 @@
 # Changelog - ManajemenSurat
 
+## [1.4.0] - 2026-08-28
+### Added
+- **UI/UX Rekap SP2D & Export:**
+    - Pembaruan `Sp2dRekapResource` untuk menggunakan Modal Edit *inline* sehingga halaman khusus `EditSp2dRekap.php` dihapus.
+    - Pembatasan panjang teks (maksimal 25 karakter) dan *tooltip* pada kolom-kolom tabel utama untuk menghindari *scroll* horizontal yang berlebihan.
+    - Pembaruan halaman `RekapPerPihak.php` dengan implementasi pemisah ribuan (titik) pada angka/uang agar lebih ramah baca.
+    - Penyesuaian `Sp2dCoretaxExport` di mana tipe angka dikonversi menjadi *float* agar terbaca otomatis sebagai *Number* di Microsoft Excel.
+
+### Changed
+- **Logika Import & Dev Environment:**
+    - Pembaruan `Sp2dImportService` untuk membiarkan filter `Bulan` opsional (tidak wajib).
+    - Status SP2D otomatis diset menjadi `perlu_rincian` (alih-alih error) ketika di-simpan tanpa baris rincian potongan.
+    - Pembaruan `routes/web.php` untuk memfasilitasi `/dev/login` langsung ke kredensial admin saat `APP_ENV=local`.
+    - Mengganti istilah Export Coretax menjadi Export Rekap SP2D (Penamaan lebih umum).
+
 ## [1.3.0] - 2026-08-23
 ### Added
 - **Sub-Modul Rekapitulasi Pajak SP2D untuk Coretax:**

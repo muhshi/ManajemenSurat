@@ -32,7 +32,7 @@ class ListSp2dRekaps extends ListRecords
                 ->color('secondary')
                 ->action(fn () => null),
             Actions\Action::make('export_coretax')
-                ->label('Export Rekap Coretax')
+                ->label('Export Rekap SP2D')
                 ->icon('heroicon-o-document-arrow-down')
                 ->color('success')
                 ->form([
@@ -44,8 +44,8 @@ class ListSp2dRekaps extends ListRecords
                             '07' => 'Juli', '08' => 'Agustus', '09' => 'September',
                             '10' => 'Oktober', '11' => 'November', '12' => 'Desember',
                         ])
-                        ->default(date('m'))
-                        ->required(),
+                        ->placeholder('Semua Bulan (Setahun)')
+                        ->default(null),
                     Select::make('periode_tahun')
                         ->label('Periode Tahun')
                         ->options(array_combine(range(date('Y')-2, date('Y')+1), range(date('Y')-2, date('Y')+1)))
