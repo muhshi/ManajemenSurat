@@ -218,7 +218,7 @@ class RekapPerPihak extends Page implements HasTable
 
         $allMonthsData = [];
         $finalCsvData = [];
-        $filteredQuery = $livewire->getFilteredTableQuery();
+        $filteredQuery = $livewire->getFilteredTableQuery()->orderBy('nama_pihak', 'asc');
 
         foreach ($monthsToExport as $m) {
             if ($bulan) {
