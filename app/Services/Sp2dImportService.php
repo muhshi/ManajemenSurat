@@ -31,16 +31,17 @@ class Sp2dImportService
     {
         $this->log("Memulai proses parsing file SP2D dan Potongan SPM...");
 
-        $fileSp2d = Storage::disk('public')->path($this->upload->file_monitoring_sp2d);
-        if (!file_exists($fileSp2d)) {
-            throw new Exception("File Monitoring SP2D tidak ditemukan: {$this->upload->file_monitoring_sp2d}");
-        }
-
-        $sp2dReader = new Reader();
-        $sp2dReader->open($fileSp2d);
-
         $spmList = [];
         $totalTerproses = 0;
+
+        if ($this->upload->file_monitoring_sp2d) {
+            $fileSp2d = Storage::disk('public')->path($this->upload->file_monitoring_sp2d);
+            if (!file_exists($fileSp2d)) {
+                throw new Exception("File Monitoring SP2D tidak ditemukan: {$this->upload->file_monitoring_sp2d}");
+            }
+
+            $sp2dReader = new Reader();
+            $sp2dReader->open($fileSp2d);
         
         $periodeBulan = str_pad($this->upload->periode_bulan, 2, '0', STR_PAD_LEFT);
         $periodeTahun = $this->upload->periode_tahun;
@@ -51,6 +52,7 @@ class Sp2dImportService
         $this->log("Membaca File Monitoring SP2D...");
         
         // Baca Sheet pertama
+        $headerFound = false;
         foreach ($sp2dReader->getSheetIterator() as $sheet) {
             $header = [];
             foreach ($sheet->getRowIterator() as $rowIndex => $row) {
@@ -61,6 +63,10 @@ class Sp2dImportService
                     // Jika baris ini mengandung kolom wajib, jadikan header
                     if (in_array('no. sp2d', $tempHeader, true) || in_array('tanggal sp2d', $tempHeader, true) || in_array('no. spp/spm', $tempHeader, true)) {
                         $header = $tempHeader;
+                        $headerFound = true;
+                    }
+                    if ($rowIndex > 30 && !$headerFound) {
+                        throw new Exception("File salah! Kolom 'No. SP2D' / 'Tanggal SP2D' tidak ditemukan. Pastikan Anda mengupload File Monitoring SPP/SPM/SP2D di input pertama, bukan file Potongan SPM.");
                     }
                     continue;
                 }
@@ -128,6 +134,9 @@ class Sp2dImportService
         $sp2dReader->close();
         
         $this->log("Selesai membaca File 1. Total SP2D relevan terproses: {$totalTerproses}");
+        } else {
+            $this->log("File Monitoring SP2D tidak dilampirkan, melewati proses 1.");
+        }
 
         if ($this->upload->file_potongan_spm) {
             $filePotongan = Storage::disk('public')->path($this->upload->file_potongan_spm);
@@ -137,6 +146,7 @@ class Sp2dImportService
                 $potonganReader = new Reader();
                 $potonganReader->open($filePotongan);
 
+                $headerFoundPotongan = false;
                 foreach ($potonganReader->getSheetIterator() as $sheet) {
                     $header = [];
                     foreach ($sheet->getRowIterator() as $rowIndex => $row) {
@@ -145,6 +155,10 @@ class Sp2dImportService
                             $tempHeader = array_map(fn($c) => trim(strtolower((string)$c)), $cells);
                             if (in_array('no.sp2d/ntpn', $tempHeader, true) || in_array('no.spm', $tempHeader, true) || in_array('akun', $tempHeader, true)) {
                                 $header = $tempHeader;
+                                $headerFoundPotongan = true;
+                            }
+                            if ($rowIndex > 30 && !$headerFoundPotongan) {
+                                throw new Exception("File salah! Kolom 'No.SP2D/NTPN' atau 'Akun' tidak ditemukan. Pastikan Anda mengupload File Potongan SPM di input kedua, bukan sebaliknya.");
                             }
                             continue;
                         }
@@ -155,28 +169,52 @@ class Sp2dImportService
                         
                         $rekap = $spmList[$noSp2d] ?? $spmList[$noSpm] ?? null;
 
-                        if ($rekap && $rekap->jalur_transaksi === '1_pihak') {
-                            $atasNama = (string)($data['atas nama'] ?? '');
-                            $rekap->update(['atas_nama_default' => $atasNama]);
+                        if (!$rekap && ($noSp2d || $noSpm)) {
+                            $query = \App\Models\Sp2dRekap::query();
+                            if ($noSp2d) {
+                                $query->where('no_sp2d', $noSp2d);
+                            } else {
+                                $query->where('no_spm', $noSpm);
+                            }
+                            $rekap = $query->first();
+                        }
 
-                            // Hanya untuk jalur 1 pihak kita otomatis buat pajaknya
-                            $akun = (string)($data['akun'] ?? '');
-                            $jumlahPajak = $this->parseAmount($data['jumlah'] ?? 0);
+                        if ($rekap) {
+                            $atasNama = trim((string)($data['atas nama'] ?? ''));
                             
-                            if ($jumlahPajak > 0) {
-                                // Ekstrak kode akun (6 digit pertama jika ada)
-                                preg_match('/^(\d{6})/', $akun, $matches);
-                                $kodeAkun = $matches[1] ?? $akun;
-                                
-                                Sp2dPajak::firstOrCreate([
-                                    'sp2d_rekap_id' => $rekap->id,
-                                    'kode_akun_pajak' => $kodeAkun,
-                                    'nama_pihak' => $atasNama,
-                                ], [
-                                    'nama_akun_pajak' => $akun,
-                                    'nominal_pajak' => $jumlahPajak,
-                                    'dpp' => 0, // DPP mungkin perlu dihitung jika perlu
+                            // Deteksi: Apakah Atas Nama = BPS Demak?
+                            $isBps = str_contains(strtoupper($atasNama), 'BADAN PUSAT STATISTIK KAB. DEMAK') || str_contains(strtoupper($atasNama), '018871-');
+
+                            // Jika bukan BPS (Pihak Ketiga) dan bukan GUP, otomatis paksa jadi 1 Pihak!
+                            if (!$isBps && $rekap->jalur_transaksi !== 'gup') {
+                                $rekap->update([
+                                    'jalur_transaksi' => '1_pihak',
+                                    'status_verifikasi' => 'valid'
                                 ]);
+                            }
+
+                            if ($rekap->jalur_transaksi === '1_pihak') {
+                                $rekap->update(['atas_nama_default' => $atasNama]);
+
+                                // Hanya untuk jalur 1 pihak kita otomatis buat pajaknya
+                                $akun = (string)($data['akun'] ?? '');
+                                $jumlahPajak = $this->parseAmount($data['jumlah'] ?? 0);
+                                
+                                if ($jumlahPajak > 0) {
+                                    // Ekstrak kode akun (6 digit pertama jika ada)
+                                    preg_match('/^(\d{6})/', $akun, $matches);
+                                    $kodeAkun = $matches[1] ?? $akun;
+                                    
+                                    Sp2dPajak::firstOrCreate([
+                                        'sp2d_rekap_id' => $rekap->id,
+                                        'kode_akun_pajak' => $kodeAkun,
+                                        'nama_pihak' => $atasNama,
+                                    ], [
+                                        'nama_akun_pajak' => $akun,
+                                        'nominal_pajak' => $jumlahPajak,
+                                        'dpp' => 0, // DPP mungkin perlu dihitung jika perlu
+                                    ]);
+                                }
                             }
                         }
                     }
@@ -201,6 +239,9 @@ class Sp2dImportService
         preg_match('/^(\d{3})/', trim($jenisSpm), $matches);
         $kode = $matches[1] ?? null;
 
+        // Cek secara eksplisit jika mengandung gup, maka otomatis jadi 'gup' (baik kode baru maupun fallback)
+        $isGup = str_contains($jenisSpm, 'gup');
+
         if ($kode) {
             if (isset($kodeSpmMapping[$kode])) {
                 return $kodeSpmMapping[$kode];
@@ -209,24 +250,26 @@ class Sp2dImportService
                 $parts = explode('-', $jenisSpmAsli, 2);
                 $nama = isset($parts[1]) ? trim($parts[1]) : $jenisSpmAsli;
 
+                $jalurOtomatis = $isGup ? 'gup' : 'banyak_pihak';
+
                 // Insert ke database otomatis
                 \App\Models\KodeSpm::firstOrCreate(
                     ['kode' => $kode],
                     [
                         'nama' => $nama, 
-                        'jalur' => '1_pihak'
+                        'jalur' => $jalurOtomatis
                     ]
                 );
                 
                 // Tambahkan ke mapping memori agar import baris selanjutnya lebih cepat
-                $kodeSpmMapping[$kode] = '1_pihak';
+                $kodeSpmMapping[$kode] = $jalurOtomatis;
                 
-                return '1_pihak';
+                return $jalurOtomatis;
             }
         }
 
         // Fallback default (sesuai persetujuan pengguna)
-        return '1_pihak';
+        return $isGup ? 'gup' : 'banyak_pihak';
     }
 
     protected function mapRow(array $header, array $cells): array
