@@ -83,7 +83,7 @@ class ListSp2dRekaps extends ListRecords
                 ])
                 ->action(function (array $data) {
                     $upload = Sp2dUpload::create([
-                        'file_monitoring_sp2d' => $data['file_monitoring_sp2d'],
+                        'file_monitoring_sp2d' => $data['file_monitoring_sp2d'] ?? null,
                         'file_potongan_spm' => $data['file_potongan_spm'] ?? null,
                         'periode_bulan' => null,
                         'periode_tahun' => $data['periode_tahun'],
@@ -91,7 +91,7 @@ class ListSp2dRekaps extends ListRecords
                         'user_id' => Auth::id(),
                     ]);
 
-                    ProcessSp2dImport::dispatch($upload);
+                    ProcessSp2dImport::dispatchSync($upload);
 
                     Notification::make()
                         ->title('Import Diproses')
