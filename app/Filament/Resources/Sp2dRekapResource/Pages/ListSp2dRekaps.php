@@ -38,7 +38,7 @@ class ListSp2dRekaps extends ListRecords
                     ->label('Export CSV')
                     ->icon('heroicon-o-document-text')
                     ->action(function () {
-                        $query = $this->getPageTableQuery();
+                        $query = $this->getFilteredTableQuery();
                         return \Maatwebsite\Excel\Facades\Excel::download(
                             new \App\Exports\Sp2dRekapExport($query),
                             'Data_Rekap_SP2D_' . date('Ymd_His') . '.csv',
@@ -49,7 +49,7 @@ class ListSp2dRekaps extends ListRecords
                     ->label('Export Excel')
                     ->icon('heroicon-o-document-chart-bar')
                     ->action(function () {
-                        $query = $this->getPageTableQuery();
+                        $query = $this->getFilteredTableQuery();
                         return \Maatwebsite\Excel\Facades\Excel::download(
                             new \App\Exports\Sp2dRekapExport($query),
                             'Data_Rekap_SP2D_' . date('Ymd_His') . '.xlsx',
@@ -60,7 +60,7 @@ class ListSp2dRekaps extends ListRecords
                     ->label('Export PDF')
                     ->icon('heroicon-o-document')
                     ->action(function () {
-                        $query = $this->getPageTableQuery();
+                        $query = $this->getFilteredTableQuery();
                         $records = clone $query->get();
                         
                         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('exports.sp2d-rekap', [
