@@ -195,47 +195,6 @@ class RekapPerPihak extends Page implements HasTable
     private function getExportData($livewire): array
     {
         $akuns = \App\Models\AkunPajak::orderBy('kode')->get();
-        $query = clone $livewire->getFilteredTableQuery();
-        $records = $query->get();
-
-        $csvData = [];
-        $headers = ['Nama Pihak', 'NPWP / NIK'];
-        foreach ($akuns as $akun) {
-            $headers[] = $akun->kode . ' - ' . $akun->nama_lengkap;
-        }
-        $headers[] = 'Total Potongan';
-        $csvData[] = $headers;
-
-        $sums = array_fill_keys($akuns->pluck('kode')->toArray(), 0);
-        $sumTotal = 0;
-
-        foreach ($records as $record) {
-            $row = [
-                $record->nama_pihak,
-                $record->npwp_nik,
-            ];
-            
-            foreach ($akuns as $akun) {
-                $columnName = 'pajak_' . $akun->kode;
-                $val = $record->$columnName;
-                $row[] = $val ? number_format((float)$val, 0, ',', '.') : '-';
-                $sums[$akun->kode] += $val ?: 0;
-            }
-            
-            $row[] = $record->total ? number_format((float)$record->total, 0, ',', '.') : '-';
-            $sumTotal += $record->total ?: 0;
-            
-            $csvData[] = $row;
-        }
-
-        $grandTotalRow = ['GRAND TOTAL', ''];
-        foreach ($akuns as $akun) {
-            $val = $sums[$akun->kode];
-            $grandTotalRow[] = $val ? number_format((float)$val, 0, ',', '.') : '-';
-        }
-        $grandTotalRow[] = $sumTotal ? number_format((float)$sumTotal, 0, ',', '.') : '-';
-        $csvData[] = $grandTotalRow;
-
         $filterState = $livewire->getTableFilterState('periode') ?? [];
         $bulan = $filterState['bulan'] ?? null;
         $tahun = $filterState['tahun'] ?? null;
@@ -248,13 +207,109 @@ class RekapPerPihak extends Page implements HasTable
             '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
         ];
 
+        $monthsToExport = [];
+        if ($bulan) {
+            $monthsToExport[] = $bulan;
+            $bulanName = $namaBulan[$bulan] ?? null;
+        } else {
+            $monthsToExport = array_keys($namaBulan);
+            $bulanName = null;
+        }
+
+        $allMonthsData = [];
+        $finalCsvData = [];
+        $filteredQuery = $livewire->getFilteredTableQuery();
+
+        foreach ($monthsToExport as $m) {
+            if ($bulan) {
+                $query = clone $filteredQuery;
+            } else {
+                $query = clone $filteredQuery;
+                $query->whereHas('rekap', fn($q) => $q->whereMonth('tgl_sp2d', $m));
+            }
+
+            $records = $query->get();
+            if ($records->isEmpty()) continue;
+
+            $csvData = [];
+            $headers = ['Nama Pihak', 'NPWP / NIK'];
+            foreach ($akuns as $akun) {
+                $headers[] = $akun->kode . ' - ' . $akun->nama_lengkap;
+            }
+            $headers[] = 'Total Potongan';
+            $csvData[] = $headers;
+
+            $sums = array_fill_keys($akuns->pluck('kode')->toArray(), 0);
+            $sumTotal = 0;
+
+            foreach ($records as $record) {
+                $row = [
+                    $record->nama_pihak,
+                    $record->npwp_nik,
+                ];
+                
+                foreach ($akuns as $akun) {
+                    $columnName = 'pajak_' . $akun->kode;
+                    $val = $record->$columnName;
+                    $row[] = $val ? number_format((float)$val, 0, ',', '.') : '-';
+                    $sums[$akun->kode] += $val ?: 0;
+                }
+                
+                $row[] = $record->total ? number_format((float)$record->total, 0, ',', '.') : '-';
+                $sumTotal += $record->total ?: 0;
+                
+                $csvData[] = $row;
+            }
+
+            $grandTotalRow = ['GRAND TOTAL', ''];
+            foreach ($akuns as $akun) {
+                $val = $sums[$akun->kode];
+                $grandTotalRow[] = $val ? number_format((float)$val, 0, ',', '.') : '-';
+            }
+            $grandTotalRow[] = $sumTotal ? number_format((float)$sumTotal, 0, ',', '.') : '-';
+            $csvData[] = $grandTotalRow;
+
+            $allMonthsData[] = [
+                'bulanName' => $namaBulan[$m],
+                'headers' => $headers,
+                'rows' => array_slice($csvData, 1, -1),
+                'grandTotal' => $grandTotalRow,
+            ];
+
+            if (count($monthsToExport) > 1) {
+                $finalCsvData[] = ['Bulan: ' . $namaBulan[$m] . ($tahun ? ' ' . $tahun : '')];
+            }
+            foreach ($csvData as $row) {
+                $finalCsvData[] = $row;
+            }
+            $finalCsvData[] = [];
+        }
+
+        if (count($monthsToExport) > 1 && !empty($finalCsvData)) {
+            array_pop($finalCsvData);
+        } elseif (count($monthsToExport) == 1 && !empty($allMonthsData)) {
+            array_pop($finalCsvData);
+        }
+
+        if (empty($allMonthsData)) {
+            $headers = ['Nama Pihak', 'NPWP / NIK'];
+            foreach ($akuns as $akun) {
+                $headers[] = $akun->kode . ' - ' . $akun->nama_lengkap;
+            }
+            $headers[] = 'Total Potongan';
+            $finalCsvData = [$headers];
+            $allMonthsData[] = [
+                'bulanName' => $bulanName,
+                'headers' => $headers,
+                'rows' => [],
+                'grandTotal' => array_fill(0, count($headers), '-'),
+            ];
+        }
+
         $nameParts = ['Rekap_Pajak'];
 
-        if ($bulan && isset($namaBulan[$bulan])) {
-            $nameParts[] = $namaBulan[$bulan];
-            $bulanName = $namaBulan[$bulan];
-        } else {
-            $bulanName = null;
+        if ($bulanName) {
+            $nameParts[] = $bulanName;
         }
         if ($tahun) {
             $nameParts[] = $tahun;
@@ -268,11 +323,9 @@ class RekapPerPihak extends Page implements HasTable
         $filename = implode('_', $nameParts);
         
         return [
-            'data' => $csvData,
+            'data' => $finalCsvData,
             'filename' => $filename,
-            'headers' => $headers,
-            'rows' => array_slice($csvData, 1, -1),
-            'grandTotal' => $grandTotalRow,
+            'months' => $allMonthsData,
             'bulan' => $bulanName,
             'tahun' => $tahun
         ];
@@ -315,9 +368,7 @@ class RekapPerPihak extends Page implements HasTable
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
                         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('exports.rekap-per-pihak', [
-                            'headers' => $exportInfo['headers'],
-                            'rows' => $exportInfo['rows'],
-                            'grandTotal' => $exportInfo['grandTotal'],
+                            'months' => $exportInfo['months'],
                             'filterBulan' => $exportInfo['bulan'],
                             'filterTahun' => $exportInfo['tahun'],
                         ])->setPaper('a4', 'landscape');
