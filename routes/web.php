@@ -51,15 +51,4 @@ if (app()->environment('local')) {
     });
 }
 
-// ─── SP2D CORETAX EXPORT ─────────────────────────────────────────
-Route::get('/sp2d/export/coretax', function (\Illuminate\Http\Request $request) {
-    $bulan = $request->query('bulan');
-    $tahun = $request->query('tahun', date('Y'));
-    
-    $filename = $bulan ? "Rekap_SP2D_{$bulan}_{$tahun}.xlsx" : "Rekap_SP2D_{$tahun}.xlsx";
-    
-    return \Maatwebsite\Excel\Facades\Excel::download(
-        new \App\Exports\Sp2dCoretaxExport($bulan, $tahun),
-        $filename
-    );
-})->name('sp2d.export.coretax')->middleware('auth');
+

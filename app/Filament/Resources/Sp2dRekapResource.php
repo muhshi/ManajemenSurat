@@ -155,11 +155,12 @@ class Sp2dRekapResource extends Resource
                                 ->relationship()
                                 ->label('Daftar Pajak Pihak/Penerima')
                                 ->collapsible()
+                                ->cloneable(fn ($record) => $record?->jalur_transaksi !== '1_pihak')
                                 ->addable(fn ($record) => $record?->jalur_transaksi !== '1_pihak')
                                 ->deletable(fn ($record) => $record?->jalur_transaksi !== '1_pihak')
                                 ->itemLabel(fn (array $state): ?string => $state['nama_pihak'] ?? null)
                                 ->schema([
-                                    \Filament\Schemas\Components\Grid::make(6)
+                                    \Filament\Schemas\Components\Grid::make(12)
                                         ->schema([
                                             Forms\Components\TextInput::make('npwp_nik')
                                                 ->label('NPWP / NIK')
@@ -171,22 +172,14 @@ class Sp2dRekapResource extends Resource
                                                     'required' => 'Nama pihak wajib diisi.',
                                                 ])
                                                 ->columnSpan(3),
-                                            Forms\Components\Checkbox::make('_is_selected')
-                                                ->label('Pilih')
-                                                ->dehydrated(false)
-                                                ->columnSpan(1)
-                                                ->inline(false),
-                                        ]),
-                                    \Filament\Schemas\Components\Grid::make(3)
-                                        ->schema([
                                             Forms\Components\Select::make('kode_akun_pajak')
-                                                ->label('Jenis/Akun Pajak')
+                                                ->label('Jenis Pajak')
                                                 ->options(\App\Models\AkunPajak::all()->mapWithKeys(fn($item) => [$item->kode => $item->kode . ' - ' . $item->nama_pendek])->toArray())
                                                 ->required()
                                                 ->validationMessages([
                                                     'required' => 'Jenis pajak wajib dipilih.',
                                                 ])
-                                                ->columnSpan(1),
+                                                ->columnSpan(3),
                                             Forms\Components\TextInput::make('dpp')
                                                 ->label('DPP')
                                                 ->prefix('Rp')
@@ -194,7 +187,7 @@ class Sp2dRekapResource extends Resource
                                                 ->stripCharacters('.')
                                                 ->numeric()
                                                 ->default(0)
-                                                ->columnSpan(1),
+                                                ->columnSpan(2),
                                             Forms\Components\TextInput::make('nominal_pajak')
                                                 ->label('Nominal Pajak')
                                                 ->prefix('Rp')
@@ -206,7 +199,13 @@ class Sp2dRekapResource extends Resource
                                                     'required' => 'Nominal pajak wajib diisi.',
                                                 ])
                                                 ->live(onBlur: true)
-                                                ->columnSpan(1),
+                                                ->columnSpan(2),
+                                            Forms\Components\Checkbox::make('_is_selected')
+                                                ->label('Pilih')
+                                                ->dehydrated(false)
+                                                ->columnSpan(12) // Moved to its own line for selection, or wait, we can just hide it if not using bulk delete, but they do use it. Let's put it at the end? Or put it above?
+                                                ->inline(false)
+                                                ->visible(fn ($record) => $record?->jalur_transaksi !== '1_pihak'),
                                         ])
                                 ])
                                 ->columns(1)

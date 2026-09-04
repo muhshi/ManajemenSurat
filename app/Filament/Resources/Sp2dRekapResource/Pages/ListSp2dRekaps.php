@@ -23,41 +23,63 @@ class ListSp2dRekaps extends ListRecords
         );
     }
 
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            \App\Filament\Resources\Sp2dRekapResource\Widgets\Sp2dRekapStatsOverview::class,
+        ];
+    }
+
     protected function getHeaderActions(): array
     {
         return [
+            \Filament\Actions\ActionGroup::make([
+                \Filament\Actions\Action::make('export_csv')
+                    ->label('Export CSV')
+                    ->icon('heroicon-o-document-text')
+                    ->action(function () {
+                        $query = $this->getPageTableQuery();
+                        return \Maatwebsite\Excel\Facades\Excel::download(
+                            new \App\Exports\Sp2dRekapExport($query),
+                            'Data_Rekap_SP2D_' . date('Ymd_His') . '.csv',
+                            \Maatwebsite\Excel\Excel::CSV
+                        );
+                    }),
+                \Filament\Actions\Action::make('export_excel')
+                    ->label('Export Excel')
+                    ->icon('heroicon-o-document-chart-bar')
+                    ->action(function () {
+                        $query = $this->getPageTableQuery();
+                        return \Maatwebsite\Excel\Facades\Excel::download(
+                            new \App\Exports\Sp2dRekapExport($query),
+                            'Data_Rekap_SP2D_' . date('Ymd_His') . '.xlsx',
+                            \Maatwebsite\Excel\Excel::XLSX
+                        );
+                    }),
+                \Filament\Actions\Action::make('export_pdf')
+                    ->label('Export PDF')
+                    ->icon('heroicon-o-document')
+                    ->action(function () {
+                        $query = $this->getPageTableQuery();
+                        $records = clone $query->get();
+                        
+                        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('exports.sp2d-rekap', [
+                            'records' => $records
+                        ])->setPaper('a4', 'landscape');
+                        
+                        return response()->streamDownload(fn () => print($pdf->output()), 'Data_Rekap_SP2D_' . date('Ymd_His') . '.pdf');
+                    }),
+            ])
+            ->label('Export')
+            ->icon('heroicon-o-arrow-down-tray')
+            ->color('success')
+            ->button(),
+
             Actions\Action::make('refresh')
                 ->label('Segarkan Data')
                 ->icon('heroicon-o-arrow-path')
                 ->color('secondary')
                 ->action(fn () => null),
-            Actions\Action::make('export_coretax')
-                ->label('Export Rekap SP2D')
-                ->icon('heroicon-o-document-arrow-down')
-                ->color('success')
-                ->form([
-                    Select::make('periode_bulan')
-                        ->label('Periode Bulan')
-                        ->options([
-                            '01' => 'Januari', '02' => 'Februari', '03' => 'Maret',
-                            '04' => 'April', '05' => 'Mei', '06' => 'Juni',
-                            '07' => 'Juli', '08' => 'Agustus', '09' => 'September',
-                            '10' => 'Oktober', '11' => 'November', '12' => 'Desember',
-                        ])
-                        ->placeholder('Semua Bulan (Setahun)')
-                        ->default(null),
-                    Select::make('periode_tahun')
-                        ->label('Periode Tahun')
-                        ->options(array_combine(range(date('Y')-2, date('Y')+1), range(date('Y')-2, date('Y')+1)))
-                        ->default(date('Y'))
-                        ->required(),
-                ])
-                ->action(function (array $data) {
-                    return redirect()->route('sp2d.export.coretax', [
-                        'bulan' => $data['periode_bulan'],
-                        'tahun' => $data['periode_tahun']
-                    ]);
-                }),
 
             Actions\Action::make('import')
                 ->label('Import SP2D MyIntress')
