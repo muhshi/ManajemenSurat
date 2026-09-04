@@ -1,5 +1,21 @@
 # Changelog - ManajemenSurat
 
+## [1.5.0] - 2026-09-04
+### Added
+- **UI/UX Rekap SP2D & Export:**
+    - Penambahan halaman `Rekap Per Pihak` untuk menampilkan rangkuman pajak berdasarkan entitas (NPWP/NIK dan Nama) secara dinamis dengan dukungan *Filter*.
+    - Penambahan fitur Export multi-format (CSV, Excel, PDF) terintegrasi pada halaman Data Rekap SP2D maupun Rekap Per Pihak.
+    - Format khusus pada ekspor Excel untuk memastikan NIP dan NPWP bertipe *String* sehingga mencegah terjadinya *Scientific Notation*.
+
+### Changed
+- **Pembersihan Fitur Lama:**
+    - Menghapus tombol dan kelas `Sp2dCoretaxExport` karena fungsionalitas pengelompokannya telah sepenuhnya digantikan oleh halaman `Rekap Per Pihak`.
+
+### Fixed
+- **Stabilitas Widget & Konfigurasi:**
+    - Perbaikan `BadMethodCallException` pada widget `Sp2dRekapStatsOverview` dan `RekapPajakOverview` dengan menggunakan implementasi trait resmi Filament untuk menginisialisasi *instance* halaman tabel.
+    - Perbaikan *typo wildcard* pada `.gitignore` yang sebelumnya memblokir pelacakan file secara luas.
+
 ## [1.4.0] - 2026-08-28
 ### Added
 - **UI/UX Rekap SP2D & Export:**
