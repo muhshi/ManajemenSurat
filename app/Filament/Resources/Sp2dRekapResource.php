@@ -409,7 +409,7 @@ class Sp2dRekapResource extends Resource
                     ]),
             ])
             ->recordActions([
-                \Filament\Tables\Actions\EditAction::make()
+                \Filament\Actions\EditAction::make()
                     ->slideOver()
                     ->modalWidth('7xl')
                     ->mutateRecordDataUsing(function (array $data, Sp2dRekap $record): array {
