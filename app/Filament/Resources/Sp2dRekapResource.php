@@ -391,6 +391,8 @@ class Sp2dRekapResource extends Resource
                         return Sp2dRekap::query()
                             ->select('jenis_spm')
                             ->distinct()
+                            ->whereNotNull('jenis_spm')
+                            ->where('jenis_spm', '!=', '')
                             ->pluck('jenis_spm', 'jenis_spm')
                             ->toArray();
                     }),
