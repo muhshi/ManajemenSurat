@@ -30,7 +30,7 @@
                             <span style="font-size: 0.75rem; opacity: 0.7; display: block; margin-top: 0.125rem;">{{ $namaAkun }}</span>
                         </td>
                         <td class="fi-ta-cell" style="padding: 1rem; font-size: 0.875rem; white-space: nowrap; text-align: right; width: 1%;">
-                            Rp {{ number_format($pajak->nominal_pajak, 0, ',', '.') }}
+                            Rp{{ number_format($pajak->nominal_pajak, 0, ',', '.') }}
                         </td>
                         <td class="fi-ta-cell" style="padding: 1rem; font-size: 0.875rem; white-space: nowrap; text-align: center; width: 1%;">
                             <x-filament::button
@@ -80,7 +80,7 @@
                             Total {{ $namaAkun }}
                         </td>
                         <td style="padding: 0.5rem 1rem; font-size: 0.875rem; text-align: right; font-weight: 500; opacity: 0.8;">
-                            Rp {{ number_format($subtotal, 0, ',', '.') }}
+                            Rp{{ number_format($subtotal, 0, ',', '.') }}
                         </td>
                         <td></td>
                     </tr>
@@ -90,7 +90,7 @@
                         Grand Total
                     </td>
                     <td style="padding: 1rem; font-size: 1rem; font-weight: 700; text-align: right;">
-                        Rp {{ number_format($pajaks->sum('nominal_pajak'), 0, ',', '.') }}
+                        Rp{{ number_format($pajaks->sum('nominal_pajak'), 0, ',', '.') }}
                     </td>
                     <td></td>
                 </tr>

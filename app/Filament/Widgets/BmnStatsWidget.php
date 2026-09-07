@@ -46,7 +46,7 @@ class BmnStatsWidget extends BaseWidget
                 ->descriptionIcon('heroicon-m-pause-circle')
                 ->color('gray'),
 
-            Stat::make('Nilai Buku Total', 'Rp ' . number_format($nilaiBuku, 0, ',', '.'))
+            Stat::make('Nilai Buku Total', 'Rp' . number_format($nilaiBuku, 0, ',', '.'))
                 ->description('Total nilai buku semua aset')
                 ->descriptionIcon('heroicon-m-banknotes')
                 ->color('info'),

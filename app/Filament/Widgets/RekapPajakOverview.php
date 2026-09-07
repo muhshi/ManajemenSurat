@@ -124,12 +124,12 @@ class RekapPajakOverview extends BaseWidget
             $val = $result->$columnName ?? 0;
             
             if ($val > 0) {
-                $stats[] = Stat::make($akun->kode . ' - ' . $akun->nama_pendek, 'Rp ' . number_format((float) $val, 0, ',', '.'));
+                $stats[] = Stat::make($akun->kode . ' - ' . $akun->nama_pendek, 'Rp' . number_format((float) $val, 0, ',', '.'));
             }
         }
         
         $grandTotal = $result->grand_total ?? 0;
-        $stats[] = Stat::make('Total Keseluruhan', 'Rp ' . number_format((float) $grandTotal, 0, ',', '.'))
+        $stats[] = Stat::make('Total Keseluruhan', 'Rp' . number_format((float) $grandTotal, 0, ',', '.'))
             ->color('success');
 
         return $stats;
