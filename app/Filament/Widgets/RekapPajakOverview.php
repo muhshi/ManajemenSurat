@@ -103,7 +103,7 @@ class RekapPajakOverview extends BaseWidget
 
     protected function getStats(): array
     {
-        $subquery = $this->getPageTableQuery();
+        $subquery = $this->getPageTableQuery()->reorder();
         
         $queryBuilder = DB::table(DB::raw("({$subquery->toSql()}) as sub"))
             ->mergeBindings($subquery->getQuery());
