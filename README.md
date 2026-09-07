@@ -136,7 +136,18 @@ The MIT License (MIT).
 
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
-### [2026-05-22] (Latest)
+### [2026-09-07] (Latest)
+#### Added
+- **Skrip Deployment Cerdas (`deploy.sh`)**:
+  - Otomatis mendeteksi kebutuhan build Docker image berdasarkan perubahan pada file konfigurasi (`Dockerfile`, `docker-compose.yml`, `Caddyfile`), dependensi (`composer.lock`, `package.json`), dan aset Vite (`resources/css`, `resources/js`).
+  - Melewati build Docker jika hanya terdapat perubahan kode PHP, Blade, atau migrasi (cukup menjalankan `docker compose up -d`).
+  - Otomatis menjalankan pembersihan & regenerasi cache Laravel (`optimize:clear`, `config:cache`, `route:cache`, `view:cache`).
+  - Menjalankan migrasi database (`migrate --force`) secara aman tanpa drop database.
+  - Me-restart container `queue-worker` dan menyelaraskan permission folder `storage` & `bootstrap/cache`.
+  - Mendukung opsi `--build` (paksa build ulang) dan `--skip-pull`.
+- **Pembaruan Panduan Deployment**: Menambahkan panduan penggunaan `deploy.sh` pada `deploy-docker.md`.
+
+### [2026-05-22]
 #### Changed
 - **Upgrade Laravel 12 → 13**: Upgrade major framework dari `laravel/framework ^12.0` ke `^13.0` (installed v13.6.0).
   - Requirement PHP dinaikan dari `^8.2` menjadi `^8.3`.

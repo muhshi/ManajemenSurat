@@ -52,6 +52,27 @@ docker compose exec surat-franken php artisan view:cache
 ### CARA UPDATE (Jika ada perubahan code)
 Dengan sistem *Mounting* yang baru, Anda tidak perlu melakukan build ulang setiap kali ada perubahan kecil di tampilan (CSS/Blade).
 
+#### Menggunakan Skrip Otomatis (Direkomendasikan)
+Cukup jalankan skrip deploy berikut:
+```bash
+./deploy.sh
+```
+Skrip ini secara cerdas akan:
+1. Menjalankan `git pull` untuk mengambil commit terbaru.
+2. Memeriksa apakah ada file konfigurasi (`Dockerfile`, `docker-compose.yml`, `Caddyfile`), dependensi (`composer.lock`, `package.json`), atau file aset Vite (`resources/css`, `resources/js`) yang berubah:
+   - Jika **ada perubahan**: menjalankan `docker compose up -d --build`.
+   - Jika **hanya kode PHP/Blade/migrasi**: melewati proses build dan hanya menjalankan `docker compose up -d`.
+3. Menjalankan `php artisan optimize:clear`, `migrate --force`, dan caching optimasi (`config`, `route`, `view`).
+4. Me-restart `queue-worker` agar memuat logic baru.
+5. Memperbarui permission direktori `storage` dan `bootstrap/cache`.
+
+Opsi tambahan:
+- `./deploy.sh --build` : Memaksa build ulang Docker image kapan pun diperlukan.
+- `./deploy.sh --skip-pull` : Menjalankan alur deploy tanpa menarik kode dari git.
+
+---
+
+#### Manual (Alternatif)
 1. **Sinkronisasi Kode**:
    ```bash
    git pull origin main
