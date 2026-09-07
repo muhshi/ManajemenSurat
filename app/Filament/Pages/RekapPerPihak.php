@@ -80,14 +80,14 @@ class RekapPerPihak extends Page implements HasTable
             
             $columns[] = TextColumn::make($columnName)
                 ->label($akun->kode . ' - ' . $akun->nama_pendek)
-                ->formatStateUsing(fn ($state) => $state ? 'Rp ' . number_format((float) $state, 0, ',', '.') : '-')
+                ->formatStateUsing(fn ($state) => $state ? 'Rp' . number_format((float) $state, 0, ',', '.') : '-')
                 ->alignment(Alignment::End)
                 ->toggleable(isToggledHiddenByDefault: $isHidden);
         }
 
         $columns[] = TextColumn::make('total')
             ->label('Total Potongan')
-            ->formatStateUsing(fn ($state) => $state ? 'Rp ' . number_format((float) $state, 0, ',', '.') : '-')
+            ->formatStateUsing(fn ($state) => $state ? 'Rp' . number_format((float) $state, 0, ',', '.') : '-')
             ->color('success')
             ->weight('bold')
             ->alignment(Alignment::End);
