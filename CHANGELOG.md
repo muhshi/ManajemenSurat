@@ -1,5 +1,11 @@
 # Changelog - ManajemenSurat
 
+## [1.5.1] - 2026-09-09
+### Changed
+- **Branding & UI:**
+    - Mengganti favicon bawaan Laravel dengan Logo BPS pada halaman `welcome` dan `landing`.
+    - Menghapus aset favicon default (`favicon.ico`, `favicon.svg`, `apple-touch-icon.png`).
+
 ## [1.5.0] - 2026-09-04
 ### Added
 - **UI/UX Rekap SP2D & Export:**
