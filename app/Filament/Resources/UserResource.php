@@ -105,7 +105,18 @@ class UserResource extends Resource
                                                 ->image()
                                                 ->avatar()
                                                 ->directory('avatars')
-                                                ->helperText('Unggah untuk mengganti atau membiarkannya tetap jika menggunakan foto SSO.'),
+                                                ->helperText('Unggah untuk mengganti atau membiarkannya tetap jika menggunakan foto SSO.')
+                                                ->afterStateHydrated(function (\Filament\Forms\Components\FileUpload $component, $state) {
+                                                    if (is_string($state) && filter_var($state, FILTER_VALIDATE_URL)) {
+                                                        $component->state(null);
+                                                    }
+                                                })
+                                                ->dehydrateStateUsing(function ($state, $record) {
+                                                    if (empty($state) && $record && filter_var($record->avatar_url, FILTER_VALIDATE_URL)) {
+                                                        return $record->avatar_url;
+                                                    }
+                                                    return $state;
+                                                }),
                                         ])->columns(2)->columnSpanFull(),
                                     ]),
 

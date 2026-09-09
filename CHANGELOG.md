@@ -7,6 +7,10 @@
     - Menghapus aset favicon default (`favicon.ico`, `favicon.svg`, `apple-touch-icon.png`).
     - Menyalin `logo_bps.png` ke `public/favicon.ico` untuk mengatasi masalah browser caching yang sempat menampilkan favicon Laravel saat memuat halaman awal.
 
+### Fixed
+- **Manajemen User:**
+    - Memperbaiki bug (*error*) di mana foto profil SSO (berupa URL eksternal) terhapus/menjadi kosong ketika form di-simpan (seperti saat mengganti Role). Komponen `FileUpload` sekarang akan mempertahankan URL eksternal jika pengguna tidak mengunggah foto lokal baru.
+
 ## [1.5.0] - 2026-09-04
 ### Added
 - **UI/UX Rekap SP2D & Export:**
