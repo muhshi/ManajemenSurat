@@ -12,6 +12,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             RuanganSeeder::class,
             PegawaiSeeder::class,
+            KodeSpmSeeder::class,
+            AkunPajakSeeder::class,
         ]);
     }
 }

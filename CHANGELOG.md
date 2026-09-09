@@ -10,6 +10,8 @@
 ### Fixed
 - **Manajemen User:**
     - Memperbaiki bug (*error*) di mana foto profil SSO (berupa URL eksternal) terhapus/menjadi kosong ketika form di-simpan (seperti saat mengganti Role). Komponen `FileUpload` sekarang akan mempertahankan URL eksternal jika pengguna tidak mengunggah foto lokal baru.
+- **Database & Seeder:**
+    - Memperbaiki file `DatabaseSeeder` yang sebelumnya lupa memanggil seeder untuk `KodeSpm` dan `AkunPajak`. Kini data *master* tersebut otomatis ikut dimasukkan saat menjalankan `db:seed`.
 
 ## [1.5.0] - 2026-09-04
 ### Added
