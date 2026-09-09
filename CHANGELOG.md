@@ -5,6 +5,7 @@
 - **Branding & UI:**
     - Mengganti favicon bawaan Laravel dengan Logo BPS pada halaman `welcome` dan `landing`.
     - Menghapus aset favicon default (`favicon.ico`, `favicon.svg`, `apple-touch-icon.png`).
+    - Menyalin `logo_bps.png` ke `public/favicon.ico` untuk mengatasi masalah browser caching yang sempat menampilkan favicon Laravel saat memuat halaman awal.
 
 ## [1.5.0] - 2026-09-04
 ### Added
