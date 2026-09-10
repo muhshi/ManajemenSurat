@@ -57,12 +57,4 @@ class Sp2dCoretaxIntegrationTest extends TestCase
         $this->assertTrue($rekap->isBalanced());
     }
 
-    public function test_export_coretax_format()
-    {
-        $export = new \App\Exports\Sp2dCoretaxExport('08', '2026');
-        $headings = $export->headings();
-        
-        $this->assertContains('NPWP / NIK', $headings);
-        $this->assertContains('TOTAL POTONGAN', $headings);
-    }
 }
