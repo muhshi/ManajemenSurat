@@ -379,7 +379,6 @@ class Sp2dRekapResource extends Resource
                     ->colors([
                         'success' => 'valid',
                         'warning' => 'perlu_rincian',
-                        'gray' => 'draft',
                     ])
                     ->searchable()
                     ->sortable(),
@@ -407,7 +406,6 @@ class Sp2dRekapResource extends Resource
                     ->options([
                         'valid' => 'Valid',
                         'perlu_rincian' => 'Perlu Rincian',
-                        'draft' => 'Draft',
                     ]),
             ])
             ->recordActions([
