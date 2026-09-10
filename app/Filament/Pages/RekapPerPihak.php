@@ -89,34 +89,32 @@ class RekapPerPihak extends Page implements HasTable
             ->label('Total Potongan')
             ->formatStateUsing(fn ($state) => $state ? 'Rp' . number_format((float) $state, 0, ',', '.') : '-')
             ->color('success')
-            ->weight('bold')
-            ->alignment(Alignment::End);
-
-        $filterState = $this->getTableFilterState('periode') ?? [];
-        $bulan = $filterState['bulan'] ?? null;
-        $tahun = $filterState['tahun'] ?? null;
-        $noSp2d = $filterState['no_sp2d'] ?? null;
-
-        $subquery = Sp2dPajak::query()
-            ->selectRaw($selectRaw)
-            ->whereHas('rekap', function ($q) use ($bulan, $tahun, $noSp2d) {
-                $q->where('status_verifikasi', 'valid');
-                if ($bulan) {
-                    $q->whereMonth('tgl_sp2d', $bulan);
-                }
-                if ($tahun) {
-                    $q->whereYear('tgl_sp2d', $tahun);
-                }
-                if ($noSp2d) {
-                    $q->where('no_sp2d', 'like', "%{$noSp2d}%");
-                }
-            })
-            ->groupBy('npwp_nik', 'nama_pihak');
-
         return $table
-            ->query(
-                Sp2dPajak::query()->fromSub($subquery, 'sp2d_pajaks')
-            )
+            ->query(Sp2dPajak::query())
+            ->modifyQueryUsing(function (Builder $query) use ($selectRaw) {
+                $filterState = $this->getTableFilterState('periode') ?? [];
+                $bulan = $filterState['bulan'] ?? null;
+                $tahun = $filterState['tahun'] ?? null;
+                $noSp2d = $filterState['no_sp2d'] ?? null;
+
+                $subquery = Sp2dPajak::query()
+                    ->selectRaw($selectRaw)
+                    ->whereHas('rekap', function ($q) use ($bulan, $tahun, $noSp2d) {
+                        $q->where('status_verifikasi', 'valid');
+                        if ($bulan) {
+                            $q->whereMonth('tgl_sp2d', $bulan);
+                        }
+                        if ($tahun) {
+                            $q->whereYear('tgl_sp2d', $tahun);
+                        }
+                        if ($noSp2d) {
+                            $q->where('no_sp2d', 'like', "%{$noSp2d}%");
+                        }
+                    })
+                    ->groupBy('npwp_nik', 'nama_pihak');
+
+                return $query->fromSub($subquery, 'sp2d_pajaks');
+            })
             ->columns($columns)
             ->filters([
                 Tables\Filters\Filter::make('periode')
