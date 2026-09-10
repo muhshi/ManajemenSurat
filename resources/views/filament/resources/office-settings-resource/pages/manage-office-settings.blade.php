@@ -3,7 +3,9 @@
         {{ $this->form }}
 
         <div class="mt-6">
-            <x-filament-panels::form.actions :actions="$this->getFormActions()" :full-width="false" />
+            <x-filament::button type="submit">
+                Simpan
+            </x-filament::button>
         </div>
     </form>
 </x-filament-panels::page>
