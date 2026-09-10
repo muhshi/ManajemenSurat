@@ -92,14 +92,16 @@ class RekapPerPihak extends Page implements HasTable
             ->weight('bold')
             ->alignment(Alignment::End);
 
+        $subquery = Sp2dPajak::query()
+            ->selectRaw($selectRaw)
+            ->whereHas('rekap', function ($q) {
+                $q->where('status_verifikasi', 'valid');
+            })
+            ->groupBy('npwp_nik', 'nama_pihak');
+
         return $table
             ->query(
-                Sp2dPajak::query()
-                    ->selectRaw($selectRaw)
-                    ->whereHas('rekap', function ($q) {
-                        $q->where('status_verifikasi', 'valid');
-                    })
-                    ->groupBy('npwp_nik', 'nama_pihak')
+                Sp2dPajak::query()->fromSub($subquery, 'sp2d_pajaks')
             )
             ->columns($columns)
             ->filters([
