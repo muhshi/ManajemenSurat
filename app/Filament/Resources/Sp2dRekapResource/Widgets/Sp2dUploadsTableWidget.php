@@ -46,7 +46,23 @@ class Sp2dUploadsTableWidget extends BaseWidget
                         'primary' => 'processing',
                         'success' => 'done',
                         'danger' => 'failed',
-                    ]),
+                    ])
+                    ->description(function (Sp2dUpload $record) {
+                        if ($record->status !== 'failed' || empty($record->error_log)) return null;
+                        if (str_contains($record->error_log, 'GAGAL: ')) {
+                            return str($record->error_log)->afterLast('GAGAL: ')->limit(50)->value();
+                        }
+                        return str($record->error_log)->limit(50)->value();
+                    })
+                    ->tooltip(function (Sp2dUpload $record) {
+                        if ($record->status === 'failed' && !empty($record->error_log)) {
+                            if (str_contains($record->error_log, 'GAGAL: ')) {
+                                return str($record->error_log)->afterLast('GAGAL: ')->value();
+                            }
+                            return $record->error_log;
+                        }
+                        return null;
+                    }),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Pengunggah'),
             ])

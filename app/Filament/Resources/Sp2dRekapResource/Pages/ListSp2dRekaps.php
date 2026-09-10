@@ -96,6 +96,9 @@ class ListSp2dRekaps extends ListRecords
                         ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
                         ->directory('sp2d-uploads')
                         ->required()
+                        ->validationMessages([
+                            'required' => 'Input 1 (File Monitoring SP2D) wajib diisi.',
+                        ])
                         ->columnSpanFull(),
                     FileUpload::make('file_potongan_spm')
                         ->label('2. File Monitoring Potongan SPM (Opsional)')

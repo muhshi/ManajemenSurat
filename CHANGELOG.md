@@ -12,6 +12,9 @@
     - Memperbaiki bug (*error*) di mana foto profil SSO (berupa URL eksternal) terhapus/menjadi kosong ketika form di-simpan (seperti saat mengganti Role). Komponen `FileUpload` sekarang akan mempertahankan URL eksternal jika pengguna tidak mengunggah foto lokal baru.
 - **Database & Seeder:**
     - Memperbaiki file `DatabaseSeeder` yang sebelumnya lupa memanggil seeder untuk `KodeSpm` dan `AkunPajak`. Kini data *master* tersebut otomatis ikut dimasukkan saat menjalankan `db:seed`.
+- **Validasi Import SP2D:**
+    - Menambahkan kustomisasi pesan validasi pada field `file_monitoring_sp2d` agar error menjadi lebih jelas ("Input 1 wajib diisi") dibanding string standar sistem.
+    - Menambahkan tampilan `description` dan `tooltip` pada status *failed* di tabel Riwayat Import agar detail log error (contoh: "Header salah") dapat dibaca langsung oleh pengguna.
 
 ## [1.5.0] - 2026-09-04
 ### Added
