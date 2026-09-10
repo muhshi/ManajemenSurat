@@ -27,3 +27,4 @@ app/Scripts/venv/
 scratch/
 *.sql
 TC-SP2D-*/
+testing/
