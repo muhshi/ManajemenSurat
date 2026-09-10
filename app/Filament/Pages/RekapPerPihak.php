@@ -92,10 +92,24 @@ class RekapPerPihak extends Page implements HasTable
             ->weight('bold')
             ->alignment(Alignment::End);
 
+        $filterState = $this->getTableFilterState('periode') ?? [];
+        $bulan = $filterState['bulan'] ?? null;
+        $tahun = $filterState['tahun'] ?? null;
+        $noSp2d = $filterState['no_sp2d'] ?? null;
+
         $subquery = Sp2dPajak::query()
             ->selectRaw($selectRaw)
-            ->whereHas('rekap', function ($q) {
+            ->whereHas('rekap', function ($q) use ($bulan, $tahun, $noSp2d) {
                 $q->where('status_verifikasi', 'valid');
+                if ($bulan) {
+                    $q->whereMonth('tgl_sp2d', $bulan);
+                }
+                if ($tahun) {
+                    $q->whereYear('tgl_sp2d', $tahun);
+                }
+                if ($noSp2d) {
+                    $q->where('no_sp2d', 'like', "%{$noSp2d}%");
+                }
             })
             ->groupBy('npwp_nik', 'nama_pihak');
 
@@ -144,19 +158,8 @@ class RekapPerPihak extends Page implements HasTable
                     ])
                     ->columnSpan('full')
                     ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['bulan'] ?? null,
-                                fn (Builder $q, $date) => $q->whereHas('rekap', fn($q2) => $q2->whereMonth('tgl_sp2d', $date))
-                            )
-                            ->when(
-                                $data['tahun'] ?? null,
-                                fn (Builder $q, $date) => $q->whereHas('rekap', fn($q2) => $q2->whereYear('tgl_sp2d', $date))
-                            )
-                            ->when(
-                                $data['no_sp2d'] ?? null,
-                                fn (Builder $q, $search) => $q->whereHas('rekap', fn($q2) => $q2->where('no_sp2d', 'like', "%{$search}%"))
-                            );
+                        // Filters are applied directly to the subquery to prevent "Column not found: sp2d_pajaks.sp2d_rekap_id"
+                        return $query;
                     })
             ])
             ->filtersFormColumns(3)
@@ -218,17 +221,38 @@ class RekapPerPihak extends Page implements HasTable
             $bulanName = null;
         }
 
+        $selectRaw = "
+            MIN(id) as id,
+            npwp_nik, 
+            nama_pihak,
+        ";
+        foreach ($akuns as $akun) {
+            $columnName = 'pajak_' . $akun->kode;
+            $selectRaw .= "SUM(CASE WHEN kode_akun_pajak IN ('{$akun->kode}') THEN nominal_pajak ELSE 0 END) as {$columnName}, ";
+        }
+        $selectRaw .= "SUM(nominal_pajak) as total";
+
         $allMonthsData = [];
         $finalCsvData = [];
-        $filteredQuery = $livewire->getFilteredTableQuery()->orderBy('nama_pihak', 'asc');
 
         foreach ($monthsToExport as $m) {
-            if ($bulan) {
-                $query = clone $filteredQuery;
-            } else {
-                $query = clone $filteredQuery;
-                $query->whereHas('rekap', fn($q) => $q->whereMonth('tgl_sp2d', $m));
-            }
+            $subquery = Sp2dPajak::query()
+                ->selectRaw($selectRaw)
+                ->whereHas('rekap', function ($q) use ($m, $tahun, $noSp2d) {
+                    $q->where('status_verifikasi', 'valid');
+                    $q->whereMonth('tgl_sp2d', $m);
+                    if ($tahun) {
+                        $q->whereYear('tgl_sp2d', $tahun);
+                    }
+                    if ($noSp2d) {
+                        $q->where('no_sp2d', 'like', "%{$noSp2d}%");
+                    }
+                })
+                ->groupBy('npwp_nik', 'nama_pihak');
+
+            $query = Sp2dPajak::query()
+                ->fromSub($subquery, 'sp2d_pajaks')
+                ->orderBy('nama_pihak', 'asc');
 
             $records = $query->get();
             if ($records->isEmpty()) continue;
