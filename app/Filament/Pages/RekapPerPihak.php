@@ -89,6 +89,9 @@ class RekapPerPihak extends Page implements HasTable
             ->label('Total Potongan')
             ->formatStateUsing(fn ($state) => $state ? 'Rp' . number_format((float) $state, 0, ',', '.') : '-')
             ->color('success')
+            ->weight('bold')
+            ->alignment(Alignment::End);
+
         return $table
             ->query(Sp2dPajak::query())
             ->modifyQueryUsing(function (Builder $query) use ($selectRaw) {
