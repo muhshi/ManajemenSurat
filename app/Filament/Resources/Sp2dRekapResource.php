@@ -473,27 +473,6 @@ class Sp2dRekapResource extends Resource
                         $data['grouped_pajaks'] = array_values($grouped);
                         return $data;
                     })
-                    ->before(function (\Filament\Tables\Actions\EditAction $action, array $data, Sp2dRekap $record) {
-                        if ($record->jalur_transaksi !== 'gup') {
-                            $totalPajak = 0;
-                            foreach ($data['grouped_pajaks'] ?? [] as $group) {
-                                foreach ($group['rincian_pajak'] ?? [] as $rincian) {
-                                    $totalPajak += (float) preg_replace('/[^0-9\-]/', '', (string)($rincian['nominal_pajak'] ?? '0'));
-                                }
-                            }
-                            
-                            $targetPotongan = (float) $record->jumlah_potongan;
-                            if (abs($totalPajak - $targetPotongan) > 0.1) {
-                                \Filament\Notifications\Notification::make()
-                                    ->danger()
-                                    ->title('Gagal Menyimpan')
-                                    ->body('Total rincian pajak harus seimbang dengan target potongan.')
-                                    ->send();
-                                
-                                $action->halt();
-                            }
-                        }
-                    })
                     ->using(function (Sp2dRekap $record, array $data): \Illuminate\Database\Eloquent\Model {
                         $record->update($data);
                         
@@ -531,12 +510,12 @@ class Sp2dRekapResource extends Resource
                             } else {
                                 if ($record->status_verifikasi === 'valid') {
                                     $record->update(['status_verifikasi' => 'perlu_rincian']);
-                                    \Filament\Notifications\Notification::make()
-                                        ->warning()
-                                        ->title('Status Diperbarui')
-                                        ->body('Total rincian pajak belum sesuai dengan target potongan. Status dikembalikan menjadi Perlu Rincian.')
-                                        ->send();
                                 }
+                                \Filament\Notifications\Notification::make()
+                                    ->warning()
+                                    ->title('Peringatan')
+                                    ->body('Total rincian pajak harus seimbang dengan target potongan.')
+                                    ->send();
                             }
                         }
                     }),
