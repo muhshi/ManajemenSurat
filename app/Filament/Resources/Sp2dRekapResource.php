@@ -184,8 +184,46 @@ class Sp2dRekapResource extends Resource
                                 ->deletable(fn ($record) => $record?->jalur_transaksi !== '1_pihak')
                                 ->itemLabel(fn (array $state): ?string => $state['nama_pihak'] ?? null)
                                 ->schema([
-                                    \Filament\Schemas\Components\Grid::make(2)
+                                    \Filament\Schemas\Components\Grid::make(3)
                                         ->schema([
+                                            Forms\Components\Select::make('search_pihak')
+                                                ->label('Cari Pegawai / Pihak')
+                                                ->placeholder('Ketik Nama atau NIP...')
+                                                ->searchable()
+                                                ->dehydrated(false)
+                                                ->getSearchResultsUsing(function (string $search) {
+                                                    $users = \App\Models\User::where('name', 'like', "%{$search}%")
+                                                        ->orWhere('nip_baru', 'like', "%{$search}%")
+                                                        ->orWhere('nip_lama', 'like', "%{$search}%")
+                                                        ->limit(10)
+                                                        ->get()
+                                                        ->mapWithKeys(fn ($user) => [
+                                                            json_encode(['nama' => $user->name, 'npwp' => $user->nip_baru ?? $user->nip_lama]) => "{$user->name} (" . ($user->nip_baru ?? $user->nip_lama ?? '-') . ")"
+                                                        ]);
+                                                    
+                                                    $pajaks = \App\Models\Sp2dPajak::where('nama_pihak', 'like', "%{$search}%")
+                                                        ->orWhere('npwp_nik', 'like', "%{$search}%")
+                                                        ->select('nama_pihak', 'npwp_nik')
+                                                        ->distinct()
+                                                        ->limit(10)
+                                                        ->get()
+                                                        ->mapWithKeys(fn ($p) => [
+                                                            json_encode(['nama' => $p->nama_pihak, 'npwp' => $p->npwp_nik]) => "{$p->nama_pihak} (" . ($p->npwp_nik ?? '-') . ")"
+                                                        ]);
+                                                        
+                                                    return $users->union($pajaks)->toArray();
+                                                })
+                                                ->live()
+                                                ->afterStateUpdated(function ($state, \Filament\Forms\Set $set) {
+                                                    if ($state) {
+                                                        $data = json_decode($state, true);
+                                                        if (is_array($data)) {
+                                                            $set('nama_pihak', $data['nama'] ?? '');
+                                                            $set('npwp_nik', $data['npwp'] ?? '');
+                                                        }
+                                                        $set('search_pihak', null);
+                                                    }
+                                                }),
                                             Forms\Components\TextInput::make('npwp_nik')
                                                 ->label('NPWP / NIK'),
                                             Forms\Components\TextInput::make('nama_pihak')
