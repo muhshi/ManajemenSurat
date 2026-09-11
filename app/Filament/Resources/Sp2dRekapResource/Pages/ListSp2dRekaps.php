@@ -50,11 +50,12 @@ class ListSp2dRekaps extends ListRecords
                     ->icon('heroicon-o-document-chart-bar')
                     ->action(function () {
                         $query = $this->getFilteredTableQuery();
-                        return \Maatwebsite\Excel\Facades\Excel::download(
-                            new \App\Exports\Sp2dRekapExport($query),
-                            'Data_Rekap_SP2D_' . date('Ymd_His') . '.xlsx',
-                            \Maatwebsite\Excel\Excel::XLSX
-                        );
+                        return response()->streamDownload(function () use ($query) {
+                            echo \Maatwebsite\Excel\Facades\Excel::raw(
+                                new \App\Exports\Sp2dRekapExport($query),
+                                \Maatwebsite\Excel\Excel::XLSX
+                            );
+                        }, 'Data_Rekap_SP2D_' . date('Ymd_His') . '.xlsx');
                     }),
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF')

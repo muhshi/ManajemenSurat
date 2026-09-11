@@ -383,11 +383,12 @@ class RekapPerPihak extends Page implements HasTable
                     ->icon('heroicon-o-document-chart-bar')
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
-                        return \Maatwebsite\Excel\Facades\Excel::download(
-                            new \App\Exports\RekapPerPihakExport($exportInfo['data']),
-                            $exportInfo['filename'] . '.xlsx',
-                            \Maatwebsite\Excel\Excel::XLSX
-                        );
+                        return response()->streamDownload(function () use ($exportInfo) {
+                            echo \Maatwebsite\Excel\Facades\Excel::raw(
+                                new \App\Exports\RekapPerPihakExport($exportInfo['data']),
+                                \Maatwebsite\Excel\Excel::XLSX
+                            );
+                        }, $exportInfo['filename'] . '.xlsx');
                     }),
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF')
