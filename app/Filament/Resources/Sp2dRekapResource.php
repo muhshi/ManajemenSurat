@@ -194,11 +194,11 @@ class Sp2dRekapResource extends Resource
                                                 ->getSearchResultsUsing(function (string $search) {
                                                     $users = \App\Models\User::where('name', 'like', "%{$search}%")
                                                         ->orWhere('nip_baru', 'like', "%{$search}%")
-                                                        ->orWhere('nip_lama', 'like', "%{$search}%")
+                                                        ->orWhere('nip', 'like', "%{$search}%")
                                                         ->limit(10)
                                                         ->get()
                                                         ->mapWithKeys(fn ($user) => [
-                                                            json_encode(['nama' => $user->name, 'npwp' => $user->nip_baru ?? $user->nip_lama]) => "{$user->name} (" . ($user->nip_baru ?? $user->nip_lama ?? '-') . ")"
+                                                            json_encode(['nama' => $user->name, 'npwp' => $user->nip_baru ?? $user->nip]) => "{$user->name} (" . ($user->nip_baru ?? $user->nip ?? '-') . ")"
                                                         ]);
                                                     
                                                     $pajaks = \App\Models\Sp2dPajak::where('nama_pihak', 'like', "%{$search}%")
