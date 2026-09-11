@@ -388,7 +388,9 @@ class RekapPerPihak extends Page implements HasTable
                                 new \App\Exports\RekapPerPihakExport($exportInfo['data']),
                                 \Maatwebsite\Excel\Excel::XLSX
                             );
-                        }, $exportInfo['filename'] . '.xlsx');
+                        }, $exportInfo['filename'] . '.xlsx', [
+                            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        ]);
                     }),
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF')

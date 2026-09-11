@@ -55,7 +55,9 @@ class ListSp2dRekaps extends ListRecords
                                 new \App\Exports\Sp2dRekapExport($query),
                                 \Maatwebsite\Excel\Excel::XLSX
                             );
-                        }, 'Data_Rekap_SP2D_' . date('Ymd_His') . '.xlsx');
+                        }, 'Data_Rekap_SP2D_' . date('Ymd_His') . '.xlsx', [
+                            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        ]);
                     }),
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF')
