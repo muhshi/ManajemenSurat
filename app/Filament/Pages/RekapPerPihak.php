@@ -367,30 +367,32 @@ class RekapPerPihak extends Page implements HasTable
                     ->icon('heroicon-o-document-text')
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
-                        return response()->streamDownload(function () use ($exportInfo) {
-                            $file = fopen('php://output', 'w');
-                            fputs($file, "\xEF\xBB\xBF");
-                            foreach ($exportInfo['data'] as $row) {
-                                fputcsv($file, $row, ';');
-                            }
-                            fclose($file);
-                        }, $exportInfo['filename'] . '.csv', [
-                            'Content-Type' => 'text/csv; charset=UTF-8',
-                        ]);
+                        
+                        $filename = $exportInfo['filename'] . '.csv';
+                        $path = 'exports/' . $filename;
+                        \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
+                        
+                        $file = fopen(storage_path('app/public/' . $path), 'w');
+                        fputs($file, "\xEF\xBB\xBF");
+                        foreach ($exportInfo['data'] as $row) {
+                            fputcsv($file, $row, ';');
+                        }
+                        fclose($file);
+                        
+                        return redirect(asset('storage/' . $path));
                     }),
                 \Filament\Actions\Action::make('export_excel')
                     ->label('Export Excel')
                     ->icon('heroicon-o-document-chart-bar')
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
-                        return response()->streamDownload(function () use ($exportInfo) {
-                            echo \Maatwebsite\Excel\Facades\Excel::raw(
-                                new \App\Exports\RekapPerPihakExport($exportInfo['data']),
-                                \Maatwebsite\Excel\Excel::XLSX
-                            );
-                        }, $exportInfo['filename'] . '.xlsx', [
-                            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                        ]);
+                        
+                        $filename = $exportInfo['filename'] . '.xlsx';
+                        $path = 'exports/' . $filename;
+                        \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
+                        \Maatwebsite\Excel\Facades\Excel::store(new \App\Exports\RekapPerPihakExport($exportInfo['data']), $path, 'public', \Maatwebsite\Excel\Excel::XLSX);
+                        
+                        return redirect(asset('storage/' . $path));
                     }),
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF')
@@ -403,7 +405,12 @@ class RekapPerPihak extends Page implements HasTable
                             'filterTahun' => $exportInfo['tahun'],
                         ])->setPaper('a4', 'landscape');
                         
-                        return response()->streamDownload(fn () => print($pdf->output()), $exportInfo['filename'] . '.pdf');
+                        $filename = $exportInfo['filename'] . '.pdf';
+                        $path = 'exports/' . $filename;
+                        \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
+                        \Illuminate\Support\Facades\Storage::disk('public')->put($path, $pdf->output());
+                        
+                        return redirect(asset('storage/' . $path));
                     }),
             ])
             ->label('Export')

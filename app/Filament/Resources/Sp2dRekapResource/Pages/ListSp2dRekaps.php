@@ -39,25 +39,22 @@ class ListSp2dRekaps extends ListRecords
                     ->icon('heroicon-o-document-text')
                     ->action(function () {
                         $query = $this->getFilteredTableQuery();
-                        return \Maatwebsite\Excel\Facades\Excel::download(
-                            new \App\Exports\Sp2dRekapExport($query),
-                            'Data_Rekap_SP2D_' . date('Ymd_His') . '.csv',
-                            \Maatwebsite\Excel\Excel::CSV
-                        );
+                        $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '.csv';
+                        $path = 'exports/' . $filename;
+                        \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
+                        \Maatwebsite\Excel\Facades\Excel::store(new \App\Exports\Sp2dRekapExport($query), $path, 'public', \Maatwebsite\Excel\Excel::CSV);
+                        return redirect(asset('storage/' . $path));
                     }),
                 \Filament\Actions\Action::make('export_excel')
                     ->label('Export Excel')
                     ->icon('heroicon-o-document-chart-bar')
                     ->action(function () {
                         $query = $this->getFilteredTableQuery();
-                        return response()->streamDownload(function () use ($query) {
-                            echo \Maatwebsite\Excel\Facades\Excel::raw(
-                                new \App\Exports\Sp2dRekapExport($query),
-                                \Maatwebsite\Excel\Excel::XLSX
-                            );
-                        }, 'Data_Rekap_SP2D_' . date('Ymd_His') . '.xlsx', [
-                            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                        ]);
+                        $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '.xlsx';
+                        $path = 'exports/' . $filename;
+                        \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
+                        \Maatwebsite\Excel\Facades\Excel::store(new \App\Exports\Sp2dRekapExport($query), $path, 'public', \Maatwebsite\Excel\Excel::XLSX);
+                        return redirect(asset('storage/' . $path));
                     }),
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF')
@@ -70,7 +67,12 @@ class ListSp2dRekaps extends ListRecords
                             'records' => $records
                         ])->setPaper('a4', 'landscape');
                         
-                        return response()->streamDownload(fn () => print($pdf->output()), 'Data_Rekap_SP2D_' . date('Ymd_His') . '.pdf');
+                        $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '.pdf';
+                        $path = 'exports/' . $filename;
+                        \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
+                        \Illuminate\Support\Facades\Storage::disk('public')->put($path, $pdf->output());
+                        
+                        return redirect(asset('storage/' . $path));
                     }),
             ])
             ->label('Export')
