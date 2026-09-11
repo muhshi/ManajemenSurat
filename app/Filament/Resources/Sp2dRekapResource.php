@@ -214,7 +214,7 @@ class Sp2dRekapResource extends Resource
                                                     return $users->union($pajaks)->toArray();
                                                 })
                                                 ->live()
-                                                ->afterStateUpdated(function ($state, \Filament\Forms\Set $set) {
+                                                ->afterStateUpdated(function ($state, $set) {
                                                     if ($state) {
                                                         $data = json_decode($state, true);
                                                         if (is_array($data)) {
