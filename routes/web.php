@@ -51,4 +51,15 @@ if (app()->environment('local')) {
     });
 }
 
-
+// ─── FILE DOWNLOAD BYPASS ─────────────────────────────────────────
+Route::get('/download-export/{filename}', function ($filename) {
+    // Pastikan nama file aman
+    $filename = basename($filename);
+    $path = storage_path('app/public/exports/' . $filename);
+    
+    if (!file_exists($path)) {
+        abort(404, 'File not found or already deleted.');
+    }
+    
+    return response()->download($path)->deleteFileAfterSend();
+})->name('download.export')->middleware('auth');

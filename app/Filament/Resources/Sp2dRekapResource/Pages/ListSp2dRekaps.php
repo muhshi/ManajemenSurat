@@ -43,7 +43,7 @@ class ListSp2dRekaps extends ListRecords
                         $path = 'exports/' . $filename;
                         \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
                         \Maatwebsite\Excel\Facades\Excel::store(new \App\Exports\Sp2dRekapExport($query), $path, 'public', \Maatwebsite\Excel\Excel::CSV);
-                        return redirect(asset('storage/' . $path));
+                        return redirect()->route('download.export', ['filename' => $filename]);
                     }),
                 \Filament\Actions\Action::make('export_excel')
                     ->label('Export Excel')
@@ -54,7 +54,7 @@ class ListSp2dRekaps extends ListRecords
                         $path = 'exports/' . $filename;
                         \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
                         \Maatwebsite\Excel\Facades\Excel::store(new \App\Exports\Sp2dRekapExport($query), $path, 'public', \Maatwebsite\Excel\Excel::XLSX);
-                        return redirect(asset('storage/' . $path));
+                        return redirect()->route('download.export', ['filename' => $filename]);
                     }),
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF')
@@ -72,7 +72,7 @@ class ListSp2dRekaps extends ListRecords
                         \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
                         \Illuminate\Support\Facades\Storage::disk('public')->put($path, $pdf->output());
                         
-                        return redirect(asset('storage/' . $path));
+                        return redirect()->route('download.export', ['filename' => $filename]);
                     }),
             ])
             ->label('Export')

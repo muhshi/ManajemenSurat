@@ -379,7 +379,7 @@ class RekapPerPihak extends Page implements HasTable
                         }
                         fclose($file);
                         
-                        return redirect(asset('storage/' . $path));
+                        return redirect()->route('download.export', ['filename' => $filename]);
                     }),
                 \Filament\Actions\Action::make('export_excel')
                     ->label('Export Excel')
@@ -392,7 +392,7 @@ class RekapPerPihak extends Page implements HasTable
                         \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
                         \Maatwebsite\Excel\Facades\Excel::store(new \App\Exports\RekapPerPihakExport($exportInfo['data']), $path, 'public', \Maatwebsite\Excel\Excel::XLSX);
                         
-                        return redirect(asset('storage/' . $path));
+                        return redirect()->route('download.export', ['filename' => $filename]);
                     }),
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF')
@@ -410,7 +410,7 @@ class RekapPerPihak extends Page implements HasTable
                         \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
                         \Illuminate\Support\Facades\Storage::disk('public')->put($path, $pdf->output());
                         
-                        return redirect(asset('storage/' . $path));
+                        return redirect()->route('download.export', ['filename' => $filename]);
                     }),
             ])
             ->label('Export')
