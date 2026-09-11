@@ -61,5 +61,5 @@ Route::get('/download-export/{filename}', function ($filename) {
         abort(404, 'File not found or already deleted.');
     }
     
-    return response()->download($path)->deleteFileAfterSend();
+    return response()->download($path);
 })->name('download.export')->middleware('auth');
