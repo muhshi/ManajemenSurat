@@ -379,7 +379,8 @@ class RekapPerPihak extends Page implements HasTable
                         }
                         fclose($file);
                         
-                        return redirect()->route('download.export', ['filename' => $filename]);
+                        $url = route('download.export', ['filename' => $filename]);
+                        $this->js("window.location.href = '{$url}';");
                     }),
                 \Filament\Actions\Action::make('export_excel')
                     ->label('Export Excel')
@@ -392,7 +393,8 @@ class RekapPerPihak extends Page implements HasTable
                         \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
                         \Maatwebsite\Excel\Facades\Excel::store(new \App\Exports\RekapPerPihakExport($exportInfo['data']), $path, 'public', \Maatwebsite\Excel\Excel::XLSX);
                         
-                        return redirect()->route('download.export', ['filename' => $filename]);
+                        $url = route('download.export', ['filename' => $filename]);
+                        $this->js("window.location.href = '{$url}';");
                     }),
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF')
@@ -410,7 +412,8 @@ class RekapPerPihak extends Page implements HasTable
                         \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
                         \Illuminate\Support\Facades\Storage::disk('public')->put($path, $pdf->output());
                         
-                        return redirect()->route('download.export', ['filename' => $filename]);
+                        $url = route('download.export', ['filename' => $filename]);
+                        $this->js("window.location.href = '{$url}';");
                     }),
             ])
             ->label('Export')
