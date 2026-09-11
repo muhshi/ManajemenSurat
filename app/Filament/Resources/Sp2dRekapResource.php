@@ -394,24 +394,19 @@ class Sp2dRekapResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('jumlah_potongan')
-                    ->label('Potongan')
+                    ->label('Potongan / Pajak')
                     ->money('IDR', locale: 'id')
+                    ->description(function (Sp2dRekap $record) {
+                        $pajak = $record->total_pajak;
+                        return abs($record->jumlah_potongan - $pajak) < 0.1 
+                            ? 'Pajak: Rp ' . number_format($pajak, 0, ',', '.') . ' (Sesuai)'
+                            : 'Pajak: Rp ' . number_format($pajak, 0, ',', '.') . ' (Selisih)';
+                    })
+                    ->color(function (Sp2dRekap $record) {
+                        return abs($record->jumlah_potongan - $record->total_pajak) < 0.1 ? 'success' : 'danger';
+                    })
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('total_pajak')
-                    ->label('Pajak')
-                    ->money('IDR', locale: 'id')
-                    ->state(function (Sp2dRekap $record) {
-                        return $record->total_pajak;
-                    })
-                    ->sortable(query: function (\Illuminate\Database\Eloquent\Builder $query, string $direction): \Illuminate\Database\Eloquent\Builder {
-                        return $query->orderBy(
-                            \App\Models\Sp2dPajak::selectRaw('COALESCE(SUM(nominal_pajak), 0)')
-                                ->whereColumn('sp2d_rekaps.id', 'sp2d_pajaks.sp2d_rekap_id'),
-                            $direction
-                        );
-                    })
-                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('status_verifikasi')
                     ->label('Status')
                     ->badge()
