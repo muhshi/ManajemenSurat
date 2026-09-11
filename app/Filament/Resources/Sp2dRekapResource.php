@@ -191,6 +191,7 @@ class Sp2dRekapResource extends Resource
                                                 ->placeholder('Ketik Nama atau NIP...')
                                                 ->searchable()
                                                 ->dehydrated(false)
+                                                ->getOptionLabelUsing(fn ($value): ?string => is_string($value) && json_decode($value, true) ? json_decode($value, true)['nama'] : $value)
                                                 ->getSearchResultsUsing(function (string $search) {
                                                     $users = \App\Models\User::where('name', 'like', "%{$search}%")
                                                         ->orWhere('nip_baru', 'like', "%{$search}%")
