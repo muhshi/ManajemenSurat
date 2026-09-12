@@ -418,6 +418,7 @@ class Sp2dRekapResource extends Resource
             ])
             ->filters([
                 Tables\Filters\Filter::make('periode')
+                    ->layout(\Filament\Tables\Enums\FiltersLayout::AboveContent)
                     ->form([
                         \Filament\Schemas\Components\Grid::make(2)
                             ->schema([
@@ -457,7 +458,7 @@ class Sp2dRekapResource extends Resource
                             ->when(!empty($data['bulan']), fn ($q) => $q->whereMonth('tgl_sp2d', $data['bulan']))
                             ->when(!empty($data['tahun']), fn ($q) => $q->whereYear('tgl_sp2d', $data['tahun']));
                     }),
-                // Filter berikut masuk panel filter tabel (bukan AboveContent)
+                // Filter berikut masuk panel filter tabel (icon filter button)
                 Tables\Filters\SelectFilter::make('jenis_spm')
                     ->label('Jenis SPM')
                     ->options(function () {
@@ -482,8 +483,6 @@ class Sp2dRekapResource extends Resource
                         'perlu_rincian' => 'Perlu Rincian',
                     ]),
             ])
-            ->filtersFormColumns(2)
-            ->filtersLayout(\Filament\Tables\Enums\FiltersLayout::AboveContentCollapsible)
             ->recordActions([
                 \Filament\Actions\EditAction::make()
                     ->slideOver()
