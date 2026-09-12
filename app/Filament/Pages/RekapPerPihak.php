@@ -368,18 +368,18 @@ class RekapPerPihak extends Page implements HasTable
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
                         
-                        $filename = $exportInfo['filename'] . '.csv';
-                        $path = 'exports/' . $filename;
-                        \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
+                        $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '_' . \Illuminate\Support\Str::uuid() . '.csv';
+                        $path = public_path('exports');
+                        if (!file_exists($path)) mkdir($path, 0777, true);
                         
-                        $file = fopen(storage_path('app/public/' . $path), 'w');
+                        $file = fopen($path . '/' . $filename, 'w');
                         fputs($file, "\xEF\xBB\xBF");
                         foreach ($exportInfo['data'] as $row) {
                             fputcsv($file, $row, ';');
                         }
                         fclose($file);
                         
-                        $url = route('download.export', ['filename' => $filename]);
+                        $url = asset('exports/' . $filename);
                         $this->js("window.location.href = '{$url}';");
                     }),
                 \Filament\Actions\Action::make('export_excel')
@@ -388,12 +388,12 @@ class RekapPerPihak extends Page implements HasTable
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
                         
-                        $filename = $exportInfo['filename'] . '.xlsx';
-                        $path = 'exports/' . $filename;
-                        \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
-                        \Maatwebsite\Excel\Facades\Excel::store(new \App\Exports\RekapPerPihakExport($exportInfo['data']), $path, 'public', \Maatwebsite\Excel\Excel::XLSX);
+                        $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '_' . \Illuminate\Support\Str::uuid() . '.xlsx';
+                        $path = public_path('exports');
+                        if (!file_exists($path)) mkdir($path, 0777, true);
+                        \Maatwebsite\Excel\Facades\Excel::store(new \App\Exports\RekapPerPihakExport($exportInfo['data']), 'exports/' . $filename, 'real_public', \Maatwebsite\Excel\Excel::XLSX);
                         
-                        $url = route('download.export', ['filename' => $filename]);
+                        $url = asset('exports/' . $filename);
                         $this->js("window.location.href = '{$url}';");
                     }),
                 \Filament\Actions\Action::make('export_pdf')
@@ -407,12 +407,12 @@ class RekapPerPihak extends Page implements HasTable
                             'filterTahun' => $exportInfo['tahun'],
                         ])->setPaper('a4', 'landscape');
                         
-                        $filename = $exportInfo['filename'] . '.pdf';
-                        $path = 'exports/' . $filename;
-                        \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('exports');
-                        \Illuminate\Support\Facades\Storage::disk('public')->put($path, $pdf->output());
+                        $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '_' . \Illuminate\Support\Str::uuid() . '.pdf';
+                        $path = public_path('exports');
+                        if (!file_exists($path)) mkdir($path, 0777, true);
+                        file_put_contents($path . '/' . $filename, $pdf->output());
                         
-                        $url = route('download.export', ['filename' => $filename]);
+                        $url = asset('exports/' . $filename);
                         $this->js("window.location.href = '{$url}';");
                     }),
             ])
