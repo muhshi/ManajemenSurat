@@ -51,15 +51,31 @@ if (app()->environment('local')) {
     });
 }
 
-// ─── FILE DOWNLOAD BYPASS ─────────────────────────────────────────
-Route::get('/download-export/{filename}', function ($filename) {
-    // Pastikan nama file aman
+// ─── FILE DOWNLOAD (via server stream, bypass Chrome managed policy) ──────────
+Route::get('/exports/download/{filename}', function ($filename) {
+    // Sanitasi nama file — hanya izinkan karakter aman
     $filename = basename($filename);
-    $path = storage_path('app/public/exports/' . $filename);
-    
+    $path = public_path('exports/' . $filename);
+
+    if (!file_exists($path)) {
+        // Fallback: coba di storage
+        $storagePath = storage_path('app/public/exports/' . $filename);
+        if (file_exists($storagePath)) {
+            $path = $storagePath;
+        } else {
+            abort(404, 'File tidak ditemukan atau sudah dihapus.');
+        }
+    }
+
+    return response()->download($path);
+})->name('exports.download')->middleware('auth');
+
+// Alias lama (backward compat)
+Route::get('/download-export/{filename}', function ($filename) {
+    $filename = basename($filename);
+    $path = public_path('exports/' . $filename);
     if (!file_exists($path)) {
         abort(404, 'File not found or already deleted.');
     }
-    
     return response()->download($path);
 })->name('download.export')->middleware('auth');
