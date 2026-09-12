@@ -12,6 +12,9 @@
         .text-center { text-align: center; }
         .month-title { font-size: 12px; font-weight: bold; margin-top: 15px; margin-bottom: 5px; }
         .page-break { page-break-before: always; }
+        /* DomPDF PDF bookmark support */
+        h2.pdf-bookmark { bookmark-level: 1; }
+        h3.pdf-bookmark-sub { bookmark-level: 2; font-size: 11px; font-weight: bold; margin: 8px 0 4px 0; }
     </style>
 </head>
 <body>
@@ -21,13 +24,23 @@
             <div class="page-break"></div>
         @endif
 
-        <h2 class="text-center">Laporan Rekapitulasi Potongan Pajak Per Pihak</h2>
+        @php
+            $tahunLabel = $filterTahun ?? '';
+            $bulanLabel = $monthData['bulanName'] ?? '';
+            $bookmarkLabel = count($months) > 1
+                ? "Rekap Per Pihak — {$bulanLabel} {$tahunLabel}"
+                : "Rekap Per Pihak" . ($tahunLabel ? " — {$tahunLabel}" : '');
+        @endphp
+
+        {{-- Heading dengan PDF bookmark level 1 --}}
+        <h2 class="text-center pdf-bookmark" style="bookmark-label: '{{ $bookmarkLabel }}';">Laporan Rekapitulasi Potongan Pajak Per Pihak</h2>
         @if(!empty($filterBulan) || !empty($filterTahun))
             <p class="text-center">Periode: {{ $filterBulan ?? '' }} {{ $filterTahun ?? '' }}</p>
         @endif
 
         @if(count($months) > 1)
-            <div class="month-title">Bulan: {{ $monthData['bulanName'] }} {{ $filterTahun ?? '' }}</div>
+            {{-- Sub-bookmark level 2 per bulan --}}
+            <h3 class="pdf-bookmark-sub" style="bookmark-label: 'Bulan: {{ $bulanLabel }} {{ $tahunLabel }}';">Bulan: {{ $bulanLabel }} {{ $tahunLabel }}</h3>
         @endif
         <table>
             <thead>

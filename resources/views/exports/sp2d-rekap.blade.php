@@ -10,7 +10,8 @@
         .text-right { text-align: right; }
         .text-center { text-align: center; }
         .page-break { page-break-before: always; }
-        h1.bookmark { font-size: 14px; margin-bottom: 10px; text-align: center; }
+        /* DomPDF PDF bookmark support */
+        h1.bookmark { font-size: 14px; margin-bottom: 10px; text-align: center; bookmark-level: 1; }
     </style>
 </head>
 <body>
@@ -31,7 +32,7 @@
             <div class="page-break"></div>
         @endif
         
-        <h1 class="bookmark">Data Rekap SP2D - {{ $group['name'] }}</h1>
+        <h1 class="bookmark" style="bookmark-label: 'Data Rekap SP2D — {{ $group['name'] }}'">Data Rekap SP2D - {{ $group['name'] }}</h1>
         
         <table>
             <thead>
