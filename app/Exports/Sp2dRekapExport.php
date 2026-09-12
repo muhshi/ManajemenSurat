@@ -35,12 +35,20 @@ class Sp2dRekapExport implements WithMultipleSheets
             return $sheets;
         }
 
+        $namaBulan = [
+            '01' => 'Januari', '02' => 'Februari', '03' => 'Maret',
+            '04' => 'April', '05' => 'Mei', '06' => 'Juni',
+            '07' => 'Juli', '08' => 'Agustus', '09' => 'September',
+            '10' => 'Oktober', '11' => 'November', '12' => 'Desember',
+        ];
+
         foreach ($months as $monthData) {
             $sheetQuery = (clone $this->query)
                 ->whereYear('tgl_sp2d', $monthData->tahun)
                 ->whereMonth('tgl_sp2d', $monthData->bulan);
             
-            $sheetName = 'PERIODE_' . $monthData->bulan;
+            $bulanName = $namaBulan[$monthData->bulan] ?? $monthData->bulan;
+            $sheetName = $monthData->tahun . '_' . $monthData->bulan . '_' . $bulanName;
             $sheets[] = new Sp2dRekapPerBulanSheet($sheetQuery, $sheetName);
         }
 
