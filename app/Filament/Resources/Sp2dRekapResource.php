@@ -9,7 +9,6 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Notifications\Notification;
 use Filament\Support\RawJs;
 class Sp2dRekapResource extends Resource
@@ -418,59 +417,86 @@ class Sp2dRekapResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                SelectFilter::make('periode_bulan')
-                    ->label('Periode Bulan')
-                    ->options(function () {
-                        // Ambil semua bulan unik dari tgl_sp2d
-                        $dates = Sp2dRekap::query()
-                            ->selectRaw('DATE_FORMAT(tgl_sp2d, "%m-%Y") as month_year, DATE_FORMAT(tgl_sp2d, "%Y-%m") as sort_key')
-                            ->whereNotNull('tgl_sp2d')
-                            ->distinct()
-                            ->orderBy('sort_key', 'desc')
-                            ->pluck('month_year', 'sort_key')
-                            ->toArray();
-                        
-                        $options = [];
-                        foreach ($dates as $key => $val) {
-                            $parts = explode('-', $val);
-                            $month = (int)$parts[0];
-                            $year = $parts[1];
-                            $monthNames = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-                            $options[$key] = $monthNames[$month] . ' ' . $year;
-                        }
-                        return $options;
-                    })
-                    ->query(function (\Illuminate\Database\Eloquent\Builder $query, array $data) {
-                        if (!empty($data['value'])) {
-                            $parts = explode('-', $data['value']); // format YYYY-MM
-                            $query->whereYear('tgl_sp2d', $parts[0])
-                                  ->whereMonth('tgl_sp2d', $parts[1]);
-                        }
+                Tables\Filters\Filter::make('periode')
+                    ->form([
+                        \Filament\Schemas\Components\Grid::make(4)
+                            ->schema([
+                                \Filament\Forms\Components\Select::make('bulan')
+                                    ->label('Bulan')
+                                    ->options([
+                                        '01' => 'Januari',
+                                        '02' => 'Februari',
+                                        '03' => 'Maret',
+                                        '04' => 'April',
+                                        '05' => 'Mei',
+                                        '06' => 'Juni',
+                                        '07' => 'Juli',
+                                        '08' => 'Agustus',
+                                        '09' => 'September',
+                                        '10' => 'Oktober',
+                                        '11' => 'November',
+                                        '12' => 'Desember',
+                                    ])
+                                    ->placeholder('Semua Bulan'),
+                                \Filament\Forms\Components\Select::make('tahun')
+                                    ->label('Tahun / Periode')
+                                    ->options(function () {
+                                        return Sp2dRekap::selectRaw('YEAR(tgl_sp2d) as year')
+                                            ->whereNotNull('tgl_sp2d')
+                                            ->distinct()
+                                            ->orderBy('year', 'desc')
+                                            ->pluck('year', 'year')
+                                            ->toArray();
+                                    })
+                                    ->placeholder('Semua Tahun'),
+                                \Filament\Forms\Components\Select::make('jenis_spm')
+                                    ->label('Jenis SPM')
+                                    ->options(function () {
+                                        return Sp2dRekap::select('jenis_spm')
+                                            ->distinct()
+                                            ->whereNotNull('jenis_spm')
+                                            ->where('jenis_spm', '!=', '')
+                                            ->pluck('jenis_spm', 'jenis_spm')
+                                            ->toArray();
+                                    })
+                                    ->placeholder('Semua Jenis'),
+                                \Filament\Forms\Components\Select::make('jalur_transaksi')
+                                    ->label('Jalur Transaksi')
+                                    ->options([
+                                        '1_pihak' => '1 Pihak',
+                                        'banyak_pihak' => 'Banyak Pihak',
+                                        'gup' => 'GUP',
+                                    ])
+                                    ->placeholder('Semua Jalur'),
+                            ])
+                    ])
+                    ->columnSpan('full')
+                    ->query(function (\Illuminate\Database\Eloquent\Builder $query, array $data): \Illuminate\Database\Eloquent\Builder {
+                        return $query
+                            ->when(!empty($data['bulan']), fn ($q) => $q->whereMonth('tgl_sp2d', $data['bulan']))
+                            ->when(!empty($data['tahun']), fn ($q) => $q->whereYear('tgl_sp2d', $data['tahun']))
+                            ->when(!empty($data['jenis_spm']), fn ($q) => $q->where('jenis_spm', $data['jenis_spm']))
+                            ->when(!empty($data['jalur_transaksi']), fn ($q) => $q->where('jalur_transaksi', $data['jalur_transaksi']));
                     }),
-                SelectFilter::make('jenis_spm')
-                    ->label('Jenis SPM')
-                    ->options(function () {
-                        return Sp2dRekap::query()
-                            ->select('jenis_spm')
-                            ->distinct()
-                            ->whereNotNull('jenis_spm')
-                            ->where('jenis_spm', '!=', '')
-                            ->pluck('jenis_spm', 'jenis_spm')
-                            ->toArray();
+                Tables\Filters\Filter::make('status_verifikasi')
+                    ->form([
+                        \Filament\Forms\Components\Select::make('status_verifikasi')
+                            ->label('Status Verifikasi')
+                            ->options([
+                                'valid' => 'Valid',
+                                'perlu_rincian' => 'Perlu Rincian',
+                            ])
+                            ->placeholder('Semua Status'),
+                    ])
+                    ->query(function (\Illuminate\Database\Eloquent\Builder $query, array $data): \Illuminate\Database\Eloquent\Builder {
+                        return $query->when(
+                            !empty($data['status_verifikasi']),
+                            fn ($q) => $q->where('status_verifikasi', $data['status_verifikasi'])
+                        );
                     }),
-                SelectFilter::make('jalur_transaksi')
-                    ->label('Jalur')
-                    ->options([
-                        '1_pihak' => '1 Pihak',
-                        'banyak_pihak' => 'Banyak Pihak',
-                        'gup' => 'GUP',
-                    ]),
-                SelectFilter::make('status_verifikasi')
-                    ->options([
-                        'valid' => 'Valid',
-                        'perlu_rincian' => 'Perlu Rincian',
-                    ]),
             ])
+            ->filtersFormColumns(5)
+            ->filtersLayout(\Filament\Tables\Enums\FiltersLayout::AboveContent)
             ->recordActions([
                 \Filament\Actions\EditAction::make()
                     ->slideOver()
