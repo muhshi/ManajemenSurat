@@ -6,6 +6,7 @@
 - **Nama Sheet Excel SP2D:** Format nama sheet Excel diubah dari `PERIODE_01` menjadi `{tahun}_{bulan}_{namaBulan}` (contoh: `2026_01_Januari`).
 - **Export Excel Rekap Per Pihak:** Export Excel kini menghasilkan file multi-sheet, di mana setiap bulan memiliki sheet tersendiri dengan nama format `{tahun}_{bulan}_{namaBulan}`.
 - **Export PDF Rekap Per Pihak:** Setiap bulan kini tampil di halaman baru (page break) pada file PDF.
+- **PDF Bookmark Navigasi:** Kedua PDF (Data Rekap SP2D & Rekap Per Pihak) kini memiliki bookmark panel navigasi per bulan/periode menggunakan DomPDF `bookmark-level` dan `bookmark-label`, sehingga dapat di-navigate langsung dari panel bookmark PDF reader.
 - **Mekanisme Download Export:** Seluruh export (CSV, Excel, PDF) kini diunduh melalui route server (`response()->download()`) dengan `window.open()`, menggantikan `window.location.href` ke URL statis. Solusi ini memastikan file dapat diunduh di Chrome yang dikelola organisasi (managed Chrome).
 
 ## [1.5.1] - 2026-09-09
