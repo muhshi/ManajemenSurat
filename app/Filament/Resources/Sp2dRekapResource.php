@@ -419,7 +419,7 @@ class Sp2dRekapResource extends Resource
             ->filters([
                 Tables\Filters\Filter::make('periode')
                     ->form([
-                        \Filament\Schemas\Components\Grid::make(4)
+                        \Filament\Schemas\Components\Grid::make(2)
                             ->schema([
                                 \Filament\Forms\Components\Select::make('bulan')
                                     ->label('Bulan')
@@ -449,54 +449,41 @@ class Sp2dRekapResource extends Resource
                                             ->toArray();
                                     })
                                     ->placeholder('Semua Tahun'),
-                                \Filament\Forms\Components\Select::make('jenis_spm')
-                                    ->label('Jenis SPM')
-                                    ->options(function () {
-                                        return Sp2dRekap::select('jenis_spm')
-                                            ->distinct()
-                                            ->whereNotNull('jenis_spm')
-                                            ->where('jenis_spm', '!=', '')
-                                            ->pluck('jenis_spm', 'jenis_spm')
-                                            ->toArray();
-                                    })
-                                    ->placeholder('Semua Jenis'),
-                                \Filament\Forms\Components\Select::make('jalur_transaksi')
-                                    ->label('Jalur Transaksi')
-                                    ->options([
-                                        '1_pihak' => '1 Pihak',
-                                        'banyak_pihak' => 'Banyak Pihak',
-                                        'gup' => 'GUP',
-                                    ])
-                                    ->placeholder('Semua Jalur'),
                             ])
                     ])
                     ->columnSpan('full')
                     ->query(function (\Illuminate\Database\Eloquent\Builder $query, array $data): \Illuminate\Database\Eloquent\Builder {
                         return $query
                             ->when(!empty($data['bulan']), fn ($q) => $q->whereMonth('tgl_sp2d', $data['bulan']))
-                            ->when(!empty($data['tahun']), fn ($q) => $q->whereYear('tgl_sp2d', $data['tahun']))
-                            ->when(!empty($data['jenis_spm']), fn ($q) => $q->where('jenis_spm', $data['jenis_spm']))
-                            ->when(!empty($data['jalur_transaksi']), fn ($q) => $q->where('jalur_transaksi', $data['jalur_transaksi']));
+                            ->when(!empty($data['tahun']), fn ($q) => $q->whereYear('tgl_sp2d', $data['tahun']));
                     }),
-                Tables\Filters\Filter::make('status_verifikasi')
-                    ->form([
-                        \Filament\Forms\Components\Select::make('status_verifikasi')
-                            ->label('Status Verifikasi')
-                            ->options([
-                                'valid' => 'Valid',
-                                'perlu_rincian' => 'Perlu Rincian',
-                            ])
-                            ->placeholder('Semua Status'),
-                    ])
-                    ->query(function (\Illuminate\Database\Eloquent\Builder $query, array $data): \Illuminate\Database\Eloquent\Builder {
-                        return $query->when(
-                            !empty($data['status_verifikasi']),
-                            fn ($q) => $q->where('status_verifikasi', $data['status_verifikasi'])
-                        );
+                // Filter berikut masuk panel filter tabel (bukan AboveContent)
+                Tables\Filters\SelectFilter::make('jenis_spm')
+                    ->label('Jenis SPM')
+                    ->options(function () {
+                        return Sp2dRekap::select('jenis_spm')
+                            ->distinct()
+                            ->whereNotNull('jenis_spm')
+                            ->where('jenis_spm', '!=', '')
+                            ->pluck('jenis_spm', 'jenis_spm')
+                            ->toArray();
                     }),
+                Tables\Filters\SelectFilter::make('jalur_transaksi')
+                    ->label('Jalur Transaksi')
+                    ->options([
+                        '1_pihak' => '1 Pihak',
+                        'banyak_pihak' => 'Banyak Pihak',
+                        'gup' => 'GUP',
+                    ]),
+                Tables\Filters\SelectFilter::make('status_verifikasi')
+                    ->label('Status Verifikasi')
+                    ->options([
+                        'valid' => 'Valid',
+                        'perlu_rincian' => 'Perlu Rincian',
+                    ]),
             ])
-            ->filtersFormColumns(5)
-            ->filtersLayout(\Filament\Tables\Enums\FiltersLayout::AboveContent)
+            ->filtersFormColumns(2)
+            ->filtersLayout(\Filament\Tables\Enums\FiltersLayout::AboveContentCollapsible)
             ->recordActions([
                 \Filament\Actions\EditAction::make()
                     ->slideOver()
