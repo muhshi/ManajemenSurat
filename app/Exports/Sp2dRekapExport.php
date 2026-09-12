@@ -2,68 +2,48 @@
 
 namespace App\Exports;
 
-use App\Models\Sp2dRekap;
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
-use PhpOffice\PhpSpreadsheet\Cell\Cell;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
-use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Illuminate\Database\Eloquent\Builder;
 
-class Sp2dRekapExport extends DefaultValueBinder implements FromQuery, WithHeadings, WithMapping, WithCustomValueBinder
+class Sp2dRekapExport implements WithMultipleSheets
 {
     use Exportable;
 
     protected $query;
 
-    public function __construct($query)
+    public function __construct(Builder $query)
     {
         $this->query = $query;
     }
 
-    public function query()
+    public function sheets(): array
     {
-        return clone $this->query;
-    }
+        $sheets = [];
 
-    public function headings(): array
-    {
-        return [
-            'No SP2D',
-            'Tgl SP2D',
-            'Jenis SPM',
-            'Jalur Transaksi',
-            'Bruto (Pengeluaran)',
-            'Total Potongan',
-            'Netto (Pembayaran)',
-            'Status Verifikasi',
-            'Uraian SPM',
-        ];
-    }
+        // Dapatkan semua bulan unik dari query hasil filter
+        $clone = clone $this->query;
+        $months = $clone->selectRaw('DATE_FORMAT(tgl_sp2d, "%Y-%m") as sort_key, DATE_FORMAT(tgl_sp2d, "%m") as bulan, DATE_FORMAT(tgl_sp2d, "%Y") as tahun')
+            ->whereNotNull('tgl_sp2d')
+            ->distinct()
+            ->orderBy('sort_key', 'asc')
+            ->get();
 
-    public function map($row): array
-    {
-        return [
-            $row->no_sp2d,
-            $row->tgl_sp2d ? \Carbon\Carbon::parse($row->tgl_sp2d)->format('d-m-Y') : '',
-            $row->jenis_spm,
-            $row->jalur_transaksi,
-            $row->jumlah_pengeluaran,
-            $row->jumlah_potongan,
-            $row->jumlah_pembayaran,
-            $row->status_verifikasi == 'valid' ? 'Valid' : 'Perlu Rincian',
-            $row->uraian,
-        ];
-    }
-
-    public function bindValue(Cell $cell, $value)
-    {
-        if (is_numeric($value) && strlen((string)$value) > 12) {
-            $cell->setValueExplicit($value, DataType::TYPE_STRING);
-            return true;
+        if ($months->isEmpty()) {
+            // Jika tidak ada data tanggal, buat 1 sheet kosong atau fallback
+            $sheets[] = new Sp2dRekapPerBulanSheet(clone $this->query, 'Data_SP2D');
+            return $sheets;
         }
-        return parent::bindValue($cell, $value);
+
+        foreach ($months as $monthData) {
+            $sheetQuery = (clone $this->query)
+                ->whereYear('tgl_sp2d', $monthData->tahun)
+                ->whereMonth('tgl_sp2d', $monthData->bulan);
+            
+            $sheetName = 'PERIODE_' . $monthData->bulan;
+            $sheets[] = new Sp2dRekapPerBulanSheet($sheetQuery, $sheetName);
+        }
+
+        return $sheets;
     }
 }

@@ -418,6 +418,35 @@ class Sp2dRekapResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+                SelectFilter::make('periode_bulan')
+                    ->label('Periode Bulan')
+                    ->options(function () {
+                        // Ambil semua bulan unik dari tgl_sp2d
+                        $dates = Sp2dRekap::query()
+                            ->selectRaw('DATE_FORMAT(tgl_sp2d, "%m-%Y") as month_year, DATE_FORMAT(tgl_sp2d, "%Y-%m") as sort_key')
+                            ->whereNotNull('tgl_sp2d')
+                            ->distinct()
+                            ->orderBy('sort_key', 'desc')
+                            ->pluck('month_year', 'sort_key')
+                            ->toArray();
+                        
+                        $options = [];
+                        foreach ($dates as $key => $val) {
+                            $parts = explode('-', $val);
+                            $month = (int)$parts[0];
+                            $year = $parts[1];
+                            $monthNames = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                            $options[$key] = $monthNames[$month] . ' ' . $year;
+                        }
+                        return $options;
+                    })
+                    ->query(function (\Illuminate\Database\Eloquent\Builder $query, array $data) {
+                        if (!empty($data['value'])) {
+                            $parts = explode('-', $data['value']); // format YYYY-MM
+                            $query->whereYear('tgl_sp2d', $parts[0])
+                                  ->whereMonth('tgl_sp2d', $parts[1]);
+                        }
+                    }),
                 SelectFilter::make('jenis_spm')
                     ->label('Jenis SPM')
                     ->options(function () {
