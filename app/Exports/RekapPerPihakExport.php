@@ -2,38 +2,34 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
-use PhpOffice\PhpSpreadsheet\Cell\Cell;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
-use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class RekapPerPihakExport extends DefaultValueBinder implements FromArray, WithCustomValueBinder
+class RekapPerPihakExport implements WithMultipleSheets
 {
     use Exportable;
 
-    protected $data;
+    protected array $months;
 
-    public function __construct(array $data)
+    /**
+     * @param array $months Array of ['sheetTitle' => string, 'rows' => array[]]
+     */
+    public function __construct(array $months)
     {
-        $this->data = $data;
+        $this->months = $months;
     }
 
-    public function array(): array
+    public function sheets(): array
     {
-        return $this->data;
-    }
+        $sheets = [];
 
-    public function bindValue(Cell $cell, $value)
-    {
-        // Hindari scientific notation untuk NPWP/NIK (di kolom ke-2 biasanya)
-        // Panjang NPWP/NIK adalah 15-16 karakter.
-        if (is_numeric(str_replace(['.', '-'], '', $value)) && strlen((string)$value) >= 15) {
-            $cell->setValueExplicit($value, DataType::TYPE_STRING);
-            return true;
+        foreach ($this->months as $monthData) {
+            $sheets[] = new RekapPerPihakSheetExport(
+                $monthData['sheetTitle'],
+                $monthData['rows']
+            );
         }
 
-        return parent::bindValue($cell, $value);
+        return $sheets;
     }
 }

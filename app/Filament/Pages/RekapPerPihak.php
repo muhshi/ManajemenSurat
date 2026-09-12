@@ -234,7 +234,13 @@ class RekapPerPihak extends Page implements HasTable
         $selectRaw .= "SUM(nominal_pajak) as total";
 
         $allMonthsData = [];
-        $finalCsvData = [];
+        $sheetsData = [];  // untuk multi-sheet Excel
+
+        $headers = ['Nama Pihak', 'NPWP / NIK'];
+        foreach ($akuns as $akun) {
+            $headers[] = $akun->kode . ' - ' . $akun->nama_lengkap;
+        }
+        $headers[] = 'Total Potongan';
 
         foreach ($monthsToExport as $m) {
             $subquery = Sp2dPajak::query()
@@ -258,16 +264,9 @@ class RekapPerPihak extends Page implements HasTable
             $records = $query->get();
             if ($records->isEmpty()) continue;
 
-            $csvData = [];
-            $headers = ['Nama Pihak', 'NPWP / NIK'];
-            foreach ($akuns as $akun) {
-                $headers[] = $akun->kode . ' - ' . $akun->nama_lengkap;
-            }
-            $headers[] = 'Total Potongan';
-            $csvData[] = $headers;
-
             $sums = array_fill_keys($akuns->pluck('kode')->toArray(), 0);
             $sumTotal = 0;
+            $dataRows = [];
 
             foreach ($records as $record) {
                 $row = [
@@ -285,7 +284,7 @@ class RekapPerPihak extends Page implements HasTable
                 $row[] = $record->total ? number_format((float)$record->total, 0, ',', '.') : '-';
                 $sumTotal += $record->total ?: 0;
                 
-                $csvData[] = $row;
+                $dataRows[] = $row;
             }
 
             $grandTotalRow = ['GRAND TOTAL', ''];
@@ -294,67 +293,57 @@ class RekapPerPihak extends Page implements HasTable
                 $grandTotalRow[] = $val ? number_format((float)$val, 0, ',', '.') : '-';
             }
             $grandTotalRow[] = $sumTotal ? number_format((float)$sumTotal, 0, ',', '.') : '-';
-            $csvData[] = $grandTotalRow;
+
+            // Nama sheet format: {tahun}_{bulan}_{namaBulan}
+            $tahunLabel = $tahun ?? date('Y');
+            $sheetTitle = $tahunLabel . '_' . $m . '_' . $namaBulan[$m];
+
+            // Rows untuk sheet: header + data + grand total
+            $sheetRows = array_merge([$headers], $dataRows, [$grandTotalRow]);
 
             $allMonthsData[] = [
                 'bulanName' => $namaBulan[$m],
-                'headers' => $headers,
-                'rows' => array_slice($csvData, 1, -1),
+                'headers'   => $headers,
+                'rows'      => $dataRows,
                 'grandTotal' => $grandTotalRow,
             ];
 
-            if (count($monthsToExport) > 1) {
-                $finalCsvData[] = ['Bulan: ' . $namaBulan[$m] . ($tahun ? ' ' . $tahun : '')];
-            }
-            foreach ($csvData as $row) {
-                $finalCsvData[] = $row;
-            }
-            $finalCsvData[] = [];
-        }
-
-        if (count($monthsToExport) > 1 && !empty($finalCsvData)) {
-            array_pop($finalCsvData);
-        } elseif (count($monthsToExport) == 1 && !empty($allMonthsData)) {
-            array_pop($finalCsvData);
+            $sheetsData[] = [
+                'sheetTitle' => $sheetTitle,
+                'rows'       => $sheetRows,
+            ];
         }
 
         if (empty($allMonthsData)) {
-            $headers = ['Nama Pihak', 'NPWP / NIK'];
-            foreach ($akuns as $akun) {
-                $headers[] = $akun->kode . ' - ' . $akun->nama_lengkap;
-            }
-            $headers[] = 'Total Potongan';
-            $finalCsvData = [$headers];
+            $tahunLabel = $tahun ?? date('Y');
+            $mLabel = $bulan ?? '00';
+            $sheetTitle = $tahunLabel . '_' . $mLabel . '_' . ($namaBulan[$bulan] ?? 'Data');
+
             $allMonthsData[] = [
-                'bulanName' => $bulanName,
-                'headers' => $headers,
-                'rows' => [],
+                'bulanName'  => $bulanName,
+                'headers'    => $headers,
+                'rows'       => [],
                 'grandTotal' => array_fill(0, count($headers), '-'),
+            ];
+            $sheetsData[] = [
+                'sheetTitle' => $sheetTitle,
+                'rows'       => [$headers],
             ];
         }
 
         $nameParts = ['Rekap_Pajak'];
-
-        if ($bulanName) {
-            $nameParts[] = $bulanName;
-        }
-        if ($tahun) {
-            $nameParts[] = $tahun;
-        }
-        if ($noSp2d) {
-            $nameParts[] = 'SP2D_' . preg_replace('/[^a-zA-Z0-9]/', '', $noSp2d);
-        }
-        
+        if ($bulanName) $nameParts[] = $bulanName;
+        if ($tahun) $nameParts[] = $tahun;
+        if ($noSp2d) $nameParts[] = 'SP2D_' . preg_replace('/[^a-zA-Z0-9]/', '', $noSp2d);
         $nameParts[] = date('d-M-Y_H-i');
-        
         $filename = implode('_', $nameParts);
         
         return [
-            'data' => $finalCsvData,
             'filename' => $filename,
-            'months' => $allMonthsData,
-            'bulan' => $bulanName,
-            'tahun' => $tahun
+            'months'   => $allMonthsData,
+            'sheets'   => $sheetsData,
+            'bulan'    => $bulanName,
+            'tahun'    => $tahun,
         ];
     }
 
@@ -368,19 +357,32 @@ class RekapPerPihak extends Page implements HasTable
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
                         
-                        $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '_' . \Illuminate\Support\Str::uuid() . '.csv';
+                        // Build flat CSV dari semua sheets
+                        $finalCsvData = [];
+                        foreach ($exportInfo['sheets'] as $sheet) {
+                            if (count($exportInfo['sheets']) > 1) {
+                                $finalCsvData[] = ['Bulan: ' . $sheet['sheetTitle']];
+                            }
+                            foreach ($sheet['rows'] as $row) {
+                                $finalCsvData[] = $row;
+                            }
+                            $finalCsvData[] = [];
+                        }
+                        if (!empty($finalCsvData)) array_pop($finalCsvData);
+
+                        $filename = $exportInfo['filename'] . '.csv';
                         $path = public_path('exports');
                         if (!file_exists($path)) mkdir($path, 0777, true);
                         
                         $file = fopen($path . '/' . $filename, 'w');
                         fputs($file, "\xEF\xBB\xBF");
-                        foreach ($exportInfo['data'] as $row) {
+                        foreach ($finalCsvData as $row) {
                             fputcsv($file, $row, ';');
                         }
                         fclose($file);
                         
-                        $url = asset('exports/' . $filename);
-                        $this->js("window.location.href = '{$url}';");
+                        $url = route('exports.download', ['filename' => $filename]);
+                        $this->js("window.open('{$url}', '_blank');");
                     }),
                 \Filament\Actions\Action::make('export_excel')
                     ->label('Export Excel')
@@ -388,13 +390,18 @@ class RekapPerPihak extends Page implements HasTable
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
                         
-                        $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '_' . \Illuminate\Support\Str::uuid() . '.xlsx';
+                        $filename = $exportInfo['filename'] . '.xlsx';
                         $path = public_path('exports');
                         if (!file_exists($path)) mkdir($path, 0777, true);
-                        \Maatwebsite\Excel\Facades\Excel::store(new \App\Exports\RekapPerPihakExport($exportInfo['data']), 'exports/' . $filename, 'real_public', \Maatwebsite\Excel\Excel::XLSX);
+                        \Maatwebsite\Excel\Facades\Excel::store(
+                            new \App\Exports\RekapPerPihakExport($exportInfo['sheets']),
+                            'exports/' . $filename,
+                            'real_public',
+                            \Maatwebsite\Excel\Excel::XLSX
+                        );
                         
-                        $url = asset('exports/' . $filename);
-                        $this->js("window.location.href = '{$url}';");
+                        $url = route('exports.download', ['filename' => $filename]);
+                        $this->js("window.open('{$url}', '_blank');");
                     }),
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF')
@@ -407,13 +414,13 @@ class RekapPerPihak extends Page implements HasTable
                             'filterTahun' => $exportInfo['tahun'],
                         ])->setPaper('a4', 'landscape');
                         
-                        $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '_' . \Illuminate\Support\Str::uuid() . '.pdf';
+                        $filename = $exportInfo['filename'] . '.pdf';
                         $path = public_path('exports');
                         if (!file_exists($path)) mkdir($path, 0777, true);
                         file_put_contents($path . '/' . $filename, $pdf->output());
                         
-                        $url = asset('exports/' . $filename);
-                        $this->js("window.location.href = '{$url}';");
+                        $url = route('exports.download', ['filename' => $filename]);
+                        $this->js("window.open('{$url}', '_blank');");
                     }),
             ])
             ->label('Export')
