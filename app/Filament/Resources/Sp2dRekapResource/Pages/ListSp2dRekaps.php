@@ -43,8 +43,8 @@ class ListSp2dRekaps extends ListRecords
                         $path = public_path('exports');
                         if (!file_exists($path)) mkdir($path, 0777, true);
                         \Maatwebsite\Excel\Facades\Excel::store(new \App\Exports\Sp2dRekapExport($query), 'exports/' . $filename, 'real_public', \Maatwebsite\Excel\Excel::CSV);
-                        $url = asset('exports/' . $filename);
-                        $this->js("window.location.href = '{$url}';");
+                        $url = route('exports.download', ['filename' => $filename]);
+                        $this->js("window.open('{$url}', '_blank');");
                     }),
                 \Filament\Actions\Action::make('export_excel')
                     ->label('Export Excel')
@@ -55,8 +55,8 @@ class ListSp2dRekaps extends ListRecords
                         $path = public_path('exports');
                         if (!file_exists($path)) mkdir($path, 0777, true);
                         \Maatwebsite\Excel\Facades\Excel::store(new \App\Exports\Sp2dRekapExport($query), 'exports/' . $filename, 'real_public', \Maatwebsite\Excel\Excel::XLSX);
-                        $url = asset('exports/' . $filename);
-                        $this->js("window.location.href = '{$url}';");
+                        $url = route('exports.download', ['filename' => $filename]);
+                        $this->js("window.open('{$url}', '_blank');");
                     }),
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF')
@@ -64,18 +64,18 @@ class ListSp2dRekaps extends ListRecords
                     ->action(function () {
                         $query = $this->getFilteredTableQuery();
                         $records = clone $query->get();
-                        
+
                         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('exports.sp2d-rekap', [
                             'records' => $records
                         ])->setPaper('a4', 'landscape');
-                        
+
                         $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '_' . \Illuminate\Support\Str::uuid() . '.pdf';
                         $path = public_path('exports');
                         if (!file_exists($path)) mkdir($path, 0777, true);
                         file_put_contents($path . '/' . $filename, $pdf->output());
-                        
-                        $url = asset('exports/' . $filename);
-                        $this->js("window.location.href = '{$url}';");
+
+                        $url = route('exports.download', ['filename' => $filename]);
+                        $this->js("window.open('{$url}', '_blank');");
                     }),
             ])
             ->label('Export')
