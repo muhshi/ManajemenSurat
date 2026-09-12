@@ -11,15 +11,21 @@
         .font-bold { font-weight: bold; }
         .text-center { text-align: center; }
         .month-title { font-size: 12px; font-weight: bold; margin-top: 15px; margin-bottom: 5px; }
+        .page-break { page-break-before: always; }
     </style>
 </head>
 <body>
-    <h2 class="text-center">Laporan Rekapitulasi Potongan Pajak Per Pihak</h2>
-    @if(!empty($filterBulan) || !empty($filterTahun))
-        <p class="text-center">Periode: {{ $filterBulan ?? '' }} {{ $filterTahun ?? '' }}</p>
-    @endif
-    
+    @php $isFirst = true; @endphp
     @foreach($months as $monthData)
+        @if(!$isFirst)
+            <div class="page-break"></div>
+        @endif
+
+        <h2 class="text-center">Laporan Rekapitulasi Potongan Pajak Per Pihak</h2>
+        @if(!empty($filterBulan) || !empty($filterTahun))
+            <p class="text-center">Periode: {{ $filterBulan ?? '' }} {{ $filterTahun ?? '' }}</p>
+        @endif
+
         @if(count($months) > 1)
             <div class="month-title">Bulan: {{ $monthData['bulanName'] }} {{ $filterTahun ?? '' }}</div>
         @endif
@@ -48,6 +54,9 @@
                 </tr>
             </tfoot>
         </table>
+
+        @php $isFirst = false; @endphp
     @endforeach
 </body>
 </html>
+
