@@ -318,14 +318,8 @@ class Sp2dRekapResource extends Resource
             ->poll('5s')
             ->recordUrl(null)
             ->recordAction(null)
+            ->scrollable()
             ->columns([
-                Tables\Columns\TextColumn::make('no_sp2d')
-                    ->label('No SP2D')
-                    ->searchable()
-                    ->sortable()
-                    ->copyable()
-                    ->copyMessage('No SP2D berhasil disalin')
-                    ->copyMessageDuration(1500),
                 Tables\Columns\TextColumn::make('tgl_sp2d')
                     ->label('Tgl SP2D')
                     ->date('d/m/Y')
@@ -334,10 +328,10 @@ class Sp2dRekapResource extends Resource
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('jenis_spm')
                     ->label('Jenis SPM')
-                    ->limit(25)
+                    ->limit(10)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
-                        return strlen((string)$state) > 25 ? $state : null;
+                        return strlen((string)$state) > 10 ? $state : null;
                     })
                     ->searchable()
                     ->sortable()
@@ -415,6 +409,13 @@ class Sp2dRekapResource extends Resource
                     ])
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('no_sp2d')
+                    ->label('No SP2D')
+                    ->searchable()
+                    ->sortable()
+                    ->copyable()
+                    ->copyMessage('No SP2D berhasil disalin')
+                    ->copyMessageDuration(1500),
             ])
             ->filters([
                 Tables\Filters\Filter::make('filters')
