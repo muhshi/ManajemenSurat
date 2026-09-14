@@ -318,7 +318,6 @@ class Sp2dRekapResource extends Resource
             ->poll('5s')
             ->recordUrl(null)
             ->recordAction(null)
-            ->scrollable()
             ->columns([
                 Tables\Columns\TextColumn::make('tgl_sp2d')
                     ->label('Tgl SP2D')
