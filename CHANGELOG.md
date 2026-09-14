@@ -1,5 +1,10 @@
 # Changelog - ManajemenSurat
 
+## [2.0.2] - 2026-09-14
+### Fixed
+- **Export Excel — Format Rupiah:** Kolom nominal (Bruto, Total Potongan, Netto) pada sheet Excel *Data Rekap SP2D* dan *Rekap Per Pihak* kini tampil sebagai angka dengan format `#,##0` (pemisah ribuan otomatis sesuai locale Excel). Sebelumnya nilai dikirim sebagai string hasil `number_format` sehingga Excel membaca "499" bukan "499.000". Solusi: kirim `float` mentah ke Excel, format ditangani via `WithColumnFormatting`.
+- **PDF Bookmark — Rekap Per Pihak:** `bookmark-label` pada `h2` dan `h3` di `rekap-per-pihak.blade.php` kini dibuat via variabel `@php` (bukan `{{ }}`), identik dengan perbaikan sebelumnya di `sp2d-rekap.blade.php`. Akibatnya panel navigasi PDF kini menampilkan nama bulan yang benar sebagai nav pane.
+
 ## [2.0.1] - 2026-09-14
 ### Changed
 - **Buku Pedoman Penggunaan:** Sinkronisasi pembaruan tata letak dan judul berkas Word `docs/Pedoman_Penggunaan_Modul_Rekap_SP2D.docx` (Versi 2.0).
