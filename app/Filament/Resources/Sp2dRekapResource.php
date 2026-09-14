@@ -489,6 +489,7 @@ class Sp2dRekapResource extends Resource
             ])
             ->filtersFormColumns(5)
             ->filtersLayout(\Filament\Tables\Enums\FiltersLayout::AboveContent)
+            ->actionsPosition(\Filament\Tables\Enums\ActionsPosition::BeforeColumns)
             ->recordActions([
                 \Filament\Actions\EditAction::make()
                     ->slideOver()
