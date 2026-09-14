@@ -1,6 +1,9 @@
 # Changelog - ManajemenSurat
 
 ## [2.0.1] - 2026-09-14
+### Changed
+- **Buku Pedoman Penggunaan:** Sinkronisasi pembaruan tata letak dan judul berkas Word `docs/Pedoman_Penggunaan_Modul_Rekap_SP2D.docx` (Versi 2.0).
+
 ### Fixed
 - **PDF Export (Data Rekap SP2D):** Perbaikan bookmark/outline navigasi per bulan pada file PDF yang dihasilkan. Sebelumnya properti CSS `bookmark-label` pada `h1` dirender di-dalam `style=""` Blade yang menyebabkan quote ter-HTML-encode sehingga DomPDF tidak bisa membaca nilai bookmark. Sekarang label dibuat via variabel PHP (`@php`) sebelum di-render ke inline style.
 
