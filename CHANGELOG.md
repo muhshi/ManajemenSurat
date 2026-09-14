@@ -1,5 +1,13 @@
 # Changelog - ManajemenSurat
 
+## [2.0.1] - 2026-09-14
+### Fixed
+- **PDF Export (Data Rekap SP2D):** Perbaikan bookmark/outline navigasi per bulan pada file PDF yang dihasilkan. Sebelumnya properti CSS `bookmark-label` pada `h1` dirender di-dalam `style=""` Blade yang menyebabkan quote ter-HTML-encode sehingga DomPDF tidak bisa membaca nilai bookmark. Sekarang label dibuat via variabel PHP (`@php`) sebelum di-render ke inline style.
+
+### Added
+- **Upload Rincian via Excel — Uang Lembur:** Menambahkan opsi "Uang Lembur" pada dropdown Jenis File Excel di form edit SP2D. Sistem membaca kolom `pajak` sebagai nominal PPh Pasal 21 (kode akun 411121), kolom `nmpeg`/`nmrek` sebagai nama penerima, dan kolom `npwp`/`nip` sebagai identitas pajak. Format file yang didukung adalah `Hasil_Excel_Uang_Lembur_export_*.xlsx` dari sistem penggajian.
+- **Config DomPDF:** Publish file `config/dompdf.php` untuk memungkinkan kustomisasi opsi PDF renderer di masa mendatang.
+
 ## [2.0.0] - 2026-09-14
 ### Added
 - **Dokumentasi & Buku Pedoman:**
