@@ -31,6 +31,9 @@ class RincianImportService
                     } elseif ($jenisFile === 'uang_makan' && in_array('nmpeg', $tempHeader, true) && in_array('potongan', $tempHeader, true)) {
                         $header = $tempHeader;
                         $headerFound = true;
+                    } elseif ($jenisFile === 'uang_lembur' && in_array('pajak', $tempHeader, true) && (in_array('nmpeg', $tempHeader, true) || in_array('nmrek', $tempHeader, true))) {
+                        $header = $tempHeader;
+                        $headerFound = true;
                     }
 
                     if ($rowIndex > 50 && !$headerFound) {
@@ -123,6 +126,25 @@ class RincianImportService
                     'npwp_nik' => $npwp,
                     'nama_pihak' => $nama,
                     'kode_akun_pajak' => '411121', // PPh 21
+                    'dpp' => 0,
+                    'nominal_pajak' => $nominal,
+                ];
+            }
+        } elseif ($jenisFile === 'uang_lembur') {
+            // Nama bisa di kolom nmpeg (nama pegawai) atau nmrek (nama rekening)
+            $nama = trim((string)($data['nmpeg'] ?? $data['nmrek'] ?? ''));
+            if (!$nama) return;
+
+            // Gunakan NIP sebagai identifier jika NPWP kosong
+            $nip = preg_replace('/[^0-9]/', '', (string)($data['nip'] ?? ''));
+            $identifier = $npwp ?: $nip;
+
+            $nominal = $parseAmount($data['pajak'] ?? 0);
+            if ($nominal > 0) {
+                $results[Str::uuid()->toString()] = [
+                    'npwp_nik' => $identifier,
+                    'nama_pihak' => $nama,
+                    'kode_akun_pajak' => '411121', // PPh Pasal 21
                     'dpp' => 0,
                     'nominal_pajak' => $nominal,
                 ];
