@@ -10,8 +10,6 @@
         .text-right { text-align: right; }
         .text-center { text-align: center; }
         .page-break { page-break-before: always; }
-        /* DomPDF PDF bookmark support */
-        h1.bookmark { font-size: 14px; margin-bottom: 10px; text-align: center; bookmark-level: 1; }
     </style>
 </head>
 <body>
@@ -23,7 +21,7 @@
             $groupedRecords[$month]['name'] = $monthName;
             $groupedRecords[$month]['records'][] = $record;
         }
-        ksort($groupedRecords); // Urutkan berdasarkan bulan
+        ksort($groupedRecords);
         $isFirst = true;
     @endphp
 
@@ -31,9 +29,17 @@
         @if(!$isFirst)
             <div class="page-break"></div>
         @endif
-        
-        <h1 class="bookmark" style="bookmark-label: 'Data Rekap SP2D — {{ $group['name'] }}'">Data Rekap SP2D - {{ $group['name'] }}</h1>
-        
+
+        @php
+            $headingText  = 'Data Rekap SP2D — Periode ' . $group['name'];
+            $bookmarkAttr = "bookmark-level: 1; bookmark-label: '{$headingText}';";
+        @endphp
+
+        {{-- DomPDF reads bookmark-level / bookmark-label from the element's inline style --}}
+        <h1 style="font-size: 14px; text-align: center; margin-bottom: 10px; {{ $bookmarkAttr }}">
+            Data Rekap SP2D &mdash; Periode {{ $group['name'] }}
+        </h1>
+
         <table>
             <thead>
                 <tr>
@@ -64,7 +70,7 @@
                 @endforeach
             </tbody>
         </table>
-        
+
         @php $isFirst = false; @endphp
     @endforeach
 </body>
