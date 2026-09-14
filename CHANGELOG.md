@@ -1,5 +1,11 @@
 # Changelog - ManajemenSurat
 
+## [2.0.0] - 2026-09-14
+### Added
+- **Dokumentasi & Buku Pedoman:**
+    - Membuat dan memperbarui berkas Word `docs/Pedoman_Penggunaan_Modul_Rekap_SP2D.docx` (Versi 2.0) yang mencakup panduan operasional lengkap Modul Rekap SP2D & Pajak BPS Kabupaten Demak.
+    - Menambahkan petunjuk penggunaan fitur-fitur terbaru: layout filter di atas tabel (*above content*), posisi tombol edit paling kiri, scrollbar horizontal ganda, import MyIntress, upload rincian pajak via Excel (Gaji, Tukin, Uang Makan), fitur hapus terpilih/semua, indikator keseimbangan pajak (termasuk GUP), ekspor multi-format (CSV, Excel multi-sheet, PDF landscape dengan outline/bookmark), serta SOP bulanan Bendahara & Troubleshooting.
+
 ## [1.5.2] - 2026-09-12
 ### Changed
 - **Filter Data Rekap SP2D:** Mengubah tampilan filter dari dropdown panel tertutup (SelectFilter) menjadi dropdown Bulan, Tahun, Jenis SPM, dan Jalur Transaksi yang tampil langsung di atas tabel (`AboveContent`), konsisten dengan halaman Rekap Per Pihak.
