@@ -95,6 +95,7 @@ class Sp2dRekapResource extends Resource
                                                 'gaji' => 'Daftar Gaji Pusat',
                                                 'tukin' => 'Daftar Tukin',
                                                 'uang_makan' => 'Uang Makan',
+                                                'uang_lembur' => 'Uang Lembur',
                                             ])
                                             ->required(),
                                         Forms\Components\FileUpload::make('file_excel')
