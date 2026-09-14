@@ -266,51 +266,61 @@ class RekapPerPihak extends Page implements HasTable
 
             $sums = array_fill_keys($akuns->pluck('kode')->toArray(), 0);
             $sumTotal = 0;
-            $dataRows = [];
+            $pdfRows  = [];  // string rupiah untuk PDF
+            $xlsRows  = [];  // float numerik untuk Excel
 
             foreach ($records as $record) {
-                $row = [
-                    $record->nama_pihak,
-                    $record->npwp_nik,
-                ];
-                
+                $pdfRow = [$record->nama_pihak, $record->npwp_nik];
+                $xlsRow = [$record->nama_pihak, $record->npwp_nik];
+
                 foreach ($akuns as $akun) {
                     $columnName = 'pajak_' . $akun->kode;
                     $val = $record->$columnName;
-                    $row[] = $val ? number_format((float)$val, 0, ',', '.') : '-';
+                    $pdfRow[] = $val ? number_format((float)$val, 0, ',', '.') : '-';
+                    $xlsRow[] = $val ? (float) $val : 0;
                     $sums[$akun->kode] += $val ?: 0;
                 }
-                
-                $row[] = $record->total ? number_format((float)$record->total, 0, ',', '.') : '-';
+
+                $pdfRow[] = $record->total ? number_format((float)$record->total, 0, ',', '.') : '-';
+                $xlsRow[] = $record->total ? (float) $record->total : 0;
                 $sumTotal += $record->total ?: 0;
-                
-                $dataRows[] = $row;
+
+                $pdfRows[] = $pdfRow;
+                $xlsRows[] = $xlsRow;
             }
 
-            $grandTotalRow = ['GRAND TOTAL', ''];
+            // Grand total — PDF pakai string, XLS pakai float
+            $pdfGrandTotal = ['GRAND TOTAL', ''];
+            $xlsGrandTotal = ['GRAND TOTAL', ''];
             foreach ($akuns as $akun) {
                 $val = $sums[$akun->kode];
-                $grandTotalRow[] = $val ? number_format((float)$val, 0, ',', '.') : '-';
+                $pdfGrandTotal[] = $val ? number_format((float)$val, 0, ',', '.') : '-';
+                $xlsGrandTotal[] = (float) $val;
             }
-            $grandTotalRow[] = $sumTotal ? number_format((float)$sumTotal, 0, ',', '.') : '-';
+            $pdfGrandTotal[] = $sumTotal ? number_format((float)$sumTotal, 0, ',', '.') : '-';
+            $xlsGrandTotal[] = (float) $sumTotal;
+
+            // Alias untuk backward-compat (PDF view pakai $dataRows & $grandTotalRow)
+            $dataRows    = $pdfRows;
+            $grandTotalRow = $pdfGrandTotal;
 
             // Nama sheet format: {tahun}_{bulan}_{namaBulan}
             $tahunLabel = $tahun ?? date('Y');
             $sheetTitle = $tahunLabel . '_' . $m . '_' . $namaBulan[$m];
 
-            // Rows untuk sheet: header + data + grand total
-            $sheetRows = array_merge([$headers], $dataRows, [$grandTotalRow]);
+            // Rows untuk sheet Excel: header + float rows + grand total float
+            $sheetRows = array_merge([$headers], $xlsRows, [$xlsGrandTotal]);
 
             $allMonthsData[] = [
-                'bulanName' => $namaBulan[$m],
-                'headers'   => $headers,
-                'rows'      => $dataRows,
-                'grandTotal' => $grandTotalRow,
+                'bulanName'  => $namaBulan[$m],
+                'headers'    => $headers,
+                'rows'       => $pdfRows,        // string untuk PDF
+                'grandTotal' => $pdfGrandTotal,  // string untuk PDF
             ];
 
             $sheetsData[] = [
                 'sheetTitle' => $sheetTitle,
-                'rows'       => $sheetRows,
+                'rows'       => $sheetRows,      // float untuk Excel
             ];
         }
 
