@@ -7,13 +7,17 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Illuminate\Database\Eloquent\Builder;
 
-class Sp2dRekapPerBulanSheet extends DefaultValueBinder implements FromQuery, WithHeadings, WithMapping, WithCustomValueBinder, WithTitle
+class Sp2dRekapPerBulanSheet extends DefaultValueBinder implements FromQuery, WithHeadings, WithMapping, WithCustomValueBinder, WithColumnFormatting, WithStyles, WithTitle
 {
     protected $query;
     protected $monthName;
@@ -56,11 +60,34 @@ class Sp2dRekapPerBulanSheet extends DefaultValueBinder implements FromQuery, Wi
             $row->tgl_sp2d ? \Carbon\Carbon::parse($row->tgl_sp2d)->format('d-m-Y') : '',
             $row->jenis_spm,
             $row->jalur_transaksi,
-            $row->jumlah_pengeluaran,
-            $row->jumlah_potongan,
-            $row->jumlah_pembayaran,
+            $row->jumlah_pengeluaran ? (float) $row->jumlah_pengeluaran : 0,
+            $row->jumlah_potongan   ? (float) $row->jumlah_potongan   : 0,
+            $row->jumlah_pembayaran ? (float) $row->jumlah_pembayaran : 0,
             $row->status_verifikasi == 'valid' ? 'Valid' : 'Perlu Rincian',
             $row->uraian,
+        ];
+    }
+
+    /**
+     * Format kolom E, F, G sebagai Rupiah: Rp #.##0
+     * Titik sebagai pemisah ribuan (locale IDR).
+     */
+    public function columnFormats(): array
+    {
+        return [
+            'E' => '#,##0',
+            'F' => '#,##0',
+            'G' => '#,##0',
+        ];
+    }
+
+    /**
+     * Tebalkan baris header dan right-align kolom nominal.
+     */
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            1 => ['font' => ['bold' => true]],
         ];
     }
 
