@@ -30,17 +30,19 @@
             $bookmarkLabel = count($months) > 1
                 ? "Rekap Per Pihak — {$bulanLabel} {$tahunLabel}"
                 : "Rekap Per Pihak" . ($tahunLabel ? " — {$tahunLabel}" : '');
+            $bookmarkAttr    = "bookmark-level: 1; bookmark-label: '{$bookmarkLabel}';";
+            $subBookmarkAttr = "bookmark-level: 2; bookmark-label: 'Bulan: {$bulanLabel} {$tahunLabel}';";
         @endphp
 
         {{-- Heading dengan PDF bookmark level 1 --}}
-        <h2 class="text-center pdf-bookmark" style="bookmark-label: '{{ $bookmarkLabel }}';">Laporan Rekapitulasi Potongan Pajak Per Pihak</h2>
+        <h2 class="text-center" style="font-size: 13px; font-weight: bold; margin: 8px 0 4px 0; {{ $bookmarkAttr }}">Laporan Rekapitulasi Potongan Pajak Per Pihak</h2>
         @if(!empty($filterBulan) || !empty($filterTahun))
             <p class="text-center">Periode: {{ $filterBulan ?? '' }} {{ $filterTahun ?? '' }}</p>
         @endif
 
         @if(count($months) > 1)
             {{-- Sub-bookmark level 2 per bulan --}}
-            <h3 class="pdf-bookmark-sub" style="bookmark-label: 'Bulan: {{ $bulanLabel }} {{ $tahunLabel }}';">Bulan: {{ $bulanLabel }} {{ $tahunLabel }}</h3>
+            <h3 style="font-size: 11px; font-weight: bold; margin: 8px 0 4px 0; {{ $subBookmarkAttr }}">Bulan: {{ $bulanLabel }} {{ $tahunLabel }}</h3>
         @endif
         <table>
             <thead>
