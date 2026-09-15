@@ -65,14 +65,33 @@ class ListSp2dRekaps extends ListRecords
                         $query = $this->getFilteredTableQuery();
                         $records = clone $query->get();
 
-                        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('exports.sp2d-rekap', [
-                            'records' => $records
-                        ])->setPaper('a4', 'landscape');
+                        $tempDir = storage_path('app/mpdf');
+                        if (!file_exists($tempDir)) {
+                            mkdir($tempDir, 0777, true);
+                        }
+
+                        $mpdf = new \Mpdf\Mpdf([
+                            'mode' => 'utf-8',
+                            'format' => 'A4-L',
+                            'margin_left' => 10,
+                            'margin_right' => 10,
+                            'margin_top' => 10,
+                            'margin_bottom' => 10,
+                            'tempDir' => $tempDir,
+                        ]);
+
+                        $html = view('exports.sp2d-rekap', [
+                            'records' => $records,
+                        ])->render();
+
+                        $mpdf->WriteHTML($html);
 
                         $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '_' . \Illuminate\Support\Str::uuid() . '.pdf';
                         $path = public_path('exports');
-                        if (!file_exists($path)) mkdir($path, 0777, true);
-                        file_put_contents($path . '/' . $filename, $pdf->output());
+                        if (!file_exists($path)) {
+                            mkdir($path, 0777, true);
+                        }
+                        $mpdf->Output($path . '/' . $filename, \Mpdf\Output\Destination::FILE);
 
                         $url = route('exports.download', ['filename' => $filename]);
                         $this->js("window.open('{$url}', '_blank');");
