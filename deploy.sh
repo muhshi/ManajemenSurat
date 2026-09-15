@@ -110,6 +110,8 @@ echo -e "${BLUE}=== [3/5] Mengatur Container Docker ===${NC}"
 if [ "$NEED_BUILD" = true ]; then
     echo -e "${YELLOW}Menjalankan: $DOCKER_COMPOSE up -d --build...${NC}"
     $DOCKER_COMPOSE up -d --build
+    echo "Menyinkronkan dependensi Composer ke dalam volume container ($CONTAINER_APP)..."
+    $DOCKER_COMPOSE exec -T "$CONTAINER_APP" composer install --no-dev --optimize-autoloader --no-interaction
 else
     echo -e "${GREEN}Hanya perubahan logic/views PHP. Melewati proses build Docker image.${NC}"
     $DOCKER_COMPOSE up -d
