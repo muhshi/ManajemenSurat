@@ -84,6 +84,7 @@ class ListSp2dRekaps extends ListRecords
                             'records' => $records,
                         ])->render();
 
+                        $mpdf->SetTitle('Data Rekap SP2D');
                         $mpdf->WriteHTML($html);
 
                         $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '_' . \Illuminate\Support\Str::uuid() . '.pdf';
