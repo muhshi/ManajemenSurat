@@ -27,7 +27,7 @@ class KodeSpmForm
                             ->options([
                                 '1_pihak' => '1 Pihak',
                                 'banyak_pihak' => 'Banyak Pihak',
-                                'gup' => 'GUP',
+                                'up' => 'UP',
                             ])
                             ->required()
                             ->default('1_pihak'),
