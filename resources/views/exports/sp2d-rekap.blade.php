@@ -59,7 +59,7 @@
                         <td>{{ $record->no_sp2d }}</td>
                         <td>{{ $record->tgl_sp2d ? \Carbon\Carbon::parse($record->tgl_sp2d)->format('d-m-Y') : '' }}</td>
                         <td>{{ $record->jenis_spm }}</td>
-                        <td>{{ $record->jalur_transaksi }}</td>
+                        <td>{{ match($record->jalur_transaksi) { '1_pihak' => '1 Pihak', 'banyak_pihak' => 'Banyak Pihak', 'up' => 'UP', default => $record->jalur_transaksi } }}</td>
                         <td class="text-right">{{ number_format((float)$record->jumlah_pengeluaran, 0, ',', '.') }}</td>
                         <td class="text-right">{{ number_format((float)$record->jumlah_potongan, 0, ',', '.') }}</td>
                         <td class="text-right">{{ number_format((float)$record->jumlah_pembayaran, 0, ',', '.') }}</td>
