@@ -2,7 +2,9 @@
 
 ## [2.0.3] - 2026-09-15
 ### Added
+- **Landing Page Modern v2.0:** Memperbarui antarmuka beranda publik (`landing.blade.php`) dengan desain modern bertema BPS, glassmorphism, dan tipografi Plus Jakarta Sans. Seluruh fitur dan modul terbaru kini ditampilkan secara komprehensif: Rekapitulasi SP2D & Pajak CoreTax, Surat Keluar & SK Otomatis, Surat Masuk & Disposisi Digital, Persediaan ATK/ARK, Aset BMN, Agenda & Notulensi Rapat, serta integrasi tombol login SSO SIPETRA.
 - **Export PDF via mPDF:** Menginstal paket `mpdf/mpdf` dan memigrasikan proses export PDF (pada *Rekap Per Pihak* dan *Data Rekap SP2D*) dari DomPDF ke mPDF. mPDF mendukung fitur PDF outline/bookmark secara native melalui tag `<bookmark content="..." level="0" />`, sehingga panel bookmark navigasi di PDF viewer (Chrome, Edge, Adobe Reader) kini berfungsi dan dapat diklik untuk melompat antar periode/bulan.
+
 
 ### Fixed
 - **Hak Akses & Otorisasi Menu (Filament Shield):** Perbaikan menu *Kode SPM*, *Akun Pajak*, dan *Rekap Per Pihak* yang masih terlihat oleh role `pegawai`. Penyebab: `AkunPajak` dan `KodeSpm` belum memiliki file Policy Laravel, dan halaman kustom `RekapPerPihak` belum menggunakan trait `HasPageShield`. Akibatnya, Filament mengizinkan semua user secara default meskipun permission sudah di-uncheck pada menu Peran. Solusi: Membuat `AkunPajakPolicy`, `KodeSpmPolicy`, memasang `HasPageShield` pada `RekapPerPihak`, serta menambahkan migrasi permission Shield untuk ketiga entitas tersebut.
