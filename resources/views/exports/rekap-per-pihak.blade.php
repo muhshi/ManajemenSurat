@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Rekap Per Pihak</title>
     <style>
         body { font-family: sans-serif; font-size: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; }
