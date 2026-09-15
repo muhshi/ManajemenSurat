@@ -59,7 +59,12 @@ class Sp2dRekapPerBulanSheet extends DefaultValueBinder implements FromQuery, Wi
             $row->no_sp2d,
             $row->tgl_sp2d ? \Carbon\Carbon::parse($row->tgl_sp2d)->format('d-m-Y') : '',
             $row->jenis_spm,
-            $row->jalur_transaksi,
+            match ($row->jalur_transaksi) {
+                '1_pihak' => '1 Pihak',
+                'banyak_pihak' => 'Banyak Pihak',
+                'up' => 'UP',
+                default => (string) $row->jalur_transaksi,
+            },
             $row->jumlah_pengeluaran ? (float) $row->jumlah_pengeluaran : 0,
             $row->jumlah_potongan   ? (float) $row->jumlah_potongan   : 0,
             $row->jumlah_pembayaran ? (float) $row->jumlah_pembayaran : 0,
