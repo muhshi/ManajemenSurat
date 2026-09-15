@@ -57,4 +57,29 @@ class Sp2dCoretaxIntegrationTest extends TestCase
         $this->assertTrue($rekap->isBalanced());
     }
 
+    public function test_sp2d_rekap_up_jalur_creation()
+    {
+        $user = User::factory()->create();
+
+        $upload = Sp2dUpload::create([
+            'file_monitoring_sp2d' => 'dummy1.xlsx',
+            'file_potongan_spm' => 'dummy2.xlsx',
+            'periode_bulan' => '08',
+            'periode_tahun' => '2026',
+            'user_id' => $user->id,
+            'status' => 'done',
+        ]);
+
+        $rekap = Sp2dRekap::create([
+            'upload_id' => $upload->id,
+            'no_sp2d' => '54321',
+            'tgl_sp2d' => '2026-08-16',
+            'jenis_spm' => '312 GUP',
+            'jalur_transaksi' => 'up',
+            'jumlah_potongan' => 0,
+            'status_verifikasi' => 'perlu_rincian'
+        ]);
+
+        $this->assertEquals('up', $rekap->jalur_transaksi);
+    }
 }
