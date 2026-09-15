@@ -27,17 +27,17 @@
 
     @foreach($groupedRecords as $month => $group)
         @if(!$isFirst)
-            <div class="page-break"></div>
+            <pagebreak />
         @endif
 
         @php
-            $headingText  = 'Data Rekap SP2D — Periode ' . $group['name'];
-            $bookmarkAttr = "bookmark-level: 1; bookmark-label: '{$headingText}';";
+            $headingText = 'Data Rekap SP2D — ' . $group['name'];
         @endphp
 
-        {{-- DomPDF reads bookmark-level / bookmark-label from the element's inline style --}}
-        <h1 style="font-size: 14px; text-align: center; margin-bottom: 10px; {{ $bookmarkAttr }}">
-            Data Rekap SP2D &mdash; Periode {{ $group['name'] }}
+        <bookmark content="{{ trim($headingText) }}" level="0" />
+
+        <h1 style="font-size: 14px; text-align: center; margin-bottom: 10px;">
+            Data Rekap SP2D &mdash; {{ $group['name'] }}
         </h1>
 
         <table>
