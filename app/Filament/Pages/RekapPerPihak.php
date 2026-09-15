@@ -12,10 +12,11 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\Sp2dPajak;
 use Filament\Support\Enums\Alignment;
 use Filament\Actions\Action;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class RekapPerPihak extends Page implements HasTable
 {
-    use InteractsWithTable;
+    use InteractsWithTable, HasPageShield;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Rekap Per Pihak';
