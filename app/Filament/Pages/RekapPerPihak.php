@@ -440,6 +440,7 @@ class RekapPerPihak extends Page implements HasTable
                             'filterTahun' => $exportInfo['tahun'],
                         ])->render();
 
+                        $mpdf->SetTitle('Laporan Rekapitulasi Potongan Pajak Per Pihak');
                         $mpdf->WriteHTML($html);
 
                         $filename = $exportInfo['filename'] . '.pdf';
