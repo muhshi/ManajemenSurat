@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Data Rekap SP2D</title>
     <style>
         body { font-family: sans-serif; font-size: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
