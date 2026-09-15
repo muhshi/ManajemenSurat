@@ -45,15 +45,18 @@ class RekapPerPihakSheetExport extends DefaultValueBinder implements FromArray, 
      *
      * Pola '#,##0' menggunakan pemisah ribuan sesuai locale Excel yang diset.
      * Di Excel Indonesia (Windows) koma otomatis menjadi titik.
+     *
+     * Menggunakan Coordinate::stringFromColumnIndex() agar mendukung kolom
+     * multi-huruf (AA, AB, ...) dan menghindari karakter non-alpha dari chr().
      */
     public function columnFormats(): array
     {
         $formats = [];
-        // Kolom A = 65, B = 66, mulai C = 67
-        $startAscii = 65 + $this->nominalStartCol;
-        // Asumsikan maks 30 kolom nominal
-        for ($i = $startAscii; $i < $startAscii + 30; $i++) {
-            $formats[chr($i)] = '#,##0';
+        // nominalStartCol: 0-based index; PhpSpreadsheet column index is 1-based
+        $startColIndex = $this->nominalStartCol + 1; // 1-based start (e.g. 3 = column C)
+        for ($i = 0; $i < 30; $i++) {
+            $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($startColIndex + $i);
+            $formats[$colLetter] = '#,##0';
         }
         return $formats;
     }
