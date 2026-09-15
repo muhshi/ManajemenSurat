@@ -1,5 +1,16 @@
 # Changelog - ManajemenSurat
 
+## [2.0.4] - 2026-09-15
+### Changed
+- **Refactor Jalur Transaksi (GUP -> UP):**
+  - Merefaktor istilah dan nilai jalur transaksi dari `gup` menjadi `up` pada database, model, dan seluruh antarmuka Filament.
+  - Alasan refactor: Kategori jalur ini mencakup seluruh keluarga Uang Persediaan / Revolving Funds (UP [311], TUP [321], GUP [312], GUP-KKP [317], dan PTUP [322]), bukan hanya GUP.
+  - Membuat migrasi database `2026_09_15_221000_refactor_jalur_gup_to_up.php` yang memperbarui enum dan memigrasikan data riwayat `gup` menjadi `up` pada tabel `sp2d_rekaps` dan `kode_spms` (mendukung driver MySQL/MariaDB dan SQLite).
+  - Memperbarui seeder `KodeSpmSeeder` untuk kode 311, 321, 312, 317, dan 322 menjadi jalur `up`.
+  - Memperbarui deteksi otomatis jalur pada `Sp2dImportService` dengan regex pencocokan keluarga UP (`up|gup|tup|ptup`) serta fallback kode SPM.
+  - Memperbarui form dan tabel `KodeSpmResource`, dropdown filter dan badge tabel `Sp2dRekapResource`, serta teks indikator `(UP: Tidak Terikat Target)`.
+  - Memperbarui format tampilan jalur pada sheet export Excel (`Sp2dRekapPerBulanSheet`) dan template PDF (`sp2d-rekap.blade.php`).
+
 ## [2.0.3] - 2026-09-15
 ### Added
 - **Landing Page Modern v2.0:** Memperbarui antarmuka beranda publik (`landing.blade.php`) dengan desain modern bertema BPS, glassmorphism, dan tipografi Plus Jakarta Sans. Seluruh fitur dan modul terbaru kini ditampilkan secara komprehensif: Rekapitulasi SP2D & Pajak CoreTax, Surat Keluar & SK Otomatis, Surat Masuk & Disposisi Digital, Persediaan ATK/ARK, Aset BMN, Agenda & Notulensi Rapat, serta integrasi tombol login SSO SIPETRA.
