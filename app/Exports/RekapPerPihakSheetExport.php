@@ -54,8 +54,10 @@ class RekapPerPihakSheetExport extends DefaultValueBinder implements FromArray, 
         $formats = [];
         // nominalStartCol: 0-based index; PhpSpreadsheet column index is 1-based
         $startColIndex = $this->nominalStartCol + 1; // 1-based start (e.g. 3 = column C)
-        for ($i = 0; $i < 30; $i++) {
-            $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($startColIndex + $i);
+        $totalCols = !empty($this->rows[0]) ? count($this->rows[0]) : ($this->nominalStartCol + 30);
+
+        for ($col = $startColIndex; $col <= $totalCols; $col++) {
+            $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col);
             $formats[$colLetter] = '#,##0';
         }
         return $formats;
