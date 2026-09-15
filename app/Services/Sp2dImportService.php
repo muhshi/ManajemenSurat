@@ -92,8 +92,6 @@ class Sp2dImportService
 
                 $jumlahPotongan = $this->parseAmount($data['jumlah potongan'] ?? 0);
                 $jenisSpm = (string)($data['jenis spp/spm'] ?? '');
-                
-                $isGup = str_contains($jenisSpm, '312') || str_contains($jenisSpm, '317') || str_contains(strtolower($jenisSpm), 'gup');
 
                 $jalur = $this->tentukanJalur($jenisSpm, $kodeSpmMapping);
                 
@@ -121,7 +119,7 @@ class Sp2dImportService
                         'jumlah_pengeluaran' => $this->parseAmount($data['jumlah pengeluaran'] ?? 0),
                         'jumlah_potongan'    => $jumlahPotongan,
                         'jumlah_pembayaran'  => $this->parseAmount($data['jumlah pembayaran'] ?? 0),
-                        'status_verifikasi'  => ($jalur === 'gup') ? 'perlu_rincian' : (($jalur === '1_pihak' || $jumlahPotongan == 0) ? 'valid' : 'perlu_rincian'),
+                        'status_verifikasi'  => ($jalur === 'up') ? 'perlu_rincian' : (($jalur === '1_pihak' || $jumlahPotongan == 0) ? 'valid' : 'perlu_rincian'),
                     ]
                 );
 
@@ -185,8 +183,8 @@ class Sp2dImportService
                             // Deteksi: Apakah Atas Nama = BPS Demak?
                             $isBps = str_contains(strtoupper($atasNama), 'BADAN PUSAT STATISTIK KAB. DEMAK') || str_contains(strtoupper($atasNama), '018871-');
 
-                            // Jika bukan BPS (Pihak Ketiga) dan bukan GUP, otomatis paksa jadi 1 Pihak!
-                            if (!$isBps && $rekap->jalur_transaksi !== 'gup') {
+                            // Jika bukan BPS (Pihak Ketiga) dan bukan UP, otomatis paksa jadi 1 Pihak!
+                            if (!$isBps && $rekap->jalur_transaksi !== 'up') {
                                 $rekap->update([
                                     'jalur_transaksi' => '1_pihak',
                                     'status_verifikasi' => 'valid'
@@ -233,14 +231,15 @@ class Sp2dImportService
     protected function tentukanJalur(string $jenisSpm, array &$kodeSpmMapping): string
     {
         $jenisSpmAsli = trim($jenisSpm);
-        $jenisSpm = strtolower($jenisSpm);
+        $jenisSpmLower = strtolower($jenisSpmAsli);
         
         // Ekstrak 3 digit angka pertama dari jenisSpm
-        preg_match('/^(\d{3})/', trim($jenisSpm), $matches);
+        preg_match('/^(\d{3})/', $jenisSpmLower, $matches);
         $kode = $matches[1] ?? null;
 
-        // Cek secara eksplisit jika mengandung gup, maka otomatis jadi 'gup' (baik kode baru maupun fallback)
-        $isGup = str_contains($jenisSpm, 'gup');
+        // Cek secara eksplisit jika mengandung keluarga UP (UP, GUP, TUP, PTUP) atau kode terkait
+        $isUp = (bool) preg_match('/\b(up|gup|tup|ptup)\b/i', $jenisSpmLower)
+            || ($kode && in_array($kode, ['311', '312', '317', '321', '322']));
 
         if ($kode) {
             if (isset($kodeSpmMapping[$kode])) {
@@ -250,7 +249,7 @@ class Sp2dImportService
                 $parts = explode('-', $jenisSpmAsli, 2);
                 $nama = isset($parts[1]) ? trim($parts[1]) : $jenisSpmAsli;
 
-                $jalurOtomatis = $isGup ? 'gup' : 'banyak_pihak';
+                $jalurOtomatis = $isUp ? 'up' : 'banyak_pihak';
 
                 // Insert ke database otomatis
                 \App\Models\KodeSpm::firstOrCreate(
@@ -269,7 +268,7 @@ class Sp2dImportService
         }
 
         // Fallback default (sesuai persetujuan pengguna)
-        return $isGup ? 'gup' : 'banyak_pihak';
+        return $isUp ? 'up' : 'banyak_pihak';
     }
 
     protected function mapRow(array $header, array $cells): array
