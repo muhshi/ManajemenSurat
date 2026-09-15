@@ -1,6 +1,11 @@
 # Changelog - ManajemenSurat
 
+## [2.0.3] - 2026-09-15
+### Fixed
+- **Export Excel — Invalid Cell Coordinate:** Perbaikan crash `PhpSpreadsheet\Exception: Invalid cell coordinate [1` saat Export Excel di halaman *Rekap Per Pihak*. Penyebab: `columnFormats()` menggunakan aritmatika `chr(65 + col)` untuk menghasilkan huruf kolom Excel. Ketika jumlah akun pajak melebihi ~23 kolom, `chr()` menghasilkan karakter non-huruf seperti `[` (ASCII 91) yang ditolak PhpSpreadsheet. Solusi: Ganti dengan `Coordinate::stringFromColumnIndex()` yang menghasilkan kolom multi-huruf (`AA`, `AB`, ...) secara benar.
+
 ## [2.0.2] - 2026-09-14
+
 ### Fixed
 - **Export Excel — Format Rupiah:** Kolom nominal (Bruto, Total Potongan, Netto) pada sheet Excel *Data Rekap SP2D* dan *Rekap Per Pihak* kini tampil sebagai angka dengan format `#,##0` (pemisah ribuan otomatis sesuai locale Excel). Sebelumnya nilai dikirim sebagai string hasil `number_format` sehingga Excel membaca "499" bukan "499.000". Solusi: kirim `float` mentah ke Excel, format ditangani via `WithColumnFormatting`.
 - **PDF Bookmark — Rekap Per Pihak:** `bookmark-label` pada `h2` dan `h3` di `rekap-per-pihak.blade.php` kini dibuat via variabel `@php` (bukan `{{ }}`), identik dengan perbaikan sebelumnya di `sp2d-rekap.blade.php`. Akibatnya panel navigasi PDF kini menampilkan nama bulan yang benar sebagai nav pane.
