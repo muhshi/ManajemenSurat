@@ -39,6 +39,12 @@ class Sp2dRekapResource extends Resource
                                 ->disabled(),
                             Forms\Components\TextInput::make('jalur_transaksi')
                                 ->label('Jalur Transaksi')
+                                ->formatStateUsing(fn (?string $state): string => match ($state) {
+                                    '1_pihak' => '1 Pihak',
+                                    'banyak_pihak' => 'Banyak Pihak',
+                                    'up' => 'UP',
+                                    default => (string)$state,
+                                })
                                 ->disabled(),
                             Forms\Components\Textarea::make('uraian')
                                 ->label('Uraian SPM')
@@ -73,7 +79,7 @@ class Sp2dRekapResource extends Resource
                                     'perlu_rincian' => 'Perlu Rincian',
                                     'valid' => 'Valid',
                                 ])
-                                ->disabled(fn (?Sp2dRekap $record) => $record?->jalur_transaksi !== 'gup')
+                                ->disabled(fn (?Sp2dRekap $record) => $record?->jalur_transaksi !== 'up')
                                 ->dehydrated()
                                 ->required(),
                         ])->columns(1),
@@ -292,8 +298,8 @@ class Sp2dRekapResource extends Resource
                                     
                                     $text = "Rp" . number_format($total, 0, ',', '.');
                                     
-                                    if ($record && $record->jalur_transaksi === 'gup') {
-                                        return new \Illuminate\Support\HtmlString("<span style='font-weight: bold;'>{$text} (GUP: Tidak Terikat Target)</span>");
+                                    if ($record && $record->jalur_transaksi === 'up') {
+                                        return new \Illuminate\Support\HtmlString("<span style='font-weight: bold;'>{$text} (UP: Tidak Terikat Target)</span>");
                                     }
                                     
                                     $target = (float)preg_replace('/[^0-9\-]/', '', (string)($get('jumlah_potongan') ?? '0'));
@@ -347,10 +353,16 @@ class Sp2dRekapResource extends Resource
                 Tables\Columns\TextColumn::make('jalur_transaksi')
                     ->label('Jalur')
                     ->badge()
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        '1_pihak' => '1 Pihak',
+                        'banyak_pihak' => 'Banyak Pihak',
+                        'up' => 'UP',
+                        default => (string)$state,
+                    })
                     ->colors([
                         'success' => '1_pihak',
                         'warning' => 'banyak_pihak',
-                        'danger' => 'gup',
+                        'danger' => 'up',
                     ])
                     ->searchable()
                     ->sortable()
@@ -466,7 +478,7 @@ class Sp2dRekapResource extends Resource
                                     ->options([
                                         '1_pihak' => '1 Pihak',
                                         'banyak_pihak' => 'Banyak Pihak',
-                                        'gup' => 'GUP',
+                                        'up' => 'UP',
                                     ])
                                     ->placeholder('Semua Jalur'),
                                 \Filament\Forms\Components\Select::make('status_verifikasi')
@@ -539,7 +551,7 @@ class Sp2dRekapResource extends Resource
                         return $record;
                     })
                     ->after(function (Sp2dRekap $record) {
-                        if ($record->jalur_transaksi !== 'gup') {
+                        if ($record->jalur_transaksi !== 'up') {
                             $totalPajak = $record->pajaks()->sum('nominal_pajak');
                             
                             if (abs($totalPajak - $record->jumlah_potongan) < 0.1) {
