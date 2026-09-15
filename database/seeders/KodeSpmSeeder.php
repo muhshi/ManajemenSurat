@@ -16,11 +16,11 @@ class KodeSpmSeeder extends Seeder
             ['kode' => '231', 'nama' => 'NON GAJI', 'jalur' => '1_pihak'],
             ['kode' => '111', 'nama' => 'NON GAJI KONTRAKTUAL', 'jalur' => '1_pihak'],
             
-            ['kode' => '311', 'nama' => 'UP', 'jalur' => 'gup'],
-            ['kode' => '321', 'nama' => 'TUP', 'jalur' => 'gup'],
-            ['kode' => '312', 'nama' => 'GUP', 'jalur' => 'gup'],
-            ['kode' => '317', 'nama' => 'GUP-KKP', 'jalur' => 'gup'],
-            ['kode' => '322', 'nama' => 'PTUP', 'jalur' => 'gup'],
+            ['kode' => '311', 'nama' => 'UP', 'jalur' => 'up'],
+            ['kode' => '321', 'nama' => 'TUP', 'jalur' => 'up'],
+            ['kode' => '312', 'nama' => 'GUP', 'jalur' => 'up'],
+            ['kode' => '317', 'nama' => 'GUP-KKP', 'jalur' => 'up'],
+            ['kode' => '322', 'nama' => 'PTUP', 'jalur' => 'up'],
             
             ['kode' => '237', 'nama' => 'LS-BANYAK PENERIMA', 'jalur' => 'banyak_pihak'],
             ['kode' => '221', 'nama' => 'GAJI LAINNYA', 'jalur' => 'banyak_pihak'],
