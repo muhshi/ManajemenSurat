@@ -25,10 +25,16 @@ class KodeSpmsTable
                 TextColumn::make('jalur')
                     ->label('Jalur Verifikasi')
                     ->badge()
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        '1_pihak' => '1 Pihak',
+                        'banyak_pihak' => 'Banyak Pihak',
+                        'up' => 'UP',
+                        default => (string)$state,
+                    })
                     ->colors([
                         'success' => '1_pihak',
                         'warning' => 'banyak_pihak',
-                        'danger' => 'gup',
+                        'danger' => 'up',
                     ])
                     ->searchable()
                     ->sortable(),
