@@ -5,8 +5,10 @@
 - **Export PDF via mPDF:** Menginstal paket `mpdf/mpdf` dan memigrasikan proses export PDF (pada *Rekap Per Pihak* dan *Data Rekap SP2D*) dari DomPDF ke mPDF. mPDF mendukung fitur PDF outline/bookmark secara native melalui tag `<bookmark content="..." level="0" />`, sehingga panel bookmark navigasi di PDF viewer (Chrome, Edge, Adobe Reader) kini berfungsi dan dapat diklik untuk melompat antar periode/bulan.
 
 ### Fixed
+- **Hak Akses & Otorisasi Menu (Filament Shield):** Perbaikan menu *Kode SPM*, *Akun Pajak*, dan *Rekap Per Pihak* yang masih terlihat oleh role `pegawai`. Penyebab: `AkunPajak` dan `KodeSpm` belum memiliki file Policy Laravel, dan halaman kustom `RekapPerPihak` belum menggunakan trait `HasPageShield`. Akibatnya, Filament mengizinkan semua user secara default meskipun permission sudah di-uncheck pada menu Peran. Solusi: Membuat `AkunPajakPolicy`, `KodeSpmPolicy`, memasang `HasPageShield` pada `RekapPerPihak`, serta menambahkan migrasi permission Shield untuk ketiga entitas tersebut.
 - **Deploy Script — Volume Vendor Synchronization:** Menambahkan perintah sinkronisasi `composer install` ke dalam container saat build di `deploy.sh`. Hal ini untuk mencegah anonymous volume `/app/vendor` menutupi paket-paket baru (seperti `mpdf/mpdf`) yang baru diinstal.
 - **Export Excel — Invalid Cell Coordinate:** Perbaikan crash `PhpSpreadsheet\Exception: Invalid cell coordinate [1` saat Export Excel di halaman *Rekap Per Pihak*. Penyebab: `columnFormats()` menggunakan aritmatika `chr(65 + col)` untuk menghasilkan huruf kolom Excel. Ketika jumlah akun pajak melebihi ~23 kolom, `chr()` menghasilkan karakter non-huruf seperti `[` (ASCII 91) yang ditolak PhpSpreadsheet. Solusi: Ganti dengan `Coordinate::stringFromColumnIndex()` yang menghasilkan kolom multi-huruf (`AA`, `AB`, ...) secara benar.
+
 
 
 
