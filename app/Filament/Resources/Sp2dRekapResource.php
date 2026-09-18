@@ -182,6 +182,10 @@ class Sp2dRekapResource extends Resource
                                     ->visible(fn (?Sp2dRekap $record) => $record && $record->jalur_transaksi !== '1_pihak'),
                             ])->alignEnd(),
 
+                            Forms\Components\Placeholder::make('total_rincian_saat_ini_top')
+                                ->label('Total Rincian Saat Ini')
+                                ->content(fn (\Filament\Schemas\Components\Utilities\Get $get, ?Sp2dRekap $record) => static::getTotalRincianSaatIniContent($get, $record)),
+
                             Forms\Components\Repeater::make('grouped_pajaks')
                                 ->label('Daftar Pihak/Penerima')
                                 ->collapsible()
@@ -280,39 +284,14 @@ class Sp2dRekapResource extends Resource
                                         ])
                                         ->columns(4)
                                         ->defaultItems(1)
-                                ])
-                                ->columns(1)
-                                ->defaultItems(0)
-                                ->addActionLabel('Tambah Pihak/Penerima'),
+                                 ])
+                                 ->columns(1)
+                                 ->defaultItems(0)
+                                 ->addActionLabel('Tambah Pihak/Penerima'),
 
                             Forms\Components\Placeholder::make('total_rincian_saat_ini')
                                 ->label('Total Rincian Saat Ini')
-                                ->content(function (\Filament\Schemas\Components\Utilities\Get $get, ?Sp2dRekap $record) {
-                                    $grouped = $get('grouped_pajaks') ?? [];
-                                    $total = 0;
-                                    foreach ($grouped as $group) {
-                                        foreach ($group['rincian_pajak'] ?? [] as $item) {
-                                            $total += (float)preg_replace('/[^0-9\-]/', '', (string)($item['nominal_pajak'] ?? '0'));
-                                        }
-                                    }
-                                    
-                                    $text = "Rp" . number_format($total, 0, ',', '.');
-                                    
-                                    if ($record && $record->jalur_transaksi === 'up') {
-                                        return new \Illuminate\Support\HtmlString("<span style='font-weight: bold;'>{$text} (UP: Tidak Terikat Target)</span>");
-                                    }
-                                    
-                                    $target = (float)preg_replace('/[^0-9\-]/', '', (string)($get('jumlah_potongan') ?? '0'));
-                                    $sisa = $target - $total;
-                                    
-                                    if (abs($sisa) < 0.1) {
-                                        return new \Illuminate\Support\HtmlString("<span style='color: green; font-weight: bold;'>{$text} (Sesuai)</span>");
-                                    } elseif ($sisa > 0) {
-                                        return new \Illuminate\Support\HtmlString("<span style='color: red; font-weight: bold;'>{$text} (Kurang Rp" . number_format($sisa, 0, ',', '.') . ")</span>");
-                                    } else {
-                                        return new \Illuminate\Support\HtmlString("<span style='color: red; font-weight: bold;'>{$text} (Lebih Rp" . number_format(abs($sisa), 0, ',', '.') . ")</span>");
-                                    }
-                                }),
+                                ->content(fn (\Filament\Schemas\Components\Utilities\Get $get, ?Sp2dRekap $record) => static::getTotalRincianSaatIniContent($get, $record)),
                         ])
                 ])
             ]);
@@ -581,6 +560,34 @@ class Sp2dRekapResource extends Resource
                     \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getTotalRincianSaatIniContent(\Filament\Schemas\Components\Utilities\Get $get, ?Sp2dRekap $record): \Illuminate\Support\HtmlString
+    {
+        $grouped = $get('grouped_pajaks') ?? [];
+        $total = 0;
+        foreach ($grouped as $group) {
+            foreach ($group['rincian_pajak'] ?? [] as $item) {
+                $total += (float)preg_replace('/[^0-9\-]/', '', (string)($item['nominal_pajak'] ?? '0'));
+            }
+        }
+
+        $text = "Rp" . number_format($total, 0, ',', '.');
+
+        if ($record && $record->jalur_transaksi === 'up') {
+            return new \Illuminate\Support\HtmlString("<span style='font-weight: bold;'>{$text} (UP: Tidak Terikat Target)</span>");
+        }
+
+        $target = (float)preg_replace('/[^0-9\-]/', '', (string)($get('jumlah_potongan') ?? '0'));
+        $sisa = $target - $total;
+
+        if (abs($sisa) < 0.1) {
+            return new \Illuminate\Support\HtmlString("<span style='color: green; font-weight: bold;'>{$text} (Sesuai)</span>");
+        } elseif ($sisa > 0) {
+            return new \Illuminate\Support\HtmlString("<span style='color: red; font-weight: bold;'>{$text} (Kurang Rp" . number_format($sisa, 0, ',', '.') . ")</span>");
+        } else {
+            return new \Illuminate\Support\HtmlString("<span style='color: red; font-weight: bold;'>{$text} (Lebih Rp" . number_format(abs($sisa), 0, ',', '.') . ")</span>");
+        }
     }
 
     public static function getRelations(): array
