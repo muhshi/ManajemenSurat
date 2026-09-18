@@ -1,5 +1,12 @@
 # Changelog - ManajemenSurat
 
+## [2.0.5] - 2026-09-18
+### Added
+- **Indikator Total Rincian Pajak di Atas Daftar:** Menambahkan placeholder status total rincian pajak saat ini di bagian atas daftar rincian pihak/penerima pada form SP2D (`Sp2dRekapResource`) sehingga status kesesuaian nominal (Sesuai, Kurang, atau Lebih) langsung terpantau tanpa harus menggulir ke bagian bawah daftar.
+
+### Changed
+- **Refactor Kalkulasi Total Rincian:** Memusatkan logika kalkulasi dan rendering status total rincian pajak ke dalam static helper method `getTotalRincianSaatIniContent` pada `Sp2dRekapResource` agar konsisten digunakan oleh indikator di bagian atas maupun bawah.
+
 ## [2.0.4] - 2026-09-15
 ### Changed
 - **Refactor Jalur Transaksi (GUP -> UP):**
