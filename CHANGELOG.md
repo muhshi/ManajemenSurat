@@ -6,6 +6,11 @@
 
 ### Changed
 - **Refactor Kalkulasi Total Rincian:** Memusatkan logika kalkulasi dan rendering status total rincian pajak ke dalam static helper method `getTotalRincianSaatIniContent` pada `Sp2dRekapResource` agar konsisten digunakan oleh indikator di bagian atas maupun bawah.
+- **Penyelarasan Bab 8 Panduan Gambar Buku Pedoman:**
+  - Menyusun ulang urutan 14 tangkapan layar pada Bab 8 berkas `docs/Pedoman_Penggunaan_Modul_Rekap_SP2D.docx` agar runtut sesuai kronologi alur operasional: diawali dari Import MyIntress (Bab 3.5), tabel Data Rekap & ekspor (Bab 3.1-3.4/3.7), form slide-over edit rincian (Bab 3.6 A-B), unggah Excel dan hasil ekstraksi seimbang (Bab 3.6 C & F), input manual autocomplete (Bab 3.6 D), pengelolaan jalur UP (Bab 3.6 F), notifikasi status valid (Bab 3.6 F), halaman Rekap Per Pihak (Bab 4), serta master akun pajak dan kode SPM (Bab 5).
+  - Memperbaiki judul bab `BAB 8 - PANDUAN GAMBAR` dan menambahkan paragraf pengantar.
+  - Memperbaiki caption seluruh gambar dengan penomoran resmi `Gambar 1` s.d. `Gambar 14` menggunakan field Word (`SEQ Gambar \* ARABIC`) dan deskripsi formal yang merujuk pada bab terkait.
+  - Menambahkan tautan silang referensi gambar `(lihat Gambar X)` pada narasi penjelasan Bab 3, Bab 4, dan Bab 5.
 
 ## [2.0.4] - 2026-09-15
 ### Changed
