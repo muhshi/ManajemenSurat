@@ -1,5 +1,15 @@
 # Changelog - ManajemenSurat
 
+## [2.0.6] - 2026-09-19
+### Added
+- **Export Excel Multi-Sheet & Cell Tooltips (Rekap Per Pihak):**
+  - Menambahkan sheet rincian transaksi detail SP2D (`RekapPerPihakDetailSheetExport`) berdampingan dengan sheet rekapitulasi untuk setiap bulan/periode yang diekspor.
+  - Menambahkan fitur **Excel Cell Comment/Note (Tooltip)** pada setiap cell nominal potongan pajak di Sheet Rekap, sehingga saat kursor diarahkan ke cell angka potongan, pengguna dapat langsung melihat daftar nomor SP2D, tanggal, dan nominal pembentuknya tanpa harus berpindah sheet.
+- **Lampiran Rincian Transaksi SP2D pada Export PDF:**
+  - Menambahkan halaman lampiran rincian transaksi SP2D per pihak pada berkas PDF (`rekap-per-pihak.blade.php`), lengkap dengan bookmark outline navigasi PDF untuk melompat langsung ke lampiran.
+- **Opsi Export CSV Rincian SP2D:**
+  - Menyediakan tombol aksi terpisah `Export CSV (Rincian SP2D)` di samping `Export CSV (Rekap)` pada halaman Rekap Per Pihak agar data granular per transaksi SP2D dapat diolah secara fleksibel pada aplikasi spreadsheet.
+
 ## [2.0.5] - 2026-09-18
 ### Added
 - **Indikator Total Rincian Pajak di Atas Daftar:** Menambahkan placeholder status total rincian pajak saat ini di bagian atas daftar rincian pihak/penerima pada form SP2D (`Sp2dRekapResource`) sehingga status kesesuaian nominal (Sesuai, Kurang, atau Lebih) langsung terpantau tanpa harus menggulir ke bagian bawah daftar.
