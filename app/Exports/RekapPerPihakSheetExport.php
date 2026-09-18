@@ -20,12 +20,14 @@ class RekapPerPihakSheetExport extends DefaultValueBinder implements FromArray, 
     protected string $sheetTitle;
     protected array $rows;
     protected int $nominalStartCol;  // indeks kolom pertama nominal (0-based dari header)
+    protected array $cellComments;
 
-    public function __construct(string $sheetTitle, array $rows, int $nominalStartCol = 2)
+    public function __construct(string $sheetTitle, array $rows, int $nominalStartCol = 2, array $cellComments = [])
     {
-        $this->sheetTitle       = $sheetTitle;
+        $this->sheetTitle       = substr($sheetTitle, 0, 31);
         $this->rows             = $rows;
         $this->nominalStartCol  = $nominalStartCol;
+        $this->cellComments     = $cellComments;
     }
 
     public function title(): string
@@ -65,6 +67,15 @@ class RekapPerPihakSheetExport extends DefaultValueBinder implements FromArray, 
 
     public function styles(Worksheet $sheet)
     {
+        foreach ($this->cellComments as $coord => $commentText) {
+            if (!empty($commentText)) {
+                $comment = $sheet->getComment($coord);
+                $comment->getText()->createTextRun($commentText);
+                $comment->setWidth('260pt');
+                $comment->setHeight('110pt');
+            }
+        }
+
         return [
             1 => ['font' => ['bold' => true]],
         ];
