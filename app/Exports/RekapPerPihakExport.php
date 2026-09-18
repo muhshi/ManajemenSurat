@@ -26,8 +26,17 @@ class RekapPerPihakExport implements WithMultipleSheets
         foreach ($this->months as $monthData) {
             $sheets[] = new RekapPerPihakSheetExport(
                 $monthData['sheetTitle'],
-                $monthData['rows']
+                $monthData['rows'],
+                $monthData['nominalStartCol'] ?? 2,
+                $monthData['cellComments'] ?? []
             );
+
+            if (!empty($monthData['detailSheet'])) {
+                $sheets[] = new RekapPerPihakDetailSheetExport(
+                    $monthData['detailSheet']['sheetTitle'],
+                    $monthData['detailSheet']['rows']
+                );
+            }
         }
 
         return $sheets;
