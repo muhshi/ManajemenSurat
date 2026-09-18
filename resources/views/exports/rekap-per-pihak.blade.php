@@ -63,6 +63,54 @@
             </tfoot>
         </table>
 
+        @if(!empty($monthData['details']) && count($monthData['details']) > 0)
+            <pagebreak />
+            <bookmark content="Lampiran Rincian SP2D — {{ $bulanLabel }} {{ $tahunLabel }}" level="1" />
+            
+            <h2 class="text-center" style="font-size: 13px; font-weight: bold; margin: 8px 0 4px 0;">Lampiran: Rincian Transaksi Potongan SP2D Per Pihak</h2>
+            <p class="text-center" style="margin: 0 0 10px 0; font-size: 9px; color: #555;">Periode: {{ $bulanLabel }} {{ $tahunLabel }}</p>
+
+            <table style="font-size: 8.5px;">
+                <thead>
+                    <tr>
+                        <th style="width: 25px;" class="text-center">No</th>
+                        <th style="width: 140px;">Nama Pihak</th>
+                        <th style="width: 85px;">No. SP2D</th>
+                        <th style="width: 60px;" class="text-center">Tanggal</th>
+                        <th style="width: 100px;">Jenis Potongan</th>
+                        <th style="width: 80px;" class="text-right">Nominal</th>
+                        <th>Uraian SP2D</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $noDtl = 1; @endphp
+                    @foreach($monthData['details'] as $dtl)
+                        <tr>
+                            <td class="text-center">{{ $noDtl++ }}</td>
+                            <td>
+                                <strong>{{ $dtl['nama_pihak'] }}</strong>
+                                @if(!empty($dtl['npwp_nik']))
+                                    <div style="font-size: 7.5px; color: #555;">NPWP/NIK: {{ $dtl['npwp_nik'] }}</div>
+                                @endif
+                            </td>
+                            <td>{{ $dtl['no_sp2d'] }}</td>
+                            <td class="text-center">{{ $dtl['tgl_sp2d'] }}</td>
+                            <td>{{ $dtl['nama_pajak'] }}</td>
+                            <td class="text-right">Rp{{ number_format((float)$dtl['nominal_pajak'], 0, ',', '.') }}</td>
+                            <td style="font-size: 8px; color: #333;">{{ $dtl['uraian'] }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="5" class="text-right font-bold">Total Rincian Potongan</th>
+                        <th class="text-right font-bold">Rp{{ number_format((float)$monthData['detailsTotal'], 0, ',', '.') }}</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        @endif
+
         @php $isFirst = false; @endphp
     @endforeach
 </body>
