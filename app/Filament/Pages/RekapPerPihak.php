@@ -202,6 +202,7 @@ class RekapPerPihak extends Page implements HasTable
     private function getExportData($livewire): array
     {
         $akuns = \App\Models\AkunPajak::orderBy('kode')->get();
+        $masterAkun = $akuns->pluck('nama_pendek', 'kode')->toArray();
         $filterState = $livewire->getTableFilterState('periode') ?? [];
         $bulan = $filterState['bulan'] ?? null;
         $tahun = $filterState['tahun'] ?? null;
@@ -236,6 +237,7 @@ class RekapPerPihak extends Page implements HasTable
 
         $allMonthsData = [];
         $sheetsData = [];  // untuk multi-sheet Excel
+        $allTransactionsAcrossMonths = [];
 
         $headers = ['Nama Pihak', 'NPWP / NIK'];
         foreach ($akuns as $akun) {
@@ -265,29 +267,89 @@ class RekapPerPihak extends Page implements HasTable
             $records = $query->get();
             if ($records->isEmpty()) continue;
 
+            // Ambil semua transaksi mentah per SP2D untuk bulan ini
+            $rawTransactions = Sp2dPajak::query()
+                ->with(['rekap'])
+                ->whereHas('rekap', function ($q) use ($m, $tahun, $noSp2d) {
+                    $q->where('status_verifikasi', 'valid');
+                    $q->whereMonth('tgl_sp2d', $m);
+                    if ($tahun) {
+                        $q->whereYear('tgl_sp2d', $tahun);
+                    }
+                    if ($noSp2d) {
+                        $q->where('no_sp2d', 'like', "%{$noSp2d}%");
+                    }
+                })
+                ->orderBy('nama_pihak', 'asc')
+                ->orderBy('id', 'asc')
+                ->get();
+
+            // Kelompokkan transaksi berdasarkan pihak dan kode akun untuk cell tooltip
+            $groupedByPihakAkun = [];
+            foreach ($rawTransactions as $tx) {
+                $pihakKey = ($tx->nama_pihak ?? '') . '|' . ($tx->npwp_nik ?? '');
+                $groupedByPihakAkun[$pihakKey][$tx->kode_akun_pajak][] = $tx;
+            }
+
             $sums = array_fill_keys($akuns->pluck('kode')->toArray(), 0);
             $sumTotal = 0;
             $pdfRows  = [];  // string rupiah untuk PDF
             $xlsRows  = [];  // float numerik untuk Excel
+            $cellComments = []; // tooltip notes untuk sheet rekap
 
+            $rIndex = 0;
             foreach ($records as $record) {
+                $excelRow = $rIndex + 2; // header baris 1
+                $pihakKey = ($record->nama_pihak ?? '') . '|' . ($record->npwp_nik ?? '');
+                $pihakTxGroups = $groupedByPihakAkun[$pihakKey] ?? [];
+
                 $pdfRow = [$record->nama_pihak, $record->npwp_nik];
                 $xlsRow = [$record->nama_pihak, $record->npwp_nik];
 
+                $colIndex = 2; // kolom C (indeks 2)
                 foreach ($akuns as $akun) {
                     $columnName = 'pajak_' . $akun->kode;
                     $val = $record->$columnName;
                     $pdfRow[] = $val ? number_format((float)$val, 0, ',', '.') : '-';
                     $xlsRow[] = $val ? (float) $val : 0;
                     $sums[$akun->kode] += $val ?: 0;
+
+                    // Tooltip rincian SP2D per cell akun potongan
+                    $txs = $pihakTxGroups[$akun->kode] ?? [];
+                    if (!empty($txs) && $val > 0) {
+                        $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($colIndex + 1);
+                        $lines = ["Rincian {$akun->kode} - {$akun->nama_pendek}:"];
+                        foreach ($txs as $t) {
+                            $sp2dNo = $t->rekap?->no_sp2d ?? '-';
+                            $sp2dTgl = $t->rekap?->tgl_sp2d ? \Carbon\Carbon::parse($t->rekap->tgl_sp2d)->format('d/m/Y') : '-';
+                            $lines[] = "• {$sp2dNo} ({$sp2dTgl}): Rp" . number_format((float)$t->nominal_pajak, 0, ',', '.');
+                        }
+                        $cellComments[$colLetter . $excelRow] = implode("\n", $lines);
+                    }
+                    $colIndex++;
                 }
 
                 $pdfRow[] = $record->total ? number_format((float)$record->total, 0, ',', '.') : '-';
                 $xlsRow[] = $record->total ? (float) $record->total : 0;
                 $sumTotal += $record->total ?: 0;
 
+                // Tooltip pada kolom Total Potongan
+                if (!empty($pihakTxGroups) && $record->total > 0) {
+                    $totalColLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($colIndex + 1);
+                    $totalLines = ["Ringkasan Potongan Pihak:"];
+                    foreach ($akuns as $akun) {
+                        if (!empty($pihakTxGroups[$akun->kode])) {
+                            $sub = collect($pihakTxGroups[$akun->kode])->sum('nominal_pajak');
+                            $totalLines[] = "• {$akun->kode} ({$akun->nama_pendek}): Rp" . number_format($sub, 0, ',', '.');
+                        }
+                    }
+                    $totalLines[] = "Total: Rp" . number_format((float)$record->total, 0, ',', '.');
+                    $cellComments[$totalColLetter . $excelRow] = implode("\n", $totalLines);
+                }
+
                 $pdfRows[] = $pdfRow;
                 $xlsRows[] = $xlsRow;
+                $rIndex++;
             }
 
             // Grand total — PDF pakai string, XLS pakai float
@@ -301,27 +363,85 @@ class RekapPerPihak extends Page implements HasTable
             $pdfGrandTotal[] = $sumTotal ? number_format((float)$sumTotal, 0, ',', '.') : '-';
             $xlsGrandTotal[] = (float) $sumTotal;
 
-            // Alias untuk backward-compat (PDF view pakai $dataRows & $grandTotalRow)
-            $dataRows    = $pdfRows;
-            $grandTotalRow = $pdfGrandTotal;
+            // Sheet Detail untuk Excel
+            $detailHeaders = ['No', 'No. SP2D', 'Tanggal SP2D', 'Jenis SPM', 'Nama Pihak', 'NPWP / NIK', 'Kode Akun', 'Nama Pajak', 'Nominal Potongan', 'Uraian SP2D'];
+            $detailRows = [$detailHeaders];
+            $dNo = 1;
+            $dSum = 0;
+            $pdfDetails = [];
+
+            foreach ($rawTransactions as $t) {
+                $tglStr = $t->rekap?->tgl_sp2d ? \Carbon\Carbon::parse($t->rekap->tgl_sp2d)->format('d/m/Y') : '-';
+                $namaPajakStr = $masterAkun[$t->kode_akun_pajak] ?? 'Pajak Lainnya';
+                $nomFloat = (float) $t->nominal_pajak;
+
+                $detailRows[] = [
+                    $dNo++,
+                    $t->rekap?->no_sp2d ?? '-',
+                    $tglStr,
+                    $t->rekap?->jenis_spm ?? '-',
+                    $t->nama_pihak,
+                    $t->npwp_nik ?? '-',
+                    (string) $t->kode_akun_pajak,
+                    $namaPajakStr,
+                    $nomFloat,
+                    $t->rekap?->uraian ?? '-',
+                ];
+                $dSum += $nomFloat;
+
+                $pdfDetails[] = [
+                    'nama_pihak'    => $t->nama_pihak,
+                    'npwp_nik'      => $t->npwp_nik,
+                    'no_sp2d'       => $t->rekap?->no_sp2d ?? '-',
+                    'tgl_sp2d'      => $tglStr,
+                    'kode_akun'     => $t->kode_akun_pajak,
+                    'nama_pajak'    => $namaPajakStr,
+                    'nominal_pajak' => $nomFloat,
+                    'uraian'        => $t->rekap?->uraian ?? '-',
+                ];
+
+                $allTransactionsAcrossMonths[] = [
+                    'no'            => count($allTransactionsAcrossMonths) + 1,
+                    'bulan'         => $namaBulan[$m],
+                    'tahun'         => $tahun ?? date('Y'),
+                    'no_sp2d'       => $t->rekap?->no_sp2d ?? '-',
+                    'tgl_sp2d'      => $tglStr,
+                    'jenis_spm'     => $t->rekap?->jenis_spm ?? '-',
+                    'nama_pihak'    => $t->nama_pihak,
+                    'npwp_nik'      => $t->npwp_nik ?? '-',
+                    'kode_akun'     => (string) $t->kode_akun_pajak,
+                    'nama_pajak'    => $namaPajakStr,
+                    'nominal_pajak' => $nomFloat,
+                    'uraian'        => $t->rekap?->uraian ?? '-',
+                ];
+            }
+            $detailRows[] = ['', '', '', '', 'GRAND TOTAL', '', '', '', (float) $dSum, ''];
 
             // Nama sheet format: {tahun}_{bulan}_{namaBulan}
             $tahunLabel = $tahun ?? date('Y');
             $sheetTitle = $tahunLabel . '_' . $m . '_' . $namaBulan[$m];
+            $detailSheetTitle = $tahunLabel . '_' . $m . '_Rincian';
 
             // Rows untuk sheet Excel: header + float rows + grand total float
             $sheetRows = array_merge([$headers], $xlsRows, [$xlsGrandTotal]);
 
             $allMonthsData[] = [
-                'bulanName'  => $namaBulan[$m],
-                'headers'    => $headers,
-                'rows'       => $pdfRows,        // string untuk PDF
-                'grandTotal' => $pdfGrandTotal,  // string untuk PDF
+                'bulanName'    => $namaBulan[$m],
+                'headers'      => $headers,
+                'rows'         => $pdfRows,        // string untuk PDF
+                'grandTotal'   => $pdfGrandTotal,  // string untuk PDF
+                'details'      => $pdfDetails,
+                'detailsTotal' => $dSum,
             ];
 
             $sheetsData[] = [
-                'sheetTitle' => $sheetTitle,
-                'rows'       => $sheetRows,      // float untuk Excel
+                'sheetTitle'   => $sheetTitle,
+                'rows'         => $sheetRows,      // float untuk Excel
+                'cellComments' => $cellComments,
+                'detailSheet'  => [
+                    'sheetTitle' => $detailSheetTitle,
+                    'rows'       => $detailRows,
+                ],
             ];
         }
 
@@ -331,14 +451,18 @@ class RekapPerPihak extends Page implements HasTable
             $sheetTitle = $tahunLabel . '_' . $mLabel . '_' . ($namaBulan[$bulan] ?? 'Data');
 
             $allMonthsData[] = [
-                'bulanName'  => $bulanName,
-                'headers'    => $headers,
-                'rows'       => [],
-                'grandTotal' => array_fill(0, count($headers), '-'),
+                'bulanName'    => $bulanName,
+                'headers'      => $headers,
+                'rows'         => [],
+                'grandTotal'   => array_fill(0, count($headers), '-'),
+                'details'      => [],
+                'detailsTotal' => 0,
             ];
             $sheetsData[] = [
-                'sheetTitle' => $sheetTitle,
-                'rows'       => [$headers],
+                'sheetTitle'   => $sheetTitle,
+                'rows'         => [$headers],
+                'cellComments' => [],
+                'detailSheet'  => null,
             ];
         }
 
@@ -350,11 +474,12 @@ class RekapPerPihak extends Page implements HasTable
         $filename = implode('_', $nameParts);
         
         return [
-            'filename' => $filename,
-            'months'   => $allMonthsData,
-            'sheets'   => $sheetsData,
-            'bulan'    => $bulanName,
-            'tahun'    => $tahun,
+            'filename'   => $filename,
+            'months'     => $allMonthsData,
+            'sheets'     => $sheetsData,
+            'allDetails' => $allTransactionsAcrossMonths,
+            'bulan'      => $bulanName,
+            'tahun'      => $tahun,
         ];
     }
 
@@ -363,7 +488,7 @@ class RekapPerPihak extends Page implements HasTable
         return [
             \Filament\Actions\ActionGroup::make([
                 \Filament\Actions\Action::make('export_csv')
-                    ->label('Export CSV')
+                    ->label('Export CSV (Rekap)')
                     ->icon('heroicon-o-document-text')
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
@@ -381,7 +506,7 @@ class RekapPerPihak extends Page implements HasTable
                         }
                         if (!empty($finalCsvData)) array_pop($finalCsvData);
 
-                        $filename = $exportInfo['filename'] . '.csv';
+                        $filename = $exportInfo['filename'] . '_Rekap.csv';
                         $path = public_path('exports');
                         if (!file_exists($path)) mkdir($path, 0777, true);
                         
@@ -395,8 +520,51 @@ class RekapPerPihak extends Page implements HasTable
                         $url = route('exports.download', ['filename' => $filename]);
                         $this->js("window.open('{$url}', '_blank');");
                     }),
+                \Filament\Actions\Action::make('export_csv_detail')
+                    ->label('Export CSV (Rincian SP2D)')
+                    ->icon('heroicon-o-table-cells')
+                    ->action(function ($livewire) {
+                        $exportInfo = $this->getExportData($livewire);
+
+                        $csvHeader = ['No', 'Bulan', 'Tahun', 'No. SP2D', 'Tanggal SP2D', 'Jenis SPM', 'Nama Pihak', 'NPWP / NIK', 'Kode Akun Pajak', 'Nama Akun Pajak', 'Nominal Pajak', 'Uraian SP2D'];
+                        $csvRows = [$csvHeader];
+                        $totalNominal = 0;
+
+                        foreach ($exportInfo['allDetails'] as $detail) {
+                            $csvRows[] = [
+                                $detail['no'],
+                                $detail['bulan'],
+                                $detail['tahun'],
+                                $detail['no_sp2d'],
+                                $detail['tgl_sp2d'],
+                                $detail['jenis_spm'],
+                                $detail['nama_pihak'],
+                                $detail['npwp_nik'],
+                                $detail['kode_akun'],
+                                $detail['nama_pajak'],
+                                $detail['nominal_pajak'],
+                                $detail['uraian'],
+                            ];
+                            $totalNominal += $detail['nominal_pajak'];
+                        }
+                        $csvRows[] = ['', '', '', '', '', '', '', '', '', 'TOTAL', $totalNominal, ''];
+
+                        $filename = $exportInfo['filename'] . '_Rincian.csv';
+                        $path = public_path('exports');
+                        if (!file_exists($path)) mkdir($path, 0777, true);
+
+                        $file = fopen($path . '/' . $filename, 'w');
+                        fputs($file, "\xEF\xBB\xBF");
+                        foreach ($csvRows as $row) {
+                            fputcsv($file, $row, ';');
+                        }
+                        fclose($file);
+
+                        $url = route('exports.download', ['filename' => $filename]);
+                        $this->js("window.open('{$url}', '_blank');");
+                    }),
                 \Filament\Actions\Action::make('export_excel')
-                    ->label('Export Excel')
+                    ->label('Export Excel (Multi-sheet)')
                     ->icon('heroicon-o-document-chart-bar')
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
@@ -415,7 +583,7 @@ class RekapPerPihak extends Page implements HasTable
                         $this->js("window.open('{$url}', '_blank');");
                     }),
                 \Filament\Actions\Action::make('export_pdf')
-                    ->label('Export PDF')
+                    ->label('Export PDF (Rekap & Lampiran)')
                     ->icon('heroicon-o-document')
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
