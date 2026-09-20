@@ -301,7 +301,6 @@ class Sp2dRekapResource extends Resource
     {
         return $table
             ->extraAttributes(['class' => 'scroll-top-table'])
-            ->poll('5s')
             ->recordUrl(null)
             ->recordAction(null)
             ->columns([
