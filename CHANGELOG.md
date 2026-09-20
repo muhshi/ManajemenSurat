@@ -1,5 +1,9 @@
 # Changelog - ManajemenSurat
 
+## [2.0.7] - 2026-09-20
+### Fixed
+- **Chrome Unresponsive Saat Simpan Rincian Pajak:** Menghapus `->poll('5s')` dari tabel Data Rekap SP2D. Polling setiap 5 detik menyebabkan browser mengantri request refresh tabel bersamaan dengan request simpan Livewire (delete + createMany pajak), membuat Chrome tampak *wait/unresponsive*. Tombol **Segarkan Data** sudah tersedia untuk refresh manual.
+
 ## [2.0.6] - 2026-09-19
 ### Added
 - **Export Excel Multi-Sheet & Cell Tooltips (Rekap Per Pihak):**
