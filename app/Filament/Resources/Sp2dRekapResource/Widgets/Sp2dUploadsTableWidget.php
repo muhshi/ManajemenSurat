@@ -19,7 +19,7 @@ class Sp2dUploadsTableWidget extends BaseWidget
         return $table
             ->extraAttributes(['class' => 'scroll-top-table'])
             ->queryStringIdentifier('uploads')
-            ->poll('5s')
+            ->poll(fn () => Sp2dUpload::whereIn('status', ['pending', 'processing'])->exists() ? '5s' : null)
             ->query(
                 Sp2dUpload::query()->latest()
             )

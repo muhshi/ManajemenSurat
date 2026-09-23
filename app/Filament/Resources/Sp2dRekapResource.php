@@ -79,7 +79,7 @@ class Sp2dRekapResource extends Resource
                                     'perlu_rincian' => 'Perlu Rincian',
                                     'valid' => 'Valid',
                                 ])
-                                ->disabled(fn (?Sp2dRekap $record) => $record?->jalur_transaksi !== 'up')
+                                ->disabled(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('jalur_transaksi') !== 'up')
                                 ->dehydrated()
                                 ->required(),
                         ])->columns(1),
@@ -93,7 +93,7 @@ class Sp2dRekapResource extends Resource
                                     ->label('Upload Rincian via Excel')
                                     ->icon('heroicon-o-arrow-up-tray')
                                     ->color('success')
-                                    ->visible(fn (?Sp2dRekap $record) => $record && $record->jalur_transaksi !== '1_pihak')
+                                    ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('jalur_transaksi') !== '1_pihak')
                                     ->form([
                                         Forms\Components\Select::make('jenis_file')
                                             ->label('Jenis File Excel')
@@ -151,7 +151,7 @@ class Sp2dRekapResource extends Resource
                                                 ->send();
                                         }
                                     })
-                                    ->visible(fn (?Sp2dRekap $record) => $record && $record->jalur_transaksi !== '1_pihak'),
+                                    ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('jalur_transaksi') !== '1_pihak'),
                                     
                                 \Filament\Actions\Action::make('hapus_semua')
                                     ->label('Hapus Semua')
@@ -161,7 +161,7 @@ class Sp2dRekapResource extends Resource
                                     ->action(function ($set) {
                                         $set('grouped_pajaks', []);
                                     })
-                                    ->visible(fn (?Sp2dRekap $record) => $record && $record->jalur_transaksi !== '1_pihak'),
+                                    ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('jalur_transaksi') !== '1_pihak'),
 
                                 \Filament\Actions\Action::make('hapus_terpilih')
                                     ->label('Hapus Terpilih')
@@ -179,19 +179,19 @@ class Sp2dRekapResource extends Resource
                                         }
                                         $set('grouped_pajaks', $newGrouped);
                                     })
-                                    ->visible(fn (?Sp2dRekap $record) => $record && $record->jalur_transaksi !== '1_pihak'),
+                                    ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('jalur_transaksi') !== '1_pihak'),
                             ])->alignEnd(),
 
                             Forms\Components\Placeholder::make('total_rincian_saat_ini_top')
                                 ->label('Total Rincian Saat Ini')
-                                ->content(fn (\Filament\Schemas\Components\Utilities\Get $get, ?Sp2dRekap $record) => static::getTotalRincianSaatIniContent($get, $record)),
+                                ->content(fn (\Filament\Schemas\Components\Utilities\Get $get) => static::getTotalRincianSaatIniContent($get)),
 
                             Forms\Components\Repeater::make('grouped_pajaks')
                                 ->label('Daftar Pihak/Penerima')
                                 ->collapsible()
-                                ->cloneable(fn ($record) => $record?->jalur_transaksi !== '1_pihak')
-                                ->addable(fn ($record) => $record?->jalur_transaksi !== '1_pihak')
-                                ->deletable(fn ($record) => $record?->jalur_transaksi !== '1_pihak')
+                                ->cloneable(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('jalur_transaksi') !== '1_pihak')
+                                ->addable(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('jalur_transaksi') !== '1_pihak')
+                                ->deletable(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('jalur_transaksi') !== '1_pihak')
                                 ->itemLabel(fn (array $state): ?string => $state['nama_pihak'] ?? null)
                                 ->schema([
                                     \Filament\Schemas\Components\Grid::make(3)
@@ -247,13 +247,13 @@ class Sp2dRekapResource extends Resource
                                     Forms\Components\Repeater::make('rincian_pajak')
                                         ->label('Rincian Pajak')
                                         ->addActionLabel('Tambah Rincian')
-                                        ->cloneable(fn ($record) => $record?->jalur_transaksi !== '1_pihak')
-                                        ->addable(fn ($record) => $record?->jalur_transaksi !== '1_pihak')
-                                        ->deletable(fn ($record) => $record?->jalur_transaksi !== '1_pihak')
+                                        ->cloneable(fn (\Filament\Schemas\Components\Utilities\Get $get) => ($get('../../jalur_transaksi') ?? $get('jalur_transaksi')) !== '1_pihak')
+                                        ->addable(fn (\Filament\Schemas\Components\Utilities\Get $get) => ($get('../../jalur_transaksi') ?? $get('jalur_transaksi')) !== '1_pihak')
+                                        ->deletable(fn (\Filament\Schemas\Components\Utilities\Get $get) => ($get('../../jalur_transaksi') ?? $get('jalur_transaksi')) !== '1_pihak')
                                         ->schema([
                                             Forms\Components\Select::make('kode_akun_pajak')
                                                 ->label('Jenis Pajak')
-                                                ->options(\App\Models\AkunPajak::all()->mapWithKeys(fn($item) => [$item->kode => $item->kode . ' - ' . $item->nama_pendek])->toArray())
+                                                ->options(fn () => static::getAkunPajakOptions())
                                                 ->required()
                                                 ->validationMessages([
                                                     'required' => 'Jenis pajak wajib dipilih.',
@@ -280,7 +280,7 @@ class Sp2dRekapResource extends Resource
                                                 ->label('Pilih')
                                                 ->dehydrated(false)
                                                 ->inline(false)
-                                                ->visible(fn ($record) => $record?->jalur_transaksi !== '1_pihak'),
+                                                ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => ($get('../../jalur_transaksi') ?? $get('jalur_transaksi')) !== '1_pihak'),
                                         ])
                                         ->columns(4)
                                         ->defaultItems(1)
@@ -291,7 +291,7 @@ class Sp2dRekapResource extends Resource
 
                             Forms\Components\Placeholder::make('total_rincian_saat_ini')
                                 ->label('Total Rincian Saat Ini')
-                                ->content(fn (\Filament\Schemas\Components\Utilities\Get $get, ?Sp2dRekap $record) => static::getTotalRincianSaatIniContent($get, $record)),
+                                ->content(fn (\Filament\Schemas\Components\Utilities\Get $get) => static::getTotalRincianSaatIniContent($get)),
                         ])
                 ])
             ]);
@@ -301,6 +301,7 @@ class Sp2dRekapResource extends Resource
     {
         return $table
             ->extraAttributes(['class' => 'scroll-top-table'])
+            ->modifyQueryUsing(fn (\Illuminate\Database\Eloquent\Builder $query) => $query->with('pajaks'))
             ->recordUrl(null)
             ->recordAction(null)
             ->columns([
@@ -482,9 +483,80 @@ class Sp2dRekapResource extends Resource
             ->filtersLayout(\Filament\Tables\Enums\FiltersLayout::AboveContent)
             ->recordActionsPosition(\Filament\Tables\Enums\RecordActionsPosition::BeforeColumns)
             ->recordActions([
+                \Filament\Actions\Action::make('upload_rincian_excel_row')
+                    ->label('Upload Excel')
+                    ->icon('heroicon-o-arrow-up-tray')
+                    ->color('success')
+                    ->visible(fn (Sp2dRekap $record) => $record->jalur_transaksi !== '1_pihak')
+                    ->form([
+                        Forms\Components\Select::make('jenis_file')
+                            ->label('Jenis File Excel')
+                            ->options([
+                                'gaji' => 'Daftar Gaji Pusat',
+                                'tukin' => 'Daftar Tukin',
+                                'uang_makan' => 'Uang Makan',
+                                'uang_lembur' => 'Uang Lembur',
+                            ])
+                            ->required(),
+                        Forms\Components\FileUpload::make('file_excel')
+                            ->label('File Excel')
+                            ->storeFiles(false)
+                            ->required(),
+                    ])
+                    ->action(function (array $data, Sp2dRekap $record) {
+                        if (empty($data['file_excel'])) {
+                            return;
+                        }
+                        $file = $data['file_excel'];
+                        try {
+                            $results = \App\Services\RincianImportService::parseExcelData($file->getRealPath(), $data['jenis_file']);
+                            
+                            $flat = [];
+                            foreach ($results as $pajak) {
+                                $flat[] = [
+                                    'npwp_nik' => $pajak['npwp_nik'] ?? null,
+                                    'nama_pihak' => $pajak['nama_pihak'],
+                                    'kode_akun_pajak' => $pajak['kode_akun_pajak'],
+                                    'dpp' => (float)($pajak['dpp'] ?? 0),
+                                    'nominal_pajak' => (float)($pajak['nominal_pajak'] ?? 0),
+                                ];
+                            }
+                            
+                            $record->pajaks()->delete();
+                            $record->pajaks()->createMany($flat);
+                            
+                            if ($record->jalur_transaksi !== 'up') {
+                                $totalPajak = $record->pajaks()->sum('nominal_pajak');
+                                if (abs($totalPajak - $record->jumlah_potongan) < 0.1) {
+                                    $record->update(['status_verifikasi' => 'valid']);
+                                } else {
+                                    $record->update(['status_verifikasi' => 'perlu_rincian']);
+                                }
+                            }
+                            
+                            \Filament\Notifications\Notification::make()
+                                ->success()
+                                ->title('Berhasil Impor Rincian Pajak')
+                                ->body('Total ' . count($results) . ' rincian pajak berhasil disimpan ke SP2D No. ' . $record->no_sp2d)
+                                ->send();
+                        } catch (\Exception $e) {
+                            \Filament\Notifications\Notification::make()
+                                ->danger()
+                                ->title('Gagal Membaca Excel')
+                                ->body($e->getMessage())
+                                ->send();
+                        }
+                    }),
+
                 \Filament\Actions\EditAction::make()
                     ->slideOver()
                     ->modalWidth('7xl')
+                    ->record(function (\Filament\Actions\EditAction $action) {
+                        static $resolvedRecords = [];
+                        $key = $action->getTable()->getMountedActionRecordKey();
+                        if (!$key) return null;
+                        return $resolvedRecords[$key] ??= $action->getTable()->getRecord($key);
+                    })
                     ->mutateRecordDataUsing(function (array $data, Sp2dRekap $record): array {
                         $pajaks = $record->pajaks->toArray();
                         $grouped = [];
@@ -561,7 +633,19 @@ class Sp2dRekapResource extends Resource
             ]);
     }
 
-    public static function getTotalRincianSaatIniContent(\Filament\Schemas\Components\Utilities\Get $get, ?Sp2dRekap $record): \Illuminate\Support\HtmlString
+    public static function getAkunPajakOptions(): array
+    {
+        return \Illuminate\Support\Facades\Cache::remember(
+            'akun_pajak_options_map',
+            3600,
+            fn () => \App\Models\AkunPajak::orderBy('kode')
+                ->get()
+                ->mapWithKeys(fn ($item) => [$item->kode => $item->kode . ' - ' . $item->nama_pendek])
+                ->toArray()
+        );
+    }
+
+    public static function getTotalRincianSaatIniContent(\Filament\Schemas\Components\Utilities\Get $get, ?Sp2dRekap $record = null): \Illuminate\Support\HtmlString
     {
         $grouped = $get('grouped_pajaks') ?? [];
         $total = 0;
@@ -573,7 +657,8 @@ class Sp2dRekapResource extends Resource
 
         $text = "Rp" . number_format($total, 0, ',', '.');
 
-        if ($record && $record->jalur_transaksi === 'up') {
+        $jalurTransaksi = $get('jalur_transaksi') ?? $record?->jalur_transaksi;
+        if ($jalurTransaksi === 'up') {
             return new \Illuminate\Support\HtmlString("<span style='font-weight: bold;'>{$text} (UP: Tidak Terikat Target)</span>");
         }
 

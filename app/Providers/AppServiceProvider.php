@@ -21,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (function_exists('ini_set')) {
+            @ini_set('memory_limit', '512M');
+        }
+
         // Tambalan sementara untuk environment lokal dengan SQLite
         // Agar query YEAR() spesifik MySQL tidak menyebabkan error 
         try {
