@@ -171,6 +171,7 @@ class RekapPerPihak extends Page implements HasTable
                 Action::make('detail')
                     ->label('Lihat Rincian SP2D')
                     ->icon('heroicon-m-magnifying-glass')
+                    ->tooltip('Buka rincian lengkap daftar SP2D dan potongan pajak atas nama pihak ini')
                     ->modalHeading(fn ($record) => 'Rincian SP2D - ' . ($record->nama_pihak ?? 'Unknown'))
                     ->modalSubmitAction(false)
                     ->modalCancelActionLabel('Tutup')
@@ -490,10 +491,22 @@ class RekapPerPihak extends Page implements HasTable
     protected function getHeaderActions(): array
     {
         return [
+            \Filament\Actions\Action::make('panduan')
+                ->label('Buku Panduan')
+                ->icon('heroicon-o-book-open')
+                ->color('info')
+                ->tooltip('Buka SOP alur kerja, panduan format excel, dan unduh dokumen pedoman resmi')
+                ->modalHeading('Petunjuk Penggunaan Modul Rekap SP2D & Pajak')
+                ->modalWidth('5xl')
+                ->modalSubmitAction(false)
+                ->modalCancelActionLabel('Tutup')
+                ->modalContent(fn () => view('filament.pages.pedoman-sp2d-modal')),
+
             \Filament\Actions\ActionGroup::make([
                 \Filament\Actions\Action::make('export_csv')
                     ->label('Export CSV (Rekap)')
                     ->icon('heroicon-o-document-text')
+                    ->tooltip('Ekspor tabel rekapitulasi ke berkas CSV')
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
                         
@@ -527,6 +540,7 @@ class RekapPerPihak extends Page implements HasTable
                 \Filament\Actions\Action::make('export_csv_detail')
                     ->label('Export CSV (Rincian SP2D)')
                     ->icon('heroicon-o-table-cells')
+                    ->tooltip('Ekspor transaksi mentah per SP2D ke berkas CSV')
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
 
@@ -570,6 +584,7 @@ class RekapPerPihak extends Page implements HasTable
                 \Filament\Actions\Action::make('export_excel')
                     ->label('Export Excel (Multi-sheet)')
                     ->icon('heroicon-o-document-chart-bar')
+                    ->tooltip('Ekspor rekapitulasi dan rincian ke berkas Excel rapi per sheet bulan')
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
                         
@@ -589,6 +604,7 @@ class RekapPerPihak extends Page implements HasTable
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF (Rekap & Lampiran)')
                     ->icon('heroicon-o-document')
+                    ->tooltip('Cetak buku laporan rekapitulasi ke PDF format A4 Landscape ber-outline navigasi')
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
 
@@ -629,8 +645,10 @@ class RekapPerPihak extends Page implements HasTable
             ])
             ->label('Export')
             ->icon('heroicon-o-arrow-down-tray')
+            ->tooltip('Ekspor data rekapitulasi ke format CSV, Excel Multi-Sheet, atau PDF')
             ->color('success')
             ->button(),
         ];
     }
+
 }

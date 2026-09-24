@@ -59,6 +59,7 @@ class Sp2dRekapResource extends Resource
                                 ->disabled(),
                             Forms\Components\TextInput::make('jumlah_potongan')
                                 ->label('Total Potongan')
+                                ->helperText('Target akumulasi potongan pajak yang harus dipenuhi oleh rincian.')
                                 ->prefix('Rp')
                                 ->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))
                                 ->stripCharacters('.')
@@ -72,13 +73,15 @@ class Sp2dRekapResource extends Resource
                                 ->numeric()
                                 ->disabled(),
                             Forms\Components\TextInput::make('atas_nama_default')
-                                ->label('Atas Nama Default'),
+                                ->label('Atas Nama Default')
+                                ->helperText('Identitas penerima default dari berkas Potongan SPM.'),
                             Forms\Components\Select::make('status_verifikasi')
                                 ->label('Status Verifikasi')
+                                ->helperText('Otomatis "Valid" jika total rincian = target potongan. (Khusus jalur UP dapat diubah manual)')
                                 ->options([
                                     'perlu_rincian' => 'Perlu Rincian',
                                     'valid' => 'Valid',
-                                ])
+                                    ])
                                 ->disabled(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('jalur_transaksi') !== 'up')
                                 ->dehydrated()
                                 ->required(),
@@ -93,6 +96,7 @@ class Sp2dRekapResource extends Resource
                                     ->label('Upload Rincian via Excel')
                                     ->icon('heroicon-o-arrow-up-tray')
                                     ->color('success')
+                                    ->tooltip('Ekstrak otomatis rincian potongan pajak dari Excel Gaji/Tukin/Uang Makan/Lembur')
                                     ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('jalur_transaksi') !== '1_pihak')
                                     ->form([
                                         Forms\Components\Select::make('jenis_file')
@@ -157,6 +161,7 @@ class Sp2dRekapResource extends Resource
                                     ->label('Hapus Semua')
                                     ->icon('heroicon-o-trash')
                                     ->color('danger')
+                                    ->tooltip('Hapus seluruh rincian pajak pada SP2D ini sekaligus')
                                     ->requiresConfirmation()
                                     ->action(function ($set) {
                                         $set('grouped_pajaks', []);
@@ -167,6 +172,8 @@ class Sp2dRekapResource extends Resource
                                     ->label('Hapus Terpilih')
                                     ->icon('heroicon-o-backspace')
                                     ->color('warning')
+                                    ->tooltip('Hapus baris-baris rincian pajak yang sedang dicentang')
+
                                     ->action(function ($set, $get) {
                                         $grouped = $get('grouped_pajaks') ?? [];
                                         $newGrouped = [];
@@ -487,6 +494,7 @@ class Sp2dRekapResource extends Resource
                     ->label('Upload Excel')
                     ->icon('heroicon-o-arrow-up-tray')
                     ->color('success')
+                    ->tooltip('Ekstrak otomatis rincian potongan pajak dari Excel Gaji/Tukin/Uang Makan/Lembur')
                     ->visible(fn (Sp2dRekap $record) => $record->jalur_transaksi !== '1_pihak')
                     ->form([
                         Forms\Components\Select::make('jenis_file')
@@ -551,7 +559,9 @@ class Sp2dRekapResource extends Resource
                 \Filament\Actions\EditAction::make()
                     ->slideOver()
                     ->modalWidth('7xl')
+                    ->tooltip('Buka form edit untuk melihat & mengelola rincian penerima serta potongan pajak')
                     ->record(function (\Filament\Actions\EditAction $action) {
+
                         static $resolvedRecords = [];
                         $key = $action->getTable()->getMountedActionRecordKey();
                         if (!$key) return null;

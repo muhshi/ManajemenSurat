@@ -70,6 +70,15 @@ Route::get('/exports/download/{filename}', function ($filename) {
     return response()->download($path);
 })->name('exports.download')->middleware('auth');
 
+// ─── DOKUMEN PANDUAN PENGGUNAAN REKAP SP2D ─────────────────────────
+Route::get('/docs/pedoman-rekap-sp2d', function () {
+    $path = base_path('docs/Pedoman_Penggunaan_Modul_Rekap_SP2D.docx');
+    if (!file_exists($path)) {
+        abort(404, 'Dokumen pedoman tidak ditemukan.');
+    }
+    return response()->download($path, 'Pedoman_Penggunaan_Modul_Rekap_SP2D.docx');
+})->name('docs.pedoman-sp2d')->middleware('auth');
+
 // Alias lama (backward compat)
 Route::get('/download-export/{filename}', function ($filename) {
     $filename = basename($filename);

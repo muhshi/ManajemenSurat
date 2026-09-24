@@ -33,10 +33,22 @@ class ListSp2dRekaps extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('panduan')
+                ->label('Buku Panduan')
+                ->icon('heroicon-o-book-open')
+                ->color('info')
+                ->tooltip('Buka SOP alur kerja, panduan format excel, dan unduh dokumen pedoman resmi')
+                ->modalHeading('Petunjuk Penggunaan Modul Rekap SP2D & Pajak')
+                ->modalWidth('5xl')
+                ->modalSubmitAction(false)
+                ->modalCancelActionLabel('Tutup')
+                ->modalContent(fn () => view('filament.pages.pedoman-sp2d-modal')),
+
             \Filament\Actions\ActionGroup::make([
                 \Filament\Actions\Action::make('export_csv')
                     ->label('Export CSV')
                     ->icon('heroicon-o-document-text')
+                    ->tooltip('Ekspor data rekap ke format file teks CSV')
                     ->action(function () {
                         $query = $this->getFilteredTableQuery();
                         $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '_' . \Illuminate\Support\Str::uuid() . '.csv';
@@ -49,6 +61,7 @@ class ListSp2dRekaps extends ListRecords
                 \Filament\Actions\Action::make('export_excel')
                     ->label('Export Excel')
                     ->icon('heroicon-o-document-chart-bar')
+                    ->tooltip('Ekspor data rekap ke format Excel (.xlsx) rapi per bulan')
                     ->action(function () {
                         $query = $this->getFilteredTableQuery();
                         $filename = 'Data_Rekap_SP2D_' . date('Ymd_His') . '_' . \Illuminate\Support\Str::uuid() . '.xlsx';
@@ -61,6 +74,7 @@ class ListSp2dRekaps extends ListRecords
                 \Filament\Actions\Action::make('export_pdf')
                     ->label('Export PDF')
                     ->icon('heroicon-o-document')
+                    ->tooltip('Cetak data rekap ke dokumen PDF format A4 Landscape')
                     ->action(function () {
                         $query = $this->getFilteredTableQuery();
                         $records = clone $query->get();
@@ -100,27 +114,34 @@ class ListSp2dRekaps extends ListRecords
             ])
             ->label('Export')
             ->icon('heroicon-o-arrow-down-tray')
+            ->tooltip('Ekspor data tabel sesuai filter yang aktif ke CSV, Excel, atau PDF')
             ->color('success')
             ->button(),
 
             Actions\Action::make('refresh')
                 ->label('Segarkan Data')
                 ->icon('heroicon-o-arrow-path')
+                ->tooltip('Muat ulang data tabel dan statistik rekap')
                 ->color('secondary')
                 ->action(fn () => null),
 
             Actions\Action::make('import')
                 ->label('Import SP2D MyIntress')
                 ->icon('heroicon-o-arrow-up-tray')
+                ->tooltip('Unggah dan sinkronisasi berkas SP2D bulanan dari MyIntress')
                 ->color('primary')
+                ->modalHeading('Import Data SP2D & Potongan SPM dari MyIntress')
+                ->modalDescription('Unggah berkas resmi hasil unduhan dari portal MyIntress untuk sinkronisasi otomatis.')
                 ->form([
                     Select::make('periode_tahun')
                         ->label('Periode Tahun')
                         ->options(array_combine(range(date('Y')-2, date('Y')+1), range(date('Y')-2, date('Y')+1)))
                         ->default(date('Y'))
+                        ->helperText('Pilih tahun anggaran yang bersesuaian dengan berkas.')
                         ->required(),
                     FileUpload::make('file_monitoring_sp2d')
                         ->label('1. File Monitoring SPP, SPM, dan SP2D')
+                        ->helperText('File excel utama yang memuat daftar nomor SP2D, tanggal, uraian, dan jumlah pembayaran.')
                         ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
                         ->directory('sp2d-uploads')
                         ->required()
@@ -130,6 +151,7 @@ class ListSp2dRekaps extends ListRecords
                         ->columnSpanFull(),
                     FileUpload::make('file_potongan_spm')
                         ->label('2. File Monitoring Potongan SPM (Opsional)')
+                        ->helperText('File excel kedua dari MyIntress yang memuat rincian akun dan nilai potongan pajak SPM.')
                         ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
                         ->directory('sp2d-uploads')
                         ->columnSpanFull(),
@@ -154,6 +176,7 @@ class ListSp2dRekaps extends ListRecords
                 }),
         ];
     }
+
 
     protected function getFooterWidgets(): array
     {
