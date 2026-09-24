@@ -571,7 +571,7 @@
             <h1>Digitalisasi Tata Kelola Kedinasan <br><span class="highlight">BPS Kabupaten Demak</span></h1>
             
             <p class="hero-desc">
-                Platform all-in-one terpadu untuk administrasi surat keluar/masuk, alur disposisi, rekapitulasi SP2D & perpajakan (CoreTax), persediaan ATK/ARK, hingga agenda dinas dan notulensi rapat.
+                Platform all-in-one terpadu untuk administrasi surat keluar/masuk, alur disposisi, rekapitulasi SP2D & rincian pajak, persediaan ATK/ARK, hingga agenda dinas dan notulensi rapat.
             </p>
 
             <div class="hero-cta">
@@ -586,8 +586,8 @@
 
             <div class="stats-bar">
                 <div class="stat-item">
-                    <div class="stat-num">CoreTax Ready</div>
-                    <div class="stat-label">Format Faktur Pajak Baru</div>
+                    <div class="stat-num">Rekap Per Pihak</div>
+                    <div class="stat-label">Akumulasi Pajak per NPWP / NIK</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-num">Multi-Sheet & PDF</div>
@@ -615,7 +615,7 @@
             </div>
 
             <div class="grid-cards">
-                <!-- Card 1: Rekap SP2D & Pajak CoreTax -->
+                <!-- Card 1: Rekap SP2D & Pajak Per Pihak -->
                 <div class="feature-card">
                     <div class="card-top">
                         <div class="card-icon-wrap" style="background: #e0f2fe; color: #0284c7;">
@@ -623,8 +623,8 @@
                         </div>
                         <span class="badge-active">Terbaru v2.0</span>
                     </div>
-                    <h3>Rekap SP2D & CoreTax</h3>
-                    <p>Import otomatis data SP2D MyIntress, pemisahan rincian pajak (PPh 21, 22, 23, PPN, PFK) hingga sistem perpajakan terbaru CoreTax.</p>
+                    <h3>Rekap SP2D & Pajak</h3>
+                    <p>Import otomatis data SP2D MyIntress, pemisahan rincian potongan pajak, dan rekapitulasi akumulasi per entitas penerima.</p>
                     <ul class="feature-bullets">
                         <li>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
