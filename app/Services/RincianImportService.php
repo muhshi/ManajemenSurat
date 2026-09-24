@@ -4,6 +4,8 @@ namespace App\Services;
 
 use OpenSpout\Reader\XLSX\Reader;
 use Illuminate\Support\Str;
+use App\Models\Sp2dPajak;
+use App\Models\User;
 
 class RincianImportService
 {
@@ -25,10 +27,10 @@ class RincianImportService
                     if ($jenisFile === 'gaji' && in_array('nmpeg', $tempHeader, true) && (in_array('potpfk10', $tempHeader, true) || in_array('iwp', $tempHeader, true))) {
                         $header = $tempHeader;
                         $headerFound = true;
-                    } elseif ($jenisFile === 'tukin' && in_array('nama_pegawai', $tempHeader, true) && in_array('pajak', $tempHeader, true)) {
+                    } elseif ($jenisFile === 'tukin' && (in_array('nama_pegawai', $tempHeader, true) || in_array('nmpeg', $tempHeader, true) || in_array('nama', $tempHeader, true)) && in_array('pajak', $tempHeader, true)) {
                         $header = $tempHeader;
                         $headerFound = true;
-                    } elseif ($jenisFile === 'uang_makan' && in_array('nmpeg', $tempHeader, true) && in_array('potongan', $tempHeader, true)) {
+                    } elseif ($jenisFile === 'uang_makan' && (in_array('nmpeg', $tempHeader, true) || in_array('nama_pegawai', $tempHeader, true)) && in_array('potongan', $tempHeader, true)) {
                         $header = $tempHeader;
                         $headerFound = true;
                     } elseif ($jenisFile === 'uang_lembur' && in_array('pajak', $tempHeader, true) && (in_array('nmpeg', $tempHeader, true) || in_array('nmrek', $tempHeader, true))) {
@@ -70,13 +72,47 @@ class RincianImportService
             return (int) preg_replace('/[^\d]/', '', $valStr);
         };
         
-        $npwp = (string)($data['npwp'] ?? '');
-        // Clean npwp
-        $npwp = preg_replace('/[^0-9]/', '', $npwp);
+        $cleanDigits = fn($val) => preg_replace('/[^0-9]/', '', (string)($val ?? ''));
+
+        $npwp = $cleanDigits($data['npwp'] ?? '');
+        $nip = $cleanDigits($data['nip'] ?? $data['nip_baru'] ?? '');
+        $nik = $cleanDigits($data['nik'] ?? $data['noktp'] ?? $data['no_ktp'] ?? '');
+        $rawIdentifier = $npwp ?: ($nip ?: $nik);
+
+        static $resolvedCache = [];
+        $resolveIdentifier = function (string $nama, string $identifier) use (&$resolvedCache): string {
+            if (!empty($identifier)) {
+                return $identifier;
+            }
+            $cleanNama = trim($nama);
+            if (!$cleanNama) return '';
+
+            if (isset($resolvedCache[$cleanNama])) {
+                return $resolvedCache[$cleanNama];
+            }
+
+            // Cek riwayat Sp2dPajak
+            $found = Sp2dPajak::whereRaw('TRIM(nama_pihak) = ?', [$cleanNama])
+                ->whereNotNull('npwp_nik')
+                ->where('npwp_nik', '!=', '')
+                ->value('npwp_nik');
+
+            if (!$found) {
+                // Cek tabel User
+                $user = User::whereRaw('TRIM(name) = ?', [$cleanNama])->first();
+                if ($user) {
+                    $found = (string)($user->nip_baru ?: ($user->nip ?? ''));
+                }
+            }
+
+            $resolvedCache[$cleanNama] = $found ?: '';
+            return $resolvedCache[$cleanNama];
+        };
 
         if ($jenisFile === 'gaji') {
             $nama = (string)($data['nmpeg'] ?? '');
             if (!$nama) return;
+            $identifier = $resolveIdentifier($nama, $rawIdentifier);
             
             $taxes = [
                 '811311' => $parseAmount($data['potpfkbul'] ?? 0),
@@ -85,16 +121,12 @@ class RincianImportService
                 '811135' => $parseAmount($data['bpjs'] ?? 0),
                 '411121' => $parseAmount($data['potpph'] ?? $data['pph'] ?? 0),
                 '425151' => $parseAmount($data['potswrum'] ?? $data['sewarmh'] ?? 0),
-                // Note: tambah kolom lain di sini jika kode pajaknya sudah diketahui
-                // 'KODE_???' => $parseAmount($data['potkelbtj'] ?? 0),
-                // 'KODE_???' => $parseAmount($data['potlain'] ?? 0),
-                // 'KODE_???' => $parseAmount($data['pottabrum'] ?? 0),
             ];
             
             foreach ($taxes as $kode => $nominal) {
                 if ($nominal > 0) {
                     $results[Str::uuid()->toString()] = [
-                        'npwp_nik' => $npwp,
+                        'npwp_nik' => $identifier,
                         'nama_pihak' => $nama,
                         'kode_akun_pajak' => $kode,
                         'dpp' => 0,
@@ -103,13 +135,14 @@ class RincianImportService
                 }
             }
         } elseif ($jenisFile === 'tukin') {
-            $nama = (string)($data['nama_pegawai'] ?? '');
+            $nama = (string)($data['nama_pegawai'] ?? $data['nama'] ?? $data['nmpeg'] ?? '');
             if (!$nama) return;
+            $identifier = $resolveIdentifier($nama, $rawIdentifier);
             
             $nominal = $parseAmount($data['pajak'] ?? 0);
             if ($nominal > 0) {
                 $results[Str::uuid()->toString()] = [
-                    'npwp_nik' => $npwp,
+                    'npwp_nik' => $identifier,
                     'nama_pihak' => $nama,
                     'kode_akun_pajak' => '411121', // PPh 21
                     'dpp' => 0,
@@ -117,13 +150,14 @@ class RincianImportService
                 ];
             }
         } elseif ($jenisFile === 'uang_makan') {
-            $nama = (string)($data['nmpeg'] ?? '');
+            $nama = (string)($data['nmpeg'] ?? $data['nama_pegawai'] ?? $data['nama'] ?? '');
             if (!$nama) return;
+            $identifier = $resolveIdentifier($nama, $rawIdentifier);
             
             $nominal = $parseAmount($data['potongan'] ?? 0);
             if ($nominal > 0) {
                 $results[Str::uuid()->toString()] = [
-                    'npwp_nik' => $npwp,
+                    'npwp_nik' => $identifier,
                     'nama_pihak' => $nama,
                     'kode_akun_pajak' => '411121', // PPh 21
                     'dpp' => 0,
@@ -132,12 +166,9 @@ class RincianImportService
             }
         } elseif ($jenisFile === 'uang_lembur') {
             // Nama bisa di kolom nmpeg (nama pegawai) atau nmrek (nama rekening)
-            $nama = trim((string)($data['nmpeg'] ?? $data['nmrek'] ?? ''));
+            $nama = trim((string)($data['nmpeg'] ?? $data['nmrek'] ?? $data['nama_pegawai'] ?? ''));
             if (!$nama) return;
-
-            // Gunakan NIP sebagai identifier jika NPWP kosong
-            $nip = preg_replace('/[^0-9]/', '', (string)($data['nip'] ?? ''));
-            $identifier = $npwp ?: $nip;
+            $identifier = $resolveIdentifier($nama, $rawIdentifier);
 
             $nominal = $parseAmount($data['pajak'] ?? 0);
             if ($nominal > 0) {
