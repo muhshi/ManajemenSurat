@@ -203,11 +203,23 @@ class Sp2dImportService
                                     preg_match('/^(\d{6})/', $akun, $matches);
                                     $kodeAkun = $matches[1] ?? $akun;
                                     
+                                    // Cari NPWP / NIK dari riwayat pajak sebelumnya atau dari data users
+                                    $npwpNik = Sp2dPajak::whereRaw('TRIM(nama_pihak) = ?', [$atasNama])
+                                        ->whereNotNull('npwp_nik')
+                                        ->where('npwp_nik', '!=', '')
+                                        ->value('npwp_nik');
+
+                                    if (!$npwpNik) {
+                                        $npwpNik = \App\Models\User::whereRaw('TRIM(name) = ?', [$atasNama])
+                                            ->value('nip_baru') ?? \App\Models\User::whereRaw('TRIM(name) = ?', [$atasNama])->value('nip');
+                                    }
+
                                     Sp2dPajak::firstOrCreate([
                                         'sp2d_rekap_id' => $rekap->id,
                                         'kode_akun_pajak' => $kodeAkun,
                                         'nama_pihak' => $atasNama,
                                     ], [
+                                        'npwp_nik' => $npwpNik,
                                         'nama_akun_pajak' => $akun,
                                         'nominal_pajak' => $jumlahPajak,
                                         'dpp' => 0, // DPP mungkin perlu dihitung jika perlu
