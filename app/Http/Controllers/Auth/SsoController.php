@@ -103,6 +103,11 @@ class SsoController extends Controller
 
         Auth::login($localUser);
 
+        Notification::make()
+            ->title('Profil Berhasil Disinkronkan dari SIPETRA')
+            ->success()
+            ->send();
+
         return redirect()->intended(route('filament.admin.pages.dashboard'));
     }
 }

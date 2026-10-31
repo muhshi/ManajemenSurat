@@ -10,6 +10,7 @@ use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -35,6 +36,17 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Profil & Password (SIPETRA)')
+                    ->url(fn (): string => rtrim(config('services.sipetra.base_url', 'https://bpsdemak.com'), '/') . '/account')
+                    ->icon('heroicon-o-shield-check')
+                    ->openUrlInNewTab(),
+                MenuItem::make()
+                    ->label('Sinkronkan Profil dari SIPETRA')
+                    ->url(fn (): string => route('sipetra.login'))
+                    ->icon('heroicon-o-arrow-path'),
+            ])
             ->brandName('BPS Kabupaten Demak')
             ->brandLogo(fn() => asset('images/logo_bps.png'))
             ->brandLogoHeight('3rem')
