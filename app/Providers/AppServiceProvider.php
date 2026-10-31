@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Responses\SsoLogoutResponse;
+use Filament\Auth\Http\Responses\Contracts\LogoutResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Socialite\Facades\Socialite;
-use App\Providers\SipetraSocialiteProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        if (interface_exists(LogoutResponse::class)) {
+            $this->app->singleton(LogoutResponse::class, SsoLogoutResponse::class);
+        }
     }
 
     /**
@@ -26,10 +30,10 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Tambalan sementara untuk environment lokal dengan SQLite
-        // Agar query YEAR() spesifik MySQL tidak menyebabkan error 
+        // Agar query YEAR() spesifik MySQL tidak menyebabkan error
         try {
-            if (app()->environment('local') && \Illuminate\Support\Facades\DB::connection()->getDriverName() === 'sqlite') {
-                \Illuminate\Support\Facades\DB::connection()->getPdo()->sqliteCreateFunction('YEAR', function ($date) {
+            if (app()->environment('local') && DB::connection()->getDriverName() === 'sqlite') {
+                DB::connection()->getPdo()->sqliteCreateFunction('YEAR', function ($date) {
                     return date('Y', strtotime($date));
                 });
             }
@@ -39,12 +43,13 @@ class AppServiceProvider extends ServiceProvider
 
         // Defer until all service providers are fully booted.
         // Guard with class_exists so the app doesn't crash if socialite is missing.
-        if (class_exists(\Laravel\Socialite\Facades\Socialite::class)) {
+        if (class_exists(Socialite::class)) {
             $this->app->booted(function () {
                 try {
-                    \Laravel\Socialite\Facades\Socialite::extend('sipetra', function ($app) {
+                    Socialite::extend('sipetra', function ($app) {
                         $config = $app['config']['services.sipetra'];
-                        return \Laravel\Socialite\Facades\Socialite::buildProvider(SipetraSocialiteProvider::class, $config);
+
+                        return Socialite::buildProvider(SipetraSocialiteProvider::class, $config);
                     });
                 } catch (\Exception $e) {
                     // Ignore if contract is not bound yet

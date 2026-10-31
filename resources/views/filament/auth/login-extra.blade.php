@@ -6,6 +6,7 @@
         outlined
         icon="heroicon-m-arrow-right-on-rectangle"
         full-width
+        onclick="if(this.getAttribute('data-submitting')) return false; this.setAttribute('data-submitting', '1'); this.style.pointerEvents='none'; this.style.opacity='0.75';"
     >
         Login dengan SIPETRA
     </x-filament::button>

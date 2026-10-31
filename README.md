@@ -136,7 +136,13 @@ The MIT License (MIT).
 
 Semua perubahan yang mencolok pada project ini akan didokumentasikan di bawah. Menggunakan format [Keep a Changelog](https://keepachangelog.com/id/1.0.0/).
 
-### [2026-09-07] (Latest)
+### [2026-10-31] (Latest)
+#### Added
+- **Federated Single Logout (SLO) & Anti Double-Click SSO Button**:
+  - Implementasi `SsoLogoutResponse` pada Filament agar logout pengguna otomatis memutus sesi terpusat di SIPETRA (`/oauth/logout`) dan mencegah login otomatis tanpa kredensial.
+  - Menambahkan animasi loading spinner dan disable state pada tombol "Masuk dengan SIPETRA SSO" untuk mencegah submit ganda.
+
+### [2026-09-07]
 #### Added
 - **Skrip Deployment Cerdas (`deploy.sh`)**:
   - Otomatis mendeteksi kebutuhan build Docker image berdasarkan perubahan pada file konfigurasi (`Dockerfile`, `docker-compose.yml`, `Caddyfile`), dependensi (`composer.lock`, `package.json`), dan aset Vite (`resources/css`, `resources/js`).
