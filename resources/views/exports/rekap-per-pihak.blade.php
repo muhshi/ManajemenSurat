@@ -90,7 +90,7 @@
                             <td>
                                 <strong>{{ $dtl['nama_pihak'] }}</strong>
                                 @if(!empty($dtl['npwp_nik']))
-                                    <div style="font-size: 7.5px; color: #555;">NPWP/NIK: {{ $dtl['npwp_nik'] }}</div>
+                                    <div style="font-size: 7.5px; color: #555;">NIP/NPWP: {{ $dtl['npwp_nik'] }}</div>
                                 @endif
                             </td>
                             <td>{{ $dtl['no_sp2d'] }}</td>

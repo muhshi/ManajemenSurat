@@ -254,7 +254,7 @@ class Sp2dRekapResource extends Resource
                                                     }
                                                 }),
                                             Forms\Components\TextInput::make('npwp_nik')
-                                                ->label('NPWP / NIK')
+                                                ->label('NIP / NPWP')
                                                 ->dehydrateStateUsing(fn ($state) => \App\Services\PartyNameNormalizer::cleanIdentifier($state)),
                                             Forms\Components\TextInput::make('nama_pihak')
                                                 ->label('Nama Pihak')

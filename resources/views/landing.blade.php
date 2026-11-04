@@ -587,7 +587,7 @@
             <div class="stats-bar">
                 <div class="stat-item">
                     <div class="stat-num">Rekap Per Pihak</div>
-                    <div class="stat-label">Akumulasi Pajak per NPWP / NIK</div>
+                    <div class="stat-label">Akumulasi Pajak per NIP / NPWP</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-num">Multi-Sheet & PDF</div>
@@ -628,7 +628,7 @@
                     <ul class="feature-bullets">
                         <li>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            Rekap Potongan Pajak Per Pihak (NPWP/NIK)
+                            Rekap Potongan Pajak Per Pihak (NIP/NPWP)
                         </li>
                         <li>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>

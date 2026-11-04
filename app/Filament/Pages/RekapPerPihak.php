@@ -565,7 +565,7 @@ class RekapPerPihak extends Page implements HasTable
                     ->action(function ($livewire) {
                         $exportInfo = $this->getExportData($livewire);
 
-                        $csvHeader = ['No', 'Bulan', 'Tahun', 'No. SP2D', 'Tanggal SP2D', 'Jenis SPM', 'Nama Pihak', 'NPWP / NIK', 'Kode Akun Pajak', 'Nama Akun Pajak', 'Nominal Pajak', 'Uraian SP2D'];
+                        $csvHeader = ['No', 'Bulan', 'Tahun', 'No. SP2D', 'Tanggal SP2D', 'Jenis SPM', 'Nama Pihak', 'NIP / NPWP', 'Kode Akun Pajak', 'Nama Akun Pajak', 'Nominal Pajak', 'Uraian SP2D'];
                         $csvRows = [$csvHeader];
                         $totalNominal = 0;
 
