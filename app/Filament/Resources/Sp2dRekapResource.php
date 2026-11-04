@@ -123,13 +123,24 @@ class Sp2dRekapResource extends Resource
                                             
                                             $grouped = [];
                                             foreach ($results as $pajak) {
-                                                $key = $pajak['npwp_nik'] . '|' . $pajak['nama_pihak'];
+                                                $namaPihak = \App\Services\PartyNameNormalizer::normalize($pajak['nama_pihak']);
+                                                $npwpNik = \App\Services\PartyNameNormalizer::cleanIdentifier($pajak['npwp_nik'] ?? '');
+                                                if (!$npwpNik) {
+                                                    $npwpNik = \App\Services\PartyNameNormalizer::resolveIdentifier($namaPihak);
+                                                }
+                                                
+                                                // Konsolidasi berdasarkan identifier unik (NIP/NPWP/NIK) atau nama pihak yang distandarisasi
+                                                $key = $npwpNik ?: $namaPihak;
                                                 if (!isset($grouped[$key])) {
                                                     $grouped[$key] = [
-                                                        'npwp_nik' => $pajak['npwp_nik'],
-                                                        'nama_pihak' => $pajak['nama_pihak'],
+                                                        'npwp_nik' => $npwpNik,
+                                                        'nama_pihak' => $namaPihak,
                                                         'rincian_pajak' => []
                                                     ];
+                                                } else {
+                                                    if (!empty($npwpNik) && empty($grouped[$key]['npwp_nik'])) {
+                                                        $grouped[$key]['npwp_nik'] = $npwpNik;
+                                                    }
                                                 }
                                                 $grouped[$key]['rincian_pajak'][] = [
                                                     'kode_akun_pajak' => $pajak['kode_akun_pajak'],
@@ -236,17 +247,19 @@ class Sp2dRekapResource extends Resource
                                                     if ($state) {
                                                         $data = json_decode($state, true);
                                                         if (is_array($data)) {
-                                                            $set('nama_pihak', $data['nama'] ?? '');
-                                                            $set('npwp_nik', $data['npwp'] ?? '');
+                                                            $set('nama_pihak', \App\Services\PartyNameNormalizer::normalize($data['nama'] ?? ''));
+                                                            $set('npwp_nik', \App\Services\PartyNameNormalizer::cleanIdentifier($data['npwp'] ?? ''));
                                                         }
                                                         $set('search_pihak', null);
                                                     }
                                                 }),
                                             Forms\Components\TextInput::make('npwp_nik')
-                                                ->label('NPWP / NIK'),
+                                                ->label('NPWP / NIK')
+                                                ->dehydrateStateUsing(fn ($state) => \App\Services\PartyNameNormalizer::cleanIdentifier($state)),
                                             Forms\Components\TextInput::make('nama_pihak')
                                                 ->label('Nama Pihak')
                                                 ->required()
+                                                ->dehydrateStateUsing(fn ($state) => \App\Services\PartyNameNormalizer::normalize($state))
                                                 ->validationMessages([
                                                     'required' => 'Nama pihak wajib diisi.',
                                                 ]),
@@ -521,9 +534,15 @@ class Sp2dRekapResource extends Resource
                             
                             $flat = [];
                             foreach ($results as $pajak) {
+                                $namaPihak = \App\Services\PartyNameNormalizer::normalize($pajak['nama_pihak']);
+                                $npwpNik = \App\Services\PartyNameNormalizer::cleanIdentifier($pajak['npwp_nik'] ?? '');
+                                if (!$npwpNik) {
+                                    $npwpNik = \App\Services\PartyNameNormalizer::resolveIdentifier($namaPihak);
+                                }
+                                
                                 $flat[] = [
-                                    'npwp_nik' => $pajak['npwp_nik'] ?? null,
-                                    'nama_pihak' => $pajak['nama_pihak'],
+                                    'npwp_nik' => $npwpNik ?: null,
+                                    'nama_pihak' => $namaPihak,
                                     'kode_akun_pajak' => $pajak['kode_akun_pajak'],
                                     'dpp' => (float)($pajak['dpp'] ?? 0),
                                     'nominal_pajak' => (float)($pajak['nominal_pajak'] ?? 0),
@@ -571,13 +590,23 @@ class Sp2dRekapResource extends Resource
                         $pajaks = $record->pajaks->toArray();
                         $grouped = [];
                         foreach ($pajaks as $pajak) {
-                            $key = $pajak['npwp_nik'] . '|' . $pajak['nama_pihak'];
+                            $namaPihak = \App\Services\PartyNameNormalizer::normalize($pajak['nama_pihak'] ?? '');
+                            $npwpNik = \App\Services\PartyNameNormalizer::cleanIdentifier($pajak['npwp_nik'] ?? '');
+                            if (!$npwpNik) {
+                                $npwpNik = \App\Services\PartyNameNormalizer::resolveIdentifier($namaPihak);
+                            }
+                            
+                            $key = $npwpNik ?: $namaPihak;
                             if (!isset($grouped[$key])) {
                                 $grouped[$key] = [
-                                    'npwp_nik' => $pajak['npwp_nik'],
-                                    'nama_pihak' => $pajak['nama_pihak'],
+                                    'npwp_nik' => $npwpNik,
+                                    'nama_pihak' => $namaPihak,
                                     'rincian_pajak' => []
                                 ];
+                            } else {
+                                if (!empty($npwpNik) && empty($grouped[$key]['npwp_nik'])) {
+                                    $grouped[$key]['npwp_nik'] = $npwpNik;
+                                }
                             }
                             $grouped[$key]['rincian_pajak'][] = [
                                 'kode_akun_pajak' => $pajak['kode_akun_pajak'],
@@ -594,10 +623,16 @@ class Sp2dRekapResource extends Resource
                         
                         $flat = [];
                         foreach ($data['grouped_pajaks'] ?? [] as $group) {
+                            $namaPihak = \App\Services\PartyNameNormalizer::normalize($group['nama_pihak'] ?? '');
+                            $npwpNik = \App\Services\PartyNameNormalizer::cleanIdentifier($group['npwp_nik'] ?? '');
+                            if (!$npwpNik) {
+                                $npwpNik = \App\Services\PartyNameNormalizer::resolveIdentifier($namaPihak);
+                            }
+                            
                             foreach ($group['rincian_pajak'] ?? [] as $rincian) {
                                 $flat[] = [
-                                    'npwp_nik' => $group['npwp_nik'] ?? null,
-                                    'nama_pihak' => $group['nama_pihak'],
+                                    'npwp_nik' => $npwpNik ?: null,
+                                    'nama_pihak' => $namaPihak,
                                     'kode_akun_pajak' => $rincian['kode_akun_pajak'],
                                     'dpp' => (float) preg_replace('/[^0-9\-]/', '', (string)($rincian['dpp'] ?? '0')),
                                     'nominal_pajak' => (float) preg_replace('/[^0-9\-]/', '', (string)($rincian['nominal_pajak'] ?? '0')),

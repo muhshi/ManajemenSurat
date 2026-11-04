@@ -178,10 +178,11 @@ class Sp2dImportService
                         }
 
                         if ($rekap) {
-                            $atasNama = trim((string)($data['atas nama'] ?? ''));
+                            $atasNamaRaw = trim((string)($data['atas nama'] ?? ''));
+                            $atasNama = \App\Services\PartyNameNormalizer::normalize($atasNamaRaw);
                             
                             // Deteksi: Apakah Atas Nama = BPS Demak?
-                            $isBps = str_contains(strtoupper($atasNama), 'BADAN PUSAT STATISTIK KAB. DEMAK') || str_contains(strtoupper($atasNama), '018871-');
+                            $isBps = str_contains(strtoupper($atasNamaRaw), 'BADAN PUSAT STATISTIK KAB. DEMAK') || str_contains(strtoupper($atasNamaRaw), '018871-');
 
                             // Jika bukan BPS (Pihak Ketiga) dan bukan UP, otomatis paksa jadi 1 Pihak!
                             if (!$isBps && $rekap->jalur_transaksi !== 'up') {
@@ -204,22 +205,14 @@ class Sp2dImportService
                                     $kodeAkun = $matches[1] ?? $akun;
                                     
                                     // Cari NPWP / NIK dari riwayat pajak sebelumnya atau dari data users
-                                    $npwpNik = Sp2dPajak::whereRaw('TRIM(nama_pihak) = ?', [$atasNama])
-                                        ->whereNotNull('npwp_nik')
-                                        ->where('npwp_nik', '!=', '')
-                                        ->value('npwp_nik');
-
-                                    if (!$npwpNik) {
-                                        $npwpNik = \App\Models\User::whereRaw('TRIM(name) = ?', [$atasNama])
-                                            ->value('nip_baru') ?? \App\Models\User::whereRaw('TRIM(name) = ?', [$atasNama])->value('nip');
-                                    }
+                                    $npwpNik = \App\Services\PartyNameNormalizer::resolveIdentifier($atasNama);
 
                                     Sp2dPajak::firstOrCreate([
                                         'sp2d_rekap_id' => $rekap->id,
                                         'kode_akun_pajak' => $kodeAkun,
                                         'nama_pihak' => $atasNama,
                                     ], [
-                                        'npwp_nik' => $npwpNik,
+                                        'npwp_nik' => $npwpNik ?: null,
                                         'nama_akun_pajak' => $akun,
                                         'nominal_pajak' => $jumlahPajak,
                                         'dpp' => 0, // DPP mungkin perlu dihitung jika perlu

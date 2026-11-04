@@ -4,8 +4,6 @@ namespace App\Services;
 
 use OpenSpout\Reader\XLSX\Reader;
 use Illuminate\Support\Str;
-use App\Models\Sp2dPajak;
-use App\Models\User;
 
 class RincianImportService
 {
@@ -79,40 +77,17 @@ class RincianImportService
         $nik = $cleanDigits($data['nik'] ?? $data['noktp'] ?? $data['no_ktp'] ?? '');
         $rawIdentifier = $npwp ?: ($nip ?: $nik);
 
-        static $resolvedCache = [];
-        $resolveIdentifier = function (string $nama, string $identifier) use (&$resolvedCache): string {
-            if (!empty($identifier)) {
-                return $identifier;
-            }
-            $cleanNama = trim($nama);
-            if (!$cleanNama) return '';
-
-            if (isset($resolvedCache[$cleanNama])) {
-                return $resolvedCache[$cleanNama];
-            }
-
-            // Cek riwayat Sp2dPajak
-            $found = Sp2dPajak::whereRaw('TRIM(nama_pihak) = ?', [$cleanNama])
-                ->whereNotNull('npwp_nik')
-                ->where('npwp_nik', '!=', '')
-                ->value('npwp_nik');
-
-            if (!$found) {
-                // Cek tabel User
-                $user = User::whereRaw('TRIM(name) = ?', [$cleanNama])->first();
-                if ($user) {
-                    $found = (string)($user->nip_baru ?: ($user->nip ?? ''));
-                }
-            }
-
-            $resolvedCache[$cleanNama] = $found ?: '';
-            return $resolvedCache[$cleanNama];
+        $resolveParty = function(string $rawNama) use ($rawIdentifier): array {
+            $normalizedNama = \App\Services\PartyNameNormalizer::normalize($rawNama);
+            $identifier = \App\Services\PartyNameNormalizer::resolveIdentifier($normalizedNama, $rawIdentifier);
+            return [$normalizedNama, $identifier];
         };
 
         if ($jenisFile === 'gaji') {
-            $nama = (string)($data['nmpeg'] ?? '');
+            $rawNama = (string)($data['nmpeg'] ?? '');
+            if (!$rawNama) return;
+            [$nama, $identifier] = $resolveParty($rawNama);
             if (!$nama) return;
-            $identifier = $resolveIdentifier($nama, $rawIdentifier);
             
             $taxes = [
                 '811311' => $parseAmount($data['potpfkbul'] ?? 0),
@@ -135,9 +110,10 @@ class RincianImportService
                 }
             }
         } elseif ($jenisFile === 'tukin') {
-            $nama = (string)($data['nama_pegawai'] ?? $data['nama'] ?? $data['nmpeg'] ?? '');
+            $rawNama = (string)($data['nama_pegawai'] ?? $data['nama'] ?? $data['nmpeg'] ?? '');
+            if (!$rawNama) return;
+            [$nama, $identifier] = $resolveParty($rawNama);
             if (!$nama) return;
-            $identifier = $resolveIdentifier($nama, $rawIdentifier);
             
             $nominal = $parseAmount($data['pajak'] ?? 0);
             if ($nominal > 0) {
@@ -150,9 +126,10 @@ class RincianImportService
                 ];
             }
         } elseif ($jenisFile === 'uang_makan') {
-            $nama = (string)($data['nmpeg'] ?? $data['nama_pegawai'] ?? $data['nama'] ?? '');
+            $rawNama = (string)($data['nmpeg'] ?? $data['nama_pegawai'] ?? $data['nama'] ?? '');
+            if (!$rawNama) return;
+            [$nama, $identifier] = $resolveParty($rawNama);
             if (!$nama) return;
-            $identifier = $resolveIdentifier($nama, $rawIdentifier);
             
             $nominal = $parseAmount($data['potongan'] ?? 0);
             if ($nominal > 0) {
@@ -166,9 +143,10 @@ class RincianImportService
             }
         } elseif ($jenisFile === 'uang_lembur') {
             // Nama bisa di kolom nmpeg (nama pegawai) atau nmrek (nama rekening)
-            $nama = trim((string)($data['nmpeg'] ?? $data['nmrek'] ?? $data['nama_pegawai'] ?? ''));
+            $rawNama = trim((string)($data['nmpeg'] ?? $data['nmrek'] ?? $data['nama_pegawai'] ?? ''));
+            if (!$rawNama) return;
+            [$nama, $identifier] = $resolveParty($rawNama);
             if (!$nama) return;
-            $identifier = $resolveIdentifier($nama, $rawIdentifier);
 
             $nominal = $parseAmount($data['pajak'] ?? 0);
             if ($nominal > 0) {

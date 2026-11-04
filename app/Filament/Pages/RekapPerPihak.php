@@ -53,7 +53,7 @@ class RekapPerPihak extends Page implements HasTable
         $selectRaw = "
             MIN(id) as id,
             MAX(NULLIF(npwp_nik, '')) as npwp_nik, 
-            TRIM(nama_pihak) as nama_pihak,
+            MAX(UPPER(TRIM(nama_pihak))) as nama_pihak,
         ";
 
         foreach ($akuns as $akun) {
@@ -66,6 +66,7 @@ class RekapPerPihak extends Page implements HasTable
         $columns = [
             TextColumn::make('nama_pihak')
                 ->label('Nama Pihak')
+                ->formatStateUsing(fn ($state) => \App\Services\PartyNameNormalizer::normalize($state))
                 ->searchable()
                 ->sortable()
                 ->wrap(),
@@ -116,7 +117,7 @@ class RekapPerPihak extends Page implements HasTable
                             $q->where('no_sp2d', 'like', "%{$noSp2d}%");
                         }
                     })
-                    ->groupBy(DB::raw('TRIM(nama_pihak)'));
+                    ->groupBy(DB::raw("CASE WHEN npwp_nik IS NOT NULL AND TRIM(npwp_nik) != '' THEN TRIM(npwp_nik) ELSE UPPER(TRIM(nama_pihak)) END"));
 
                 return $query->fromSub($subquery, 'sp2d_pajaks');
             })
@@ -177,7 +178,14 @@ class RekapPerPihak extends Page implements HasTable
                     ->modalCancelActionLabel('Tutup')
                     ->modalWidth('4xl')
                     ->modalContent(fn ($record, $livewire) => view('filament.pages.rincian-sp2d-modal', [
-                        'pajaks' => $record ? Sp2dPajak::whereRaw('TRIM(nama_pihak) = ?', [trim($record->nama_pihak)])
+                        'pajaks' => $record ? Sp2dPajak::where(function ($query) use ($record) {
+                                if (!empty($record->npwp_nik)) {
+                                    $query->where('npwp_nik', $record->npwp_nik)
+                                          ->orWhereRaw('UPPER(TRIM(nama_pihak)) = ?', [strtoupper(trim($record->nama_pihak))]);
+                                } else {
+                                    $query->whereRaw('UPPER(TRIM(nama_pihak)) = ?', [strtoupper(trim($record->nama_pihak))]);
+                                }
+                            })
                             ->whereHas('rekap', function ($q) use ($livewire) {
                                 $q->where('status_verifikasi', 'valid');
                                 $filterState = $livewire->getTableFilterState('periode') ?? [];
@@ -228,7 +236,7 @@ class RekapPerPihak extends Page implements HasTable
         $selectRaw = "
             MIN(id) as id,
             MAX(NULLIF(npwp_nik, '')) as npwp_nik, 
-            TRIM(nama_pihak) as nama_pihak,
+            MAX(UPPER(TRIM(nama_pihak))) as nama_pihak,
         ";
         foreach ($akuns as $akun) {
             $columnName = 'pajak_' . $akun->kode;
@@ -259,7 +267,7 @@ class RekapPerPihak extends Page implements HasTable
                         $q->where('no_sp2d', 'like', "%{$noSp2d}%");
                     }
                 })
-                ->groupBy(DB::raw('TRIM(nama_pihak)'));
+                ->groupBy(DB::raw("CASE WHEN npwp_nik IS NOT NULL AND TRIM(npwp_nik) != '' THEN TRIM(npwp_nik) ELSE UPPER(TRIM(nama_pihak)) END"));
 
             $query = Sp2dPajak::query()
                 ->fromSub($subquery, 'sp2d_pajaks')
@@ -268,7 +276,11 @@ class RekapPerPihak extends Page implements HasTable
             $records = $query->get();
             if ($records->isEmpty()) continue;
 
-            $knownNpwpMap = $records->pluck('npwp_nik', 'nama_pihak')->filter()->toArray();
+            $knownNpwpMap = [];
+            foreach ($records as $r) {
+                $key = !empty($r->npwp_nik) ? trim($r->npwp_nik) : \App\Services\PartyNameNormalizer::normalize($r->nama_pihak ?? '');
+                if (!empty($r->npwp_nik)) $knownNpwpMap[$key] = $r->npwp_nik;
+            }
 
             // Ambil semua transaksi mentah per SP2D untuk bulan ini
             $rawTransactions = Sp2dPajak::query()
@@ -290,7 +302,9 @@ class RekapPerPihak extends Page implements HasTable
             // Kelompokkan transaksi berdasarkan pihak dan kode akun untuk cell tooltip
             $groupedByPihakAkun = [];
             foreach ($rawTransactions as $tx) {
-                $pihakKey = trim($tx->nama_pihak ?? '');
+                // Gunakan npwp_nik (jika ada) sebagai kunci grup, fallback ke nama yang dinormalisasi
+                $normalizedNama = \App\Services\PartyNameNormalizer::normalize($tx->nama_pihak ?? '');
+                $pihakKey = !empty($tx->npwp_nik) ? trim($tx->npwp_nik) : $normalizedNama;
                 $groupedByPihakAkun[$pihakKey][$tx->kode_akun_pajak][] = $tx;
             }
 
@@ -303,11 +317,14 @@ class RekapPerPihak extends Page implements HasTable
             $rIndex = 0;
             foreach ($records as $record) {
                 $excelRow = $rIndex + 2; // header baris 1
-                $pihakKey = trim($record->nama_pihak ?? '');
+                // Kunci grup untuk mencocokkan dengan rawTransactions (identifier/nama dinormalisasi)
+                $normalizedRecordNama = \App\Services\PartyNameNormalizer::normalize($record->nama_pihak ?? '');
+                $pihakKey = !empty($record->npwp_nik) ? trim($record->npwp_nik) : $normalizedRecordNama;
                 $pihakTxGroups = $groupedByPihakAkun[$pihakKey] ?? [];
 
-                $pdfRow = [$record->nama_pihak, $record->npwp_nik];
-                $xlsRow = [$record->nama_pihak, $record->npwp_nik];
+                $displayNama = $normalizedRecordNama;
+                $pdfRow = [$displayNama, $record->npwp_nik];
+                $xlsRow = [$displayNama, $record->npwp_nik];
 
                 $colIndex = 2; // kolom C (indeks 2)
                 foreach ($akuns as $akun) {
@@ -377,15 +394,16 @@ class RekapPerPihak extends Page implements HasTable
                 $tglStr = $t->rekap?->tgl_sp2d ? \Carbon\Carbon::parse($t->rekap->tgl_sp2d)->format('d/m/Y') : '-';
                 $namaPajakStr = $masterAkun[$t->kode_akun_pajak] ?? 'Pajak Lainnya';
                 $nomFloat = (float) $t->nominal_pajak;
-                $pihakName = trim($t->nama_pihak ?? '');
-                $effectiveNpwp = $t->npwp_nik ?: ($knownNpwpMap[$pihakName] ?? null);
+                $normalizedNamaT = \App\Services\PartyNameNormalizer::normalize($t->nama_pihak ?? '');
+                $pihakKeyT = !empty($t->npwp_nik) ? trim($t->npwp_nik) : $normalizedNamaT;
+                $effectiveNpwp = $t->npwp_nik ?: ($knownNpwpMap[$pihakKeyT] ?? null);
 
                 $detailRows[] = [
                     $dNo++,
                     $t->rekap?->no_sp2d ?? '-',
                     $tglStr,
                     $t->rekap?->jenis_spm ?? '-',
-                    $t->nama_pihak,
+                    $normalizedNamaT,
                     $effectiveNpwp ?? '-',
                     (string) $t->kode_akun_pajak,
                     $namaPajakStr,
@@ -395,7 +413,7 @@ class RekapPerPihak extends Page implements HasTable
                 $dSum += $nomFloat;
 
                 $pdfDetails[] = [
-                    'nama_pihak'    => $t->nama_pihak,
+                    'nama_pihak'    => $normalizedNamaT,
                     'npwp_nik'      => $effectiveNpwp,
                     'no_sp2d'       => $t->rekap?->no_sp2d ?? '-',
                     'tgl_sp2d'      => $tglStr,
@@ -412,7 +430,7 @@ class RekapPerPihak extends Page implements HasTable
                     'no_sp2d'       => $t->rekap?->no_sp2d ?? '-',
                     'tgl_sp2d'      => $tglStr,
                     'jenis_spm'     => $t->rekap?->jenis_spm ?? '-',
-                    'nama_pihak'    => $t->nama_pihak,
+                    'nama_pihak'    => $normalizedNamaT,
                     'npwp_nik'      => $effectiveNpwp ?? '-',
                     'kode_akun'     => (string) $t->kode_akun_pajak,
                     'nama_pajak'    => $namaPajakStr,
