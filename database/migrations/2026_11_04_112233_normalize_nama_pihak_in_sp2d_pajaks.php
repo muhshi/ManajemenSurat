@@ -16,38 +16,37 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Sp2dPajak::chunkById(200, function ($pajaks) {
-            foreach ($pajaks as $pajak) {
-                $rawNama = $pajak->nama_pihak;
-                $normalizedNama = PartyNameNormalizer::normalize($rawNama);
+        $pajaks = Sp2dPajak::all();
 
-                $updateData = [];
+        foreach ($pajaks as $pajak) {
+            $rawNama = $pajak->nama_pihak;
+            $normalizedNama = PartyNameNormalizer::normalize($rawNama);
 
-                if ($normalizedNama !== '' && $normalizedNama !== $rawNama) {
-                    $updateData['nama_pihak'] = $normalizedNama;
-                }
+            if ($normalizedNama === mb_strtoupper(trim($rawNama ?? ''), 'UTF-8') && !empty($pajak->npwp_nik)) {
+                // Name is already normalized and identifier exists — skip
+                continue;
+            }
 
-                // Bersihkan npwp_nik jika ada format titik/strip
-                if (!empty($pajak->npwp_nik)) {
-                    $cleanedId = PartyNameNormalizer::cleanIdentifier($pajak->npwp_nik);
-                    if ($cleanedId !== $pajak->npwp_nik) {
-                        $updateData['npwp_nik'] = $cleanedId;
-                    }
-                } elseif ($normalizedNama) {
-                    // Cari dan lengkapi identifier jika masih kosong
-                    $resolved = PartyNameNormalizer::resolveIdentifier($normalizedNama);
-                    if ($resolved) {
-                        $updateData['npwp_nik'] = $resolved;
-                    }
-                }
+            $updateData = [];
 
-                if (!empty($updateData)) {
-                    $pajak->update($updateData);
+            if ($normalizedNama !== $rawNama) {
+                $updateData['nama_pihak'] = $normalizedNama;
+            }
+
+            // Re-resolve npwp_nik if empty
+            if (empty($pajak->npwp_nik) && $normalizedNama) {
+                $resolved = PartyNameNormalizer::resolveIdentifier($normalizedNama);
+                if ($resolved) {
+                    $updateData['npwp_nik'] = $resolved;
                 }
             }
-        });
 
-        // Propagasi NPWP/NIK yang diketahui ke baris dengan nama sama yang masih kosong
+            if (!empty($updateData)) {
+                $pajak->update($updateData);
+            }
+        }
+
+        // Also propagate known npwp_nik to records with same normalized name
         $knownPajaks = Sp2dPajak::whereNotNull('npwp_nik')
             ->where('npwp_nik', '!=', '')
             ->select(DB::raw('UPPER(TRIM(nama_pihak)) as nama'), DB::raw('MAX(npwp_nik) as npwp'))
