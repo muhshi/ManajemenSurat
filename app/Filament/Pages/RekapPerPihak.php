@@ -52,7 +52,10 @@ class RekapPerPihak extends Page implements HasTable
 
         $selectRaw = "
             MIN(id) as id,
-            MAX(NULLIF(npwp_nik, '')) as npwp_nik, 
+            COALESCE(
+                MAX(CASE WHEN LENGTH(TRIM(npwp_nik)) = 18 THEN TRIM(npwp_nik) END),
+                MAX(NULLIF(TRIM(npwp_nik), ''))
+            ) as npwp_nik, 
             MAX(UPPER(TRIM(nama_pihak))) as nama_pihak,
         ";
 
@@ -71,7 +74,7 @@ class RekapPerPihak extends Page implements HasTable
                 ->sortable()
                 ->wrap(),
             TextColumn::make('npwp_nik')
-                ->label('NPWP / NIK')
+                ->label('NIP / NPWP')
                 ->searchable(),
         ];
 
@@ -180,8 +183,7 @@ class RekapPerPihak extends Page implements HasTable
                     ->modalContent(fn ($record, $livewire) => view('filament.pages.rincian-sp2d-modal', [
                         'pajaks' => $record ? Sp2dPajak::where(function ($query) use ($record) {
                                 if (!empty($record->npwp_nik)) {
-                                    $query->where('npwp_nik', $record->npwp_nik)
-                                          ->orWhereRaw('UPPER(TRIM(nama_pihak)) = ?', [strtoupper(trim($record->nama_pihak))]);
+                                    $query->where('npwp_nik', $record->npwp_nik);
                                 } else {
                                     $query->whereRaw('UPPER(TRIM(nama_pihak)) = ?', [strtoupper(trim($record->nama_pihak))]);
                                 }
@@ -235,7 +237,10 @@ class RekapPerPihak extends Page implements HasTable
 
         $selectRaw = "
             MIN(id) as id,
-            MAX(NULLIF(npwp_nik, '')) as npwp_nik, 
+            COALESCE(
+                MAX(CASE WHEN LENGTH(TRIM(npwp_nik)) = 18 THEN TRIM(npwp_nik) END),
+                MAX(NULLIF(TRIM(npwp_nik), ''))
+            ) as npwp_nik, 
             MAX(UPPER(TRIM(nama_pihak))) as nama_pihak,
         ";
         foreach ($akuns as $akun) {
@@ -248,7 +253,7 @@ class RekapPerPihak extends Page implements HasTable
         $sheetsData = [];  // untuk multi-sheet Excel
         $allTransactionsAcrossMonths = [];
 
-        $headers = ['Nama Pihak', 'NPWP / NIK'];
+        $headers = ['Nama Pihak', 'NIP / NPWP'];
         foreach ($akuns as $akun) {
             $headers[] = $akun->kode . ' - ' . $akun->nama_lengkap;
         }
@@ -299,10 +304,9 @@ class RekapPerPihak extends Page implements HasTable
                 ->orderBy('id', 'asc')
                 ->get();
 
-            // Kelompokkan transaksi berdasarkan pihak dan kode akun untuk cell tooltip
+            // Kelompokkan transaksi berdasarkan identifier unik (NIP/NPWP) atau nama untuk cell tooltip
             $groupedByPihakAkun = [];
             foreach ($rawTransactions as $tx) {
-                // Gunakan npwp_nik (jika ada) sebagai kunci grup, fallback ke nama yang dinormalisasi
                 $normalizedNama = \App\Services\PartyNameNormalizer::normalize($tx->nama_pihak ?? '');
                 $pihakKey = !empty($tx->npwp_nik) ? trim($tx->npwp_nik) : $normalizedNama;
                 $groupedByPihakAkun[$pihakKey][$tx->kode_akun_pajak][] = $tx;
@@ -317,7 +321,6 @@ class RekapPerPihak extends Page implements HasTable
             $rIndex = 0;
             foreach ($records as $record) {
                 $excelRow = $rIndex + 2; // header baris 1
-                // Kunci grup untuk mencocokkan dengan rawTransactions (identifier/nama dinormalisasi)
                 $normalizedRecordNama = \App\Services\PartyNameNormalizer::normalize($record->nama_pihak ?? '');
                 $pihakKey = !empty($record->npwp_nik) ? trim($record->npwp_nik) : $normalizedRecordNama;
                 $pihakTxGroups = $groupedByPihakAkun[$pihakKey] ?? [];
@@ -384,7 +387,7 @@ class RekapPerPihak extends Page implements HasTable
             $xlsGrandTotal[] = (float) $sumTotal;
 
             // Sheet Detail untuk Excel
-            $detailHeaders = ['No', 'No. SP2D', 'Tanggal SP2D', 'Jenis SPM', 'Nama Pihak', 'NPWP / NIK', 'Kode Akun', 'Nama Pajak', 'Nominal Potongan', 'Uraian SP2D'];
+            $detailHeaders = ['No', 'No. SP2D', 'Tanggal SP2D', 'Jenis SPM', 'Nama Pihak', 'NIP / NPWP', 'Kode Akun', 'Nama Pajak', 'Nominal Potongan', 'Uraian SP2D'];
             $detailRows = [$detailHeaders];
             $dNo = 1;
             $dSum = 0;

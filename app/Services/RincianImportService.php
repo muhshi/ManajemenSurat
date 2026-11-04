@@ -72,10 +72,10 @@ class RincianImportService
         
         $cleanDigits = fn($val) => preg_replace('/[^0-9]/', '', (string)($val ?? ''));
 
-        $npwp = $cleanDigits($data['npwp'] ?? '');
         $nip = $cleanDigits($data['nip'] ?? $data['nip_baru'] ?? '');
+        $npwp = $cleanDigits($data['npwp'] ?? '');
         $nik = $cleanDigits($data['nik'] ?? $data['noktp'] ?? $data['no_ktp'] ?? '');
-        $rawIdentifier = $npwp ?: ($nip ?: $nik);
+        $rawIdentifier = $nip ?: ($npwp ?: $nik);
 
         $resolveParty = function(string $rawNama) use ($rawIdentifier): array {
             $normalizedNama = \App\Services\PartyNameNormalizer::normalize($rawNama);

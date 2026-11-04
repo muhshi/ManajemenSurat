@@ -129,8 +129,8 @@ class Sp2dRekapResource extends Resource
                                                     $npwpNik = \App\Services\PartyNameNormalizer::resolveIdentifier($namaPihak);
                                                 }
                                                 
-                                                // Konsolidasi berdasarkan identifier unik (NIP/NPWP/NIK) atau nama pihak yang distandarisasi
-                                                $key = $npwpNik ?: $namaPihak;
+                                                // Konsolidasi berdasarkan nama pihak yang distandarisasi
+                                                $key = $namaPihak ?: ($npwpNik ?: 'LAINNYA');
                                                 if (!isset($grouped[$key])) {
                                                     $grouped[$key] = [
                                                         'npwp_nik' => $npwpNik,
@@ -138,7 +138,7 @@ class Sp2dRekapResource extends Resource
                                                         'rincian_pajak' => []
                                                     ];
                                                 } else {
-                                                    if (!empty($npwpNik) && empty($grouped[$key]['npwp_nik'])) {
+                                                    if (!empty($npwpNik) && (empty($grouped[$key]['npwp_nik']) || strlen($npwpNik) === 18)) {
                                                         $grouped[$key]['npwp_nik'] = $npwpNik;
                                                     }
                                                 }
@@ -596,7 +596,8 @@ class Sp2dRekapResource extends Resource
                                 $npwpNik = \App\Services\PartyNameNormalizer::resolveIdentifier($namaPihak);
                             }
                             
-                            $key = $npwpNik ?: $namaPihak;
+                            // Konsolidasi berdasarkan nama pihak yang distandarisasi
+                            $key = $namaPihak ?: ($npwpNik ?: 'LAINNYA');
                             if (!isset($grouped[$key])) {
                                 $grouped[$key] = [
                                     'npwp_nik' => $npwpNik,
@@ -604,7 +605,7 @@ class Sp2dRekapResource extends Resource
                                     'rincian_pajak' => []
                                 ];
                             } else {
-                                if (!empty($npwpNik) && empty($grouped[$key]['npwp_nik'])) {
+                                if (!empty($npwpNik) && (empty($grouped[$key]['npwp_nik']) || strlen($npwpNik) === 18)) {
                                     $grouped[$key]['npwp_nik'] = $npwpNik;
                                 }
                             }

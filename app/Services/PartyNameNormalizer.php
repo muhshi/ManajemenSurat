@@ -160,61 +160,79 @@ class PartyNameNormalizer
 
     /**
      * Resolve unique identifier (NIP/NPWP/NIK) for a normalized name.
+     * Prioritizes 18-digit NIP for BPS employees.
      */
     public static function resolveIdentifier(string $name, ?string $rawIdentifier = null): string
     {
         $cleanId = self::cleanIdentifier($rawIdentifier);
-        if (!empty($cleanId)) {
+        $normalizedName = self::normalize($name);
+        if (!$normalizedName) {
             return $cleanId;
         }
 
-        $normalizedName = self::normalize($name);
-        if (!$normalizedName) {
-            return '';
+        // Jika rawIdentifier sudah berupa NIP 18 digit, langsung gunakan
+        if (strlen($cleanId) === 18) {
+            return $cleanId;
         }
 
         if (isset(self::$resolvedIdentifierCache[$normalizedName])) {
             return self::$resolvedIdentifierCache[$normalizedName];
         }
 
-        // 1. Cek riwayat Sp2dPajak
-        $found = Sp2dPajak::whereRaw('UPPER(TRIM(nama_pihak)) = ?', [$normalizedName])
-            ->whereNotNull('npwp_nik')
-            ->where('npwp_nik', '!=', '')
-            ->value('npwp_nik');
+        // 1. Cek User dan Pegawai: Jika nama ini terdaftar sebagai pegawai, utamakan NIP (18 digit)
+        $employeeNip = null;
+        $user = User::whereRaw('UPPER(TRIM(name)) = ?', [$normalizedName])->first();
+        if ($user && ($user->nip_baru || $user->nip)) {
+            $employeeNip = self::cleanIdentifier($user->nip_baru ?: $user->nip);
+        } else {
+            $users = User::where(function ($q) {
+                $q->whereNotNull('nip_baru')->orWhereNotNull('nip');
+            })->get();
+            foreach ($users as $u) {
+                if (self::normalize($u->name) === $normalizedName) {
+                    $employeeNip = self::cleanIdentifier($u->nip_baru ?: $u->nip);
+                    break;
+                }
+            }
+        }
 
-        // 2. Cek tabel User
-        if (!$found) {
-            $user = User::whereRaw('UPPER(TRIM(name)) = ?', [$normalizedName])->first();
-            if ($user) {
-                $found = (string)($user->nip_baru ?: ($user->nip ?? ''));
+        if (!$employeeNip && class_exists(Pegawai::class)) {
+            $pegawai = Pegawai::whereRaw('UPPER(TRIM(nama)) = ?', [$normalizedName])->first();
+            if ($pegawai && !empty($pegawai->nip)) {
+                $employeeNip = self::cleanIdentifier($pegawai->nip);
             } else {
-                $users = User::where(function ($q) {
-                    $q->whereNotNull('nip_baru')->orWhereNotNull('nip');
-                })->get();
-                foreach ($users as $u) {
-                    if (self::normalize($u->name) === $normalizedName) {
-                        $found = (string)($u->nip_baru ?: ($u->nip ?? ''));
+                $pegawais = Pegawai::whereNotNull('nip')->get();
+                foreach ($pegawais as $p) {
+                    if (self::normalize($p->nama) === $normalizedName) {
+                        $employeeNip = self::cleanIdentifier($p->nip);
                         break;
                     }
                 }
             }
         }
 
-        // 3. Cek tabel Pegawai jika ada
-        if (!$found && class_exists(Pegawai::class)) {
-            $pegawai = Pegawai::whereRaw('UPPER(TRIM(nama)) = ?', [$normalizedName])->first();
-            if ($pegawai && !empty($pegawai->nip)) {
-                $found = (string)$pegawai->nip;
-            } else {
-                $pegawais = Pegawai::whereNotNull('nip')->get();
-                foreach ($pegawais as $p) {
-                    if (self::normalize($p->nama) === $normalizedName) {
-                        $found = (string)$p->nip;
-                        break;
-                    }
-                }
-            }
+        if ($employeeNip && strlen($employeeNip) === 18) {
+            self::$resolvedIdentifierCache[$normalizedName] = $employeeNip;
+            return $employeeNip;
+        }
+
+        // 2. Jika bukan pegawai di tabel User/Pegawai, tetapi rawIdentifier ada (misal NPWP 15/16 digit rekanan), pakai rawIdentifier
+        if (!empty($cleanId)) {
+            self::$resolvedIdentifierCache[$normalizedName] = $cleanId;
+            return $cleanId;
+        }
+
+        // 3. Cek riwayat Sp2dPajak: utamakan NIP 18 digit jika ada
+        $found = Sp2dPajak::whereRaw('UPPER(TRIM(nama_pihak)) = ?', [$normalizedName])
+            ->whereRaw('LENGTH(TRIM(npwp_nik)) = 18')
+            ->value('npwp_nik');
+
+        // 4. Jika tidak ada NIP 18 digit, cari NPWP/NIK apa pun di riwayat Sp2dPajak
+        if (!$found) {
+            $found = Sp2dPajak::whereRaw('UPPER(TRIM(nama_pihak)) = ?', [$normalizedName])
+                ->whereNotNull('npwp_nik')
+                ->where('npwp_nik', '!=', '')
+                ->value('npwp_nik');
         }
 
         self::$resolvedIdentifierCache[$normalizedName] = $found ? self::cleanIdentifier($found) : '';
