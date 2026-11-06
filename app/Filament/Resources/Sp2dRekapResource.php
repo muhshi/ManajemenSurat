@@ -96,17 +96,22 @@ class Sp2dRekapResource extends Resource
                                     ->label('Upload Rincian via Excel')
                                     ->icon('heroicon-o-arrow-up-tray')
                                     ->color('success')
-                                    ->tooltip('Ekstrak otomatis rincian potongan pajak dari Excel Gaji/Tukin/Uang Makan/Lembur')
+                                    ->tooltip('Ekstrak otomatis rincian potongan pajak dari Excel Gaji (gaji_bank)/Tukin/Uang Makan/Lembur/Nominatif')
                                     ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('jalur_transaksi') !== '1_pihak')
                                     ->form([
                                         Forms\Components\Select::make('jenis_file')
                                             ->label('Jenis File Excel')
                                             ->options([
-                                                'gaji' => 'Daftar Gaji Pusat',
+                                                'gaji' => 'Daftar Gaji Pusat (gaji_bank)',
                                                 'tukin' => 'Daftar Tukin',
                                                 'uang_makan' => 'Uang Makan',
                                                 'uang_lembur' => 'Uang Lembur',
+                                                'nominatif' => 'Daftar Nominatif Pembayaran',
                                             ])
+                                            ->helperText('Perhatian: Untuk file Daftar Gaji, pastikan berkas yang dipakai adalah gaji_bank (bukan gaji_biasa).')
+                                            ->hint('Gaji gunakan gaji_bank')
+                                            ->hintIcon('heroicon-m-information-circle')
+                                            ->hintColor('warning')
                                             ->required(),
                                         Forms\Components\FileUpload::make('file_excel')
                                             ->label('File Excel')
@@ -507,17 +512,22 @@ class Sp2dRekapResource extends Resource
                     ->label('Upload Excel')
                     ->icon('heroicon-o-arrow-up-tray')
                     ->color('success')
-                    ->tooltip('Ekstrak otomatis rincian potongan pajak dari Excel Gaji/Tukin/Uang Makan/Lembur')
+                    ->tooltip('Ekstrak otomatis rincian potongan pajak dari Excel Gaji (gaji_bank)/Tukin/Uang Makan/Lembur/Nominatif')
                     ->visible(fn (Sp2dRekap $record) => $record->jalur_transaksi !== '1_pihak')
                     ->form([
                         Forms\Components\Select::make('jenis_file')
                             ->label('Jenis File Excel')
                             ->options([
-                                'gaji' => 'Daftar Gaji Pusat',
+                                'gaji' => 'Daftar Gaji Pusat (gaji_bank)',
                                 'tukin' => 'Daftar Tukin',
                                 'uang_makan' => 'Uang Makan',
                                 'uang_lembur' => 'Uang Lembur',
+                                'nominatif' => 'Daftar Nominatif Pembayaran',
                             ])
+                            ->helperText('Perhatian: Untuk file Daftar Gaji, pastikan berkas yang dipakai adalah gaji_bank (bukan gaji_biasa).')
+                            ->hint('Gaji gunakan gaji_bank')
+                            ->hintIcon('heroicon-m-information-circle')
+                            ->hintColor('warning')
                             ->required(),
                         Forms\Components\FileUpload::make('file_excel')
                             ->label('File Excel')
