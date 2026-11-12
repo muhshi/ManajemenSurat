@@ -1,5 +1,60 @@
 # Changelog - ManajemenSurat
 
+## [2.1.3] - 2026-11-12
+### Added
+- **Daftar Akun via SIPETRA SSO:** Menambahkan alur pendaftaran akun baru langsung melalui SIPETRA menggunakan parameter `screen_hint=register`. Tombol **Daftar Akun** kini tampil di halaman login Filament (`sso-button.blade.php`) dan di navbar serta hero section Landing Page.
+- **Rute Registrasi SSO:** Rute baru `GET /auth/sipetra/register` → `sipetra.register` ditambahkan di `routes/web.php`.
+- **Metode `SsoController@register()`:** Method baru yang mengarahkan ke endpoint OAuth SIPETRA dengan parameter `screen_hint=register` agar SIPETRA langsung membuka form pendaftaran.
+- **Deteksi Role Otomatis (identity_type):** `SsoController@callback()` kini membaca field `identity_type` dari respons SIPETRA. Jika nilainya `mitra`, user diberi role `mitra`; jika pegawai (memiliki NIP), diberi role `pegawai`. Role dibuat otomatis via `Role::firstOrCreate` agar tidak error pada instalasi baru.
+- **Penyimpanan Data Profil Tambahan:** Callback kini menyimpan field tambahan dari SIPETRA: `avatar_url`, `sobat_id`, `nip_baru`, `jabatan`, `golongan`, `nomor_hp` dengan fallback path yang diperluas.
+
+---
+
+## [2.1.2] - 2026-11-06
+### Added
+- **Impor Excel Daftar Nominatif Pembayaran:** Menambahkan opsi upload file Excel dengan template baru **Daftar Nominatif Pembayaran** (Honor KPA, Honor SSN, dsb.) pada modul Rekap SP2D. Sistem membaca kolom: No, Nama, Gol/Jabatan, Banyaknya satuan, Honor per satuan, Jumlah Kotor, PPh 21, dan Jumlah Bersih — lalu memetakannya ke rincian pajak secara otomatis.
+- **Template Excel Daftar Nominatif:** Menyertakan template Excel siap pakai dengan header DAFTAR NOMINATIF PEMBAYARAN, kolom penerima terstandarisasi, dan tiga blok tanda tangan pejabat.
+- **Keterangan Tooltip Kolom Gaji:** Menambahkan tooltip informatif pada kolom upload Excel gaji bahwa template yang digunakan adalah `gaji_bank` (bukan `gaji_biasa`) agar tidak terjadi kesalahan pemilihan file.
+
+---
+
+## [2.1.1] - 2026-11-04
+### Added
+- **Standarisasi NIP Pegawai sebagai Identifier Utama:** NIP kini menjadi kunci primer pengelompokan entitas pihak penerima pada Rekap Per Pihak. Jika seorang pegawai memiliki dua baris (satu ber-NIP, satu ber-NPWP dari sumber data berbeda), sistem kini menggabungkannya sebagai satu entitas berdasarkan NIP.
+- **Auto-lookup NIP dari Kolom Fleksibel saat Import:** Import rincian gaji, tukin, uang makan, dan lembur kini mengenali kolom `nip`, `nik`, `ktp`, `no_identitas`, dan sejenisnya secara otomatis, lalu mengisi field NIP pada data rekap.
+
+### Changed
+- **Penyelarasan Grouping Rekap Per Pihak:** Logika agregasi data menggunakan NIP sebagai kunci utama (bukan NAMA) sehingga pegawai yang muncul dengan nama sedikit berbeda atau tanpa NPWP tetap diakumulasi ke dalam satu entitas yang benar.
+- **Redaksi Label NIP/NPWP:** Seluruh label antarmuka, header ekspor Excel, dan PDF yang sebelumnya bertuliskan "NPWP/NIK" diubah menjadi "NIP/NPWP" agar konsisten dengan terminologi kepegawaian.
+
+### Reverted
+- Artisan command `sp2d:normalize-parties` dan migrasi terkait dihapus dari codebase karena pendekatan normalisasi one-time command digantikan oleh logika grouping di level query yang lebih robust.
+
+---
+
+## [2.1.0] - 2026-10-31
+### Added
+- **Manajemen Profil SIPETRA dari Menu User:** Menambahkan tautan langsung ke halaman manajemen profil SIPETRA dan tombol sinkronisasi satu klik pada menu dropdown user Filament, sehingga pengguna dapat memperbarui data profil dari SSO tanpa harus logout.
+- **Single Logout (SLO) SSO SIPETRA:** Mengimplementasikan alur Single Logout — saat user logout dari ManajemenSurat, session SSO SIPETRA juga diakhiri sekaligus sehingga tidak ada sisa session yang menggantung.
+- **Proteksi Double-Click Tombol SSO:** Tombol **Masuk dengan SIPETRA SSO** kini dinonaktifkan secara visual (opacity + pointer-events) setelah diklik pertama kali untuk mencegah pengiriman request OAuth duplikat yang dapat memunculkan error `state mismatch`.
+
+---
+
+## [2.0.8] - 2026-09-25
+### Added
+- **Panduan Penggunaan Rekap SP2D Terintegrasi:** Mengintegrasikan buku pedoman langsung ke dalam antarmuka Filament melalui modal interaktif yang dapat dibuka dari tombol **Panduan** di halaman Rekap SP2D. Modal menampilkan daftar isi navigasi cepat dan isi panduan dengan format yang rapi.
+- **Tooltip Alat Bantu Modul:** Menambahkan tooltip deskriptif pada ikon-ikon aksi dan tombol penting di modul Rekap SP2D untuk membantu pengguna baru memahami fungsi setiap kontrol.
+
+### Changed
+- **Desain Modal Panduan SP2D:** Merombak tampilan modal panduan menjadi modern, bersih, dan proporsional — layout dua kolom dengan navigasi daftar isi di kiri dan konten berformat di kanan, tanpa ikon SVG berukuran besar yang tidak estetik.
+- **Sederhanasi Teks Landing Page:** Menyederhanakan teks deskripsi pada landing page agar lebih realistis dan spesifik sesuai fungsi utama (Rekap SP2D & pajak per entitas) tanpa klaim fitur yang belum ada.
+
+### Fixed
+- **Gabung Baris Pihak Nama Sama:** Perbaikan duplikasi baris pada Rekap Per Pihak ketika seorang penerima muncul dua kali dengan nama identik namun NIP/NPWP berbeda (misalnya dari dua sumber import yang berbeda). Baris kini digabung dan data NIP/NPWP disinkronisasi.
+- **Performa & Memori Rekap SP2D:** Meningkatkan batas memori PHP dan mengoptimasi query rekap untuk mencegah timeout saat memproses data SP2D dalam jumlah besar.
+
+---
+
 ## [2.0.7] - 2026-09-20
 ### Fixed
 - **Chrome Unresponsive Saat Simpan Rincian Pajak:** Menghapus `->poll('5s')` dari tabel Data Rekap SP2D. Polling setiap 5 detik menyebabkan browser mengantri request refresh tabel bersamaan dengan request simpan Livewire (delete + createMany pajak), membuat Chrome tampak *wait/unresponsive*. Tombol **Segarkan Data** sudah tersedia untuk refresh manual.
