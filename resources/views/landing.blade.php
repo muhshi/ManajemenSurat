@@ -547,6 +547,9 @@
             </ul>
 
             <div class="nav-actions">
+                <a href="{{ route('sipetra.register') }}" class="btn" style="font-size: 0.82rem; padding: 0.45rem 0.9rem; border: 1px solid #3b82f6; color: #2563eb; background: transparent;" title="Daftar Akun baru via SIPETRA">
+                    Daftar Akun
+                </a>
                 <a href="{{ route('sipetra.login') }}" class="btn btn-sso" title="Login Menggunakan Akun SIPETRA BPS">
                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 0 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
@@ -581,6 +584,9 @@
                 </a>
                 <a href="{{ route('sipetra.login') }}" class="btn btn-sso" style="padding: 0.85rem 1.65rem; font-size: 0.98rem;">
                     Masuk dengan SSO SIPETRA
+                </a>
+                <a href="{{ route('sipetra.register') }}" class="btn" style="padding: 0.85rem 1.5rem; font-size: 0.98rem; border: 1.5px solid #3b82f6; color: #2563eb; background: transparent;" title="Daftar akun baru untuk Mitra Statistik">
+                    Daftar Akun
                 </a>
             </div>
 

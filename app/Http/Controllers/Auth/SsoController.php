@@ -20,6 +20,29 @@ class SsoController extends Controller
     }
 
     /**
+     * Redirect langsung ke form registrasi SIPETRA SSO.
+     */
+    public function register()
+    {
+        try {
+            return Socialite::driver('sipetra')
+                ->with(['screen_hint' => 'register'])
+                ->redirect();
+        } catch (\Exception $e) {
+            logger()->error('SIPETRA Register Redirect Failed: ' . $e->getMessage());
+
+            Notification::make()
+                ->title('Gagal Membuka Pendaftaran SIPETRA')
+                ->body('Terjadi kendala koneksi ke server SIPETRA: ' . $e->getMessage())
+                ->danger()
+                ->persistent()
+                ->send();
+
+            return redirect()->route('filament.admin.auth.login');
+        }
+    }
+
+    /**
      * Handle callback dari SIPETRA setelah user login.
      */
     public function callback(Request $request)
@@ -64,17 +87,24 @@ class SsoController extends Controller
         $localUser = User::where('sipetra_id', $ssoUser->getId())->first()
                   ?? User::where('email', $ssoUser->getEmail())->first();
 
+        $isNewUser = !$localUser;
+        $identityType = $rawData['identity_type'] ?? (!empty($rawData['nip']) ? 'pegawai' : 'mitra');
+
         $userData = [
             'sipetra_id'            => $ssoUser->getId(),
             'name'                  => $ssoUser->getName(),
             'sipetra_token'         => $accessToken,
             'sipetra_refresh_token' => $refreshToken,
+            'identity_type'         => $identityType,
+            'avatar_url'            => $rawData['avatar_url'] ?? $ssoUser->getAvatar(),
+            'sobat_id'              => $rawData['sobat_id'] ?? null,
+            'nip_baru'              => $rawData['nip_baru'] ?? null,
 
             // Identity & Employee Data
-            'nip'            => $rawData['nip'] ?? null,
-            'jabatan'        => $rawData['employee']['jabatan'] ?? null,
-            'golongan'       => $rawData['employee']['golongan'] ?? null,
-            'nomor_hp'       => $rawData['phone_number'] ?? null,
+            'nip'                   => $rawData['nip'] ?? null,
+            'jabatan'               => $rawData['employee']['jabatan'] ?? ($rawData['jabatan'] ?? null),
+            'golongan'              => $rawData['employee']['golongan'] ?? ($rawData['golongan'] ?? null),
+            'nomor_hp'              => $rawData['phone_number'] ?? ($rawData['nomor_hp'] ?? null),
         ];
 
         // Hanya update email jika tidak menyebabkan konflik dengan user lain
@@ -96,17 +126,30 @@ class SsoController extends Controller
             $localUser = User::create($userData);
         }
 
-        // Pastikan user SSO mendapatkan role pegawai agar bisa akses aplikasi
-        if (!$localUser->hasRole('pegawai')) {
-            $localUser->assignRole('pegawai');
+        // Tetapkan role berdasarkan identity_type (mitra / pegawai)
+        $roleToAssign = $identityType === 'mitra' ? 'mitra' : 'pegawai';
+
+        if (class_exists(\Spatie\Permission\Models\Role::class)) {
+            \Spatie\Permission\Models\Role::firstOrCreate(['name' => $roleToAssign, 'guard_name' => 'web']);
+            if (!$localUser->hasRole($roleToAssign)) {
+                $localUser->assignRole($roleToAssign);
+            }
         }
 
         Auth::login($localUser);
 
-        Notification::make()
-            ->title('Profil Berhasil Disinkronkan dari SIPETRA')
-            ->success()
-            ->send();
+        if ($isNewUser) {
+            Notification::make()
+                ->title('Pendaftaran Akun Berhasil!')
+                ->body('Selamat datang di Manajemen Surat BPS Kabupaten Demak. Akun Anda berhasil terhubung via SIPETRA.')
+                ->success()
+                ->send();
+        } else {
+            Notification::make()
+                ->title('Profil Berhasil Disinkronkan dari SIPETRA')
+                ->success()
+                ->send();
+        }
 
         return redirect()->intended(route('filament.admin.pages.dashboard'));
     }

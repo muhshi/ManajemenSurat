@@ -25,6 +25,7 @@ use App\Http\Controllers\Auth\SsoController;
 
 Route::get('/auth/sipetra/redirect',  [SsoController::class, 'redirect'])->name('sipetra.login');
 Route::get('/auth/sipetra/callback', [SsoController::class, 'callback'])->name('sipetra.callback');
+Route::get('/auth/sipetra/register', [SsoController::class, 'register'])->name('sipetra.register');
 
 // ─── DEV MODE BYPASS LOGIN ───────────────────────────────────────
 if (app()->environment('local')) {

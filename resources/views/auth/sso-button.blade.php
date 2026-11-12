@@ -48,4 +48,17 @@
     <p style="margin-top: 0.75rem; text-align: center; font-size: 0.7rem; color: #9ca3af;">
         Login terpusat menggunakan akun BPS Kabupaten Demak
     </p>
+
+    {{-- Daftar Akun Link via SIPETRA --}}
+    <div style="margin-top: 0.85rem; text-align: center;">
+        <a href="{{ route('sipetra.register') }}"
+           style="font-size: 0.8125rem; font-weight: 500; color: #2563eb; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;"
+           onmouseover="this.style.textDecoration='underline'"
+           onmouseout="this.style.textDecoration='none'">
+            <span>Belum punya akun? <strong>Daftar lewat SIPETRA</strong></span>
+            <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+        </a>
+    </div>
 </div>
